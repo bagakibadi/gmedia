@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     // put variables and collections here
     userData: null,
+    width: null
   },
   actions: {
    //  getUser({ commit }) {
