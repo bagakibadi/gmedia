@@ -1,0 +1,214 @@
+<template>
+  <div class="dashboard-navigation">
+    <div :class="`sidebar ${$attrs.widthContent > 992 ? '' : 'hide'}`">
+      <div
+        class="btn btn-light d-flex align-items-center d-lg-none d-block mb-4"
+        @click="sidebar"
+      >
+        <i class="fas fa-times me-2"></i>
+        Close
+      </div>
+      <router-link :to="{ name: 'Index' }">
+        <div class="d-flex align-items-center mb-4">
+          <img src="../assets/images/logo.png" alt="" style="height: 45px;" />
+          <div class="logo-text ms-2">
+            PKK-BN
+          </div>
+        </div>
+      </router-link>
+      <div class="menu-wrapper">
+        <router-link :to="{ name: 'Dashboard Mahasiswa' }">
+          <div
+            :class="
+              `item ${
+                $route.fullPath == '/dashboard' ? 'active' : ''
+              } d-flex align-items-center`
+            "
+          >
+            <div
+              style="width: 20px"
+              class="icons d-flex justify-content-center me-2"
+            >
+              <img class="none" src="../assets/icons/dashboard.svg" alt="" />
+              <img
+                class="active"
+                src="../assets/icons/dashboard-active.svg"
+                alt=""
+              />
+            </div>
+            <div class="text">Dashboard</div>
+          </div>
+        </router-link>
+      </div>
+      <div class="menu-wrapper">
+        <div class="menu-name">Menu</div>
+        <router-link :to="{ name: 'Presensi Master' }">
+          <div
+            :class="
+              `item ${
+                link[2] == 'presensi' ? 'active' : ''
+              } d-flex align-items-center`
+            "
+          >
+            <div
+              style="width: 20px"
+              class="icons d-flex justify-content-center me-2"
+            >
+              <img class="none" src="../assets/icons/presensi.svg" alt="" />
+              <img
+                class="active"
+                src="../assets/icons/presensi-active.svg"
+                alt=""
+              />
+            </div>
+            <div class="text">Presensi</div>
+          </div>
+        </router-link>
+
+        <router-link :to="{ name: 'Aktivitas Mahasiswa' }">
+          <div
+            :class="
+              `item ${
+                $route.fullPath == '/dashboard/aktivitas' ? 'active' : ''
+              } d-flex align-items-center`
+            "
+          >
+            <div
+              style="width: 20px"
+              class="icons d-flex justify-content-center me-2"
+            >
+              <img class="none" src="../assets/icons/Aktivitas.svg" alt="" />
+              <img
+                class="active"
+                src="../assets/icons/Aktivitas-active.svg"
+                alt=""
+              />
+            </div>
+            <div class="text">Aktivitas</div>
+          </div>
+        </router-link>
+
+        <router-link :to="{ name: 'Tugas Mahasiswa' }">
+          <div
+            :class="
+              `item ${
+                $route.fullPath == '/dashboard/tugas' ? 'active' : ''
+              } d-flex align-items-center`
+            "
+          >
+            <div
+              style="width: 20px"
+              class="icons d-flex justify-content-center me-2"
+            >
+              <img class="none" src="../assets/icons/Tugas.svg" alt="" />
+              <img
+                class="active"
+                src="../assets/icons/Tugas-active.svg"
+                alt=""
+              />
+            </div>
+            <div class="text">Tugas</div>
+          </div>
+        </router-link>
+
+        <router-link :to="{ name: 'Conference Mahasiswa' }">
+          <div
+            :class="
+              `item ${
+                $route.fullPath == '/dashboard/conference' ? 'active' : ''
+              } d-flex align-items-center`
+            "
+          >
+            <div
+              style="width: 20px"
+              class="icons d-flex justify-content-center me-2"
+            >
+              <img class="none" src="../assets/icons/streaming.svg" alt="" />
+              <img class="active" src="../assets/icons/streaming-active.svg" alt="" />
+            </div>
+            <div class="text">Conference</div>
+          </div>
+        </router-link>
+      </div>
+      <div class="menu-wrapper">
+        <div class="menu-name">Lainnya</div>
+        <div class="item logout d-flex align-items-center">
+          <img src="../assets/icons/login.svg" alt="">
+          <!-- <i class="fas fa-sign-out-alt"></i> -->
+          <div class="text">Log out</div>
+        </div>
+      </div>
+    </div>
+    <div :class="`content ${$attrs.widthContent > 992 ? '' : 'hide'}`">
+      <div class="section pt-3">
+        <nav>
+          <div class="card-shadow">
+            <div class="py-2 px-3">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="menu-bar" @click="sidebar">
+                  <i class="fas fa-bars"></i>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="notif position-relative me-4">
+                    <img src="../assets/icons/notif.svg" alt="" width="19" />
+                    <div
+                      class="notif-count d-flex align-items-center justify-content-center"
+                    >
+                      4
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="text-end me-2">
+                      <div class="username">Solayman</div>
+                      <div class="role">Mahasiswa</div>
+                    </div>
+                    <div
+                      class="profile align-items-center justify-content-center"
+                    >
+                      <img src="../assets/images/profile.jpeg" alt="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+/* eslint-env jquery */
+import Swal from "sweetalert2";
+import { mapState } from "vuex";
+
+export default {
+  computed: {
+    ...mapState(["userData"]),
+  },
+  data: function() {
+    return {
+      link: this.$route.fullPath.split("/"),
+      user: this.$store.state.userData,
+      add: this,
+    };
+  },
+  beforeCreate() {
+    this.$store;
+    console.log(this.$store.state);
+  },
+  methods: {
+    submit() {
+      this.section = 0;
+      Swal.fire("Data Berhasil Disimpan", "", "success");
+      $("#request-modal").modal("hide");
+    },
+    sidebar() {
+      $(".sidebar").toggleClass("hide");
+      $(".content").toggleClass("hide");
+    },
+  },
+  mounted() {},
+};
+</script>

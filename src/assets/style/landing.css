@@ -263,11 +263,35 @@ section{
     height: 45px;
     border-radius: 20px !important;
 }
-
-
-
-
-
+.padding-card-mid{
+    padding: 47px 0;
+}
+.padding-card-mid h4{
+    font-size: 25px;
+    font-weight: 700;
+    color: rgba(11, 19, 42, 1);
+    margin-bottom: 6px;
+}
+.padding-card-mid p{
+    color: rgba(79, 86, 101, 1);
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+.frame{
+    width: 55px;
+    height: 55px;
+    border-radius: 100%;
+    background-color: rgba(20, 97, 245, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 36px 0 0;
+}
+.middle-content-landing{
+    border-left: .5px solid rgba(221, 224, 228, 1);
+    border-right: .5px solid rgba(221, 224, 228, 1);
+}
 
 
 @media only screen and (max-width: 600px) {

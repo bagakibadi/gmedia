@@ -63,6 +63,49 @@
 					</div>
 				</div>
 			</header>
+			<section>
+				<div class="card-shadow">
+					<div class="">
+						<div class="row g-0">
+							<div class="col-lg-4">
+								<div class="d-flex justify-content-center align-items-center padding-card-mid">
+									<div class="frame">
+										<img src="../assets/icons/person.svg" alt="">
+									</div>
+									<div>
+										<h4>14312+</h4>
+										<p>Mahasiswa</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4 ">
+								<div class="d-flex justify-content-center align-items-center padding-card-mid">
+									<div class="d-flex justify-content-center w-100 align-items-center middle-content-landing">
+										<div class="frame">
+											<img src="../assets/icons/school.svg" alt="">
+										</div>
+										<div>
+											<h4>2897+</h4>
+											<p>Alumni</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<div class="d-flex justify-content-center align-items-center padding-card-mid">
+									<div class="frame">
+										<img src="../assets/icons/person.svg" alt="">
+									</div>
+									<div>
+										<h4>14312+</h4>
+										<p>Mahasiswa</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 			<section id="visi-misi">
 				<div class="row">
 					<div class="col-lg-6">
@@ -181,18 +224,18 @@
 							<h3>Login</h3>
 							<p>Masukkan Nim dan Password</p>
 						</div>
-						<form action="">
+						<form action="" @submit.prevent="logins">
 							<div class="row">
 								<div class="col-lg-12">
 									<div class="form-group">
 										<label for="nim">Nomor Induk Mahasiswa <span class="text-info">*</span></label>
-										<input type="number" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
+										<input type="text" v-model="login.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
 									</div>
 								</div>
 								<div class="col-lg-12">
 									<div class="form-group">
 										<label for="password">Password <span class="text-info">*</span></label>
-										<input type="password" name="password" id="password" class="form-control" placeholder="min. 8 Karakter">
+										<input type="password" name="password" v-model="login.password" id="password" class="form-control" placeholder="min. 8 Karakter">
 									</div>
 								</div>
 								<div class="col-lg-12">
@@ -201,10 +244,6 @@
 							</div>
 						</form>
 					</div>
-					<!-- <div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
-					</div> -->
 				</div>
 			</div>
 		</div>
@@ -212,8 +251,33 @@
 </template>
 
 <script>
-export default {
+import axios from 'axios'
 
+export default {
+	data() {
+		return {
+			login: {
+				nim: null,
+				password: null
+			}
+		}
+	},
+	methods: {
+		logins() {
+			console.log('a')
+			axios.post('https://gmedia.primakom.co.id/auth/login',{
+				username: this.login.nim,
+				password: this.login.password
+			}).then((result) => {
+				if(result.data.data.success) {
+					localStorage.token = result.data.data.data
+				}
+				console.log(result)
+			}).catch((err) => {
+				console.log(err)
+			});
+		}
+	}
 }
 </script>
 
