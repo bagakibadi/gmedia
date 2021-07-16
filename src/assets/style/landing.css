@@ -1,0 +1,312 @@
+*{
+    scroll-behavior: smooth;
+}
+.navbars{
+	top: 0;
+	transition: 1s all;
+	position: fixed;
+	z-index: 5;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 80px;
+	background-color: #fff;
+	border-bottom: 0.5px solid rgba(221, 221, 221, 1);
+}
+.logo-img{
+	position: relative;
+	z-index: 1;
+}
+.logo-dinsos {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	margin-left: 40px;
+	z-index: 2;
+}
+.logo-dinsos-footer {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	margin-bottom: 20px;
+	z-index: 2;
+}
+.logo-dinsos h5 {
+	color: rgba(11, 19, 42, 1);
+	margin: 0 0 0 10px;
+	font-size: 18px;
+	font-weight: 500;
+}
+.logo-dinsos p {
+	color: white;
+	margin: 0 0 0 10px;
+	font-size: 12px;
+}
+.logo-dinsos-footer h5 {
+	color: rgba(11, 19, 42, 1);
+	margin: 0 0 0 10px;
+	font-size: 18px;
+	font-weight: 500;
+}
+.logo-dinsos-footer p {
+	color: white;
+	margin: 0 0 0 10px;
+	font-size: 12px;
+}
+.menu-list{
+	position: absolute;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+.menu-list ul {
+	display: flex;
+	align-items: center;
+	list-style: none;
+	height: 100%;
+	margin: 0;
+}
+.menu-list ul li {
+	margin: 0 20px;
+	transition: 1s;
+}
+.menu-list ul li a {
+	text-decoration: none;
+	font-weight: 700;
+	font-size: 15px;
+	color: rgba(79, 86, 101, 1);
+	padding-bottom: 5px;
+	transition: .1s all;
+}
+.navbar-click{
+	position: relative;
+	z-index: 1;
+	margin-right: 40px;
+}
+.navbar-click .btn{
+	width: 150px;
+	border-radius: 50px !important;
+}
+header{
+    margin-top: 80px;
+	padding: 80px 50px 0 50px;
+	min-height: 500px;
+}
+.content-header h1{
+	font-size: 50px;
+	margin-bottom: 20px;
+}
+.content-header p{
+	font-size: 16px;
+	color: rgba(79, 86, 101, 1);
+	margin-bottom: 40px;
+	font-weight: 300;
+}
+.selengkapnya{
+	width: 220px;
+	height: 56px;
+}
+section{
+	padding: 115px 150px;
+}
+.visi-misi h3{
+    font-size: 35px;
+    font-weight: 500;
+    color: #0B132A;
+    margin-bottom: 20px;
+}
+.visi-misi h5{
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(11, 19, 42, 1);
+}
+.visi-misi ul li{
+    color: rgba(79, 86, 101, 1);
+    font-size: 14px;
+    font-weight: 400;
+}
+.title-sections{
+    color: rgba(11, 19, 42, 1);
+    font-size: 35px;
+    font-weight: 700;
+    max-width: 450px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.sub-head-title{
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(79, 86, 101, 1);
+    width: 555px;
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.img-orang-card{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    object-fit: cover;
+    margin: 0 20px 0 0;
+}
+.info-card h4{
+    font-size: 18px;
+    font-weight: 500;
+    color: rgba(11, 19, 42, 1);
+    margin-bottom: 5px;
+}
+.info-card p{
+    margin-bottom: 0;
+    color: rgba(79, 86, 101, 1);
+    font-size: 14px;
+    font-weight: 400;
+}
+.description-card{
+    font-size: 16px;
+    color: rgba(11, 19, 42, 1);
+    font-weight: 400;
+    margin-bottom: 0;
+}
+.testimoni .card{
+    border: 2px solid rgba(221, 224, 228, 1);
+    box-shadow: 4px -2px 56px #DDE0E4;
+    border-radius: 10px;
+}
+.testimoni .card-body{
+    padding: 30px;
+}
+.tentang h4{
+    color: rgba(11, 19, 42, 1);
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+.tentang p{
+    color: rgba(11, 19, 42, 1);
+    font-size: 16px;
+    font-weight: 400;
+}
+.divider{
+    height: 4px;
+    width: 80px;
+    background: #1461F5;
+    margin-bottom: 13px;
+}
+.footers{
+    background: #F8F8F8;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    padding: 0 150px;
+}
+.foot-top{
+    padding: 40px 0 70px 0;
+}
+.foot-one-col{
+    margin-bottom: 50px;
+    color: rgba(79, 86, 101, 1);
+    font-size: 16px;
+    font-weight: 700;
+}
+.title-footer h3{
+    font-size: 18px;
+    font-weight: 700;
+    color: rgba(11, 19, 42, 1);
+    margin-bottom: 20px;
+}
+.menufooter p{
+    color: rgba(79, 86, 101, 1);
+    font-size: 16px;
+    font-weight: 400;
+}
+.judul-modal-login{
+    margin-bottom: 48px;
+}
+.judul-modal-login h3{
+    font-size: 24px;
+    font-weight: 700;
+    color: rgba(11, 19, 42, 1);
+    margin-bottom: 16px;
+}
+.judul-modal-login p{
+    font-size: 14px;
+    color: rgba(79, 86, 101, 1);
+    font-weight: 400;
+}
+.form-group{
+    margin-bottom: 24px;
+}
+.form-group label{
+    font-size: 14px;
+    font-weight: 700;
+    color: #0B132A;
+    margin-bottom: 12px;
+}
+.form-group .form-control{
+    border-radius: 50px !important;
+    height: 40px;
+}
+.btn-close{
+    position: absolute;
+    right: 37px;
+    top: 37px;
+    z-index: 1;
+}
+.modal-body{
+    padding: 60px 60px 0 60px;
+}
+.btn-login{
+    margin-bottom: 100px;
+    margin-top: 16px;
+    height: 45px;
+    border-radius: 20px !important;
+}
+
+
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+    .menu-list{
+        display: none;
+    }
+    .logo-dinsos{
+        margin-left: 20px;
+    }
+    .navbar-click{
+        margin-right: 20px;
+    }
+    .navbar-click .btn{
+        width: 120px;
+    }
+    .logo-dinsos h5{
+        font-size: 15px;
+    }
+    header{
+        padding: 50px 20px 0 20px !important;
+    }
+    .content-header{
+        margin-bottom: 50px;
+    }
+    section{
+        padding: 115px 20px;
+    }
+    .footers{
+        padding: 0 20px;
+    }
+    #visi-misi .img-fluid{
+        margin-bottom: 50px;
+    }
+    .tentang{
+        margin-bottom: 50px;
+    }
+    .modal-dialog{
+        display: flex;
+        align-items: center;
+        min-height: calc(100% - 1rem);
+    }
+}
