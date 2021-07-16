@@ -58,4 +58,8 @@ status:
   observedGeneration: 7
   readyReplicas: 2
   replicas: 2
+<<<<<<< HEAD
   updatedReplicas: 2
+=======
+  updatedReplicas: 2
+>>>>>>> de37ad3aadbdf274ecf9e9363d56b22bc0a91db8

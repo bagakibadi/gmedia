@@ -32,4 +32,8 @@ notification:
   condition:
   - Success
   - Changed
+<<<<<<< HEAD
   - Failed
+=======
+  - Failed
+>>>>>>> de37ad3aadbdf274ecf9e9363d56b22bc0a91db8
