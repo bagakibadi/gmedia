@@ -16,6 +16,9 @@ import MahasiswaPemandu from "../pages/Pemandu/Mahasiswa.vue";
 
 // Mahasiswa
 import DashboardMahasiswa from "../pages/Mahasiswa/index.vue";
+import ConferenceMahasiswa from "../pages/Mahasiswa/Conference.vue";
+import TugasMahasiswa from "../pages/Mahasiswa/Tugas.vue";
+import AktivitasMahasiswa from "../pages/Mahasiswa/Aktivitas.vue";
 
 Vue.use(VueRouter);
 
@@ -65,6 +68,21 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard Mahasiswa",
     component: DashboardMahasiswa,
+  },
+  {
+    path: "/dashboard/conference",
+    name: "Conference Mahasiswa",
+    component: ConferenceMahasiswa
+  },
+  {
+    path: "/dashboard/tugas",
+    name: "Tugas Mahasiswa",
+    component: TugasMahasiswa
+  },
+  {
+    path: "/dashboard/aktivitas",
+    name: "Aktivitas Mahasiswa",
+    component: AktivitasMahasiswa
   },
 ];
 

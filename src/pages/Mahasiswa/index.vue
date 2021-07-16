@@ -158,7 +158,7 @@
               </div>
               <button
                 type="button"
-                class="btn-close"
+                class="btn-close position-static"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
@@ -412,15 +412,39 @@ export default {
       // let count = 0;
       let arr = [];
       var picture1 = null;
-      // var picture2 = null;
-      // var picture3 = null;
-      // var picture4 = null;
-      // var picture5 = null;
+      var picture2 = null;
+      var picture3 = null;
+      var picture4 = null;
+      var picture5 = null;
 
       setInterval(() => {
         if (this.counterLearning < 11) {
           this.counterLearning++;
-          console.log(this.counterLearning);
+        }
+
+        if (this.counterLearning == 2) {
+          picture1 = this.camLearning.webcam.snap();
+          console.log(picture1);
+        }
+
+        if (this.counterLearning == 4) {
+          picture2 = this.camLearning.webcam.snap();
+          console.log(picture2);
+        }
+
+        if (this.counterLearning == 6) {
+          picture3 = this.camLearning.webcam.snap();
+          console.log(picture3);
+        }
+
+        if (this.counterLearning == 8) {
+          picture4 = this.camLearning.webcam.snap();
+          console.log(picture4);
+        }
+
+        if (this.counterLearning == 10) {
+          picture5 = this.camLearning.webcam.snap();
+          console.log(picture5);
         }
 
         if (this.counterLearning == 11) {
@@ -429,9 +453,9 @@ export default {
       }, 1000);
 
       setTimeout(() => {
-        picture1 = this.camLearning.webcam.snap();
+        arr = [picture1.split(",")[1], picture2.split(",")[1], picture3.split(",")[1], picture4.split(",")[1], picture5.split(",")[1]]
         this.successLearning = true;
-        console.log(picture1);
+        console.log(arr);
       }, 13000);
 
       // setTimeout(() => {

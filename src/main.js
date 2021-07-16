@@ -9,7 +9,7 @@ import NavbarMahasiswa from "./components/NavbarMahasiswa.vue"
 
 
 Vue.config.productionTip = false
-Vue.use(VueApexCharts)
+// Vue.use(VueApexCharts)
 
 Vue.component('apexchart', VueApexCharts)
 Vue.component('NavbarAdmin', NavbarAdmin)

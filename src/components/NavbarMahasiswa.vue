@@ -41,11 +41,11 @@
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Mahasiswa Master' }">
+        <router-link :to="{ name: 'Aktivitas Mahasiswa' }">
           <div
             :class="
               `item ${
-                link[2] == 'mahasiswa' ? 'active' : ''
+                $route.fullPath == '/dashboard/aktivitas' ? 'active' : ''
               } d-flex align-items-center`
             "
           >
@@ -53,10 +53,10 @@
               style="width: 20px"
               class="icons d-flex justify-content-center me-2"
             >
-              <img class="none" src="../assets/icons/mahasiswa.svg" alt="" />
+              <img class="none" src="../assets/icons/Aktivitas.svg" alt="" />
               <img
                 class="active"
-                src="../assets/icons/mahasiswa-active.svg"
+                src="../assets/icons/Aktivitas-active.svg"
                 alt=""
               />
             </div>
@@ -137,18 +137,18 @@
             <div class="text">Streaming</div>
           </div>
         </router-link>
-
       </div>
       <div class="menu-wrapper">
         <div class="menu-name">Lainnya</div>
         <div class="item logout d-flex align-items-center">
-          <i class="fas fa-sign-out-alt"></i>
-          <div class="text">Logout</div>
+          <img src="../assets/icons/login.svg" alt="" />
+          <!-- <i class="fas fa-sign-out-alt"></i> -->
+          <div class="text">Log out</div>
         </div>
       </div>
     </div>
     <div :class="`content ${$attrs.widthContent > 992 ? '' : 'hide'}`">
-      <div class="section pt-3 mb-5">
+      <div class="section pt-3">
         <nav>
           <div class="card-shadow">
             <div class="py-2 px-3">
@@ -167,8 +167,8 @@
                   </div>
                   <div class="d-flex align-items-center">
                     <div class="text-end me-2">
-                      <div class="username">Sujatmiko</div>
-                      <div class="role">Superadmin</div>
+                      <div class="username">Solayman</div>
+                      <div class="role">Mahasiswa</div>
                     </div>
                     <div
                       class="profile align-items-center justify-content-center"
@@ -217,8 +217,6 @@ export default {
       $(".content").toggleClass("hide");
     },
   },
-  mounted() {
-    
-  },
+  mounted() {},
 };
 </script>
