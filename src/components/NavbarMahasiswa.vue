@@ -17,36 +17,12 @@
         </div>
       </router-link>
       <div class="menu-wrapper">
-        <router-link :to="{ name: 'Dashboard Admin' }">
-          <div
-            :class="
-              `item ${
-                $route.fullPath == '/admin' ? 'active' : ''
-              } d-flex align-items-center`
-            "
-          >
-            <div
-              style="width: 20px"
-              class="icons d-flex justify-content-center me-2"
-            >
-              <img class="none" src="../assets/icons/dashboard.svg" alt="" />
-              <img
-                class="active"
-                src="../assets/icons/dashboard-active.svg"
-                alt=""
-              />
-            </div>
-            <div class="text">Dashboard</div>
-          </div>
-        </router-link>
-      </div>
-      <div class="menu-wrapper">
         <div class="menu-name">Menu</div>
         <router-link :to="{ name: 'Presensi Master' }">
           <div
             :class="
               `item ${
-                link[2] == 'presensi' ? 'active' : ''
+                $route.fullPath == '/dashboard' ? 'active' : ''
               } d-flex align-items-center`
             "
           >
@@ -61,7 +37,7 @@
                 alt=""
               />
             </div>
-            <div class="text">Data Presensi</div>
+            <div class="text">Presensi</div>
           </div>
         </router-link>
 
@@ -84,30 +60,7 @@
                 alt=""
               />
             </div>
-            <div class="text">Data Mahasiswa</div>
-          </div>
-        </router-link>
-
-        <router-link :to="{ name: 'Dashboard AM' }">
-          <div
-            :class="
-              `item ${
-                $route.fullPath == '/account-manager' ? 'active' : ''
-              } d-flex align-items-center`
-            "
-          >
-            <div
-              style="width: 20px"
-              class="icons d-flex justify-content-center me-2"
-            >
-              <img class="none" src="../assets/icons/jadwal.svg" alt="" />
-              <img
-                class="active"
-                src="../assets/icons/jadwal-active.svg"
-                alt=""
-              />
-            </div>
-            <div class="text">Jadwal Kegiatan</div>
+            <div class="text">Aktifitas</div>
           </div>
         </router-link>
 
@@ -145,7 +98,7 @@
               "
             >
               <i class="fas fa-minus"></i>
-              <div class="text">Bank Soal</div>
+              <div class="text">Tugas</div>
             </div>
           </router-link>
           <router-link :to="{ name: 'List Penawaran' }">
@@ -157,33 +110,10 @@
               "
             >
               <i class="fas fa-minus"></i>
-              <div class="text">Penugasan</div>
+              <div class="text">Kuis</div>
             </div>
           </router-link>
         </div>
-
-        <!-- <router-link :to="{ name: 'Dashboard AM' }">
-          <div
-            :class="
-              `item ${
-                $route.fullPath == '/account-manager' ? 'active' : ''
-              } d-flex align-items-center`
-            "
-          >
-            <div
-              style="width: 20px"
-              class="icons d-flex justify-content-center me-2"
-            >
-              <img class="none" src="../assets/icons/penugasan.svg" alt="" />
-              <img
-                class="active"
-                src="../assets/icons/penugasan-active.svg"
-                alt=""
-              />
-            </div>
-            <div class="text">Penugasan</div>
-          </div>
-        </router-link> -->
 
         <router-link :to="{ name: 'Dashboard AM' }">
           <div
@@ -198,82 +128,16 @@
               class="icons d-flex justify-content-center me-2"
             >
               <img class="none" src="../assets/icons/streaming.svg" alt="" />
-              <img class="active" src="../assets/icons/streaming-active.svg" alt="" />
+              <img
+                class="active"
+                src="../assets/icons/streaming-active.svg"
+                alt=""
+              />
             </div>
             <div class="text">Streaming</div>
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Dashboard AM' }">
-          <div
-            :class="
-              `item ${
-                $route.fullPath == '/account-manager' ? 'active' : ''
-              } d-flex align-items-center`
-            "
-          >
-            <div
-              style="width: 20px"
-              class="icons d-flex justify-content-center me-2"
-            >
-              <img class="none" src="../assets/icons/setting.svg" alt="" />
-              <img
-                class="active"
-                src="../assets/icons/setting-active.svg"
-                alt=""
-              />
-            </div>
-            <div class="text">Konten & Informasi</div>
-          </div>
-        </router-link>
-
-        <router-link :to="{ name: 'Dashboard AM' }">
-          <div
-            :class="
-              `item ${
-                $route.fullPath == '/account-manager' ? 'active' : ''
-              } d-flex align-items-center`
-            "
-          >
-            <div
-              style="width: 20px"
-              class="icons d-flex justify-content-center me-2"
-            >
-              <img class="none" src="../assets/icons/user.svg" alt="" />
-              <img class="active" src="../assets/icons/user-active.svg" alt="" />
-            </div>
-            <div class="text">User Management</div>
-          </div>
-        </router-link>
-
-        <!-- <div
-          :class="
-            `item ${
-              link[2] == 'order' ? 'active' : ''
-            } d-flex align-items-center`
-          "
-          data-bs-toggle="collapse"
-          data-bs-target="#order"
-          aria-expanded="false"
-          aria-controls="order"
-        >
-          <i class="fas fa-sticky-note"></i>
-          <div class="text">Order</div>
-        </div>
-        <div class="collapse show" id="order">
-          <router-link :to="{ name: 'List Penawaran' }">
-            <div
-              :class="
-                `item sub ${
-                  link[3] == 'penawaran' ? 'active' : ''
-                } d-flex align-items-center`
-              "
-            >
-              <i class="fas fa-minus"></i>
-              <div class="text">Penawaran</div>
-            </div>
-          </router-link>
-        </div> -->
       </div>
       <div class="menu-wrapper">
         <div class="menu-name">Lainnya</div>
@@ -353,6 +217,8 @@ export default {
       $(".content").toggleClass("hide");
     },
   },
-  mounted() {},
+  mounted() {
+    
+  },
 };
 </script>
