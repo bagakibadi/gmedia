@@ -137,8 +137,12 @@ a:hover {
    background-clip: border-box;
 }
 
-.card-shadow.warning {
+.warning {
    background-color: var(--background-warning);
+}
+
+.success {
+   background-color: var(--background-success);
 }
 
 .iti {
@@ -553,7 +557,30 @@ footer .bottom {
 
 /* Presensi */
 .dashboard .modal video {
-   width: 100%;
+   width: 100% !important;
+   height: auto !important;
+}
+
+.dashboard .modal .status-video {
+   position: absolute;
+   top: 10px;
+   left: 50%;
+   transform: translate(-50%, 10px);
+   z-index: 10;
+   padding: 15px;
+   border-radius: 7px;
+   color: white;
+   text-align: center;
+   min-width: 330px;
+   font-size: 18px;
+}
+
+.dashboard .modal .status-video.ongoing {
+   background-color: #17171796;
+}
+
+.dashboard .modal .status-video.success {
+   background-color: #1aa91aa6;
 }
 
 /* Dashboard Table */
