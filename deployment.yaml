@@ -59,7 +59,11 @@ status:
   readyReplicas: 2
   replicas: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
   updatedReplicas: 2
 =======
   updatedReplicas: 2
 >>>>>>> de37ad3aadbdf274ecf9e9363d56b22bc0a91db8
+=======
+  updatedReplicas: 2
+>>>>>>> ac30904408b6a7b3b705f5f1b743300fda31d5a4

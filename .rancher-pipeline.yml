@@ -33,7 +33,11 @@ notification:
   - Success
   - Changed
 <<<<<<< HEAD
+<<<<<<< HEAD
   - Failed
 =======
   - Failed
 >>>>>>> de37ad3aadbdf274ecf9e9363d56b22bc0a91db8
+=======
+  - Failed
+>>>>>>> ac30904408b6a7b3b705f5f1b743300fda31d5a4
