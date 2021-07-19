@@ -11,7 +11,7 @@
           </div>
         </div>
         <div v-if="userData">
-          <div class="card-shadow warning mb-3" v-if="!presensi && learning">
+          <div class="card-shadow warning mb-3">
             <div class="p-3">
               <div
                 class="d-flex flex-md-row flex-column justify-content-md-between align-items-md-center align-items-start"
@@ -40,7 +40,7 @@
             </div>
           </div>
 
-          <div
+          <!-- <div
             class="card-shadow warning mb-3"
             v-else-if="userData.data.face_recognition == 0"
           >
@@ -71,16 +71,16 @@
                 </button>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div class="card-shadow success mb-3" v-else>
+          <!-- <div class="card-shadow success mb-3" v-else>
             <div class="p-3">
               <div class="title-content text-success">Presensi Diterima</div>
               <div class="sub-content">
                 Terima kasih, anda telah melakukan presensi hari ini.
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="card-shadow mb-3">
           <div class="p-3">
@@ -186,7 +186,7 @@
                   v-if="counterPresensi < 5 && !successPresensi"
                 >
                   {{
-                    counterPresensi > 3
+                    submitPresensi
                       ? "Foto didapatkan dan mengirim data."
                       : counterPresensi
                   }}
@@ -213,8 +213,8 @@
               ></audio>
             </div>
             <div class="d-flex justify-content-center mt-4">
-              <button type="button" class="btn btn-primary" @click="doPresensi">
-                Ambil Presensi
+              <button type="button" :class="`btn ${statusCounter ? 'btn-secondary':'btn-primary'}`" @click="doPresensi" :disabled="statusCounter">
+                Ambil Presensi {{submitPresensi}}
               </button>
             </div>
           </div>
@@ -436,21 +436,19 @@ export default {
       this.statusCounter = true;
       var picture = null;
 
-      picture = this.camPresensi.webcam.snap();
-
       setInterval(() => {
         if (this.counterPresensi < 4) {
           this.counterPresensi++;
         }
 
-        if (this.counterPresensi == 3) {
-          picture = this.camLearning.webcam.snap();
+        if (this.counterPresensi == 4) {
+          this.counterPresensi++;
+          picture = this.camPresensi.webcam.snap();
+          this.submitPresensi = true;
           console.log(picture);
         }
 
-        if (this.counterPresensi == 4) {
-          this.submitPresensi = true;
-          console.log(this.userData.data.nim)
+        if (this.counterPresensi == 5) {
 
           axios
             .post(
