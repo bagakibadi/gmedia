@@ -18,7 +18,7 @@
       </router-link>
       <div class="menu-wrapper">
         <div class="menu-name">Menu</div>
-        <router-link :to="{ name: 'Presensi Master' }">
+        <router-link :to="{ name: 'Dashboard Mahasiswa' }">
           <div
             :class="
               `item ${
@@ -89,11 +89,11 @@
           <div class="text">Penugasan</div>
         </div>
         <div class="collapse show" id="order">
-          <router-link :to="{ name: 'List Penawaran' }">
+          <router-link :to="{ name: 'Tugas Mahasiswa' }">
             <div
               :class="
                 `item sub ${
-                  link[3] == 'penawaran' ? 'active' : ''
+                  link[2] == 'tugas' ? 'active' : ''
                 } d-flex align-items-center`
               "
             >
@@ -115,13 +115,13 @@
           </router-link>
         </div>
 
-        <router-link :to="{ name: 'Dashboard AM' }">
+        <router-link :to="{ name: 'Conference Mahasiswa' }">
           <div
             :class="
-              `item ${
-                $route.fullPath == '/account-manager' ? 'active' : ''
-              } d-flex align-items-center`
-            "
+                `item ${
+                  link[2] == 'confrence' ? 'active' : ''
+                } d-flex align-items-center`
+              "
           >
             <div
               style="width: 20px"
@@ -140,7 +140,7 @@
       </div>
       <div class="menu-wrapper">
         <div class="menu-name">Lainnya</div>
-        <div class="item logout d-flex align-items-center">
+        <div class="item logout d-flex align-items-center" @click="logout">
           <img src="../assets/icons/login.svg" alt="" />
           <!-- <i class="fas fa-sign-out-alt"></i> -->
           <div class="text">Log out</div>
@@ -165,9 +165,9 @@
                       4
                     </div>
                   </div>
-                  <div class="d-flex align-items-center">
+                  <div class="d-flex align-items-center" v-if="userData">
                     <div class="text-end me-2">
-                      <div class="username">Solayman</div>
+                      <div class="username">{{ userData.data.nama }}</div>
                       <div class="role">Mahasiswa</div>
                     </div>
                     <div
@@ -198,13 +198,10 @@ export default {
   data: function() {
     return {
       link: this.$route.fullPath.split("/"),
-      user: this.$store.state.userData,
-      add: this,
     };
   },
   beforeCreate() {
-    this.$store;
-    console.log(this.$store.state);
+    this.$store.dispatch("getMahasiswa");
   },
   methods: {
     submit() {
@@ -215,6 +212,10 @@ export default {
     sidebar() {
       $(".sidebar").toggleClass("hide");
       $(".content").toggleClass("hide");
+    },
+    logout() {
+      localStorage.clear();
+      window.location.replace("/");
     },
   },
   mounted() {},

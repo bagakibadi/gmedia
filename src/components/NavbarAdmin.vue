@@ -301,9 +301,9 @@
                       4
                     </div>
                   </div>
-                  <div class="d-flex align-items-center">
+                  <div class="d-flex align-items-center" v-if="userData">
                     <div class="text-end me-2">
-                      <div class="username">Sujatmiko</div>
+                      <div class="username">{{userData.data.name}}</div>
                       <div class="role">Superadmin</div>
                     </div>
                     <div
@@ -334,13 +334,10 @@ export default {
   data: function() {
     return {
       link: this.$route.fullPath.split("/"),
-      user: this.$store.state.userData,
-      add: this,
     };
   },
   beforeCreate() {
-    this.$store;
-    console.log(this.$store.state);
+    this.$store.dispatch("getAdmin");
   },
   methods: {
     submit() {
@@ -351,6 +348,10 @@ export default {
     sidebar() {
       $(".sidebar").toggleClass("hide");
       $(".content").toggleClass("hide");
+    },
+    logout() {
+      localStorage.clear();
+      window.location.replace("/");
     },
   },
   mounted() {},

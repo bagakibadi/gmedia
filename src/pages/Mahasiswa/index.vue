@@ -10,70 +10,75 @@
             </div>
           </div>
         </div>
-        <div class="card-shadow warning mb-3" v-if="!presensi && learning">
-          <div class="p-3">
-            <div
-              class="d-flex flex-md-row flex-column justify-content-md-between align-items-md-center align-items-start"
-            >
-              <div>
-                <div class="title-content text-danger">Presensi Online</div>
-                <div class="sub-content mb-4">
-                  Anda belum melakukan Presensi hari ini!
-                </div>
-                <div class="third-content">
-                  *Ambil gambar setengah badan Anda untuk melakukan Presensi
-                  secara online!
-                </div>
-              </div>
-              <button
-                type="button"
-                class="btn btn-primary mt-3 mt-md-0"
-                data-toggle="modal"
-                data-backdrop="static"
-                data-keyboard="false"
-                @click="openModalPresensi"
+        <div v-if="userData">
+          <div class="card-shadow warning mb-3" v-if="!presensi && learning">
+            <div class="p-3">
+              <div
+                class="d-flex flex-md-row flex-column justify-content-md-between align-items-md-center align-items-start"
               >
-                Ambil Presensi
-              </button>
+                <div>
+                  <div class="title-content text-danger">Presensi Online</div>
+                  <div class="sub-content mb-4">
+                    Anda belum melakukan Presensi hari ini!
+                  </div>
+                  <div class="third-content">
+                    *Ambil gambar setengah badan Anda untuk melakukan Presensi
+                    secara online!
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-primary mt-3 mt-md-0"
+                  data-toggle="modal"
+                  data-backdrop="static"
+                  data-keyboard="false"
+                  @click="openModalPresensi"
+                >
+                  Ambil Presensi
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="card-shadow warning mb-3" v-else-if="!learning">
-          <div class="p-3">
-            <div
-              class="d-flex flex-md-row flex-column justify-content-md-between align-items-md-center align-items-start"
-            >
-              <div>
-                <div class="title-content text-danger">Verifikasi Wajah</div>
-                <div class="sub-content mb-4">
-                  Anda wajib melakukan verifikasi wajah sebelum melakukan
-                  presensi!
-                </div>
-                <div class="third-content">
-                  *Ambil gambar setengah badan Anda untuk melakukan Presensi
-                  secara online!
-                </div>
-              </div>
-              <button
-                type="button"
-                class="btn btn-primary mt-3 mt-md-0"
-                data-toggle="modal"
-                data-backdrop="static"
-                data-keyboard="false"
-                @click="openModalLearning"
+          <div
+            class="card-shadow warning mb-3"
+            v-else-if="userData.data.face_recognition == 0"
+          >
+            <div class="p-3">
+              <div
+                class="d-flex flex-md-row flex-column justify-content-md-between align-items-md-center align-items-start"
               >
-                Verifikasi
-              </button>
+                <div>
+                  <div class="title-content text-danger">Verifikasi Wajah</div>
+                  <div class="sub-content mb-4">
+                    Anda wajib melakukan verifikasi wajah sebelum melakukan
+                    presensi!
+                  </div>
+                  <div class="third-content">
+                    *Ambil gambar setengah badan Anda untuk melakukan Presensi
+                    secara online!
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-primary mt-3 mt-md-0"
+                  data-toggle="modal"
+                  data-backdrop="static"
+                  data-keyboard="false"
+                  @click="openModalLearning"
+                >
+                  Verifikasi
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="card-shadow success mb-3" v-else>
-          <div class="p-3">
-            <div class="title-content text-success">Presensi Diterima</div>
-            <div class="sub-content">
-              Terima kasih, anda telah melakukan presensi hari ini.
+          <div class="card-shadow success mb-3" v-else>
+            <div class="p-3">
+              <div class="title-content text-success">Presensi Diterima</div>
+              <div class="sub-content">
+                Terima kasih, anda telah melakukan presensi hari ini.
+              </div>
             </div>
           </div>
         </div>
@@ -163,7 +168,37 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="w-100">
+            <div class="w-100 position-relative">
+              <div
+                v-if="statusCounter"
+                :class="
+                  `status-video ${
+                    submitPresensi && successPresensi ? 'success' : 'ongoing'
+                  } animate__animated animate__fadeIn animate__fast`
+                "
+              >
+                <div v-if="counterPresensi < 4">
+                  Tahan posisi anda, anda akan difoto dalam hitungan ke-3!
+                </div>
+                <div
+                  class="fw-bold"
+                  style="font-size: 24px"
+                  v-if="counterPresensi < 5 && !successPresensi"
+                >
+                  {{
+                    counterPresensi > 3
+                      ? "Foto didapatkan dan mengirim data."
+                      : counterPresensi
+                  }}
+                </div>
+                <div
+                  class="fw-bold"
+                  style="font-size: 24px"
+                  v-if="submitPresensi && successPresensi"
+                >
+                  Presensi Berhasil
+                </div>
+              </div>
               <video
                 id="webcamPresensi"
                 autoplay
@@ -288,8 +323,13 @@
 <script>
 /* eslint-env jquery */
 import Webcam from "webcam-easy";
+import { mapState } from "vuex";
+import axios from "axios";
 
 export default {
+  computed: {
+    ...mapState(["userData"]),
+  },
   data: function() {
     return {
       width: null,
@@ -314,9 +354,12 @@ export default {
       },
       address: null,
       counterLearning: 0,
+      counterPresensi: 0,
       statusCounter: false,
       submitLearning: false,
+      submitPresensi: false,
       successLearning: false,
+      successPresensi: false,
     };
   },
   methods: {
@@ -324,9 +367,9 @@ export default {
       this.address = address;
     },
     getLocation(longitude, latitude) {
-      console.log(latitude);
-      console.log(longitude);
       var address;
+
+      $("#location").text(address);
       var GEOCODING =
         "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=" +
         latitude +
@@ -334,23 +377,15 @@ export default {
         longitude +
         "&localityLanguage=id";
       $.getJSON(GEOCODING).done(function(location) {
-        console.log(location);
-
         address =
-          location.localityInfo.administrative[4].name +
-          ", " +
           location.localityInfo.administrative[3].name +
           ", " +
           location.localityInfo.administrative[2].name +
           ", " +
           location.localityInfo.administrative[1].name;
 
-        console.log(address);
-
         $("#location").text(address);
       });
-
-      console.log(this.address);
     },
     openModalPresensi() {
       $("#presensiModal").modal("show");
@@ -358,7 +393,6 @@ export default {
       this.camPresensi.webcam
         .start()
         .then((result) => {
-          console.log("webcam started");
           console.log(result);
         })
         .catch((err) => {
@@ -375,7 +409,6 @@ export default {
       };
 
       if (window.navigator.geolocation) {
-        console.log("bisa dong");
         window.navigator.geolocation.getCurrentPosition(
           dataLocation,
           console.log
@@ -400,16 +433,62 @@ export default {
         });
     },
     doPresensi() {
-      var picture1 = null;
+      this.statusCounter = true;
+      var picture = null;
 
-      picture1 = this.camPresensi.webcam.snap();
+      picture = this.camPresensi.webcam.snap();
 
-      console.log(picture1.split(",")[1]);
+      setInterval(() => {
+        if (this.counterPresensi < 4) {
+          this.counterPresensi++;
+        }
+
+        if (this.counterPresensi == 3) {
+          picture = this.camLearning.webcam.snap();
+          console.log(picture);
+        }
+
+        if (this.counterPresensi == 4) {
+          this.submitPresensi = true;
+          console.log(this.userData.data.nim)
+
+          axios
+            .post(
+              "https://gmedia.primakom.co.id/mahasiswa/presensi/",
+              {
+                nim: this.userData.data.nim,
+                status: 1,
+                long: this.location.long,
+                lat: this.location.lat,
+                foto: picture.split(",")[1],
+              },
+              {
+                headers: {
+                  Authorization: localStorage.token,
+                },
+              }
+            )
+            .then((res) => {
+              console.log(res);
+              if (res.data.success) {
+                this.counterPresensi++;
+                this.successPresensi = true;
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      }, 1000);
+
+      // setTimeout(() => {
+      //   this.successPresensi = true;
+      //   console.log(picture.split(",")[1]);
+      // }, 6000);
     },
 
     doLearning() {
       this.statusCounter = true;
-      // let count = 0;
       let arr = [];
       var picture1 = null;
       var picture2 = null;
@@ -453,43 +532,35 @@ export default {
       }, 1000);
 
       setTimeout(() => {
-        arr = [picture1.split(",")[1], picture2.split(",")[1], picture3.split(",")[1], picture4.split(",")[1], picture5.split(",")[1]]
+        arr = [
+          picture1.split(",")[1],
+          picture2.split(",")[1],
+          picture3.split(",")[1],
+          picture4.split(",")[1],
+          picture5.split(",")[1],
+        ];
         this.successLearning = true;
         console.log(arr);
       }, 13000);
-
-      // setTimeout(() => {
-      //   picture1 = this.camLearning.webcam.snap();
-      // }, 2000);
-
-      // setTimeout(() => {
-      //   picture2 = this.camLearning.webcam.snap();
-      // }, 4000);
-
-      // setTimeout(() => {
-      //   picture3 = this.camLearning.webcam.snap();
-      // }, 6000);
-
-      // setTimeout(() => {
-      //   picture4 = this.camLearning.webcam.snap();
-      // }, 8000);
-
-      // setTimeout(() => {
-      //   picture5 = this.camLearning.webcam.snap();
-      // }, 10000);
-
-      // arr = [
-      //   picture1.split(",")[1],
-      //   picture2.split(",")[1],
-      //   picture3.split(",")[1],
-      //   picture4.split(",")[1],
-      //   picture5.split(",")[1],
-      // ];
 
       console.log(arr);
     },
   },
   mounted() {
+    axios
+      .get("https://gmedia.primakom.co.id/mahasiswa/presensi/", {
+        headers: {
+          Authorization: localStorage.token,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        // localStorage.clear();
+      });
+
     this.width = $(document).width();
     this.camPresensi.webcamElement = document.getElementById("webcamPresensi");
     this.camPresensi.canvasElement = document.getElementById("canvasPresensi");
@@ -498,7 +569,7 @@ export default {
     );
     this.camPresensi.webcam = new Webcam(
       this.camPresensi.webcamElement,
-      "user",
+      "",
       this.camPresensi.canvasElement,
       this.camPresensi.snapSoundElement
     );
@@ -510,24 +581,23 @@ export default {
     );
     this.camLearning.webcam = new Webcam(
       this.camLearning.webcamElement,
-      "user",
+      "",
       this.camLearning.canvasElement,
       this.camLearning.snapSoundElement
     );
 
     var newCamPresensi = this.camPresensi.webcam;
     var presensi = document.getElementById("presensiModal");
-    presensi.addEventListener("hidden.bs.modal", function(event) {
+    presensi.addEventListener("hidden.bs.modal", function() {
       // do something...
-      console.log(event);
       newCamPresensi.stop();
+      $("#location").text("Sedang memuat.");
     });
 
     var newCamLearning = this.camLearning.webcam;
     var learning = document.getElementById("learningModal");
-    learning.addEventListener("hidden.bs.modal", function(event) {
+    learning.addEventListener("hidden.bs.modal", function() {
       // do something...
-      console.log(event);
       newCamLearning.stop();
     });
 
