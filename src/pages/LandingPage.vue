@@ -41,7 +41,7 @@
 				</ul>
 			</div>
 			<div class="navbar-click">
-				<a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#login">Login</a>
+				<a href="#" class="d-flex align-items-center justify-content-center btn fw-bold btn-outline-primary" style="height: 44px;" data-bs-toggle="modal" data-bs-target="#login">Login</a>
 			</div>
 		</div>
 		<div class="p-100">
@@ -50,56 +50,54 @@
 					<div class="col-lg-6">
 						<div class="content-header">
 							<h1>
-								Yuk, kenalan dengan <b>UPN Veteran</b>
+								Yuk, kenalan dengan <br><b>UPN Veteran</b>
 							</h1>
 							<p>Universitas Pembangunan Nasional (UPN) "Veteran" semula adalah suatu lembaga pendidikan tinggi yang didirikan atas prakarsa para pejuang kemerdekaan R.I dengan nama Akademi Pembangunan Nasional (APN) "Veteran" yang didirikan dikota Yogyakarta...</p>
-							<button class="btn btn-primary selengkapnya">
+							<button class="btn btn-primary selengkapnya" style="box-shadow: -2px 4px 32px rgba(20, 97, 245, 0.2);">
 								Baca Selengkapnya
 							</button>
 						</div>
 					</div>
 					<div class="col-lg-6">
-						<img class="img-fluid" src="../assets/illustration1.png" alt="">
+						<img class="img-fluid" src="../assets/ilustrasi/ilustrasi-landing-page-1.svg" alt="">
 					</div>
 				</div>
 			</header>
-			<section>
-				<div class="card-shadow">
-					<div class="">
-						<div class="row g-0">
-							<div class="col-lg-4">
-								<div class="d-flex justify-content-center align-items-center padding-card-mid">
+			<section style="padding: 90px 150px 0 150px;">
+				<div class="card-shadow" style="height: 160px;box-shadow: -2px 1px 24px rgba(221, 224, 228, 0.32);border-radius: 10px;">
+					<div class="row g-0 h-100">
+						<div class="col-lg-4 h-100">
+							<div class="h-100 d-flex justify-content-center align-items-center padding-card-mid">
+								<div class="frame">
+									<img src="../assets/icons/person.svg" alt="">
+								</div>
+								<div>
+									<h4>14312+</h4>
+									<p>Mahasiswa</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 h-100">
+							<div class="h-100 d-flex justify-content-center align-items-center padding-card-mid">
+								<div class=" middle-content-landing h-100 d-flex justify-content-center w-100 align-items-center ">
 									<div class="frame">
-										<img src="../assets/icons/person.svg" alt="">
+										<img src="../assets/icons/school.svg" alt="">
 									</div>
 									<div>
-										<h4>14312+</h4>
-										<p>Mahasiswa</p>
+										<h4>2897+</h4>
+										<p>Alumni</p>
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-4 ">
-								<div class="d-flex justify-content-center align-items-center padding-card-mid">
-									<div class="d-flex justify-content-center w-100 align-items-center middle-content-landing">
-										<div class="frame">
-											<img src="../assets/icons/school.svg" alt="">
-										</div>
-										<div>
-											<h4>2897+</h4>
-											<p>Alumni</p>
-										</div>
-									</div>
+						</div>
+						<div class="col-lg-4 h-100">
+							<div class="h-100 d-flex justify-content-center align-items-center padding-card-mid">
+								<div class="frame">
+									<img src="../assets/icons/icon-fakultas.svg" alt="">
 								</div>
-							</div>
-							<div class="col-lg-4">
-								<div class="d-flex justify-content-center align-items-center padding-card-mid">
-									<div class="frame">
-										<img src="../assets/icons/person.svg" alt="">
-									</div>
-									<div>
-										<h4>14312+</h4>
-										<p>Mahasiswa</p>
-									</div>
+								<div>
+									<h4>5</h4>
+									<p>Fakultas</p>
 								</div>
 							</div>
 						</div>
@@ -109,26 +107,54 @@
 			<section id="visi-misi">
 				<div class="row">
 					<div class="col-lg-6">
-						<img src="../assets/Illustration2.png" class="img-fluid" alt="">
+						<img src="../assets/ilustrasi/ilustrasi-landing-page-2.svg" class="img-fluid" alt="">
 					</div>
 					<div class="col-lg-6">
 						<div class="visi-misi">
-							<h3>Visi & Misi UPN Veteran Yogyakarta</h3>
+							<h3>Visi & Misi UPN <br> Veteran Yogyakarta</h3>
 							<h5>Visi :</h5>
 							<ul>
-								<li>Menjadi Universitas Pionir Pembangunan yang dilandasi jiwa bela negara di era global</li>
+								<li>
+									<div class="d-flex align-items-start">
+										<img src="../assets/icons/icon-checklist.svg" class="me-3" alt="">
+										<p class="m-0">
+											Menjadi Universitas Pionir Pembangunan yang dilandasi jiwa bela negara di era global.
+										</p>
+									</div>
+								</li>
 							</ul>
 							<h5>Misi :</h5>
 							<ul>
-								<li>Menghasilkan lulusan yang berdaya saing global dan berjiwa bela negara melalui pembelajaran berkualitas</li>
-								<li>Mengembangkan konsepsi ilmu pengetahuan, teknologi, sains dan kemanusiaan melalui Pengembangan Program Studi/proses belajar mengajar dan pengayaan keilmuan</li>
-								<li>Meningkatkan kualitas penelitian melalui program terencana, terintegrasi dan berkelanjutan</li>
+								<li>
+									<div class="d-flex align-items-start">
+										<img src="../assets/icons/icon-checklist.svg" class="me-3" alt="">
+										<p class="m-0">
+											Menghasilkan lulusan yang berdaya saing global dan berjiwa bela negara 	melalui pembelajaran berkualitas.
+										</p>
+									</div>
+								</li>
+								<li>
+									<div class="d-flex align-items-start">
+										<img src="../assets/icons/icon-checklist.svg" class="me-3" alt="">
+										<p class="m-0">
+											Mengembangkan konsepsi ilmu pengetahuan, teknologi, sains dan kemanusiaan melalui Pengembangan Program Studi/proses belajar mengajar dan pengayaan keilmuan.
+										</p>
+									</div>
+								</li>
+								<li>
+									<div class="d-flex align-items-start">
+										<img src="../assets/icons/icon-checklist.svg" class="me-3" alt="">
+										<p class="m-0">
+											Meningkatkan kualitas penelitian melalui program terencana, terintegrasi dan berkelanjutan.
+										</p>
+									</div>
+								</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</section>
-			<section id="testimoni" style="background: #E5E5E5;">
+			<section id="testimoni" style="background: #FDFDFD;">
 				<div class="row flex-column align-items-center justify-content-center">
 					<h1 class="title-sections">Testimoni dari beberapa alumni</h1>
 					<p class="sub-head-title">
@@ -136,6 +162,22 @@
 					</p>
 				</div>
 				<div class="row testimoni">
+					<div class="col-lg-4 col-md-6 mb-3">
+						<div class="card active">
+							<div class="card-body">
+								<div class="d-flex" style="margin-bottom: 20px;">
+									<div>
+										<img class="img-orang-card" src="../assets/gambarorang.jpg" alt="">
+									</div>
+									<div class="info-card">
+										<h4>Dave Lombardo</h4>
+										<p>Asistant Director</p>
+									</div>
+								</div>
+								<p class="description-card">“Saya sangat senang bisa belajar di kampus yang sangat luar biasa ini. Lingkungan yang nyaman dan pembelajaran yang sangat baik”.</p>
+							</div>
+						</div>
+					</div>
 					<div class="col-lg-4 col-md-6 mb-3">
 						<div class="card">
 							<div class="card-body">
@@ -154,7 +196,7 @@
 					</div>
 				</div>
 			</section>
-			<section id="tentang">
+			<section id="tentang" style="background: #FDFDFD;">
 				<div class="row flex-column align-items-center justify-content-center">
 					<h1 class="title-sections">Tentang UPN Veteran Yogyakarta</h1>
 					<p class="sub-head-title">
@@ -181,7 +223,7 @@
 							<div class="logo-img">
 								<a href="#" class="logo-dinsos-footer">
 									<img
-										src="../assets/PKKBN.png"
+										src="../assets/LogoPKK-BN.png"
 										alt=""
 									/>
 									<div>
