@@ -204,7 +204,7 @@
 					</p>
 				</div>
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-lg-6" style="padding-right: 74px;">
 						<div class="tentang">
 							<h4>Tentang UPN Veteran</h4>
 							<div class="divider"></div>

@@ -32,6 +32,10 @@
 	margin-bottom: 20px;
 	z-index: 2;
 }
+.logo-dinsos-footer img{
+    width: 36px;
+    height: 36px;
+}
 .logo-dinsos h5 {
 	color: rgba(11, 19, 42, 1);
 	margin: 0 0 0 10px;
