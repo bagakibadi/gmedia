@@ -267,7 +267,7 @@ section{
     top: 37px;
     z-index: 1;
 }
-.modal-body{
+.modal-body.modal-login {
     padding: 60px 60px 0 60px;
 }
 .btn-login{

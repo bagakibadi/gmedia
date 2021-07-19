@@ -311,8 +311,24 @@ export default {
 				username: this.login.nim,
 				password: this.login.password
 			}).then((result) => {
-				if(result.data.data.success) {
-					localStorage.token = result.data.data.data
+				if(result.data.success) {
+					localStorage.token = result.data.data.token
+
+					if(result.data.data.role == "MHS") {
+						// router.push({ name: 'Dashboard Mahasiswa'})
+						window.location.replace('/dashboard');
+					}
+
+					if(result.data.data.role == "PMD") {
+						// router.push({ name: 'Dashboard Mahasiswa'})
+						window.location.replace('/pemandu');
+					}
+
+					if(result.data.data.role == "SPA") {
+						// router.push({ name: 'Dashboard Mahasiswa'})
+						window.location.replace('/admin');
+					}
+					
 				}
 				console.log(result)
 			}).catch((err) => {

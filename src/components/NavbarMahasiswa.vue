@@ -17,36 +17,12 @@
         </div>
       </router-link>
       <div class="menu-wrapper">
+        <div class="menu-name">Menu</div>
         <router-link :to="{ name: 'Dashboard Mahasiswa' }">
           <div
             :class="
               `item ${
                 $route.fullPath == '/dashboard' ? 'active' : ''
-              } d-flex align-items-center`
-            "
-          >
-            <div
-              style="width: 20px"
-              class="icons d-flex justify-content-center me-2"
-            >
-              <img class="none" src="../assets/icons/dashboard.svg" alt="" />
-              <img
-                class="active"
-                src="../assets/icons/dashboard-active.svg"
-                alt=""
-              />
-            </div>
-            <div class="text">Dashboard</div>
-          </div>
-        </router-link>
-      </div>
-      <div class="menu-wrapper">
-        <div class="menu-name">Menu</div>
-        <router-link :to="{ name: 'Presensi Master' }">
-          <div
-            :class="
-              `item ${
-                link[2] == 'presensi' ? 'active' : ''
               } d-flex align-items-center`
             "
           >
@@ -84,56 +60,88 @@
                 alt=""
               />
             </div>
-            <div class="text">Aktivitas</div>
+            <div class="text">Aktifitas</div>
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Tugas Mahasiswa' }">
+        <div
+          :class="
+            `item ${
+              link[2] == 'order' ? 'active' : ''
+            } d-flex align-items-center`
+          "
+          data-bs-toggle="collapse"
+          data-bs-target="#order"
+          aria-expanded="false"
+          aria-controls="order"
+        >
           <div
-            :class="
-              `item ${
-                $route.fullPath == '/dashboard/tugas' ? 'active' : ''
-              } d-flex align-items-center`
-            "
+            style="width: 20px"
+            class="icons d-flex justify-content-center me-2"
           >
-            <div
-              style="width: 20px"
-              class="icons d-flex justify-content-center me-2"
-            >
-              <img class="none" src="../assets/icons/Tugas.svg" alt="" />
-              <img
-                class="active"
-                src="../assets/icons/Tugas-active.svg"
-                alt=""
-              />
-            </div>
-            <div class="text">Tugas</div>
+            <img class="none" src="../assets/icons/penugasan.svg" alt="" />
+            <img
+              class="active"
+              src="../assets/icons/penugasan-active.svg"
+              alt=""
+            />
           </div>
-        </router-link>
+          <div class="text">Penugasan</div>
+        </div>
+        <div class="collapse show" id="order">
+          <router-link :to="{ name: 'Tugas Mahasiswa' }">
+            <div
+              :class="
+                `item sub ${
+                  link[2] == 'tugas' ? 'active' : ''
+                } d-flex align-items-center`
+              "
+            >
+              <i class="fas fa-minus"></i>
+              <div class="text">Tugas</div>
+            </div>
+          </router-link>
+          <router-link :to="{ name: 'List Penawaran' }">
+            <div
+              :class="
+                `item sub ${
+                  link[3] == 'penawaran' ? 'active' : ''
+                } d-flex align-items-center`
+              "
+            >
+              <i class="fas fa-minus"></i>
+              <div class="text">Kuis</div>
+            </div>
+          </router-link>
+        </div>
 
         <router-link :to="{ name: 'Conference Mahasiswa' }">
           <div
             :class="
-              `item ${
-                $route.fullPath == '/dashboard/conference' ? 'active' : ''
-              } d-flex align-items-center`
-            "
+                `item ${
+                  link[2] == 'confrence' ? 'active' : ''
+                } d-flex align-items-center`
+              "
           >
             <div
               style="width: 20px"
               class="icons d-flex justify-content-center me-2"
             >
               <img class="none" src="../assets/icons/streaming.svg" alt="" />
-              <img class="active" src="../assets/icons/streaming-active.svg" alt="" />
+              <img
+                class="active"
+                src="../assets/icons/streaming-active.svg"
+                alt=""
+              />
             </div>
-            <div class="text">Conference</div>
+            <div class="text">Streaming</div>
           </div>
         </router-link>
       </div>
       <div class="menu-wrapper">
         <div class="menu-name">Lainnya</div>
-        <div class="item logout d-flex align-items-center">
-          <img src="../assets/icons/login.svg" alt="">
+        <div class="item logout d-flex align-items-center" @click="logout">
+          <img src="../assets/icons/login.svg" alt="" />
           <!-- <i class="fas fa-sign-out-alt"></i> -->
           <div class="text">Log out</div>
         </div>
@@ -157,9 +165,9 @@
                       4
                     </div>
                   </div>
-                  <div class="d-flex align-items-center">
+                  <div class="d-flex align-items-center" v-if="userData">
                     <div class="text-end me-2">
-                      <div class="username">Solayman</div>
+                      <div class="username">{{ userData.data.nama }}</div>
                       <div class="role">Mahasiswa</div>
                     </div>
                     <div
@@ -190,13 +198,10 @@ export default {
   data: function() {
     return {
       link: this.$route.fullPath.split("/"),
-      user: this.$store.state.userData,
-      add: this,
     };
   },
   beforeCreate() {
-    this.$store;
-    console.log(this.$store.state);
+    this.$store.dispatch("getMahasiswa");
   },
   methods: {
     submit() {
@@ -207,6 +212,10 @@ export default {
     sidebar() {
       $(".sidebar").toggleClass("hide");
       $(".content").toggleClass("hide");
+    },
+    logout() {
+      localStorage.clear();
+      window.location.replace("/");
     },
   },
   mounted() {},

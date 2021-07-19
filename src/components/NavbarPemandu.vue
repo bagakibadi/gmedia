@@ -156,9 +156,10 @@
       </div>
       <div class="menu-wrapper">
         <div class="menu-name">Lainnya</div>
-        <div class="item logout d-flex align-items-center">
-          <i class="fas fa-sign-out-alt"></i>
-          <div class="text">Logout</div>
+        <div class="item logout d-flex align-items-center" @click="logout">
+          <img src="../assets/icons/login.svg" alt="" />
+          <!-- <i class="fas fa-sign-out-alt"></i> -->
+          <div class="text">Log out</div>
         </div>
       </div>
     </div>
@@ -180,9 +181,9 @@
                       4
                     </div>
                   </div>
-                  <div class="d-flex align-items-center">
+                  <div class="d-flex align-items-center" v-if="userData">
                     <div class="text-end me-2">
-                      <div class="username">Joko Anwar</div>
+                      <div class="username">{{userData.data.name}}</div>
                       <div class="role">Pemandu Gugus 12</div>
                     </div>
                     <div
@@ -213,13 +214,10 @@ export default {
   data: function() {
     return {
       link: this.$route.fullPath.split("/"),
-      user: this.$store.state.userData,
-      add: this,
     };
   },
   beforeCreate() {
-    this.$store;
-    console.log(this.$store.state);
+    this.$store.dispatch("getPemandu");
   },
   methods: {
     submit() {
@@ -230,6 +228,10 @@ export default {
     sidebar() {
       $(".sidebar").toggleClass("hide");
       $(".content").toggleClass("hide");
+    },
+    logout() {
+      localStorage.clear();
+      window.location.replace("/");
     },
   },
   mounted() {},

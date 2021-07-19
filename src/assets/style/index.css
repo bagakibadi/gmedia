@@ -56,6 +56,7 @@
    --border-thin-color: #eaeaea;
    --bs-font-sans-serif: "SF Pro";
    --background-success: #e3ffeb;
+   --background-warning: #fff4d8;
 }
 
 * {
@@ -134,6 +135,14 @@ a:hover {
    word-wrap: break-word;
    background-color: #fff;
    background-clip: border-box;
+}
+
+.warning {
+   background-color: var(--background-warning);
+}
+
+.success {
+   background-color: var(--background-success);
 }
 
 .iti {
@@ -604,6 +613,18 @@ footer .bottom {
    font-size: 22px;
    font-weight: 600;
 }
+
+.dashboard .sub-content {
+   font-size: 18px;
+   font-weight: 500;
+   opacity: .7;
+}
+
+.dashboard .third-content {
+   font-weight: 300;
+   opacity: .7;
+}
+
 tr th{
    font-size: 12px;
    font-weight: 600;
@@ -615,7 +636,35 @@ tr th{
 /* Index */
 .dashboard .time-presensi {
    font-size: 28px;
-    font-weight: 700;
+   font-weight: 700;
+}
+
+/* Presensi */
+.dashboard .modal video {
+   width: 100% !important;
+   height: auto !important;
+}
+
+.dashboard .modal .status-video {
+   position: absolute;
+   top: 10px;
+   left: 50%;
+   transform: translate(-50%, 10px);
+   z-index: 10;
+   padding: 15px;
+   border-radius: 7px;
+   color: white;
+   text-align: center;
+   min-width: 330px;
+   font-size: 18px;
+}
+
+.dashboard .modal .status-video.ongoing {
+   background-color: #17171796;
+}
+
+.dashboard .modal .status-video.success {
+   background-color: #1aa91aa6;
 }
 
 /* Dashboard Table */
@@ -642,6 +691,18 @@ tr th{
 }
 
 .dashboard table .image img {
+   height: 100%;
+}
+
+.dashboard table .image-presensi {
+   min-width: 80px;
+   max-width: 80px;
+   height: 80px;
+   overflow: hidden;
+   border-radius: 7px;
+}
+
+.dashboard table .image-presensi img {
    height: 100%;
 }
 
