@@ -67,7 +67,7 @@
         <div
           :class="
             `item ${
-              link[2] == 'order' ? 'active' : ''
+              link[2] === 'tugas' || link[2] === 'kuis' ? 'collapsed' : ''
             } d-flex align-items-center`
           "
           data-bs-toggle="collapse"
@@ -88,7 +88,9 @@
           </div>
           <div class="text">Penugasan</div>
         </div>
-        <div class="collapse show" id="order">
+        <div :class="`collapse ${
+          link[2] === 'tugas' || link[2] === 'kuis' ? 'show' : ''
+          }`" id="order">
           <router-link :to="{ name: 'Tugas Mahasiswa' }">
             <div
               :class="
@@ -97,7 +99,15 @@
                 } d-flex align-items-center`
               "
             >
-              <i class="fas fa-minus"></i>
+              <div class="icons">
+                <img style="width: 10px;height: 10px;" class="none" src="../assets/icons/circle.svg" alt="" />
+                <img
+                  style="width: 10px;height: 10px;"
+                  class="active"
+                  src="../assets/icons/circle-active.svg"
+                  alt=""
+                />
+              </div>
               <div class="text">Tugas</div>
             </div>
           </router-link>
@@ -109,7 +119,15 @@
                 } d-flex align-items-center`
               "
             >
-              <i class="fas fa-minus"></i>
+              <div class="icons">
+                <img style="width: 10px;height: 10px;" class="none" src="../assets/icons/circle.svg" alt="" />
+                <img
+                  style="width: 10px;height: 10px;"
+                  class="active"
+                  src="../assets/icons/circle-active.svg"
+                  alt=""
+                />
+              </div>
               <div class="text">Kuis</div>
             </div>
           </router-link>
@@ -141,8 +159,14 @@
       <div class="menu-wrapper">
         <div class="menu-name">Lainnya</div>
         <div class="item logout d-flex align-items-center" @click="logout">
-          <img src="../assets/icons/login.svg" alt="" />
-          <!-- <i class="fas fa-sign-out-alt"></i> -->
+          <div class="icons">
+            <img class="none" src="../assets/icons/login.svg" alt="" />
+            <img
+              class="active"
+              src="../assets/icons/login-active.svg"
+              alt=""
+            />
+          </div>
           <div class="text">Log out</div>
         </div>
       </div>

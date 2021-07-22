@@ -537,6 +537,13 @@ input.form-check-input:checked {
    justify-content: center;
 }
 
+.judul-name{
+   font-size: 18px;
+   font-weight: 700;
+   color: rgba(40, 40, 40, 1);
+   margin-bottom: 18px;
+}
+
 .dashboard-navigation .sidebar .item .text {
    color: #7d7d7d;
    transition: all .2s;

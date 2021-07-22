@@ -35,7 +35,7 @@
             <div>
               <table class="table">
                 <thead>
-                  <tr>
+                  <tr >
                     <th scope="col">NAMA</th>
                     <th scope="col">PRODI</th>
                     <th scope="col">EMAIL</th>
@@ -45,7 +45,51 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="align-middle">
+                  <tr class="align-middle" v-for="(items, index) in dataPresensi" :key="index">
+                    <td>
+                      <div>
+                        <div class="d-flex align-items-center">
+                          <div
+                            class="image d-flex align-items-center justify-content-center"
+                          >
+                            <img
+                              src="../../assets/images/profile.jpeg"
+                              alt=""
+                            />
+                          </div>
+                          <div class="ms-3">
+                            <div class="main-text">{{items.user.mahasiswa.nama}}</div>
+                            <div class="sub-text">{{items.nim}}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div>
+                        <div class="main-text">Teknik Perminyakan</div>
+                        <div class="sub-text">Gugus 1</div>
+                      </div>
+                    </td>
+                    <td>{{items.user.mahasiswa.email}}</td>
+                    <td>
+                      <div>
+                        <div class="main-text">30 Jul 2021</div>
+                        <div class="sub-text">Pukul 05:58:45 WIB</div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="badge-custom success text-success">Masuk</div>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        class="btn btn-warning btn-sm text-white"
+                      >
+                        <i class="fas fa-pencil-alt"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- <tr class="align-middle">
                     <td>
                       <div>
                         <div class="d-flex align-items-center">
@@ -88,7 +132,7 @@
                         <i class="fas fa-pencil-alt"></i>
                       </button>
                     </td>
-                  </tr>
+                  </tr> -->
                 </tbody>
               </table>
             </div>
@@ -100,19 +144,30 @@
 </template>
 
 <script>
+import axios from 'axios';
 /* eslint-env jquery */
 
 export default {
   data: function() {
     return {
       width: null,
+      dataPresensi: null,
     };
   },
   mounted() {
     this.width = $(document).width();
-
-    $(document).ready(function() {
-      $(".table").DataTable();
+    axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/presensi', {
+      headers: {
+        Authorization: localStorage.token
+      }
+    }).then((result) => {
+      console.log(result)
+      this.dataPresensi = result.data.data
+      $(document).ready(function() {
+        $(".table").DataTable();
+      });
+    }).catch((err) => {
+      console.log(err)
     });
   },
 };
