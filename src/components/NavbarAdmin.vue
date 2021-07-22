@@ -136,11 +136,11 @@
           <div class="text">Penugasan</div>
         </div>
         <div class="collapse show" id="order">
-          <router-link :to="{ name: 'List Penawaran' }">
+          <router-link :to="{ name: 'Bank Soal' }">
             <div
               :class="
                 `item sub ${
-                  link[3] == 'penawaran' ? 'active' : ''
+                  link[2] == 'bank-soal' ? 'active' : ''
                 } d-flex align-items-center`
               "
             >
@@ -152,7 +152,7 @@
             <div
               :class="
                 `item sub ${
-                  link[3] == 'penawaran' ? 'active' : ''
+                  link[2] == 'penawaran' ? 'active' : ''
                 } d-flex align-items-center`
               "
             >

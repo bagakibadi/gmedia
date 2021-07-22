@@ -10,8 +10,8 @@
             </div>
           </div>
         </div>
-        <div v-if="userData">
-          <div class="card-shadow warning mb-3">
+        <div v-if="userData && loadedPresensi">
+          <div class="card-shadow warning mb-3" v-if="!presensi">
             <div class="p-3">
               <div
                 class="d-flex flex-md-row flex-column justify-content-md-between align-items-md-center align-items-start"
@@ -39,8 +39,7 @@
               </div>
             </div>
           </div>
-
-          <!-- <div
+          <div
             class="card-shadow warning mb-3"
             v-else-if="userData.data.face_recognition == 0"
           >
@@ -71,16 +70,16 @@
                 </button>
               </div>
             </div>
-          </div> -->
+          </div>
 
-          <!-- <div class="card-shadow success mb-3" v-else>
+          <div class="card-shadow success mb-3" v-else>
             <div class="p-3">
               <div class="title-content text-success">Presensi Diterima</div>
               <div class="sub-content">
                 Terima kasih, anda telah melakukan presensi hari ini.
               </div>
             </div>
-          </div> -->
+          </div>
         </div>
         <div class="card-shadow mb-3">
           <div class="p-3">
@@ -183,10 +182,10 @@
                 <div
                   class="fw-bold"
                   style="font-size: 24px"
-                  v-if="counterPresensi < 5 && !successPresensi"
+                  v-if="counterPresensi < 7 && !successPresensi"
                 >
                   {{
-                    submitPresensi
+                    counterPresensi > 3
                       ? "Foto didapatkan dan mengirim data."
                       : counterPresensi
                   }}
@@ -213,8 +212,15 @@
               ></audio>
             </div>
             <div class="d-flex justify-content-center mt-4">
-              <button type="button" :class="`btn ${statusCounter ? 'btn-secondary':'btn-primary'}`" @click="doPresensi" :disabled="statusCounter">
-                Ambil Presensi {{submitPresensi}}
+              <button
+                type="button"
+                :class="
+                  `btn ${statusCounter ? 'btn-secondary' : 'btn-primary'}`
+                "
+                @click="doPresensi"
+                :disabled="statusCounter"
+              >
+                Ambil Presensi
               </button>
             </div>
           </div>
@@ -271,7 +277,7 @@
                 <div
                   class="fw-bold"
                   style="font-size: 24px"
-                  v-if="counterLearning < 12 && !successLearning"
+                  v-if="counterLearning < 13 && !successLearning"
                 >
                   {{
                     counterLearning > 10
@@ -335,6 +341,7 @@ export default {
       width: null,
       widthModal: null,
       presensi: false,
+      loadedPresensi: false,
       learning: false,
       location: {
         long: null,
@@ -442,17 +449,18 @@ export default {
         }
 
         if (this.counterPresensi == 4) {
-          this.counterPresensi++;
           picture = this.camPresensi.webcam.snap();
-          this.submitPresensi = true;
+          this.counterPresensi++;
           console.log(picture);
         }
 
         if (this.counterPresensi == 5) {
+          this.counterPresensi++;
+          this.submitPresensi = true;
 
           axios
             .post(
-              "https://gmedia.primakom.co.id/mahasiswa/presensi/",
+              "https://gmedia.primakom.co.id/presensi/mahasiswa/",
               {
                 nim: this.userData.data.nim,
                 status: 1,
@@ -469,8 +477,10 @@ export default {
             .then((res) => {
               console.log(res);
               if (res.data.success) {
-                this.counterPresensi++;
                 this.successPresensi = true;
+                setTimeout(() => {
+                  location.reload();
+                }, 2000);
               }
             })
             .catch((err) => {
@@ -478,11 +488,6 @@ export default {
             });
         }
       }, 1000);
-
-      // setTimeout(() => {
-      //   this.successPresensi = true;
-      //   console.log(picture.split(",")[1]);
-      // }, 6000);
     },
 
     doLearning() {
@@ -526,33 +531,75 @@ export default {
 
         if (this.counterLearning == 11) {
           this.submitLearning = true;
+          this.counterLearning++;
+
+          arr = [
+            picture1.split(",")[1],
+            picture2.split(",")[1],
+            picture3.split(",")[1],
+            picture4.split(",")[1],
+            picture5.split(",")[1],
+          ];
+
+          console.log(arr);
+
+          axios
+            .post(
+              "https://gmedia.primakom.co.id/gmedia/mahasiswa/learn",
+              {
+                foto: arr,
+              },
+              {
+                headers: {
+                  Authorization: localStorage.token,
+                },
+              }
+            )
+            .then((res) => {
+              console.log(res);
+              if (res.data.success) {
+                this.successLearning = true;
+                setTimeout(() => {
+                  location.reload();
+                }, 2000);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
       }, 1000);
-
-      setTimeout(() => {
-        arr = [
-          picture1.split(",")[1],
-          picture2.split(",")[1],
-          picture3.split(",")[1],
-          picture4.split(",")[1],
-          picture5.split(",")[1],
-        ];
-        this.successLearning = true;
-        console.log(arr);
-      }, 13000);
-
-      console.log(arr);
     },
   },
   mounted() {
     axios
-      .get("https://gmedia.primakom.co.id/mahasiswa/presensi/", {
+      .get("https://gmedia.primakom.co.id/presensi/mahasiswa/", {
         headers: {
           Authorization: localStorage.token,
         },
       })
       .then((res) => {
         console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        // localStorage.clear();
+      });
+
+    axios
+      .get("https://gmedia.primakom.co.id/presensi/mahasiswa/hari-ini", {
+        headers: {
+          Authorization: localStorage.token,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        this.loadedPresensi = true;
+        if (res.data.data) {
+          this.presensi = true;
+        } else {
+          this.presensi = false;
+        }
       })
       .catch((err) => {
         console.log(err);

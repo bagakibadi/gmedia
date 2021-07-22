@@ -13,13 +13,14 @@ export default new Vuex.Store({
     getMahasiswa({ commit }) {
       if (localStorage.token && localStorage.token !== undefined) {
         axios
-          .get("https://gmedia.primakom.co.id/mahasiswa/profil", {
+          .get("https://gmedia.primakom.co.id/gmedia/mahasiswa/profil", {
             headers: {
               Authorization: localStorage.token,
             },
           })
           .then((res) => {
             console.log(res);
+            console.log("mahasiswa");
             commit("SET_POSTS", res.data);
           })
           .catch((err) => {
@@ -34,13 +35,14 @@ export default new Vuex.Store({
     getPemandu({ commit }) {
       if (localStorage.token && localStorage.token !== undefined) {
         axios
-          .get("https://gmedia.primakom.co.id/pemandu/profil/", {
+          .get("https://gmedia.primakom.co.id/gmedia/mahasiswa/profil", {
             headers: {
               Authorization: localStorage.token,
             },
           })
           .then((res) => {
             console.log(res);
+            console.log("pemandu");
             commit("SET_POSTS", res.data);
           })
           .catch((err) => {

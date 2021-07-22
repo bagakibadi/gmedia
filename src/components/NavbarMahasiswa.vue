@@ -150,7 +150,7 @@
     <div :class="`content ${$attrs.widthContent > 992 ? '' : 'hide'}`">
       <div class="section pt-3">
         <nav>
-          <div class="card-shadow">
+          <div class="card-shadow mb-4">
             <div class="py-2 px-3">
               <div class="d-flex align-items-center justify-content-between">
                 <div class="menu-bar" @click="sidebar">

@@ -8,6 +8,9 @@ import LandingPage from "../pages/LandingPage.vue";
 import DashboardAdmin from "../pages/Admin/index.vue";
 import PresensiMaster from "../pages/Admin/Presensi.vue";
 import MahasiswaMaster from "../pages/Admin/Mahasiswa.vue";
+import BankSoal from "../pages/Admin/BankSoal.vue";
+import BuatSoalEsai from "../pages/Admin/BuatSoalEsai.vue";
+import BuatSoalPG from "../pages/Admin/BuatSoalPG.vue";
 
 // Pemandu
 import DashboardPemandu from "../pages/Pemandu/index.vue";
@@ -44,6 +47,21 @@ const routes = [
     path: "/admin/mahasiswa",
     name: "Mahasiswa Master",
     component: MahasiswaMaster,
+  },
+  {
+    path: "/admin/bank-soal",
+    name: "Bank Soal",
+    component: BankSoal,
+  },
+  {
+    path: "/admin/bank-soal/tambah-esai",
+    name: "Buat Soal Esai",
+    component: BuatSoalEsai,
+  },
+  {
+    path: "/admin/bank-soal/tambah-pilihan-ganda",
+    name: "Buat Soal Pilihan Ganda",
+    component: BuatSoalPG,
   },
 
   // Pemandu
