@@ -144,7 +144,15 @@
                 } d-flex align-items-center`
               "
             >
-              <i class="fas fa-minus"></i>
+              <div class="icons">
+                <img style="width: 10px;height: 10px;" class="none" src="../assets/icons/circle.svg" alt="" />
+                <img
+                  style="width: 10px;height: 10px;"
+                  class="active"
+                  src="../assets/icons/circle-active.svg"
+                  alt=""
+                />
+              </div>
               <div class="text">Bank Soal</div>
             </div>
           </router-link>
@@ -156,7 +164,15 @@
                 } d-flex align-items-center`
               "
             >
-              <i class="fas fa-minus"></i>
+              <div class="icons">
+                <img style="width: 10px;height: 10px;" class="none" src="../assets/icons/circle.svg" alt="" />
+                <img
+                  style="width: 10px;height: 10px;"
+                  class="active"
+                  src="../assets/icons/circle-active.svg"
+                  alt=""
+                />
+              </div>
               <div class="text">Penugasan</div>
             </div>
           </router-link>
@@ -185,11 +201,11 @@
           </div>
         </router-link> -->
 
-        <router-link :to="{ name: 'Dashboard AM' }">
+        <router-link :to="{ name: 'Streaming Master' }">
           <div
             :class="
               `item ${
-                $route.fullPath == '/account-manager' ? 'active' : ''
+                $route.fullPath == '/admin/streaming' ? 'active' : ''
               } d-flex align-items-center`
             "
           >
@@ -277,10 +293,19 @@
       </div>
       <div class="menu-wrapper">
         <div class="menu-name">Lainnya</div>
-        <div class="item logout d-flex align-items-center">
-          <i class="fas fa-sign-out-alt"></i>
-          <div class="text">Logout</div>
-        </div>
+        <router-link :to="{ name: 'Logout'}">
+          <div class="item logout d-flex align-items-center">
+            <div class="icons">
+              <img class="none" src="../assets/icons/login.svg" alt="" />
+              <img
+                class="active"
+                src="../assets/icons/login-active.svg"
+                alt=""
+              />
+            </div>
+            <div class="text">Logout</div>
+          </div>
+        </router-link>
       </div>
     </div>
     <div :class="`content ${$attrs.widthContent > 992 ? '' : 'hide'}`">

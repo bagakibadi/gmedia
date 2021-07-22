@@ -83,6 +83,15 @@
 	padding-bottom: 5px;
 	transition: .1s all;
 }
+.list-visi li {
+    margin-bottom: 12px;
+}
+.list-visi li p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 30px;
+    color: rgba(79, 86, 101, 1);
+}
 .navbar-click{
 	position: relative;
 	z-index: 1;
@@ -93,8 +102,29 @@
 	border-radius: 50px !important;
 }
 header{
-    margin-top: 80px;
-	padding: 115px 84px 0 150px;
+    /* margin-top: 80px; */
+	padding: 195px 84px 0 150px;
+}
+.socmed a{
+    margin-right: 22px;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    border-radius: 100%;
+    box-shadow: 0px 4px 12px rgba(221, 224, 228, 0.56);
+}
+.socmed img{
+}
+.icons{
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 12px;
+    cursor: pointer;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+    background: transparent;
+    color: rgba(20, 97, 245, 1);
 }
 .content-header h1{
 	font-size: 50px;
@@ -177,10 +207,13 @@ section{
     color: rgba(11, 19, 42, 1);
     font-weight: 400;
     margin-bottom: 0;
+    line-height: 30px;
 }
 .testimoni .card{
     border: 2px solid rgba(221, 224, 228, 1);
     border-radius: 10px;
+    width: 400px;
+    margin-right: 50px;
 }
 .testimoni .card.active{
     box-shadow: 4px -2px 56px #DDE0E4;

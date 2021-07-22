@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<div class="navbars" id="navbars">
+	<div style="position: relative;">
+		<div class="navbars navbar" >
 			<div class="logo-img">
 				<a href="#" class="logo-dinsos">
 					<img
@@ -12,30 +12,30 @@
 					</div>
 				</a>
 			</div>
-			<div class="menu-list">
-				<ul>
-					<li>
+			<div class="menu-list" id="navbars">
+				<ul class="nav nav-pills">
+					<li class="nav-item">
 						<a
 							href="#home"
-							class="menunya active"
+							class="menunya nav-link"
 						>Beranda</a>
 					</li>
-					<li>
+					<li class="nav-item">
 						<a
 							href="#visi-misi"
-							class="menunya"
+							class="menunya nav-link"
 						>Visi-Misi</a>
 					</li>
-					<li>
+					<li class="nav-item">
 						<a
 							href="#testimoni"
-							class="menunya"
+							class="menunya nav-link"
 						>Testimoni</a	>
 					</li>
-					<li>
+					<li class="nav-item">
 						<a
 							href="#tentang"
-							class="menunya"
+							class="menunya nav-link"
 						>Tentang</a>
 					</li>
 				</ul>
@@ -44,25 +44,27 @@
 				<a href="#" class="d-flex align-items-center justify-content-center btn fw-bold btn-outline-primary" style="height: 44px;" data-bs-toggle="modal" data-bs-target="#login">Login</a>
 			</div>
 		</div>
-		<div class="p-100">
-			<header id="home">
-				<div class="row h-100 align-items-center">
-					<div class="col-lg-6">
-						<div class="content-header">
-							<h1>
-								Yuk, kenalan dengan <br><b>UPN Veteran</b>
-							</h1>
-							<p>Universitas Pembangunan Nasional (UPN) "Veteran" semula adalah suatu lembaga pendidikan tinggi yang didirikan atas prakarsa para pejuang kemerdekaan R.I dengan nama Akademi Pembangunan Nasional (APN) "Veteran" yang didirikan dikota Yogyakarta...</p>
-							<button class="btn btn-primary selengkapnya" style="box-shadow: -2px 4px 32px rgba(20, 97, 245, 0.2);">
-								Baca Selengkapnya
-							</button>
+		<div class="p-100"  data-spy="scroll" data-target="#navbars" data-offset="0">
+			<div id="home">
+				<header >
+					<div class="row h-100 align-items-center">
+						<div class="col-lg-6">
+							<div class="content-header">
+								<h1>
+									Yuk, kenalan dengan <br><b>UPN Veteran</b>
+								</h1>
+								<p>Universitas Pembangunan Nasional (UPN) "Veteran" semula adalah suatu lembaga pendidikan tinggi yang didirikan atas prakarsa para pejuang kemerdekaan R.I dengan nama Akademi Pembangunan Nasional (APN) "Veteran" yang didirikan dikota Yogyakarta...</p>
+								<button class="btn btn-primary selengkapnya" style="box-shadow: -2px 4px 32px rgba(20, 97, 245, 0.2);">
+									Baca Selengkapnya
+								</button>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<img class="img-fluid" src="../assets/ilustrasi/ilustrasi-landing-page-1.svg" alt="">
 						</div>
 					</div>
-					<div class="col-lg-6">
-						<img class="img-fluid" src="../assets/ilustrasi/ilustrasi-landing-page-1.svg" alt="">
-					</div>
-				</div>
-			</header>
+				</header>
+			</div>
 			<section style="padding: 90px 150px 0 150px;">
 				<div class="card-shadow" style="height: 160px;box-shadow: -2px 1px 24px rgba(221, 224, 228, 0.32);border-radius: 10px;">
 					<div class="row g-0 h-100">
@@ -113,7 +115,7 @@
 						<div class="visi-misi">
 							<h3>Visi & Misi UPN <br> Veteran Yogyakarta</h3>
 							<h5>Visi :</h5>
-							<ul>
+							<ul class="list-visi">
 								<li>
 									<div class="d-flex align-items-start">
 										<img src="../assets/icons/icon-checklist.svg" class="me-3" alt="">
@@ -124,7 +126,7 @@
 								</li>
 							</ul>
 							<h5>Misi :</h5>
-							<ul>
+							<ul class="list-visi">
 								<li>
 									<div class="d-flex align-items-start">
 										<img src="../assets/icons/icon-checklist.svg" class="me-3" alt="">
@@ -161,8 +163,8 @@
 						Berikut beberapa tanggapan dari alumni kampus UPN Veteran :
 					</p>
 				</div>
-				<div class="row testimoni">
-					<div class="col-lg-4 col-md-6 mb-3">
+				<div class="d-flex testimoni">
+					<div class=" mb-3">
 						<div class="card active">
 							<div class="card-body">
 								<div class="d-flex" style="margin-bottom: 20px;">
@@ -178,7 +180,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-4 col-md-6 mb-3">
+					<div class=" mb-3">
 						<div class="card">
 							<div class="card-body">
 								<div class="d-flex" style="margin-bottom: 20px;">
@@ -232,6 +234,17 @@
 								</a>
 							</div>
 							<h5 class="foot-one-col">UPN “VETERAN” YOGYAKARTA</h5>
+							<div class="d-flex socmed">
+								<a href="#">
+									<img src="../assets/icons/icon-facebook.svg" alt="">
+								</a>
+								<a href="#">
+									<img src="../assets/icons/icon-twitter.svg" alt="">
+								</a>
+								<a href="#">
+									<img src="../assets/icons/icon-instagram.svg" alt="">
+								</a>
+							</div>
 						</div>
 						<div class="col-lg-4 menufooter">
 							<div>
@@ -271,13 +284,19 @@
 								<div class="col-lg-12">
 									<div class="form-group">
 										<label for="nim">Nomor Induk Mahasiswa <span class="text-info">*</span></label>
-										<input type="text" v-model="login.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
+										<div class="position-relative">
+											<img :class="`icons ${login.nim !== null ? 'd-flex' : ''}`" @click="clearInput" src="../assets/icons/icon-cancel.svg" alt="">
+											<input type="text" v-model="login.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
+										</div>
 									</div>
 								</div>
 								<div class="col-lg-12">
 									<div class="form-group">
 										<label for="password">Password <span class="text-info">*</span></label>
-										<input type="password" name="password" v-model="login.password" id="password" class="form-control" placeholder="min. 8 Karakter">
+										<div class="position-relative">
+											<img :class="`icons`" src="../assets/icons/icon-show.svg" alt="">
+											<input type="password" name="password" v-model="login.password" id="password" class="form-control" placeholder="min. 8 Karakter">
+										</div>
 									</div>
 								</div>
 								<div class="col-lg-12">
@@ -293,6 +312,9 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+
 import axios from 'axios'
 
 export default {
@@ -305,6 +327,9 @@ export default {
 		}
 	},
 	methods: {
+		clearInput() {
+			this.login.nim = null
+		},
 		logins() {
 			console.log('a')
 			axios.post('https://gmedia.primakom.co.id/auth/login',{
@@ -335,10 +360,20 @@ export default {
 				console.log(err)
 			});
 		}
+	},
+	mounted() {
+		// eslint-disable-next-line no-undef
+		var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+			target: '#navbars'
+		})
+
 	}
 }
 </script>
 
 <style scoped>
+body{
+	position: relative;
+}
 @import "../assets/style/landing.css";
 </style>

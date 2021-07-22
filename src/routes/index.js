@@ -3,11 +3,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import LandingPage from "../pages/LandingPage.vue";
+import Logout from '../pages/Auth/Logout.vue';
 
 // Admin
 import DashboardAdmin from "../pages/Admin/index.vue";
 import PresensiMaster from "../pages/Admin/Presensi.vue";
 import MahasiswaMaster from "../pages/Admin/Mahasiswa.vue";
+import StreamingMaster from "../pages/Admin/Streaming.vue";
 
 // Pemandu
 import DashboardPemandu from "../pages/Pemandu/index.vue";
@@ -28,6 +30,11 @@ const routes = [
     name: "Index",
     component: LandingPage,
   },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout,
+  },
 
   // Admin
   {
@@ -44,6 +51,11 @@ const routes = [
     path: "/admin/mahasiswa",
     name: "Mahasiswa Master",
     component: MahasiswaMaster,
+  },
+  {
+    path: "/admin/streaming",
+    name: "Streaming Master",
+    component: StreamingMaster,
   },
 
   // Pemandu
