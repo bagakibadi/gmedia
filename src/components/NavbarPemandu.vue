@@ -156,11 +156,19 @@
       </div>
       <div class="menu-wrapper">
         <div class="menu-name">Lainnya</div>
-        <div class="item logout d-flex align-items-center" @click="logout">
-          <img src="../assets/icons/login.svg" alt="" />
-          <!-- <i class="fas fa-sign-out-alt"></i> -->
-          <div class="text">Log out</div>
-        </div>
+        <router-link :to="{ name: 'Logout'}">
+          <div class="item logout d-flex align-items-center">
+            <div class="icons">
+              <img class="none" src="../assets/icons/login.svg" alt="" />
+              <img
+                class="active"
+                src="../assets/icons/login-active.svg"
+                alt=""
+              />
+            </div>
+            <div class="text">Logout</div>
+          </div>
+        </router-link>
       </div>
     </div>
     <div :class="`content ${$attrs.widthContent > 992 ? '' : 'hide'}`">
@@ -228,10 +236,6 @@ export default {
     sidebar() {
       $(".sidebar").toggleClass("hide");
       $(".content").toggleClass("hide");
-    },
-    logout() {
-      localStorage.clear();
-      window.location.replace("/");
     },
   },
   mounted() {},
