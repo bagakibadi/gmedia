@@ -82,7 +82,7 @@
                         <div class="sub-text">Gugus 1</div>
                       </div>
                     </td>
-                    <td>Teknik</td>
+                    <td>{{items.prodi.fakultas.nama}}</td>
                     <td>{{items.email}}</td>
                     <td>0873324213</td>
                     <td>
@@ -116,7 +116,7 @@
       </div>
     </div>
     <div class="modal fade"  id="tambah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" style="max-width: 596px;">
+			<div class="modal-dialog" style="max-width: 750px;">
 				<div class="modal-content" style="border: none;border-radius: 20px !important;">
 					<button type="button"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					<div class="modal-body modal-tambah">

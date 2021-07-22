@@ -8,7 +8,7 @@
 						alt=""
 					/>
 					<div>
-						<h5>PKK-BN <strong>2020</strong></h5>
+						<h5>PKK-BN <strong>2021</strong></h5>
 					</div>
 				</a>
 			</div>
@@ -285,7 +285,7 @@
 									<div class="form-group">
 										<label for="nim">Nomor Induk Mahasiswa <span class="text-info">*</span></label>
 										<div class="position-relative">
-											<img :class="`icons ${login.nim !== null ? 'd-flex' : ''}`" @click="clearInput" src="../assets/icons/icon-cancel.svg" alt="">
+											<img :class="`iconss ${login.nim !== null ? 'd-flex' : 'd-none'}`" @click="clearInput" src="../assets/icons/icon-cancel.svg" alt="">
 											<input type="text" v-model="login.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
 										</div>
 									</div>
@@ -294,7 +294,7 @@
 									<div class="form-group">
 										<label for="password">Password <span class="text-info">*</span></label>
 										<div class="position-relative">
-											<img :class="`icons`" src="../assets/icons/icon-show.svg" alt="">
+											<img :class="`iconss d-none`" src="../assets/icons/icon-show.svg" alt="">
 											<input type="password" name="password" v-model="login.password" id="password" class="form-control" placeholder="min. 8 Karakter">
 										</div>
 									</div>
