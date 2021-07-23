@@ -95,8 +95,12 @@
             + Buat Soal Pilihan Ganda
           </router-link>
         </div>
-        <div class="row" v-if="dataSoal.data">
-          <div class="col-md-4 col-sm-6" v-for="(item, id) in dataSoal.data" :key="id">
+        <div class="row" v-if="dataSoal">
+          <div
+            class="col-md-4 col-sm-6"
+            v-for="(item, id) in dataSoal.data"
+            :key="id"
+          >
             <div class="card-shadow mb-3">
               <div class="p-3">
                 <div class="menu-float-card">
@@ -109,71 +113,7 @@
                     >
                       <i class="fas fa-ellipsis-h"></i>
                     </div>
-                    <ul
-                      class="dropdown-menu"
-                      :aria-labelledby="`menus${id}`"
-                    >
-                      <li>
-                        <a
-                          class="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <div
-                            class="d-flex justify-content-center me-2"
-                            style="width: 20px;"
-                          >
-                            <img src="../../assets/icons/edit.svg" alt="" />
-                          </div>
-                          <div>Ubah</div>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <div
-                            class="d-flex justify-content-center me-2"
-                            style="width: 20px;"
-                          >
-                            <img src="../../assets/icons/hapus.svg" alt="" />
-                          </div>
-                          <div>Hapus</div>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div>
-                  <div class="fw-bold mb-3">Soal</div>
-                  <div style="font-size: 16px; font-weight: 300;">
-                    {{item.isi}}
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between">
-                  <div class=""></div>
-                  <div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="card-shadow mb-3">
-              <div class="p-3">
-                <div class="menu-float-card">
-                  <div class="dropstart">
-                    <div
-                      class="menu-float d-flex align-items-center justify-content-center"
-                      id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i class="fas fa-ellipsis-h"></i>
-                    </div>
-                    <ul
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton1"
-                    >
+                    <ul class="dropdown-menu" :aria-labelledby="`menus${id}`">
                       <li>
                         <a
                           class="dropdown-item d-flex align-items-center"
@@ -212,21 +152,46 @@
                     <img src="../../assets/tentang.jpg" alt="" />
                   </div>
                 </div>
-                <div class="mb-4">
-                  <div class="fw-bold mb-1">Soal</div>
+                <div>
+                  <div class="fw-bold mb-2">Soal</div>
                   <div style="font-size: 16px; font-weight: 300;">
-                    Add .active to items in the dropdown to style them as
-                    active. To convey the active state to assistive
-                    technologies, use the aria-current attribute — using the
-                    page value for the current page, or true for the current
-                    item in a set.
+                    {{ item.isi }}
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-5">
+                  <div
+                    class="py-1 px-2 text-success success"
+                    style="border-radius: 7px; font-weight: 500;"
+                    v-if="item.kategori == 'MUDAH'"
+                  >
+                    Mudah
+                  </div>
+                  <div
+                    class="py-1 px-2 text-warning warning"
+                    style="border-radius: 7px; font-weight: 500;"
+                    v-else-if="item.kategori == 'SEDANG'"
+                  >
+                    Sedang
+                  </div>
+                  <div
+                    class="py-1 px-2 text-danger danger"
+                    style="border-radius: 7px; font-weight: 500;"
+                    v-else-if="item.kategori == 'SULIT'"
+                  >
+                    Sulit
+                  </div>
+                  <div style="opacity: .5">
+                    {{ formatDate(item.created_at) }}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-center align-items-center mt-5 pb-5" v-if="dataSoal">
+        <div
+          class="d-flex justify-content-center align-items-center mt-5 pb-5"
+          v-if="dataSoal"
+        >
           <div v-for="(item, id) in dataSoal.links" :key="id">
             <div
               :class="
@@ -275,6 +240,7 @@
 <script>
 /* eslint-env jquery */
 import axios from "axios";
+import moment from "moment";
 
 export default {
   data: function() {
@@ -285,6 +251,9 @@ export default {
     };
   },
   methods: {
+    formatDate(date) {
+      return moment(date).format("DD MMMM YY");
+    },
     changeType(type) {
       this.dataSoal = null;
       this.type = type;
