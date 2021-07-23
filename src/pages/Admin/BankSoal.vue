@@ -9,7 +9,8 @@
               <div>
                 <div class="title-content">Bank Soal</div>
                 <div class="title-type-soal">
-                  Soal {{ type == "esai" ? "Esai" : "Pilihan Ganda" }}
+                  Soal
+                  <span class="text-capitalize">{{ type.toLowerCase() }}</span>
                 </div>
               </div>
               <div class="dropdown">
@@ -26,7 +27,7 @@
                   <li>
                     <div
                       class="dropdown-item cursor-pointer d-flex align-items-center"
-                      @click="changeType('esai')"
+                      @click="changeType('ESSAI')"
                     >
                       <div
                         class="d-flex justify-content-center me-2"
@@ -40,15 +41,35 @@
                   <li>
                     <div
                       class="dropdown-item cursor-pointer d-flex align-items-center"
-                      @click="changeType('pg')"
+                      @click="changeType('PILIHAN GANDA')"
                     >
                       <div
                         class="d-flex justify-content-center me-2"
                         style="width: 20px;"
                       >
-                        <img src="../../assets/icons/pilihan_ganda.svg" alt="" />
+                        <img
+                          src="../../assets/icons/pilihan_ganda.svg"
+                          alt=""
+                        />
                       </div>
                       <div>Pilihan Ganda</div>
+                    </div>
+                  </li>
+                  <li>
+                    <div
+                      class="dropdown-item cursor-pointer d-flex align-items-center"
+                      @click="changeType('Upload')"
+                    >
+                      <div
+                        class="d-flex justify-content-center me-2"
+                        style="width: 20px;"
+                      >
+                        <img
+                          src="../../assets/icons/pilihan_ganda.svg"
+                          alt=""
+                        />
+                      </div>
+                      <div>Upload</div>
                     </div>
                   </li>
                 </ul>
@@ -58,7 +79,7 @@
         </div>
         <div class="d-flex justify-content-end mb-3">
           <router-link
-            v-if="type == 'esai'"
+            v-if="type == 'ESSAI'"
             :to="{ name: 'Buat Soal Esai' }"
             class="btn btn-success"
             type="button"
@@ -66,7 +87,7 @@
             + Buat Soal Esai
           </router-link>
           <router-link
-            v-else-if="type == 'pg'"
+            v-else-if="type == 'PILIHAN GANDA'"
             :to="{ name: 'Buat Soal Pilihan Ganda' }"
             class="btn btn-success"
             type="button"
@@ -74,15 +95,15 @@
             + Buat Soal Pilihan Ganda
           </router-link>
         </div>
-        <div class="row">
-          <div class="col-md-4 col-sm-6">
+        <div class="row" v-if="dataSoal.data">
+          <div class="col-md-4 col-sm-6" v-for="(item, id) in dataSoal.data" :key="id">
             <div class="card-shadow mb-3">
               <div class="p-3">
                 <div class="menu-float-card">
                   <div class="dropstart">
                     <div
                       class="menu-float d-flex align-items-center justify-content-center"
-                      id="dropdownMenuButton1"
+                      :id="`menus${id}`"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
@@ -90,7 +111,7 @@
                     </div>
                     <ul
                       class="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton1"
+                      :aria-labelledby="`menus${id}`"
                     >
                       <li>
                         <a
@@ -123,23 +144,15 @@
                     </ul>
                   </div>
                 </div>
-                <div class="mb-4">
-                  <div class="fw-bold mb-1">Soal</div>
+                <div>
+                  <div class="fw-bold mb-3">Soal</div>
                   <div style="font-size: 16px; font-weight: 300;">
-                    Add .active to items in the dropdown to style them as
-                    active. To convey the active state to assistive
-                    technologies, use the aria-current attribute — using the
-                    page value for the current page, or true for the current
-                    item in a set.
+                    {{item.isi}}
                   </div>
                 </div>
-                <div>
-                  <div class="fw-bold mb-1">Bobot Soal</div>
-                  <span
-                    class="px-3 py-1 fw-bold d-inline-block primary text-primary"
-                    style="font-size: 16px; border-radius: 7px;"
-                    >30</span
-                  >
+                <div class="d-flex justify-content-between">
+                  <div class=""></div>
+                  <div></div>
                 </div>
               </div>
             </div>
@@ -209,35 +222,49 @@
                     item in a set.
                   </div>
                 </div>
-                <div>
-                  <div class="fw-bold mb-1">Bobot Soal</div>
-                  <span
-                    class="px-3 py-1 fw-bold d-inline-block primary text-primary"
-                    style="font-size: 16px; border-radius: 7px;"
-                    >30</span
-                  >
-                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-center align-items-center mt-5 pb-5">
-          <div
-            class="pagination-arrow bg-secondary me-3 d-flex align-items-center justify-content-center"
-          >
-            <i class="fas fa-chevron-left text-white"></i>
-          </div>
-          <div class="d-flex align-items-center">
-            <div class="pagination-number text-primary px-2 py-1 mx-2">1</div>
-            <div class="pagination-number px-2 py-1 mx-2">2</div>
-            <div class="pagination-number px-2 py-1 mx-2">3</div>
-            <div class="pagination-number px-2 py-1 mx-2">4</div>
-            <div class="pagination-number px-2 py-1 mx-2">5</div>
-          </div>
-          <div
-            class="pagination-arrow bg-primary ms-3 d-flex align-items-center justify-content-center"
-          >
-            <i class="fas fa-chevron-right text-white"></i>
+        <div class="d-flex justify-content-center align-items-center mt-5 pb-5" v-if="dataSoal">
+          <div v-for="(item, id) in dataSoal.links" :key="id">
+            <div
+              :class="
+                `pagination-arrow ${
+                  item.active ? 'bg-primary' : 'bg-secondary'
+                } me-3 d-flex align-items-center justify-content-center`
+              "
+              v-if="item.label == 'pagination.previous'"
+            >
+              <i class="fas fa-chevron-left text-white"></i>
+            </div>
+            <div
+              class="d-flex align-items-center"
+              v-if="
+                item.label !== 'pagination.previous' &&
+                  item.label !== 'pagination.next'
+              "
+            >
+              <div
+                :class="
+                  `pagination-number ${
+                    item.active ? 'text-primary' : ''
+                  } px-2 py-1 mx-2`
+                "
+              >
+                {{ item.label }}
+              </div>
+            </div>
+            <div
+              :class="
+                `pagination-arrow ${
+                  item.active ? 'bg-primary' : 'bg-secondary'
+                } ms-3 d-flex align-items-center justify-content-center`
+              "
+              v-if="item.label == 'pagination.next'"
+            >
+              <i class="fas fa-chevron-right text-white"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -247,20 +274,57 @@
 
 <script>
 /* eslint-env jquery */
+import axios from "axios";
 
 export default {
   data: function() {
     return {
       width: null,
-      type: "esai",
+      type: "ESSAI",
+      dataSoal: null,
     };
   },
   methods: {
     changeType(type) {
+      this.dataSoal = null;
       this.type = type;
+      axios
+        .get(
+          "https://gmedia.primakom.co.id/tugas/superadmin/soal?tipe=" + type,
+          {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          this.dataSoal = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+          // localStorage.clear();
+        });
     },
   },
   mounted() {
+    axios
+      .get(
+        "https://gmedia.primakom.co.id/tugas/superadmin/soal?tipe=" + this.type,
+        {
+          headers: {
+            Authorization: localStorage.token,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        this.dataSoal = res.data.data;
+      })
+      .catch((err) => {
+        console.log(err);
+        // localStorage.clear();
+      });
     this.width = $(document).width();
 
     $(document).ready(function() {

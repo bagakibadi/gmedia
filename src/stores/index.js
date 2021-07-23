@@ -35,7 +35,7 @@ export default new Vuex.Store({
     getPemandu({ commit }) {
       if (localStorage.token && localStorage.token !== undefined) {
         axios
-          .get("https://gmedia.primakom.co.id/gmedia/mahasiswa/profil", {
+          .get("https://gmedia.primakom.co.id/gmedia/pemandu/profil/", {
             headers: {
               Authorization: localStorage.token,
             },

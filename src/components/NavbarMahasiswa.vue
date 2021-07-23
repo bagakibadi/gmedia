@@ -111,11 +111,11 @@
               <div class="text">Tugas</div>
             </div>
           </router-link>
-          <router-link :to="{ name: 'List Penawaran' }">
+          <router-link :to="{ name: 'Kuis Mahasiswa' }">
             <div
               :class="
                 `item sub ${
-                  link[3] == 'penawaran' ? 'active' : ''
+                  link[2] == 'kuis' ? 'active' : ''
                 } d-flex align-items-center`
               "
             >

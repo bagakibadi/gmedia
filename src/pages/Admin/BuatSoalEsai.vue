@@ -18,7 +18,7 @@
                   <label for="bobot">Upload Gambar Soal</label>
                   <input type="file" class="dropify" />
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                   <label for="bobot"
                     >Bobot Soal <span class="text-info">*</span></label
                   >
@@ -28,28 +28,26 @@
                     class="form-control"
                     placeholder="Maksimal 100"
                   />
-                </div>
+                </div> -->
               </div>
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="bobot"
                     >Soal <span class="text-info">*</span></label
                   >
-                  <textarea id="soal" class="d-none">Hello, World!</textarea>
+                  <textarea id="soalEsai" class="d-none">Hello, World!</textarea>
                 </div>
               </div>
             </div>
             <div class="d-flex justify-content-end mt-4">
-              <button
-                  class="btn btn-outline-secondary me-3"
-                  type="button"
-                >
+              <router-link
+                :to="{ name: 'Bank Soal' }"
+                class="btn btn-outline-secondary me-3"
+                type="button"
+              >
                 Batal
-              </button>
-              <button
-                  class="btn btn-primary"
-                  type="button"
-                >
+              </router-link>
+              <button class="btn btn-primary" type="button">
                 Simpan
               </button>
             </div>
@@ -80,14 +78,14 @@ export default {
     this.width = $(document).width();
 
     $(document).ready(function() {
-      setTimeout(() => {
+      setInterval(() => {
         // eslint-disable-next-line
         tinymce.init({
-          selector: "#soal",
+          selector: "#soalEsai",
           menubar: false,
           min_height: 300,
         });
-      }, 100);
+      }, 1000);
 
       $(".dropify").dropify({
         messages: {

@@ -156,11 +156,11 @@
               <div class="text">Bank Soal</div>
             </div>
           </router-link>
-          <router-link :to="{ name: 'List Penawaran' }">
+          <router-link :to="{ name: 'Tugas Master' }">
             <div
               :class="
                 `item sub ${
-                  link[2] == 'penawaran' ? 'active' : ''
+                  link[2] == 'tugas' ? 'active' : ''
                 } d-flex align-items-center`
               "
             >

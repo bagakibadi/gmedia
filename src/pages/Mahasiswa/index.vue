@@ -11,7 +11,10 @@
           </div>
         </div>
         <div v-if="userData && loadedPresensi">
-          <div class="card-shadow warning mb-3" v-if="!presensi">
+          <div
+            class="card-shadow warning mb-3"
+            v-if="!presensi && userData.data.face_recognition == 1"
+          >
             <div class="p-3">
               <div
                 class="d-flex flex-md-row flex-column justify-content-md-between align-items-md-center align-items-start"
@@ -72,7 +75,7 @@
             </div>
           </div>
 
-          <div class="card-shadow success mb-3" v-else>
+          <div class="card-shadow success mb-3" v-else-if="presensi">
             <div class="p-3">
               <div class="title-content text-success">Presensi Diterima</div>
               <div class="sub-content">
@@ -168,27 +171,32 @@
               ></button>
             </div>
             <div class="w-100 position-relative">
+              <!-- <canvas id="canvasDraw"></canvas> -->
               <div
-                v-if="statusCounter"
+                v-if="statusCounter || rePresensi"
                 :class="
                   `status-video ${
                     submitPresensi && successPresensi ? 'success' : 'ongoing'
                   } animate__animated animate__fadeIn animate__fast`
                 "
               >
-                <div v-if="counterPresensi < 4">
+                <div v-if="counterPresensi < 4 && !rePresensi">
                   Tahan posisi anda, anda akan difoto dalam hitungan ke-3!
                 </div>
                 <div
                   class="fw-bold"
                   style="font-size: 24px"
-                  v-if="counterPresensi < 7 && !successPresensi"
+                  v-if="counterPresensi < 7 && !successPresensi && !rePresensi"
                 >
                   {{
                     counterPresensi > 3
                       ? "Foto didapatkan dan mengirim data."
                       : counterPresensi
                   }}
+                </div>
+                <div class="fw-bold" style="font-size: 24px" v-if="rePresensi">
+                  Presensi Gagal! <br />
+                  Wajah anda tidak dikenali
                 </div>
                 <div
                   class="fw-bold"
@@ -331,6 +339,7 @@
 import Webcam from "webcam-easy";
 import { mapState } from "vuex";
 import axios from "axios";
+// import smartcrop from "smartcrop";
 
 export default {
   computed: {
@@ -341,6 +350,7 @@ export default {
       width: null,
       widthModal: null,
       presensi: false,
+      rePresensi: false,
       loadedPresensi: false,
       learning: false,
       location: {
@@ -441,9 +451,59 @@ export default {
     },
     doPresensi() {
       this.statusCounter = true;
+      this.rePresensi = false;
+
       var picture = null;
 
-      setInterval(() => {
+      // ===============================
+      // Crop gambar, jangan dihapus!!!
+      // ===============================
+
+      // picture = this.camPresensi.webcam.snap();
+
+      // const test =
+      //   "https://images.unsplash.com/photo-1626565244076-18b0e7676aa9?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
+
+      // var img = new Image();
+      // img.src = picture;
+      // img.crossOrigin = "Anonymous";
+
+      // var options = {
+      //   width: 200,
+      //   height: 200,
+      //   debug: true,
+      // };
+
+      // img.onload = function() {
+      //   smartcrop.crop(img, options, function(result) {
+      //     console.log(result);
+      //     console.log("submit");
+
+      //     var crop = result.topCrop;
+      //     console.log(options);
+
+      //     const canvas = document.getElementById("canvasDraw");
+      //     console.log(canvas);
+      //     const ctx = canvas.getContext("2d");
+      //     ctx.drawImage(
+      //       img,
+      //       crop.x,
+      //       crop.y,
+      //       crop.width,
+      //       crop.height,
+      //       0,
+      //       0,
+      //       options.width,
+      //       options.height
+      //     );
+      //   });
+      // };
+
+      // ===============================
+      // Crop gambar, jangan dihapus!!!
+      // ===============================
+
+      const interval = setInterval(() => {
         if (this.counterPresensi < 4) {
           this.counterPresensi++;
         }
@@ -460,13 +520,14 @@ export default {
 
           axios
             .post(
-              "https://gmedia.primakom.co.id/presensi/mahasiswa/",
+              "https://gmedia.primakom.co.id/presensi/mahasiswa/face",
               {
                 nim: this.userData.data.nim,
                 status: 1,
                 long: this.location.long,
                 lat: this.location.lat,
                 foto: picture.split(",")[1],
+                media: "web",
               },
               {
                 headers: {
@@ -476,11 +537,17 @@ export default {
             )
             .then((res) => {
               console.log(res);
-              if (res.data.success) {
+              if (res.data.face_recognition.success) {
                 this.successPresensi = true;
                 setTimeout(() => {
                   location.reload();
                 }, 2000);
+              } else {
+                this.rePresensi = true;
+                this.counterPresensi = 0;
+                this.submitPresensi = false;
+                this.statusCounter = false;
+                clearInterval(interval);
               }
             })
             .catch((err) => {
@@ -595,7 +662,7 @@ export default {
       .then((res) => {
         console.log(res.data);
         this.loadedPresensi = true;
-        if (res.data.data) {
+        if (res.data.success) {
           this.presensi = true;
         } else {
           this.presensi = false;

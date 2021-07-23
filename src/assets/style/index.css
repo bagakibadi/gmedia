@@ -160,6 +160,21 @@ a:hover {
    display: block !important;
 }
 
+.form-control.search-custom {
+   border: unset;
+   background-color: #F8F8F8;
+   padding-left: 30px;
+}
+
+.search-icon {
+   position: absolute;
+   top: 50%;
+   transform: translate(0, -50%);
+   left: 9px;
+   width: 15px;
+   opacity: .5;
+}
+
 .tox.tox-tinymce {
    border-radius: 7px;
 }
@@ -537,7 +552,7 @@ input.form-check-input:checked {
    justify-content: center;
 }
 
-.judul-name{
+.judul-name {
    font-size: 18px;
    font-weight: 700;
    color: rgba(40, 40, 40, 1);

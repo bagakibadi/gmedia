@@ -370,10 +370,11 @@ export default {
 	}
 }
 </script>
+<style src="../assets/style/landing.css"></style>
 
 <style scoped>
 body{
 	position: relative;
 }
-@import "../assets/style/landing.css";
+/* @import "../assets/style/landing.css"; */
 </style>

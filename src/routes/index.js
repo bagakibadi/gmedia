@@ -12,6 +12,7 @@ import MahasiswaMaster from "../pages/Admin/Mahasiswa.vue";
 import BankSoal from "../pages/Admin/BankSoal.vue";
 import BuatSoalEsai from "../pages/Admin/BuatSoalEsai.vue";
 import BuatSoalPG from "../pages/Admin/BuatSoalPG.vue";
+import TugasMaster from "../pages/Admin/Penugasan.vue";
 import StreamingMaster from "../pages/Admin/Streaming.vue";
 
 // Pemandu
@@ -23,6 +24,7 @@ import MahasiswaPemandu from "../pages/Pemandu/Mahasiswa.vue";
 import DashboardMahasiswa from "../pages/Mahasiswa/index.vue";
 import ConferenceMahasiswa from "../pages/Mahasiswa/Conference.vue";
 import TugasMahasiswa from "../pages/Mahasiswa/Tugas.vue";
+import KuisMahasiswa from "../pages/Mahasiswa/Kuis.vue";
 import AktivitasMahasiswa from "../pages/Mahasiswa/Aktivitas.vue";
 
 Vue.use(VueRouter);
@@ -71,6 +73,11 @@ const routes = [
     component: BuatSoalPG,
   },
   {
+    path: "/admin/tugas",
+    name: "Tugas Master",
+    component: TugasMaster,
+  },
+  {
     path: "/admin/streaming",
     name: "Streaming Master",
     component: StreamingMaster,
@@ -108,6 +115,11 @@ const routes = [
     path: "/dashboard/tugas",
     name: "Tugas Mahasiswa",
     component: TugasMahasiswa
+  },
+  {
+    path: "/dashboard/kuis",
+    name: "Kuis Mahasiswa",
+    component: KuisMahasiswa
   },
   {
     path: "/dashboard/aktivitas",
