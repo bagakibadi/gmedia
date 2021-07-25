@@ -1,5 +1,5 @@
 stages:
-- name: jadikan image
+- name: jadikan imag
   steps:
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
