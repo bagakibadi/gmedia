@@ -25,13 +25,26 @@
         <div v-if="userData && loadedPresensi">
           <div
             class="card-shadow mb-3"
-            v-if="!presensi && userData.data.face_recognition == 1"
+            v-if="userData.data.face_recognition == 1"
           >
             <div class="p-3">
               <div class="">
                 <div>
-                  <div class="title-content text-center text-danger">
-                    Anda belum melakukan Presensi Masuk!
+                  <div
+                    :class="
+                      `title-content text-center ${
+                        !presensi ? 'text-danger' : 'text-success'
+                      }`
+                    "
+                  >
+                    {{
+                      !presensi
+                        ? "Anda belum melakukan " +
+                          (!masuk ? "Presensi Masuk dan " : "") +
+                          (!keluar ? "Presensi Keluar" : "") +
+                          "!"
+                        : "Terima kasih telah melakukan presensi hari ini."
+                    }}
                   </div>
                   <!-- <div class="sub-content text-center">
                   Anda belum melakukan Presensi Masuk!
@@ -43,23 +56,28 @@
                 </div>
                 <div class="row">
                   <div class="col-sm-6">
-                    <div class="card success p-3 mb-sm-0 mb-3">
+                    <div
+                      :class="
+                        `card ${masuk  ? 'success' : ''} p-3 mb-sm-0 mb-3`
+                      "
+                    >
                       <div
                         class="d-flex align-items-center justify-content-between"
                       >
                         <div>
-                          <div class="presensi-title">Masuk</div>
+                          <div class="presensi-title">Presensi Masuk</div>
                           <div class="presensi-subtitle text-success">
-                            12:10
+                            {{ masuk ? masuk : "--:--" }}
                           </div>
                         </div>
                         <button
                           type="button"
-                          class="btn btn-success"
+                          :class="`btn ${masuk ? 'btn-secondary' : 'btn-success'}`"
                           data-toggle="modal"
                           data-backdrop="static"
                           data-keyboard="false"
                           @click="openModalPresensi('masuk')"
+                          :disabled="masuk"
                         >
                           Masuk
                         </button>
@@ -67,23 +85,24 @@
                     </div>
                   </div>
                   <div class="col-sm-6">
-                    <div class="card danger p-3 mb-0">
+                    <div :class="`card ${keluar ? 'danger' : ''} p-3 mb-0`">
                       <div
                         class="d-flex align-items-center justify-content-between"
                       >
                         <div>
-                          <div class="presensi-title">Keluar</div>
+                          <div class="presensi-title">Presensi Keluar</div>
                           <div class="presensi-subtitle text-danger">
-                            12:10
+                            {{ keluar ? keluar : "--:--" }}
                           </div>
                         </div>
                         <button
                           type="button"
-                          class="btn btn-danger"
+                          :class="`btn ${keluar ? 'btn-secondary' : 'btn-danger'}`"
                           data-toggle="modal"
                           data-backdrop="static"
                           data-keyboard="false"
                           @click="openModalPresensi('keluar')"
+                          :disabled="keluar"
                         >
                           Keluar
                         </button>
@@ -127,14 +146,14 @@
             </div>
           </div>
 
-          <div class="card-shadow success mb-3" v-else-if="presensi">
+          <!-- <div class="card-shadow success mb-3" v-else-if="presensi">
             <div class="p-3">
               <div class="title-content text-success">Presensi Diterima</div>
               <div class="sub-content">
                 Terima kasih, anda telah melakukan presensi hari ini.
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="card-shadow mb-3">
           <div class="p-3">
@@ -203,7 +222,7 @@
           <div class="modal-body" id="widthModal">
             <div class="d-flex justify-content-between mb-4">
               <div>
-                <h5 class="modal-title" id="exampleModalLabel">Presensi</h5>
+                <h5 class="modal-title text-capitalize" id="exampleModalLabel">Presensi {{ menuPresensi }} </h5>
                 <div
                   class="d-flex align-items-center mt-2"
                   style="opacity: .7;"
@@ -393,6 +412,7 @@
 import Webcam from "webcam-easy";
 import { mapState } from "vuex";
 import axios from "axios";
+import moment from "moment";
 // import faceapi from 'face-api.js'
 // import smartcrop from "smartcrop";
 
@@ -403,6 +423,8 @@ export default {
   data: function() {
     return {
       width: null,
+      masuk: null,
+      keluar: null,
       widthModal: null,
       presensi: false,
       rePresensi: false,
@@ -712,6 +734,7 @@ export default {
             .post(
               "https://gmedia.primakom.co.id/gmedia/mahasiswa/learn",
               {
+                media: "web",
                 foto: arr,
               },
               {
@@ -762,57 +785,24 @@ export default {
         console.log(res.data);
         this.loadedPresensi = true;
         if (res.data.success) {
-          this.presensi = true;
+          if (res.data.data.mulai !== false) {
+            this.masuk = moment(res.data.data.mulai).format("HH:MM");
+          } 
+
+          if (res.data.data.keluar !== false) {
+            this.keluar = moment(res.data.data.keluar).format("HH:MM");
+          }
+
+          if (res.data.data.mulai && res.data.data.keluar) {
+            this.presensi = true;
+          }
         } else {
           this.presensi = false;
         }
       })
       .catch((err) => {
         console.log(err);
-        // localStorage.clear();
       });
-
-    // axios
-    //   .get("https://gmedia.primakom.co.id/presensi/mahasiswa/masuk", {
-    //     headers: {
-    //       Authorization: localStorage.token,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log("Masuk");
-    //     console.log(res.data);
-    //     this.loadedPresensi = true;
-    //     if (res.data.success) {
-    //       this.presensi = true;
-    //     } else {
-    //       this.presensi = false;
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     // localStorage.clear();
-    //   });
-
-    // axios
-    //   .get("https://gmedia.primakom.co.id/presensi/mahasiswa/keluar", {
-    //     headers: {
-    //       Authorization: localStorage.token,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log("Keluar");
-    //     console.log(res.data);
-    //     this.loadedPresensi = true;
-    //     if (res.data.success) {
-    //       this.presensi = true;
-    //     } else {
-    //       this.presensi = false;
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     // localStorage.clear();
-    //   });
 
     this.width = $(document).width();
     this.camPresensi.webcamElement = document.getElementById("webcamPresensi");
