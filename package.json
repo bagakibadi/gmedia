@@ -11,14 +11,10 @@
     "apexcharts": "^3.27.2",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-<<<<<<< HEAD
-    "sweetalert2": "^11.0.19",
-=======
     "face-api.js": "^0.22.2",
     "moment": "^2.29.1",
     "smartcrop": "^2.0.3",
     "sweetalert2": "^11.0.18",
->>>>>>> 6c76c67f95a69c2c04b3dbcbb92251abfd923b0b
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.6.1",
     "vue-router": "^3.5.2",

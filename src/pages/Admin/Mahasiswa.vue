@@ -1,4 +1,5 @@
 <template>
+<!-- eslint-disable no-mixed-spaces-and-tabs -->
   <div class="dashboard">
     <NavbarAdmin :widthContent="width" />
     <div :class="`content ${width > 992 ? '' : 'hide'}`">
@@ -132,70 +133,97 @@
 								<div class="col-lg-6">
 									<div class="form-group">
 										<label for="nama">Nama <span class="text-info">*</span></label>
-										<input type="text" v-model="editMahasiswaData.nama" name="nama" id="nama" class="form-control" placeholder="Nama Mahasiswa">
+                    <div class="check-error">
+										  <input type="text" v-model="editMahasiswaData.nama" name="nama" id="nama" class="form-control" placeholder="Nama Mahasiswa">
+                      <small :class="`text-danger d-flex ${validationEdit.nama.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.nama.message}}</small>
+                    </div>
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
 										<label for="nim">NIM <span class="text-info">*</span></label>
-										<input type="text" v-model="editMahasiswaData.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
+                    <div class="check-error">
+										  <input type="text" v-model="editMahasiswaData.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
+                      <small :class="`text-danger d-flex ${validationEdit.nim.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.nim.message}}</small>
+                    </div>
 									</div>
 								</div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="email">Email <span class="text-info">*</span></label>
-                    <input type="email" v-model="editMahasiswaData.email" name="email" id="email" class="form-control" placeholder="example@gmail.com">
+                    <div class="check-error">
+                      <input type="email" v-model="editMahasiswaData.email" name="email" id="email" class="form-control" placeholder="example@gmail.com">
+                      <small :class="`text-danger d-flex ${validationEdit.email.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.email.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
 									<div class="form-group">
 										<label for="nomor">Nomor Telepon <span class="text-info">*</span></label>
-										<input type="number" v-model="editMahasiswaData.nohp" name="nomor" id="nomor" class="form-control" placeholder="081234567890">
+                    <div class="check-error">
+										  <input type="number" v-model="editMahasiswaData.nohp" name="nomor" id="nomor" class="form-control" placeholder="081234567890">
+                      <small :class="`text-danger d-flex ${validationEdit.nohp.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.nohp.message}}</small>
+                    </div>
 									</div>
 								</div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="tgllahir">Tanggal Lahir</label>
-                    <input type="date" name="tgllahir" v-model="editMahasiswaData.tgllahir" id="tgllahir" class="form-control">
+                    <div class="check-error">
+                      <input type="date" name="tgllahir" v-model="editMahasiswaData.tgllahir" id="tgllahir" class="form-control">
+                      <small :class="`text-danger d-flex ${validationEdit.tgllahir.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.tgllahir.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="prodi">Prodi <span class="text-info">*</span></label>
-                    <select name="prodi" v-model="editMahasiswaData.prodi_id" id="prodi" class="form-select">
-                      <option value="" selected>Pilih Prodi</option>
-                      <option :value="items.uuid" v-for="(items,index) in dataProdi.data" :key="index">{{items.nama}}</option>
-                    </select>
+                    <div class="check-error">
+                      <select name="prodi" v-model="editMahasiswaData.prodi_id" id="prodi" class="form-select">
+                        <option value="" selected>Pilih Prodi</option>
+                        <option :value="items.uuid" v-for="(items,index) in dataProdi.data" :key="index">{{items.nama}}</option>
+                      </select>
+                      <small :class="`text-danger d-flex ${validationEdit.prodi_id.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.prodi_id.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="gugus">Gugus <span class="text-info">*</span></label>
-                    <select name="gugus" v-model="editMahasiswaData.gugus_id" id="gugus" class="form-select">
-                      <option value="" selected>Pilih Gugus</option>
-                      <option :value="items.uuid" v-for="(items,index) in dataGugus.data" :key="index">{{items.name}}</option>
-                    </select>
+                    <div class="check-error">
+                      <select name="gugus" v-model="editMahasiswaData.gugus_id" id="gugus" class="form-select">
+                        <option value="" selected>Pilih Gugus</option>
+                        <option :value="items.uuid" v-for="(items,index) in dataGugus.data" :key="index">{{items.name}}</option>
+                      </select>
+                      <small :class="`text-danger d-flex ${validationEdit.gugus_id.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.gugus_id.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="fakultas">Fakultas <span class="text-info">*</span></label>
-                    <select name="fakultas" v-model="editMahasiswaData.prodi.fakultas.uuid" id="fakultas" class="form-select">
-                      <option value="" selected>Pilih Fakultas</option>
-                      <option :value="items.uuid" v-for="(items,index) in dataFakultas.data" :key="index">{{items.nama}}</option>
-                    </select>
+                    <div class="check-error">
+                      <select name="fakultas" v-model="editMahasiswaData.prodi.fakultas.uuid" id="fakultas" class="form-select">
+                        <option value="" selected>Pilih Fakultas</option>
+                        <option :value="items.uuid" v-for="(items,index) in dataFakultas.data" :key="index">{{items.nama}}</option>
+                      </select>
+                      <small :class="`text-danger d-flex ${validationEdit.fakultas_id.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.fakultas_id.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="alamat">Alamat Mahasiswa</label>
-                    <textarea name="alamat" v-model="editMahasiswaData.alamat" id="alamat" style="height: 72px;" cols="30" rows="4" class="form-control" placeholder="Masukkan Alamat"></textarea>
+                    <div class="check-error">
+                      <textarea name="alamat" v-model="editMahasiswaData.alamat" id="alamat" style="height: 72px;" cols="30" rows="4" class="form-control" placeholder="Masukkan Alamat"></textarea>
+                      <small :class="`text-danger d-flex ${validationEdit.alamat.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.alamat.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="foto">Foto Mahasiswa</label>
-                    <input type="file" :data-default-file="editMahasiswaData.foto" name="foto" id="fotomahasiswa" class="dropify">
+                    <input type="file" :data-default-file="editMahasiswaData.foto" name="foto" id="fotomahasiswaEdit" class="dropify">
                   </div>
                 </div>
 								<div class="col-lg-12 footer-modal">
@@ -313,6 +341,50 @@ import Swal from 'sweetalert2';
 export default {
   data: function() {
     return {
+      validationEdit: {
+				status: true,
+				message: null,
+				nim: {
+					status: true,
+					message: null
+				},
+				nama: {
+					status: true,
+					message: null
+				},
+				email: {
+					status: true,
+					message: null
+				},
+				nohp: {
+					status: true,
+					message: null
+				},
+				tgllahir: {
+					status: true,
+					message: null
+				},
+				prodi_id: {
+					status: true,
+					message: null
+				},
+				gugus_id: {
+					status: true,
+					message: null
+				},
+				fakultas_id: {
+					status: true,
+					message: null
+				},
+				alamat: {
+					status: true,
+					message: null
+				},
+				password: {
+					status: true,
+					message: null
+				}
+			},
       fotoEdit: null,
       editMahasiswaData: null,
       width: null,
@@ -336,11 +408,11 @@ export default {
   },
   methods: {
     uploadEdit(asd) {
-      var reader = new FileReader();
+      const reader = new FileReader();
       reader.onload = (e) => {
         console.log(e)
-        var ee = e.target.result
-				this.fotoEdit = ee.replace("data:image/jpeg;base64,", "")
+        const ee = e.target.result
+				this.editMahasiswaData.foto = ee.replace("data:image/jpeg;base64,", "")
       };
       reader.onerror = function(error) {
         alert(error);
@@ -358,26 +430,112 @@ export default {
       });
     },
     editMahasiswa() {
-
-      axios.put(`https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa/${this.editMahasiswaData.uuid}`, {
-        nim: this.editMahasiswaData.nim,
-        nama: this.editMahasiswaData.nama,
-        alamat: this.editMahasiswaData.alamat,
-        gugus_id: this.editMahasiswaData.gugus_id,
-        email: this.editMahasiswaData.email,
-        prodi_id: this.editMahasiswaData.prodi_id,
-        foto: '',
-        user_id: this.editMahasiswaData.user_id
-      }, {
-        headers: {
-          Authorization: localStorage.token,
-          'Content-Type': 'application/json'
+      if(this.editMahasiswaData.nim && this.editMahasiswaData.nama && this.editMahasiswaData.alamat && this.editMahasiswaData.gugus_id && this.editMahasiswaData.email && this.editMahasiswaData.prodi_id && this.editMahasiswaData.user_id && this.editMahasiswaData.tgllahir && this.editMahasiswaData.nohp) {
+        if (document.getElementById('fotomahasiswaEdit').files[0]) {
+          this.uploadEdit(document.getElementById('fotomahasiswaEdit').files[0])
+        } else {
+          this.editMahasiswaData.foto = null
         }
-      }).then((result) => {
-        console.log(result)
-      }).catch((err) => {
-        console.log(err)
-      });
+        setTimeout(() => {
+          axios.put(`https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa/${this.editMahasiswaData.uuid}`, {
+            nim: this.editMahasiswaData.nim,
+            nama: this.editMahasiswaData.nama,
+            alamat: this.editMahasiswaData.alamat,
+            gugus_id: this.editMahasiswaData.gugus_id,
+            email: this.editMahasiswaData.email,
+            prodi_id: this.editMahasiswaData.prodi_id,
+            foto: this.editMahasiswaData.foto,
+            user_id: this.editMahasiswaData.user_id,
+            tgllahir: this.editMahasiswaData.tgllahir,
+            nohp: this.editMahasiswaData.nohp
+          }, {
+            headers: {
+              Authorization: localStorage.token,
+              'Content-Type': 'application/json'
+            }
+          }).then((result) => {
+            console.log(result)
+            if(result.data.success){
+              Swal.fire(
+                'Berhasil Edit!',
+                `Akun Mahasiswa telah berhasil diedit!`,
+                'success'
+              ).then(() => {
+                window.location.reload()
+              }).catch((err) => {
+                window.location.reload()
+                console.log(err)
+              });
+            }
+          }).catch((err) => {
+            console.log(err)
+          });
+        }, 500);
+      }
+      if(!this.editMahasiswaData.nama) {
+        this.validationEdit.nama.status = false
+        this.validationEdit.nama.message = 'Nama Mahasiswa harus diisi!'
+      } else{
+        this.validationEdit.nama.status = true
+        this.validationEdit.nama.message = null
+      }
+      if(!this.editMahasiswaData.nim) {
+        this.validationEdit.nim.status = false
+        this.validationEdit.nim.message = 'NIM Mahasiswa harus diisi!'
+      } else{
+        this.validationEdit.nim.status = true
+        this.validationEdit.nim.message = null
+      }
+      if(!this.editMahasiswaData.email) {
+        this.validationEdit.email.status = false
+        this.validationEdit.email.message = 'Email harus diisi!'
+      } else{
+        this.validationEdit.email.status = true
+        this.validationEdit.email.message = null
+      }
+      if(!this.editMahasiswaData.nohp) {
+        this.validationEdit.nohp.status = false
+        this.validationEdit.nohp.message = 'Nomor Telepon harus diisi!'
+      } else{
+        this.validationEdit.nohp.status = true
+        this.validationEdit.nohp.message = null
+      }
+      if(!this.editMahasiswaData.tgllahir) {
+        this.validationEdit.tgllahir.status = false
+        this.validationEdit.tgllahir.message = 'Tanggal Lahir harus diisi!'
+      } else{
+        this.validationEdit.tgllahir.status = true
+        this.validationEdit.tgllahir.message = null
+      }
+      if(!this.editMahasiswaData.prodi_id || this.editMahasiswaData.prodi_id === '') {
+        this.validationEdit.prodi_id.status = false
+        this.validationEdit.prodi_id.message = 'Prodi harus diisi!'
+      } else{
+        this.validationEdit.prodi_id.status = true
+        this.validationEdit.prodi_id.message = null
+      }
+      if(!this.editMahasiswaData.gugus_id || this.editMahasiswaData.gugus_id === '') {
+        this.validationEdit.gugus_id.status = false
+        this.validationEdit.gugus_id.message = 'Gugus harus diisi!'
+      } else{
+        this.validationEdit.gugus_id.status = true
+        this.validationEdit.gugus_id.message = null
+      }
+      if(!this.editMahasiswaData.prodi.fakultas_id || !this.editMahasiswaData.prodi.fakultas_id === '') {
+        this.validationEdit.fakultas_id.status = false
+        this.validationEdit.fakultas_id.message = 'Fakultas harus dipilih!'
+      } else{
+        this.validationEdit.fakultas_id.status = true
+        this.validationEdit.fakultas_id.message = null
+      }
+      if(!this.editMahasiswaData.alamat) {
+        this.validationEdit.alamat.status = false
+        this.validationEdit.alamat.message = 'Alamat harus dipilih!'
+      } else{
+        this.validationEdit.alamat.status = true
+        this.validationEdit.alamat.message = null
+      }
+
     },
     openEditMahasiswa(uuidMahasiswa) {
       setTimeout(() => {

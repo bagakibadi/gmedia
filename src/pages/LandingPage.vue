@@ -229,7 +229,7 @@
 										alt=""
 									/>
 									<div>
-										<h5>PKK-BN <strong>2020</strong></h5>
+										<h5>PKK-BN <strong>2021</strong></h5>
 									</div>
 								</a>
 							</div>
@@ -424,13 +424,6 @@ export default {
 <style src="../assets/style/landing.css"></style>
 
 <style scoped>
-.check-error{
-	position: relative;
-}
-.check-error small{
-	padding: 0px 0 0 10px;
-	margin-top: 10px;
-}
 .margin-err{
 	margin-bottom: 15px;
 }
