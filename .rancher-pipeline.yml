@@ -24,7 +24,9 @@ stages:
         include:
         - master
 timeout: 60
-branch: {}
+branch:
+  include:
+  - master
 notification:
   recipients:
   - recipient: '#pesuruh'
