@@ -7,40 +7,94 @@
           <div class="p-3">
             <div class="d-flex justify-content-between align-items-center">
               <div class="title-content">Presensi</div>
+              <button
+                type="button"
+                class="btn btn-outline-warning"
+                @click="openModalLearning('relearning')"
+                v-if="
+                  userData &&
+                    loadedPresensi &&
+                    userData.data.face_recognition == 1
+                "
+              >
+                Ulangi Verifikasi Wajah
+              </button>
             </div>
           </div>
         </div>
-        <div v-if="userData">
-          <div class="card-shadow warning mb-3">
+        <div v-if="userData && loadedPresensi">
+          <div
+            class="card-shadow mb-3"
+            v-if="!presensi && userData.data.face_recognition == 1"
+          >
             <div class="p-3">
-              <div
-                class="d-flex flex-md-row flex-column justify-content-md-between align-items-md-center align-items-start"
-              >
+              <div class="">
                 <div>
-                  <div class="title-content text-danger">Presensi Online</div>
-                  <div class="sub-content mb-4">
-                    Anda belum melakukan Presensi hari ini!
+                  <div class="title-content text-center text-danger">
+                    Anda belum melakukan Presensi Masuk!
                   </div>
-                  <div class="third-content">
+                  <!-- <div class="sub-content text-center">
+                  Anda belum melakukan Presensi Masuk!
+                </div> -->
+                  <div class="third-content text-center mb-4">
                     *Ambil gambar setengah badan Anda untuk melakukan Presensi
                     secara online!
                   </div>
                 </div>
-                <button
-                  type="button"
-                  class="btn btn-primary mt-3 mt-md-0"
-                  data-toggle="modal"
-                  data-backdrop="static"
-                  data-keyboard="false"
-                  @click="openModalPresensi"
-                >
-                  Ambil Presensi
-                </button>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="card success p-3 mb-sm-0 mb-3">
+                      <div
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <div>
+                          <div class="presensi-title">Masuk</div>
+                          <div class="presensi-subtitle text-success">
+                            12:10
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          class="btn btn-success"
+                          data-toggle="modal"
+                          data-backdrop="static"
+                          data-keyboard="false"
+                          @click="openModalPresensi('masuk')"
+                        >
+                          Masuk
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="card danger p-3 mb-0">
+                      <div
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <div>
+                          <div class="presensi-title">Keluar</div>
+                          <div class="presensi-subtitle text-danger">
+                            12:10
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          class="btn btn-danger"
+                          data-toggle="modal"
+                          data-backdrop="static"
+                          data-keyboard="false"
+                          @click="openModalPresensi('keluar')"
+                        >
+                          Keluar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-          <!-- <div
+          <div
             class="card-shadow warning mb-3"
             v-else-if="userData.data.face_recognition == 0"
           >
@@ -65,22 +119,22 @@
                   data-toggle="modal"
                   data-backdrop="static"
                   data-keyboard="false"
-                  @click="openModalLearning"
+                  @click="openModalLearning('learning')"
                 >
                   Verifikasi
                 </button>
               </div>
             </div>
-          </div> -->
+          </div>
 
-          <!-- <div class="card-shadow success mb-3" v-else>
+          <div class="card-shadow success mb-3" v-else-if="presensi">
             <div class="p-3">
               <div class="title-content text-success">Presensi Diterima</div>
               <div class="sub-content">
                 Terima kasih, anda telah melakukan presensi hari ini.
               </div>
             </div>
-          </div> -->
+          </div>
         </div>
         <div class="card-shadow mb-3">
           <div class="p-3">
@@ -169,27 +223,32 @@
               ></button>
             </div>
             <div class="w-100 position-relative">
+              <!-- <canvas id="canvasDraw"></canvas> -->
               <div
-                v-if="statusCounter"
+                v-if="statusCounter || rePresensi"
                 :class="
                   `status-video ${
                     submitPresensi && successPresensi ? 'success' : 'ongoing'
                   } animate__animated animate__fadeIn animate__fast`
                 "
               >
-                <div v-if="counterPresensi < 4">
+                <div v-if="counterPresensi < 4 && !rePresensi">
                   Tahan posisi anda, anda akan difoto dalam hitungan ke-3!
                 </div>
                 <div
                   class="fw-bold"
                   style="font-size: 24px"
-                  v-if="counterPresensi < 5 && !successPresensi"
+                  v-if="counterPresensi < 7 && !successPresensi && !rePresensi"
                 >
                   {{
-                    submitPresensi
+                    counterPresensi > 3
                       ? "Foto didapatkan dan mengirim data."
                       : counterPresensi
                   }}
+                </div>
+                <div class="fw-bold" style="font-size: 24px" v-if="rePresensi">
+                  Presensi Gagal! <br />
+                  Wajah anda tidak dikenali
                 </div>
                 <div
                   class="fw-bold"
@@ -204,6 +263,7 @@
                 autoplay
                 playsinline
                 height="100"
+                :onloadedmetadata="onPlay(this)"
               ></video>
               <canvas id="canvasPresensi" class="d-none"></canvas>
               <audio
@@ -213,8 +273,15 @@
               ></audio>
             </div>
             <div class="d-flex justify-content-center mt-4">
-              <button type="button" :class="`btn ${statusCounter ? 'btn-secondary':'btn-primary'}`" @click="doPresensi" :disabled="statusCounter">
-                Ambil Presensi {{submitPresensi}}
+              <button
+                type="button"
+                :class="
+                  `btn ${statusCounter ? 'btn-secondary' : 'btn-primary'}`
+                "
+                @click="doPresensi"
+                :disabled="statusCounter"
+              >
+                Ambil Presensi
               </button>
             </div>
           </div>
@@ -234,7 +301,8 @@
           <div class="modal-body" id="widthModal">
             <div class="d-flex justify-content-between mb-4">
               <h5 class="modal-title" id="exampleModalLabel">
-                Verifikasi Wajah
+                Verifikasi
+                {{ menuLearning == "relearning" ? "Ulang" : "" }} Wajah
               </h5>
               <button
                 type="button"
@@ -271,7 +339,7 @@
                 <div
                   class="fw-bold"
                   style="font-size: 24px"
-                  v-if="counterLearning < 12 && !successLearning"
+                  v-if="counterLearning < 13 && !successLearning"
                 >
                   {{
                     counterLearning > 10
@@ -325,6 +393,8 @@
 import Webcam from "webcam-easy";
 import { mapState } from "vuex";
 import axios from "axios";
+// import faceapi from 'face-api.js'
+// import smartcrop from "smartcrop";
 
 export default {
   computed: {
@@ -335,6 +405,8 @@ export default {
       width: null,
       widthModal: null,
       presensi: false,
+      rePresensi: false,
+      loadedPresensi: false,
       learning: false,
       location: {
         long: null,
@@ -360,9 +432,15 @@ export default {
       submitPresensi: false,
       successLearning: false,
       successPresensi: false,
+      menuLearning: null,
+      menuPresensi: null,
     };
   },
   methods: {
+    onPlay() {
+      // const videoEl = $('#webcamPresensi').get(0)
+      // console.log(faceapi.detectSingleFace())
+    },
     setLocation(address) {
       this.address = address;
     },
@@ -377,6 +455,7 @@ export default {
         longitude +
         "&localityLanguage=id";
       $.getJSON(GEOCODING).done(function(location) {
+        console.log(location);
         address =
           location.localityInfo.administrative[3].name +
           ", " +
@@ -387,7 +466,8 @@ export default {
         $("#location").text(address);
       });
     },
-    openModalPresensi() {
+    openModalPresensi(status) {
+      this.menuPresensi = status;
       $("#presensiModal").modal("show");
 
       this.camPresensi.webcam
@@ -419,7 +499,8 @@ export default {
       }
     },
 
-    openModalLearning() {
+    openModalLearning(status) {
+      this.menuLearning = status;
       $("#learningModal").modal("show");
 
       this.camLearning.webcam
@@ -434,55 +515,144 @@ export default {
     },
     doPresensi() {
       this.statusCounter = true;
+      this.rePresensi = false;
+
       var picture = null;
 
-      setInterval(() => {
+      // ===============================
+      // Crop gambar, jangan dihapus!!!
+      // ===============================
+
+      // picture = this.camPresensi.webcam.snap();
+
+      // const test =
+      //   "https://images.unsplash.com/photo-1626565244076-18b0e7676aa9?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
+
+      // var img = new Image();
+      // img.src = picture;
+      // img.crossOrigin = "Anonymous";
+
+      // var options = {
+      //   width: 200,
+      //   height: 200,
+      //   debug: true,
+      // };
+
+      // img.onload = function() {
+      //   smartcrop.crop(img, options, function(result) {
+      //     console.log(result);
+      //     console.log("submit");
+
+      //     var crop = result.topCrop;
+      //     console.log(options);
+
+      //     const canvas = document.getElementById("canvasDraw");
+      //     console.log(canvas);
+      //     const ctx = canvas.getContext("2d");
+      //     ctx.drawImage(
+      //       img,
+      //       crop.x,
+      //       crop.y,
+      //       crop.width,
+      //       crop.height,
+      //       0,
+      //       0,
+      //       options.width,
+      //       options.height
+      //     );
+      //   });
+      // };
+
+      // ===============================
+      // Crop gambar, jangan dihapus!!!
+      // ===============================
+
+      const interval = setInterval(() => {
         if (this.counterPresensi < 4) {
           this.counterPresensi++;
         }
 
         if (this.counterPresensi == 4) {
-          this.counterPresensi++;
           picture = this.camPresensi.webcam.snap();
-          this.submitPresensi = true;
+          this.counterPresensi++;
           console.log(picture);
         }
 
         if (this.counterPresensi == 5) {
+          this.counterPresensi++;
+          this.submitPresensi = true;
 
-          axios
-            .post(
-              "https://gmedia.primakom.co.id/mahasiswa/presensi/",
-              {
-                nim: this.userData.data.nim,
-                status: 1,
-                long: this.location.long,
-                lat: this.location.lat,
-                foto: picture.split(",")[1],
-              },
-              {
-                headers: {
-                  Authorization: localStorage.token,
+          if (this.menuPresensi == "masuk") {
+            axios
+              .post(
+                "https://gmedia.primakom.co.id/presensi/mahasiswa/masuk",
+                {
+                  long: this.location.long,
+                  lat: this.location.lat,
+                  foto: picture.split(",")[1],
+                  media: "web",
                 },
-              }
-            )
-            .then((res) => {
-              console.log(res);
-              if (res.data.success) {
-                this.counterPresensi++;
-                this.successPresensi = true;
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+                {
+                  headers: {
+                    Authorization: localStorage.token,
+                  },
+                }
+              )
+              .then((res) => {
+                console.log(res);
+                if (res.data.face_recognition.success) {
+                  this.successPresensi = true;
+                  setTimeout(() => {
+                    location.reload();
+                  }, 2000);
+                } else {
+                  this.rePresensi = true;
+                  this.counterPresensi = 0;
+                  this.submitPresensi = false;
+                  this.statusCounter = false;
+                  clearInterval(interval);
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else if (this.menuPresensi == "keluar") {
+            axios
+              .post(
+                "https://gmedia.primakom.co.id/presensi/mahasiswa/keluar",
+                {
+                  long: this.location.long,
+                  lat: this.location.lat,
+                  foto: picture.split(",")[1],
+                  media: "web",
+                },
+                {
+                  headers: {
+                    Authorization: localStorage.token,
+                  },
+                }
+              )
+              .then((res) => {
+                console.log(res);
+                if (res.data.face_recognition.success) {
+                  this.successPresensi = true;
+                  setTimeout(() => {
+                    location.reload();
+                  }, 2000);
+                } else {
+                  this.rePresensi = true;
+                  this.counterPresensi = 0;
+                  this.submitPresensi = false;
+                  this.statusCounter = false;
+                  clearInterval(interval);
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
         }
       }, 1000);
-
-      // setTimeout(() => {
-      //   this.successPresensi = true;
-      //   console.log(picture.split(",")[1]);
-      // }, 6000);
     },
 
     doLearning() {
@@ -526,27 +696,49 @@ export default {
 
         if (this.counterLearning == 11) {
           this.submitLearning = true;
+          this.counterLearning++;
+
+          arr = [
+            picture1.split(",")[1],
+            picture2.split(",")[1],
+            picture3.split(",")[1],
+            picture4.split(",")[1],
+            picture5.split(",")[1],
+          ];
+
+          console.log(arr);
+
+          axios
+            .post(
+              "https://gmedia.primakom.co.id/gmedia/mahasiswa/learn",
+              {
+                foto: arr,
+              },
+              {
+                headers: {
+                  Authorization: localStorage.token,
+                },
+              }
+            )
+            .then((res) => {
+              console.log(res);
+              if (res.data.success) {
+                this.successLearning = true;
+                setTimeout(() => {
+                  location.reload();
+                }, 2000);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
       }, 1000);
-
-      setTimeout(() => {
-        arr = [
-          picture1.split(",")[1],
-          picture2.split(",")[1],
-          picture3.split(",")[1],
-          picture4.split(",")[1],
-          picture5.split(",")[1],
-        ];
-        this.successLearning = true;
-        console.log(arr);
-      }, 13000);
-
-      console.log(arr);
     },
   },
   mounted() {
     axios
-      .get("https://gmedia.primakom.co.id/mahasiswa/presensi/", {
+      .get("https://gmedia.primakom.co.id/presensi/mahasiswa/", {
         headers: {
           Authorization: localStorage.token,
         },
@@ -558,6 +750,69 @@ export default {
         console.log(err);
         // localStorage.clear();
       });
+
+    axios
+      .get("https://gmedia.primakom.co.id/presensi/mahasiswa/hari-ini", {
+        headers: {
+          Authorization: localStorage.token,
+        },
+      })
+      .then((res) => {
+        console.log("Hari ini");
+        console.log(res.data);
+        this.loadedPresensi = true;
+        if (res.data.success) {
+          this.presensi = true;
+        } else {
+          this.presensi = false;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        // localStorage.clear();
+      });
+
+    // axios
+    //   .get("https://gmedia.primakom.co.id/presensi/mahasiswa/masuk", {
+    //     headers: {
+    //       Authorization: localStorage.token,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log("Masuk");
+    //     console.log(res.data);
+    //     this.loadedPresensi = true;
+    //     if (res.data.success) {
+    //       this.presensi = true;
+    //     } else {
+    //       this.presensi = false;
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     // localStorage.clear();
+    //   });
+
+    // axios
+    //   .get("https://gmedia.primakom.co.id/presensi/mahasiswa/keluar", {
+    //     headers: {
+    //       Authorization: localStorage.token,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log("Keluar");
+    //     console.log(res.data);
+    //     this.loadedPresensi = true;
+    //     if (res.data.success) {
+    //       this.presensi = true;
+    //     } else {
+    //       this.presensi = false;
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     // localStorage.clear();
+    //   });
 
     this.width = $(document).width();
     this.camPresensi.webcamElement = document.getElementById("webcamPresensi");

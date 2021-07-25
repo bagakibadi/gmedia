@@ -111,11 +111,11 @@
               <div class="text">Tugas</div>
             </div>
           </router-link>
-          <router-link :to="{ name: 'List Penawaran' }">
+          <router-link :to="{ name: 'Kuis Mahasiswa' }">
             <div
               :class="
                 `item sub ${
-                  link[3] == 'penawaran' ? 'active' : ''
+                  link[2] == 'kuis' ? 'active' : ''
                 } d-flex align-items-center`
               "
             >
@@ -174,7 +174,7 @@
     <div :class="`content ${$attrs.widthContent > 992 ? '' : 'hide'}`">
       <div class="section pt-3">
         <nav>
-          <div class="card-shadow">
+          <div class="card-shadow mb-4">
             <div class="py-2 px-3">
               <div class="d-flex align-items-center justify-content-between">
                 <div class="menu-bar" @click="sidebar">
