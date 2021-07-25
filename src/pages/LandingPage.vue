@@ -268,6 +268,9 @@
 						</div>
 					</div>
 				</div>
+				<div class="foot-bot">
+					<p>©UPNVeteranYogyakarta</p>
+				</div>
 			</div>
 		</div>
 		<div class="modal fade"  id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -280,13 +283,22 @@
 							<p>Masukkan Nim dan Password</p>
 						</div>
 						<form action="" @submit.prevent="logins">
-							<div class="row">
+							<div class="row position-relative">
+								<div :class="`col-lg-12 margin-err ${validation.status === true ? 'd-none' : 'd-flex'}`">
+									<div class="badge-error d-flex">
+										<i class="fas fa-exclamation-triangle"></i>
+										<p>{{validation.message}}</p>
+									</div>
+								</div>
 								<div class="col-lg-12">
 									<div class="form-group">
 										<label for="nim">Nomor Induk Mahasiswa <span class="text-info">*</span></label>
 										<div class="position-relative">
 											<img :class="`iconss ${login.nim !== null ? 'd-flex' : 'd-none'}`" @click="clearInput" src="../assets/icons/icon-cancel.svg" alt="">
-											<input type="text" v-model="login.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
+											<div class="check-error">
+												<input type="text" v-model="login.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
+												<small :class="`text-danger ${validation.nim.status === true ? 'd-none' : 'd-flex'}`">{{validation.nim.message}}</small>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -295,7 +307,11 @@
 										<label for="password">Password <span class="text-info">*</span></label>
 										<div class="position-relative">
 											<img :class="`iconss d-none`" src="../assets/icons/icon-show.svg" alt="">
-											<input type="password" name="password" v-model="login.password" id="password" class="form-control" placeholder="min. 8 Karakter">
+											<div class="check-error">
+												<input type="password" name="password" v-model="login.password" id="password" class="form-control" placeholder="min. 8 Karakter">
+												<small :class="`text-danger ${validation.password.status === true ? 'd-none' : 'd-flex'}`">{{validation.password.message}}</small>
+											</div>
+
 										</div>
 									</div>
 								</div>
@@ -316,10 +332,23 @@
 /* eslint-disable no-undef */
 
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
 	data() {
 		return {
+			validation: {
+				status: true,
+				message: null,
+				nim: {
+					status: true,
+					message: null
+				},
+				password: {
+					status: true,
+					message: null
+				}
+			},
 			login: {
 				nim: null,
 				password: null
@@ -331,34 +360,56 @@ export default {
 			this.login.nim = null
 		},
 		logins() {
-			console.log('a')
-			axios.post('https://gmedia.primakom.co.id/auth/login',{
-				username: this.login.nim,
-				password: this.login.password
-			}).then((result) => {
-				if(result.data.success) {
-					localStorage.token = result.data.data.token
-
-					if(result.data.data.role == "MHS") {
-						// router.push({ name: 'Dashboard Mahasiswa'})
-						window.location.replace('/dashboard');
+			this.validation.status = true
+			if(this.login.nim && this.login.password && this.login.password.length >= 8) {
+				axios.post('https://gmedia.primakom.co.id/gmedia/auth/login',{
+					username: this.login.nim,
+					password: this.login.password
+				}).then((result) => {
+					if(result.data.success) {
+						localStorage.token = result.data.data.token
+	
+						if(result.data.data.role == "MHS") {
+							window.location.replace('/dashboard');
+						}
+	
+						if(result.data.data.role == "PMD") {
+							// router.push({ name: 'Dashboard Mahasiswa'})
+							window.location.replace('/pemandu');
+						}
+	
+						if(result.data.data.role == "SPA") {
+							// router.push({ name: 'Dashboard Mahasiswa'})
+							window.location.replace('/admin');
+						}
+						
+					} else {
+						this.validation.status = false
+						this.validation.message = result.data.message
 					}
+					console.log(result)
+				}).catch((err) => {
+					console.log(err)
+				});
+			}
 
-					if(result.data.data.role == "PMD") {
-						// router.push({ name: 'Dashboard Mahasiswa'})
-						window.location.replace('/pemandu');
-					}
-
-					if(result.data.data.role == "SPA") {
-						// router.push({ name: 'Dashboard Mahasiswa'})
-						window.location.replace('/admin');
-					}
-					
-				}
-				console.log(result)
-			}).catch((err) => {
-				console.log(err)
-			});
+			if (!this.login.nim) {
+				this.validation.nim.status = false
+				this.validation.nim.message = 'Nomor Induk Mahasiswa harus Diisi!'
+			} else{
+				this.validation.nim.status = true
+				this.validation.nim.message = null
+			}
+			if (!this.login.password) {
+				this.validation.password.status = false
+				this.validation.password.message = 'Password harus Diisi!'
+			} else if(this.login.password.length < 8) {
+				this.validation.password.status = false
+				this.validation.password.message = 'Password minimal 8 karakter!'
+			} else {
+				this.validation.password.status = false
+				this.validation.password.message = null
+			}
 		}
 	},
 	mounted() {
@@ -372,6 +423,32 @@ export default {
 </script>
 
 <style scoped>
+.check-error{
+	position: relative;
+}
+.check-error small{
+	padding: 0px 0 0 10px;
+	margin-top: 10px;
+}
+.margin-err{
+	margin-bottom: 15px;
+}
+.badge-error{
+	align-items: center;
+	width: 100%;
+	position: absolute;
+	top: -35px;
+	padding: 10px 10px 10px 20px;
+	border-radius: 5px;
+	border: 1px solid #c72e2e;
+}
+.badge-error p{
+	margin: 0;
+}
+.badge-error i{
+	margin-right: 5px;
+	color: #c72e2e;
+}
 body{
 	position: relative;
 }

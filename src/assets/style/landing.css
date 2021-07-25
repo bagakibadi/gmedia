@@ -245,10 +245,23 @@ section{
     width: 100%;
     position: relative;
     bottom: 0;
-    padding: 0 150px;
+    padding: 0 0;
 }
 .foot-top{
-    padding: 40px 0 70px 0;
+    padding: 40px 150px 70px 150px;
+}
+.foot-bot{
+    border-top: .5px solid rgba(221, 221, 221, 1);
+    padding: 20px 0;
+    justify-content: center;
+    display: flex;
+}
+.foot-bot p{
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(11, 19, 42, 1);
+    text-align: center;
 }
 .foot-one-col{
     margin-bottom: 50px;

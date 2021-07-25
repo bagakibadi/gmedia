@@ -88,11 +88,11 @@
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Dashboard AM' }">
+        <router-link :to="{ name: 'Kegiatan Master' }">
           <div
             :class="
               `item ${
-                $route.fullPath == '/account-manager' ? 'active' : ''
+                $route.fullPath == '/admin/kegiatan' ? 'active' : ''
               } d-flex align-items-center`
             "
           >
@@ -382,3 +382,7 @@ export default {
   mounted() {},
 };
 </script>
+
+<style scoped>
+
+</style>

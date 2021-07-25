@@ -83,9 +83,9 @@
                     <td>
                       <button
                         type="button"
-                        class="btn btn-warning btn-sm text-white"
+                        class="btn btn-primary btn-sm text-white"
                       >
-                        <i class="fas fa-pencil-alt"></i>
+                        <i class="fas fa-eye"></i>
                       </button>
                     </td>
                   </tr>

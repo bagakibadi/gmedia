@@ -83,9 +83,9 @@
                     <td>
                       <button
                         type="button"
-                        class="btn btn-warning btn-sm text-white"
+                        class="btn btn-primary btn-sm text-white"
                       >
-                        <i class="fas fa-pencil-alt"></i>
+                        <i class="fas fa-eye"></i>
                       </button>
                     </td>
                   </tr>
@@ -100,6 +100,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 /* eslint-env jquery */
 
 export default {
@@ -113,6 +114,15 @@ export default {
 
     $(document).ready(function() {
       $(".table").DataTable();
+    });
+    axios.get('https://gmedia.primakom.co.id/gmedia/pemandu/presensi', {
+      headers: {
+        Authorization: localStorage.token
+      }
+    }).then((result) => {
+      console.log(result)
+    }).catch((err) => {
+      console.log(err)
     });
   },
 };
