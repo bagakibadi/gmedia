@@ -6,7 +6,7 @@
         <div class="card-shadow mb-3">
           <div class="p-3">
             <div class="d-flex justify-content-between align-items-center">
-              <div class="title-content">Buat Soal Esai</div>
+              <div class="title-content">Ubah Soal Esai</div>
             </div>
           </div>
         </div>
@@ -14,16 +14,17 @@
           <div class="p-3">
             <div class="row">
               <div class="col-lg-6 col-md-10">
-                <div class="mb-3">
+                <div class="mb-3" v-if="dataSoal">
                   <label for="bobot">Upload Gambar Soal</label>
                   <input
                     type="file"
                     id="gambarSoal"
                     class="dropify"
+                    :data-default-file="dataSoal.foto"
                     @change="cekUpload()"
                   />
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" v-if="dataSoal">
                   <label for="bobot"
                     >Tingkat Kesulitan <span class="text-info">*</span></label
                   >
@@ -100,7 +101,9 @@ export default {
   data: function() {
     return {
       width: null,
+      dataSoal: null,
       form: {
+        is_foto_ubah: false,
         foto: null,
         tipe: "ESSAI",
         kategori: "default",
@@ -115,6 +118,7 @@ export default {
   methods: {
     cekUpload() {
       if (document.getElementById("gambarSoal").files[0]) {
+        this.form.is_foto_ubah = true;
         this.uploadGambar(document.getElementById("gambarSoal").files[0]);
       } else {
         this.form.foto = null;
@@ -154,9 +158,11 @@ export default {
         console.log(this.form);
 
         axios
-          .post(
-            "https://gmedia.primakom.co.id/tugas/superadmin/soal/",
+          .put(
+            "https://gmedia.primakom.co.id/tugas/superadmin/soal/" +
+              this.$route.params.id,
             {
+              is_foto_ubah: this.form.is_foto_ubah,
               foto: this.form.foto,
               isi: getText,
               tipe: "ESSAI",
@@ -171,8 +177,8 @@ export default {
           .then((res) => {
             console.log(res);
             Swal.fire(
-              "Data Disimpan!",
-              "Soal Esai berhasil dibuat.",
+              "Data Diubah!",
+              "Soal Esai berhasil diubah.",
               "success"
             ).then(() => {
               window.location.replace("/admin/bank-soal");
@@ -188,26 +194,60 @@ export default {
   },
   mounted() {
     this.width = $(document).width();
+    const contentIsi = () => {
+      this.form.is_foto_ubah = true;
+    };
 
-    $(document).ready(function() {
-      setInterval(() => {
+    axios
+      .get(
+        "https://gmedia.primakom.co.id/tugas/superadmin/soal/" +
+          this.$route.params.id,
+        {
+          headers: {
+            Authorization: localStorage.token,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        this.dataSoal = res.data.data;
+        this.form.kategori = this.dataSoal.kategori;
+        if (this.dataSoal.foto == "") {
+          this.form.foto = this.dataSoal.foto;
+        }
+
         // eslint-disable-next-line
         tinymce.init({
           selector: "#soalEsai",
           menubar: false,
           min_height: 300,
         });
-      }, 2000);
 
-      $(".dropify").dropify({
-        messages: {
-          default: "Unggah gambar pendukung soal",
-          replace: "Timpa dan upload gambar",
-          remove: "hapus",
-          error: "Ooops, telah terjadi kesalahan.",
-        },
+        setTimeout(() => {
+          const dropify = $(".dropify").dropify({
+            messages: {
+              default: "Unggah gambar pendukung soal",
+              replace: "Timpa dan upload gambar",
+              remove: "hapus",
+              error: "Ooops, telah terjadi kesalahan.",
+            },
+          });
+
+          dropify.on("dropify.afterClear", function() {
+            contentIsi();
+          });
+        }, 1000);
+
+        setTimeout(() => {
+          console.log(this.dataSoal.isi);
+          // eslint-disable-next-line
+          tinyMCE.get("soalEsai").setContent(this.dataSoal.isi);
+        }, 2500);
+      })
+      .catch((err) => {
+        console.log(err);
+        // localStorage.clear();
       });
-    });
   },
 };
 </script>

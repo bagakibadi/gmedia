@@ -6,7 +6,7 @@
         <div class="card-shadow mb-3">
           <div class="p-3">
             <div class="d-flex justify-content-between align-items-center">
-              <div class="title-content">Buat Soal Pilihan Ganda</div>
+              <div class="title-content">Ubah Soal Pilihan Ganda</div>
             </div>
           </div>
         </div>
@@ -14,16 +14,17 @@
           <div class="p-3">
             <div class="row">
               <div class="col-lg-6 col-md-10">
-                <div class="mb-3">
+                <div class="mb-3" v-if="dataSoal">
                   <label for="bobot">Upload Gambar Soal</label>
                   <input
                     type="file"
                     id="gambarSoal"
                     class="dropify"
+                    :data-default-file="dataSoal.foto"
                     @change="cekUpload()"
                   />
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" v-if="dataSoal">
                   <label for="soalPG"
                     >Soal <span class="text-info">*</span></label
                   >
@@ -188,8 +189,10 @@ export default {
   data: function() {
     return {
       width: null,
+      dataSoal: null,
       dataLetter: [],
       form: {
+        is_foto_ubah: false,
         foto: null,
         kategori: "default",
         jawaban: [],
@@ -207,6 +210,7 @@ export default {
   methods: {
     addJawaban() {
       this.form.jawaban.push({
+        uuid: "",
         jawaban: "",
         benar: 0,
       });
@@ -216,6 +220,7 @@ export default {
     },
     cekUpload() {
       if (document.getElementById("gambarSoal").files[0]) {
+        this.form.is_foto_ubah = true;
         this.uploadGambar(document.getElementById("gambarSoal").files[0]);
       } else {
         this.form.foto = null;
@@ -239,6 +244,12 @@ export default {
       var getText = tinymce.get("soalPG").getContent();
       var countJawaban = 0;
 
+      if (document.getElementById("gambarSoal").files[0]) {
+        this.uploadGambar(document.getElementById("gambarSoal").files[0]);
+      } else {
+        this.form.foto = null;
+      }
+
       if (!getText) {
         this.validation.isi = "Soal wajib diisi!";
       } else {
@@ -258,6 +269,7 @@ export default {
       }
 
       for (let i = 0; i < this.form.jawaban.length; i++) {
+        this.form.jawaban[i].benar = 0;
         if (!this.form.jawaban[i].jawaban) {
           countJawaban++;
         }
@@ -284,9 +296,11 @@ export default {
         console.log(this.form);
 
         axios
-          .post(
-            "https://gmedia.primakom.co.id/tugas/superadmin/soal/",
+          .put(
+            "https://gmedia.primakom.co.id/tugas/superadmin/soal/" +
+              this.$route.params.id,
             {
+              is_foto_ubah: this.form.is_foto_ubah,
               foto: this.form.foto,
               isi: getText,
               tipe: "PILIHAN GANDA",
@@ -302,8 +316,8 @@ export default {
           .then((res) => {
             console.log(res);
             Swal.fire(
-              "Data Disimpan!",
-              "Soal Pilihan Ganda berhasil dibuat.",
+              "Data Diubah!",
+              "Soal Pilihan Ganda berhasil diubah.",
               "success"
             ).then(() => {
               window.location.replace("/admin/bank-soal");
@@ -319,36 +333,72 @@ export default {
   },
   mounted() {
     this.width = $(document).width();
+    const contentIsi = () => {
+      this.form.is_foto_ubah = true;
+    };
 
     const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
     this.dataLetter = alphabet;
 
-    for (let i = 0; i < 4; i++) {
-      this.form.jawaban.push({
-        jawaban: "",
-        benar: 0,
-      });
-    }
+    axios
+      .get(
+        "https://gmedia.primakom.co.id/tugas/superadmin/soal/" +
+          this.$route.params.id,
+        {
+          headers: {
+            Authorization: localStorage.token,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        this.dataSoal = res.data.data;
+        this.form.kategori = this.dataSoal.kategori;
 
-    $(document).ready(function() {
-      setTimeout(() => {
-        // eslint-disable-next-line
-        tinymce.init({
-          selector: "#soalPG",
-          menubar: false,
-          min_height: 300,
-        });
-      }, 2000);
+        for (let i = 0; i < this.dataSoal.kuncijawaban.length; i++) {
+          this.form.jawaban.push({
+            uuid: this.dataSoal.kuncijawaban[i].uuid,
+            jawaban: this.dataSoal.kuncijawaban[i].jawaban,
+            benar: this.dataSoal.kuncijawaban[i].benar,
+          });
 
-      $(".dropify").dropify({
-        messages: {
-          default: "Unggah gambar pendukung soal",
-          replace: "Timpa dan upload gambar",
-          remove: "hapus",
-          error: "Ooops, telah terjadi kesalahan.",
-        },
+          if (this.dataSoal.kuncijawaban[i].benar == 1) {
+            this.form.benar = i;
+          }
+        }
+
+        setTimeout(() => {
+          // eslint-disable-next-line
+          tinymce.init({
+            selector: "#soalPG",
+            menubar: false,
+            min_height: 300,
+          });
+
+          const dropify = $(".dropify").dropify({
+            messages: {
+              default: "Unggah gambar pendukung soal",
+              replace: "Timpa dan upload gambar",
+              remove: "hapus",
+              error: "Ooops, telah terjadi kesalahan.",
+            },
+          });
+
+          dropify.on("dropify.afterClear", function() {
+            contentIsi();
+          });
+        }, 1000);
+
+        setTimeout(() => {
+          console.log(this.dataSoal.isi);
+          // eslint-disable-next-line
+          tinyMCE.get("soalPG").setContent(this.dataSoal.isi);
+        }, 2500);
+      })
+      .catch((err) => {
+        console.log(err);
+        // localStorage.clear();
       });
-    });
   },
 };
 </script>

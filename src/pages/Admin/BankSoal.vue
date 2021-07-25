@@ -58,7 +58,7 @@
                   <li>
                     <div
                       class="dropdown-item cursor-pointer d-flex align-items-center"
-                      @click="changeType('Upload')"
+                      @click="changeType('UPLOAD')"
                     >
                       <div
                         class="d-flex justify-content-center me-2"
@@ -94,6 +94,14 @@
           >
             + Buat Soal Pilihan Ganda
           </router-link>
+          <router-link
+            v-else-if="type == 'UPLOAD'"
+            :to="{ name: 'Buat Soal Upload' }"
+            class="btn btn-success"
+            type="button"
+          >
+            + Buat Soal yang Jawabannya Diupload
+          </router-link>
         </div>
         <div class="row" v-if="dataSoal">
           <div
@@ -115,9 +123,13 @@
                     </div>
                     <ul class="dropdown-menu" :aria-labelledby="`menus${id}`">
                       <li>
-                        <a
+                        <router-link
+                          :to="{
+                            name: 'Edit Soal Esai',
+                            params: { id: item.uuid },
+                          }"
                           class="dropdown-item d-flex align-items-center"
-                          href="#"
+                          v-if="type == 'ESSAI'"
                         >
                           <div
                             class="d-flex justify-content-center me-2"
@@ -126,12 +138,44 @@
                             <img src="../../assets/icons/edit.svg" alt="" />
                           </div>
                           <div>Ubah</div>
-                        </a>
+                        </router-link>
+                        <router-link
+                          :to="{
+                            name: 'Edit Soal Pilihan Ganda',
+                            params: { id: item.uuid },
+                          }"
+                          class="dropdown-item d-flex align-items-center"
+                          v-else-if="type == 'PILIHAN GANDA'"
+                        >
+                          <div
+                            class="d-flex justify-content-center me-2"
+                            style="width: 20px;"
+                          >
+                            <img src="../../assets/icons/edit.svg" alt="" />
+                          </div>
+                          <div>Ubah</div>
+                        </router-link>
+                        <router-link
+                          :to="{
+                            name: 'Edit Soal Upload',
+                            params: { id: item.uuid },
+                          }"
+                          class="dropdown-item d-flex align-items-center"
+                          v-else-if="type == 'UPLOAD'"
+                        >
+                          <div
+                            class="d-flex justify-content-center me-2"
+                            style="width: 20px;"
+                          >
+                            <img src="../../assets/icons/edit.svg" alt="" />
+                          </div>
+                          <div>Ubah</div>
+                        </router-link>
                       </li>
                       <li>
-                        <a
-                          class="dropdown-item d-flex align-items-center"
-                          href="#"
+                        <div
+                          class="dropdown-item d-flex align-items-center cursor-pointer"
+                          @click="deleteSoal(item.uuid)"
                         >
                           <div
                             class="d-flex justify-content-center me-2"
@@ -140,25 +184,28 @@
                             <img src="../../assets/icons/hapus.svg" alt="" />
                           </div>
                           <div>Hapus</div>
-                        </a>
+                        </div>
                       </li>
                     </ul>
                   </div>
                 </div>
-                <div class="mb-4">
+                <div class="mb-4" v-if="item.foto !== ''">
                   <div
                     class="img-question d-flex align-items-center justify-content-center"
                   >
-                    <img src="../../assets/tentang.jpg" alt="" />
+                    <img :src="item.foto" alt="" />
                   </div>
                 </div>
                 <div>
                   <div class="fw-bold mb-2">Soal</div>
-                  <div style="font-size: 16px; font-weight: 300;">
-                    {{ item.isi }}
-                  </div>
+                  <div
+                    style="font-size: 16px; font-weight: 300;"
+                    v-html="item.isi"
+                  ></div>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mt-5">
+                <div
+                  class="d-flex justify-content-between align-items-center mt-5"
+                >
                   <div
                     class="py-1 px-2 text-success success"
                     style="border-radius: 7px; font-weight: 500;"
@@ -196,9 +243,10 @@
             <div
               :class="
                 `pagination-arrow ${
-                  item.active ? 'bg-primary' : 'bg-secondary'
+                  item.active ? 'bg-primary cursor-pointer' : 'bg-secondary'
                 } me-3 d-flex align-items-center justify-content-center`
               "
+              @click="navigation(type, item.url)"
               v-if="item.label == 'pagination.previous'"
             >
               <i class="fas fa-chevron-left text-white"></i>
@@ -216,6 +264,7 @@
                     item.active ? 'text-primary' : ''
                   } px-2 py-1 mx-2`
                 "
+                @click="navigation(type, item.url)"
               >
                 {{ item.label }}
               </div>
@@ -223,10 +272,11 @@
             <div
               :class="
                 `pagination-arrow ${
-                  item.active ? 'bg-primary' : 'bg-secondary'
+                  item.active ? 'bg-primary cursor-pointer' : 'bg-secondary'
                 } ms-3 d-flex align-items-center justify-content-center`
               "
               v-if="item.label == 'pagination.next'"
+              @click="navigation(type, item.url)"
             >
               <i class="fas fa-chevron-right text-white"></i>
             </div>
@@ -241,6 +291,7 @@
 /* eslint-env jquery */
 import axios from "axios";
 import moment from "moment";
+import Swal from "sweetalert2";
 
 export default {
   data: function() {
@@ -274,6 +325,68 @@ export default {
           console.log(err);
           // localStorage.clear();
         });
+    },
+    navigation(type, url) {
+      if (url) {
+        this.dataSoal = null;
+
+        axios
+          .get(url + "&tipe=" + type, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataSoal = res.data.data;
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
+    deleteSoal(id) {
+      console.log(id);
+
+      Swal.fire({
+        title: "Apakah anda yakin menghapus soal ini?",
+        text: "Data anda tidak dapat dikembalikan setelah dihapus!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#fb4b4b",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Hapus Soal!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios
+            .delete(
+              "https://gmedia.primakom.co.id/tugas/superadmin/soal/" + id,
+              {
+                headers: {
+                  Authorization: localStorage.token,
+                },
+              }
+            )
+            .then((res) => {
+              console.log(res);
+              if (res.data.success) {
+                Swal.fire("Soal telah dihapus!", "", "success").then(() => {
+                  location.reload();
+                });
+              } else {
+                Swal.fire({
+                  position: "center",
+                  icon: "error",
+                  title: res.data.messages,
+                });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
     },
   },
   mounted() {

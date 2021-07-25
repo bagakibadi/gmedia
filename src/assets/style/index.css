@@ -58,6 +58,7 @@
    --background-success: #e3ffeb;
    --background-warning: #fff4d8;
    --background-primary: #e6eeff;
+   --background-danger: #ffeaec;
 }
 
 * {
@@ -81,6 +82,9 @@ input[type=number] {
    -moz-appearance: textfield;
 }
 
+.border-radius {
+   border-radius: 7px;
+}
 
 .btn {
    border-radius: 7px !important;
@@ -154,6 +158,10 @@ a:hover {
 
 .primary {
    background-color: var(--background-primary);
+}
+
+.danger {
+   background-color: var(--background-danger);
 }
 
 .iti {
@@ -239,7 +247,6 @@ a:hover {
    width: 35px;
    height: 35px;
    border-radius: 100px;
-   cursor: pointer;
 }
 
 .pagination-arrow i {
@@ -728,6 +735,16 @@ tr th {
    font-weight: 700;
 }
 
+.dashboard .presensi-title {
+   font-size: 18px;
+   font-weight: 500;
+}
+
+.dashboard .presensi-subtitle {
+   font-size: 20px;
+   font-weight: 600;
+}
+
 /* Presensi */
 .dashboard .modal video {
    width: 100% !important;
@@ -886,6 +903,8 @@ tr th {
 .info-orang p {
    margin: 0 16px 0 0;
 }
+
+
 
 /* Responsive */
 

@@ -13,7 +13,7 @@ export default new Vuex.Store({
     getMahasiswa({ commit }) {
       if (localStorage.token && localStorage.token !== undefined) {
         axios
-          .get("https://gmedia.primakom.co.id/gmedia/mahasiswa/profil", {
+          .get("https://gmedia.primakom.co.id/auth/mahasiswa/profil", {
             headers: {
               Authorization: localStorage.token,
             },
@@ -35,7 +35,7 @@ export default new Vuex.Store({
     getPemandu({ commit }) {
       if (localStorage.token && localStorage.token !== undefined) {
         axios
-          .get("https://gmedia.primakom.co.id/gmedia/pemandu/profil/", {
+          .get("https://gmedia.primakom.co.id/auth/pemandu/profil/", {
             headers: {
               Authorization: localStorage.token,
             },
@@ -54,27 +54,27 @@ export default new Vuex.Store({
         console.log("Login First")
       }
     },
-    // getAdmin({ commit }) {
-    //   if (localStorage.token && localStorage.token !== undefined) {
-    //     axios
-    //       .get("https://gmedia.primakom.co.id/pemandu/profil/", {
-    //         headers: {
-    //           Authorization: localStorage.token,
-    //         },
-    //       })
-    //       .then((res) => {
-    //         console.log(res);
-    //         commit("SET_POSTS", res.data);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //         // localStorage.clear();
-    //       });
-    //   } else {
-    //     // window.location.replace("/");
-    //     console.log("Login First")
-    //   }
-    // },
+    getAdmin({ commit }) {
+      if (localStorage.token && localStorage.token !== undefined) {
+        axios
+          .get("https://gmedia.primakom.co.id/gmedia/superadmin/profil/", {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            commit("SET_POSTS", res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      } else {
+        // window.location.replace("/");
+        console.log("Login First")
+      }
+    },
   },
   getters: {
     // put sychronous functions for changing state e.g. add, edit, delete

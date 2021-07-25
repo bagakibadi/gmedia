@@ -220,7 +220,7 @@
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Dashboard AM' }">
+        <router-link :to="{ name: 'Dashboard Admin' }">
           <div
             :class="
               `item ${
@@ -243,7 +243,7 @@
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Dashboard AM' }">
+        <router-link :to="{ name: 'Dashboard Admin' }">
           <div
             :class="
               `item ${
@@ -328,7 +328,7 @@
                   </div>
                   <div class="d-flex align-items-center" v-if="userData">
                     <div class="text-end me-2">
-                      <div class="username">{{userData.data.name}}</div>
+                      <div class="username">{{userData.data.nama}}</div>
                       <div class="role">Superadmin</div>
                     </div>
                     <div

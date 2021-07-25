@@ -11,7 +11,11 @@ import PresensiMaster from "../pages/Admin/Presensi.vue";
 import MahasiswaMaster from "../pages/Admin/Mahasiswa.vue";
 import BankSoal from "../pages/Admin/BankSoal.vue";
 import BuatSoalEsai from "../pages/Admin/BuatSoalEsai.vue";
+import EditSoalEsai from "../pages/Admin/EditSoalEsai.vue";
 import BuatSoalPG from "../pages/Admin/BuatSoalPG.vue";
+import EditSoalPG from "../pages/Admin/EditSoalPG.vue";
+import BuatSoalUpload from "../pages/Admin/BuatSoalUpload.vue";
+import EditSoalUpload from "../pages/Admin/EditSoalUpload.vue";
 import TugasMaster from "../pages/Admin/Penugasan.vue";
 import StreamingMaster from "../pages/Admin/Streaming.vue";
 
@@ -68,9 +72,29 @@ const routes = [
     component: BuatSoalEsai,
   },
   {
+    path: "/admin/bank-soal/edit-esai/:id",
+    name: "Edit Soal Esai",
+    component: EditSoalEsai,
+  },
+  {
     path: "/admin/bank-soal/tambah-pilihan-ganda",
     name: "Buat Soal Pilihan Ganda",
     component: BuatSoalPG,
+  },
+  {
+    path: "/admin/bank-soal/edit-pilihan-ganda/:id",
+    name: "Edit Soal Pilihan Ganda",
+    component: EditSoalPG,
+  },
+  {
+    path: "/admin/bank-soal/tambah-upload",
+    name: "Buat Soal Upload",
+    component: BuatSoalUpload,
+  },
+  {
+    path: "/admin/bank-soal/edit-upload/:id",
+    name: "Edit Soal Upload",
+    component: EditSoalUpload,
   },
   {
     path: "/admin/tugas",

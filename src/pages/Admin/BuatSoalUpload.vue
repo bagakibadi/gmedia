@@ -6,7 +6,7 @@
         <div class="card-shadow mb-3">
           <div class="p-3">
             <div class="d-flex justify-content-between align-items-center">
-              <div class="title-content">Buat Soal Esai</div>
+              <div class="title-content">Buat Soal yang Jawabannya Diupload</div>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
                   >Soal <span class="text-info">*</span></label
                 >
                 <textarea
-                  id="soalEsai"
+                  id="soalUpload"
                   v-model="form.isi"
                   class="d-none"
                 ></textarea>
@@ -135,7 +135,7 @@ export default {
     },
     submit() {
       // eslint-disable-next-line
-      var getText = tinymce.get("soalEsai").getContent();
+      var getText = tinymce.get("soalUpload").getContent();
 
       if (!getText) {
         this.validation.isi = "Soal wajib diisi!";
@@ -159,7 +159,7 @@ export default {
             {
               foto: this.form.foto,
               isi: getText,
-              tipe: "ESSAI",
+              tipe: "UPLOAD",
               kategori: this.form.kategori,
             },
             {
@@ -172,7 +172,7 @@ export default {
             console.log(res);
             Swal.fire(
               "Data Disimpan!",
-              "Soal Esai berhasil dibuat.",
+              "Soal berhasil dibuat.",
               "success"
             ).then(() => {
               window.location.replace("/admin/bank-soal");
@@ -193,11 +193,11 @@ export default {
       setInterval(() => {
         // eslint-disable-next-line
         tinymce.init({
-          selector: "#soalEsai",
+          selector: "#soalUpload",
           menubar: false,
           min_height: 300,
         });
-      }, 2000);
+      }, 1000);
 
       $(".dropify").dropify({
         messages: {
