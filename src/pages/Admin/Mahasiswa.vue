@@ -6,7 +6,7 @@
       <div class="section">
         <div class="card-shadow mb-3">
           <div class="p-3">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
               <div class="title-content">Data Mahasiswa</div>
               <div class="d-flex">
                 <a href="#" type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#tambah" @click="openDropify">
@@ -45,7 +45,7 @@
         </div>
         <div class="card-shadow mb-3">
           <div class="p-3">
-            <div>
+            <div class="table-responsive">
               <table class="table">
                 <thead>
                   <tr>
@@ -143,7 +143,7 @@
 									<div class="form-group">
 										<label for="nim">NIM <span class="text-info">*</span></label>
                     <div class="check-error">
-										  <input type="text" v-model="editMahasiswaData.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
+										  <input type="number" v-model="editMahasiswaData.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
                       <small :class="`text-danger d-flex ${validationEdit.nim.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.nim.message}}</small>
                     </div>
 									</div>
@@ -252,70 +252,100 @@
 								<div class="col-lg-6">
 									<div class="form-group">
 										<label for="nama">Nama <span class="text-info">*</span></label>
-										<input type="text" v-model="tambah.nama" name="nama" id="nama" class="form-control" placeholder="Nama Mahasiswa">
+                    <div class="check-error">
+										  <input type="text" v-model="tambah.nama" name="nama" id="nama" class="form-control" placeholder="Nama Mahasiswa">
+                      <small :class="`text-danger d-flex ${validationTambah.nama.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.nama.message}}</small>
+                    </div>
 									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
 										<label for="nim">NIM <span class="text-info">*</span></label>
-										<input type="text" v-model="tambah.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
+                    <div class="check-error">
+  										<input type="number" v-model="tambah.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
+                      <small :class="`text-danger d-flex ${validationTambah.nim.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.nim.message}}</small>
+                    </div>
 									</div>
 								</div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="email">Email <span class="text-info">*</span></label>
-                    <input type="email" v-model="tambah.email" name="email" id="email" class="form-control" placeholder="example@gmail.com">
+                    <div class="check-error">
+                      <input type="email" v-model="tambah.email" name="email" id="email" class="form-control" placeholder="example@gmail.com">
+                      <small :class="`text-danger d-flex ${validationTambah.email.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.email.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
 									<div class="form-group">
 										<label for="nomor">Nomor Telepon <span class="text-info">*</span></label>
-										<input type="number" v-model="tambah.nomor" name="nomor" id="nomor" class="form-control" placeholder="081234567890">
+                    <div class="check-error">
+										  <input type="number" v-model="tambah.nomor" name="nomor" id="nomor" class="form-control" placeholder="081234567890">
+                      <small :class="`text-danger ${validationTambah.nomor.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.nomor.message}}</small>
+                    </div>
 									</div>
 								</div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="tgllahir">Tanggal Lahir</label>
-                    <input type="date" name="tgllahir" v-model="tambah.tgllahir" id="tgllahir" class="form-control">
+                    <div class="check-error">
+                      <input type="date" name="tgllahir" v-model="tambah.tgllahir" id="tgllahir" class="form-control">
+                      <small :class="`text-danger ${validationTambah.tgllahir.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.tgllahir.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6" >
                   <div class="form-group" v-if="dataProdi !== null">
                     <label for="prodi">Prodi <span class="text-info">*</span></label>
-                    <select name="prodi" v-model="tambah.prodi" id="prodi" class="form-select">
-                      <option value="" selected>Pilih Prodi</option>
-                      <option :value="items.uuid" v-for="(items,index) in dataProdi.data" :key="index">{{items.nama}}</option>
-                    </select>
+                    <div class="check-error">
+                      <select name="prodi" v-model="tambah.prodi" id="prodi" class="form-select">
+                        <option value="" selected>Pilih Prodi</option>
+                        <option :value="items.uuid" v-for="(items,index) in dataProdi.data" :key="index">{{items.nama}}</option>
+                      </select>
+                      <small :class="`text-danger ${validationTambah.prodi_id.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.prodi_id.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6" >
                   <div class="form-group" v-if="dataGugus !== null">
                     <label for="gugus">Gugus <span class="text-info">*</span></label>
-                    <select name="gugus" v-model="tambah.gugus" id="gugus" class="form-select">
-                      <option value="" selected>Pilih Gugus</option>
-                      <option :value="items.uuid" v-for="(items,index) in dataGugus.data" :key="index">{{items.name}}</option>
-                    </select>
+                    <div class="check-error">
+                      <select name="gugus" v-model="tambah.gugus" id="gugus" class="form-select">
+                        <option value="" selected>Pilih Gugus</option>
+                        <option :value="items.uuid" v-for="(items,index) in dataGugus.data" :key="index">{{items.name}}</option>
+                      </select>
+                      <small :class="`text-danger d-flex ${validationTambah.gugus_id.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.gugus_id.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6" v-if="dataFakultas">
                   <div class="form-group">
                     <label for="fakultas">Fakultas <span class="text-info">*</span></label>
-                    <select name="fakultas" v-model="tambah.fakultas" id="fakultas" class="form-select">
-                      <option value="" selected>Pilih Fakultas</option>
-                      <option :value="items.uuid" v-for="(items,index) in dataFakultas.data" :key="index">{{items.nama}}</option>
-                    </select>
+                    <div class="check-error">
+                      <select name="fakultas" v-model="tambah.fakultas" id="fakultas" class="form-select">
+                        <option value="" selected>Pilih Fakultas</option>
+                        <option :value="items.uuid" v-for="(items,index) in dataFakultas.data" :key="index">{{items.nama}}</option>
+                      </select>
+                      <small :class="`text-danger d-flex ${validationTambah.fakultas_id.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.fakultas_id.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="alamat">Alamat Mahasiswa</label>
-                    <textarea name="alamat" v-model="tambah.alamat" id="alamat" style="height: 72px;" cols="30" rows="4" class="form-control" placeholder="Masukkan Alamat"></textarea>
+                    <div class="check-error">
+                      <textarea name="alamat" v-model="tambah.alamat" id="alamat" style="height: 72px;" cols="30" rows="4" class="form-control" placeholder="Masukkan Alamat"></textarea>
+                      <small :class="`text-danger d-flex ${validationTambah.alamat.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.alamat.message}}</small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="foto">Foto Mahasiswa</label>
-                    <input type="file" name="foto" id="fotomahasiswa" class="dropify">
+                    <div class="check-error">
+                      <input type="file" name="foto" id="fotomahasiswa" class="dropify">
+                      <small :class="`text-danger d-flex ${validationTambah.foto.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.foto.message}}</small>
+                    </div>
                   </div>
                 </div>
 								<div class="col-lg-12 footer-modal">
@@ -341,6 +371,50 @@ import Swal from 'sweetalert2';
 export default {
   data: function() {
     return {
+      validationTambah: {
+        status: true,
+        message: null,
+        nama: {
+          status: true,
+          message: null
+        },
+        nim: {
+          status: true,
+          message: null
+        },
+        email: {
+          status: true,
+          message: null
+        },
+        nomor: {
+          status: true,
+          message: null
+        },
+        tgllahir: {
+          status: true,
+          message: null
+        },
+        prodi_id: {
+          status: true,
+          message: null
+        },
+        gugus_id: {
+          status: true,
+          message: null
+        },
+        fakultas_id: {
+          status: true,
+          message: null
+        },
+        alamat: {
+          status: true,
+          message: null
+        },
+        foto: {
+          status: true,
+          message: null
+        },
+      },
       validationEdit: {
 				status: true,
 				message: null,
@@ -618,44 +692,116 @@ export default {
       reader.readAsDataURL(asd);
     },
     tambahMahasiswa() {
-      if (document.getElementById('fotomahasiswa').files[0]) {
-        this.upload(document.getElementById('fotomahasiswa').files[0])
-      } else {
-        this.tambah.foto = null
+      if(this.tambah.nim && this.tambah.nama && this.tambah.email && this.tambah.gugus && this.tambah.prodi && this.tambah.alamat && this.tambah.fakultas && this.tambah.tgllahir && this.tambah.nomor && document.getElementById('fotomahasiswa').files[0] ) {
+        if (document.getElementById('fotomahasiswa').files[0]) {
+          this.upload(document.getElementById('fotomahasiswa').files[0])
+        } else {
+          this.tambah.foto = null
+        }
+        setTimeout(() => {        
+          axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa', {
+            nim : this.tambah.nim,
+            nama: this.tambah.nama,
+            email: this.tambah.email,
+            gugus_id: this.tambah.gugus,
+            prodi_id: this.tambah.prodi,
+            alamat: this.tambah.alamat,
+            foto: this.tambah.foto,
+            fakultas_id: this.tambah.fakultas,
+            tgllahir: this.tambah.tgllahir,
+            nohp: this.tambah.nomor
+          }, {
+            headers: {
+              Authorization: localStorage.token
+            }
+          }).then((result) => {
+            console.log(result)
+            if(result.data.success) {
+              Swal.fire(
+                'Berhasil',
+                `Berhasil Tambah Mahasiswa`,
+                'success'
+              ).then(() => {
+                window.location.reload()
+              }).catch(() => {
+                window.location.reload()
+              });
+            }
+          }).catch((err) => {
+            console.log(err)
+          });
+        }, 500);
       }
-      setTimeout(() => {        
-        axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa', {
-          nim : this.tambah.nim,
-          nama: this.tambah.nama,
-          email: this.tambah.email,
-          gugus_id: this.tambah.gugus,
-          prodi_id: this.tambah.prodi,
-          alamat: this.tambah.alamat,
-          foto: this.tambah.foto,
-          fakultas_id: this.tambah.fakultas,
-          tgllahir: this.tambah.tgllahir,
-          nohp: this.tambah.nomor
-        }, {
-          headers: {
-            Authorization: localStorage.token
-          }
-        }).then((result) => {
-          console.log(result)
-          if(result.data.success) {
-            Swal.fire(
-              'Berhasil',
-              `Berhasil Tambah Mahasiswa`,
-              'success'
-            ).then(() => {
-              window.location.reload()
-            }).catch(() => {
-              window.location.reload()
-            });
-          }
-        }).catch((err) => {
-          console.log(err)
-        });
-      }, 500);
+      if(!this.tambah.nama) {
+        this.validationTambah.nama.status = false
+        this.validationTambah.nama.message = 'Nama Mahasiswa harus diisi!'
+      } else{
+        this.validationTambah.nama.status = true
+        this.validationTambah.nama.message = null
+      }
+      if(!this.tambah.nim) {
+        this.validationTambah.nim.status = false
+        this.validationTambah.nim.message = 'NIM Mahasiswa harus diisi!'
+      } else{
+        this.validationTambah.nim.status = true
+        this.validationTambah.nim.message = null
+      }
+      if(!this.tambah.email) {
+        this.validationTambah.email.status = false
+        this.validationTambah.email.message = 'Email Mahasiswa harus diisi!'
+      } else{
+        this.validationTambah.email.status = true
+        this.validationTambah.email.message = null
+      }
+      if(!this.tambah.nomor) {
+        this.validationTambah.nomor.status = false
+        this.validationTambah.nomor.message = 'Nomor Telepon Mahasiswa harus diisi!'
+      } else{
+        this.validationTambah.nomor.status = true
+        this.validationTambah.nomor.message = null
+      }
+      if(!this.tambah.tgllahir) {
+        this.validationTambah.tgllahir.status = false
+        this.validationTambah.tgllahir.message = 'Tanggal Lahir Mahasiswa harus diisi!'
+      } else{
+        this.validationTambah.tgllahir.status = true
+        this.validationTambah.tgllahir.message = null
+      }
+      if(!this.tambah.alamat) {
+        this.validationTambah.alamat.status = false
+        this.validationTambah.alamat.message = 'Alamat Mahasiswa harus diisi!'
+      } else{
+        this.validationTambah.alamat.status = true
+        this.validationTambah.alamat.message = null
+      }
+      if(!document.getElementById('fotomahasiswa').files[0]) {
+        this.validationTambah.foto.status = false
+        this.validationTambah.foto.message = 'Foto Mahasiswa harus diisi!'
+      } else{
+        this.validationTambah.foto.status = true
+        this.validationTambah.foto.message = null
+      }
+      if(!this.tambah.prodi || this.tambah.prodi === '') {
+        this.validationTambah.prodi_id.status = false
+        this.validationTambah.prodi_id.message = 'Prodi Mahasiswa harus dipilih!'
+      } else{
+        this.validationTambah.prodi_id.status = true
+        this.validationTambah.prodi_id.message = null
+      }
+      if(!this.tambah.gugus || this.tambah.gugus === '') {
+        this.validationTambah.gugus_id.status = false
+        this.validationTambah.gugus_id.message = 'Gugus Mahasiswa harus dipilih!'
+      } else{
+        this.validationTambah.gugus_id.status = true
+        this.validationTambah.gugus_id.message = null
+      }
+      if(!this.tambah.fakultas || this.tambah.fakultas === '') {
+        this.validationTambah.fakultas_id.status = false
+        this.validationTambah.fakultas_id.message = 'Fakultas Mahasiswa harus dipilih!'
+      } else{
+        this.validationTambah.fakultas_id.status = true
+        this.validationTambah.fakultas_id.message = null
+      }
     }
   },
   mounted() {
