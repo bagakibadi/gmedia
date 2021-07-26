@@ -18,6 +18,7 @@ import BuatSoalUpload from "../pages/Admin/BuatSoalUpload.vue";
 import EditSoalUpload from "../pages/Admin/EditSoalUpload.vue";
 import TugasMaster from "../pages/Admin/Penugasan.vue";
 import StreamingMaster from "../pages/Admin/Streaming.vue";
+import kegiatanMaster from "../pages/Admin/Kegiatan.vue";
 
 // Pemandu
 import DashboardPemandu from "../pages/Pemandu/index.vue";
@@ -36,7 +37,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Index",
+    name: "Landing Page",
     component: LandingPage,
   },
   {
@@ -105,6 +106,11 @@ const routes = [
     path: "/admin/streaming",
     name: "Streaming Master",
     component: StreamingMaster,
+  },
+  {
+    path: "/admin/kegiatan",
+    name: "Kegiatan Master",
+    component: kegiatanMaster,
   },
 
   // Pemandu

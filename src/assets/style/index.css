@@ -468,6 +468,15 @@ input.form-check-input:checked {
    position: relative;
 }
 
+.check-error{
+	position: relative;
+}
+.check-error small{
+	padding: 0px 0 0 10px;
+	margin-top: 10px;
+}
+
+
 .dashboard-navigation .sidebar .icon-member i {
    font-size: 14px;
    color: white;

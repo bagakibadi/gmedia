@@ -163,7 +163,7 @@
         </div>
         <div class="card-shadow mb-3" v-if="dataLogPresensi">
           <div class="p-3">
-            <div>
+            <div class="table-responsive">
               <table class="table">
                 <thead>
                   <tr>
