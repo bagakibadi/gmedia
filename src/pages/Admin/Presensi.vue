@@ -7,7 +7,7 @@
           <div class="p-3">
             <div class="d-flex flex-wrap justify-content-between align-items-center">
               <div class="title-content">Data Presensi</div>
-              <button type="button" class="btn btn-success">+ Tambah</button>
+              <!-- <button type="button" class="btn btn-success">+ Tambah</button> -->
             </div>
           </div>
         </div>
@@ -205,7 +205,9 @@ export default {
       console.log(result)
       this.dataPresensi = result.data.data
       $(document).ready(function() {
-        $(".table").DataTable();
+        $(".table").DataTable({
+          pageLength: 25
+        });
       });
     }).catch((err) => {
       console.log(err)

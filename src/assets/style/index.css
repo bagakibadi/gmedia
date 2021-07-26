@@ -467,6 +467,10 @@ input.form-check-input:checked {
    border-radius: 100px;
    position: relative;
 }
+.height-hide{
+   height: calc(100vh - 120px);
+   overflow-y: auto;
+}
 
 .check-error{
 	position: relative;
@@ -476,6 +480,12 @@ input.form-check-input:checked {
 	margin-top: 10px;
 }
 
+.img-show{
+   width: 100%;
+   height: 330px;
+   object-fit: cover;
+}
+ 
 
 .dashboard-navigation .sidebar .icon-member i {
    font-size: 14px;
@@ -918,6 +928,9 @@ tr th {
 /* Responsive */
 
 @media (max-width: 576px) {
+   .height-hide {
+      height: calc(100vh - 180px);
+   }
    .section {
       padding: 0 25px
    }

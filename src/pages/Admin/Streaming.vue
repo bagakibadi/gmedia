@@ -12,7 +12,7 @@
 										<div class="card-type meet">
 											<img src="../../assets/icons/Meet.svg" alt="">
 										</div>
-										<p>Meeting Baru</p>
+										<p>Conference Baru</p>
 									</div>
 									<div class="type">
 										<div class="card-type ikut">
