@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     // put variables and collections here
     userData: null,
+    url: 'https://gmedia.primakom.co.id/'
   },
   actions: {
     getMahasiswa({ commit }) {
