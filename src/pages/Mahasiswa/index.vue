@@ -57,9 +57,7 @@
                 <div class="row">
                   <div class="col-sm-6">
                     <div
-                      :class="
-                        `card ${masuk  ? 'success' : ''} p-3 mb-sm-0 mb-3`
-                      "
+                      :class="`card ${masuk ? 'success' : ''} p-3 mb-sm-0 mb-3`"
                     >
                       <div
                         class="d-flex align-items-center justify-content-between"
@@ -67,12 +65,14 @@
                         <div>
                           <div class="presensi-title">Presensi Masuk</div>
                           <div class="presensi-subtitle text-success">
-                            {{ masuk ? masuk : "--:--" }}
+                            {{ masuk ? masuk : "--:--:--" }}
                           </div>
                         </div>
                         <button
                           type="button"
-                          :class="`btn ${masuk ? 'btn-secondary' : 'btn-success'}`"
+                          :class="
+                            `btn ${masuk ? 'btn-secondary' : 'btn-success'}`
+                          "
                           data-toggle="modal"
                           data-backdrop="static"
                           data-keyboard="false"
@@ -92,17 +92,23 @@
                         <div>
                           <div class="presensi-title">Presensi Keluar</div>
                           <div class="presensi-subtitle text-danger">
-                            {{ keluar ? keluar : "--:--" }}
+                            {{ keluar ? keluar : "--:--:--" }}
                           </div>
                         </div>
                         <button
                           type="button"
-                          :class="`btn ${keluar ? 'btn-secondary' : 'btn-danger'}`"
+                          :class="
+                            `btn ${
+                              (keluar && masuk) || !masuk
+                                ? 'btn-secondary'
+                                : 'btn-danger'
+                            }`
+                          "
                           data-toggle="modal"
                           data-backdrop="static"
                           data-keyboard="false"
                           @click="openModalPresensi('keluar')"
-                          :disabled="keluar"
+                          :disabled="(keluar && masuk) || !masuk"
                         >
                           Keluar
                         </button>
@@ -155,7 +161,7 @@
             </div>
           </div> -->
         </div>
-        <div class="card-shadow mb-3">
+        <div class="card-shadow mb-3" v-if="dataLogPresensi">
           <div class="p-3">
             <div class="table-responsive">
               <table class="table">
@@ -165,41 +171,33 @@
                     <th scope="col">TANGGAL</th>
                     <th scope="col">JAM</th>
                     <th scope="col">STATUS</th>
-                    <th scope="col">AKSI</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="align-middle">
+                  <tr
+                    class="align-middle"
+                    v-for="(item, id) in dataLogPresensi.data"
+                    :key="id"
+                  >
                     <td>
                       <div>
                         <div class="d-flex align-items-center">
                           <div
                             class="image-presensi d-flex align-items-center justify-content-center"
                           >
-                            <img
-                              src="../../assets/images/profile.jpeg"
-                              alt=""
-                            />
+                            <img :src="item.foto" alt="" />
                           </div>
                         </div>
                       </div>
                     </td>
                     <td>
-                      30 Jul 2021
+                      {{formatDate(item.created_at.split(' ')[0])}}
                     </td>
                     <td>
-                      05:58:45 WIB
+                      {{item.created_at.split(' ')[1]}}
                     </td>
                     <td>
-                      <div class="badge-custom success text-success">Masuk</div>
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        class="btn btn-warning btn-sm text-white"
-                      >
-                        <i class="fas fa-pencil-alt"></i>
-                      </button>
+                      <div :class="`badge-custom ${item.jenis == 'masuk' ? 'success text-success' : 'danger text-danger'} text-capitalize`">{{item.jenis}}</div>
                     </td>
                   </tr>
                 </tbody>
@@ -222,7 +220,9 @@
           <div class="modal-body" id="widthModal">
             <div class="d-flex justify-content-between mb-4">
               <div>
-                <h5 class="modal-title text-capitalize" id="exampleModalLabel">Presensi {{ menuPresensi }} </h5>
+                <h5 class="modal-title text-capitalize" id="exampleModalLabel">
+                  Presensi {{ menuPresensi }}
+                </h5>
                 <div
                   class="d-flex align-items-center mt-2"
                   style="opacity: .7;"
@@ -418,11 +418,12 @@ import moment from "moment";
 
 export default {
   computed: {
-    ...mapState(["userData"]),
+    ...mapState(["userData", "url"]),
   },
   data: function() {
     return {
       width: null,
+      dataLogPresensi: null,
       masuk: null,
       keluar: null,
       widthModal: null,
@@ -462,6 +463,9 @@ export default {
     onPlay() {
       // const videoEl = $('#webcamPresensi').get(0)
       // console.log(faceapi.detectSingleFace())
+    },
+    formatDate(date){
+      return moment(date).format("DD MMM YYYY");    
     },
     setLocation(address) {
       this.address = address;
@@ -761,17 +765,24 @@ export default {
   },
   mounted() {
     axios
-      .get("https://gmedia.primakom.co.id/presensi/mahasiswa/", {
+      .get("https://gmedia.primakom.co.id/presensi/mahasiswa", {
         headers: {
           Authorization: localStorage.token,
         },
       })
       .then((res) => {
+        this.dataLogPresensi = res.data.data;
         console.log(res);
+        setTimeout(() => {
+          $(".table").DataTable({
+            responsive: true,
+            columnDefs: [{ orderable: false, targets: 0 }],
+            order: [[1, "desc"]],
+          });
+        }, 500);
       })
       .catch((err) => {
         console.log(err);
-        // localStorage.clear();
       });
 
     axios
@@ -785,12 +796,12 @@ export default {
         console.log(res.data);
         this.loadedPresensi = true;
         if (res.data.success) {
-          if (res.data.data.mulai !== false) {
-            this.masuk = moment(res.data.data.mulai).format("HH:MM");
-          } 
+          if (res.data.data.mulai) {
+            this.masuk = res.data.data.mulai.split(" ")[1];
+          }
 
-          if (res.data.data.keluar !== false) {
-            this.keluar = moment(res.data.data.keluar).format("HH:MM");
+          if (res.data.data.keluar) {
+            this.keluar = res.data.data.keluar.split(" ")[1];
           }
 
           if (res.data.data.mulai && res.data.data.keluar) {
@@ -842,10 +853,6 @@ export default {
     learning.addEventListener("hidden.bs.modal", function() {
       // do something...
       newCamLearning.stop();
-    });
-
-    $(document).ready(function() {
-      $(".table").DataTable();
     });
   },
 };
