@@ -252,8 +252,8 @@ section{
 }
 .foot-bot{
     border-top: .5px solid rgba(221, 221, 221, 1);
-    padding: 20px 0;
-    justify-content: center;
+    padding: 20px 20px;
+    justify-content: space-between;
     display: flex;
 }
 .foot-bot p{
