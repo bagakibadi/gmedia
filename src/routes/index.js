@@ -29,6 +29,7 @@ import MahasiswaPemandu from "../pages/Pemandu/Mahasiswa.vue";
 import DashboardMahasiswa from "../pages/Mahasiswa/index.vue";
 import ConferenceMahasiswa from "../pages/Mahasiswa/Conference.vue";
 import TugasMahasiswa from "../pages/Mahasiswa/Tugas.vue";
+import DoTugas from "../pages/Mahasiswa/DoTugas.vue";
 import KuisMahasiswa from "../pages/Mahasiswa/Kuis.vue";
 import AktivitasMahasiswa from "../pages/Mahasiswa/Aktivitas.vue";
 
@@ -145,6 +146,11 @@ const routes = [
     path: "/dashboard/tugas",
     name: "Tugas Mahasiswa",
     component: TugasMahasiswa
+  },
+  {
+    path: "/dashboard/tugas/:id",
+    name: "Do Tugas",
+    component: DoTugas
   },
   {
     path: "/dashboard/kuis",

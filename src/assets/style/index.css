@@ -114,6 +114,11 @@ input[type=number] {
    border-color: #dc3545 !important;
 }
 
+.bg-count {
+   background: rgb(253, 182, 48);
+   background: linear-gradient(135deg, rgba(253, 182, 48, 1) 0%, rgba(251, 75, 75, 1) 100%);
+}
+
 .btn i {
    color: inherit;
 }
@@ -468,12 +473,13 @@ input.form-check-input:checked {
    position: relative;
 }
 
-.check-error{
-	position: relative;
+.check-error {
+   position: relative;
 }
-.check-error small{
-	padding: 0px 0 0 10px;
-	margin-top: 10px;
+
+.check-error small {
+   padding: 0px 0 0 10px;
+   margin-top: 10px;
 }
 
 
@@ -818,6 +824,72 @@ tr th {
    background-color: #a9a9a929;
    border-radius: 100px;
    cursor: pointer;
+}
+
+/* Kerjakan Soal */
+.dashboard .title-soal {
+   font-size: 18px;
+   font-weight: 600;
+}
+
+.dashboard .title-days {
+   font-size: 18px;
+   font-weight: 600;
+   position: relative;
+}
+
+.dashboard .countdown {
+   text-align: center;
+   font-size: 30px;
+   font-weight: 600;
+}
+
+.dashboard .countdown .count {
+   position: relative;
+}
+
+.dashboard .countdown .day::after {
+   content: 'Hari';
+   position: absolute;
+   transform: translate(-50%, 0);
+   left: 50%;
+   bottom: -16px;
+   font-size: 13px;
+   font-weight: 400;
+   opacity: .8;
+}
+
+.dashboard .countdown .hour::after {
+   content: 'Jam';
+   position: absolute;
+   transform: translate(-50%, 0);
+   left: 50%;
+   bottom: -16px;
+   font-size: 13px;
+   font-weight: 400;
+   opacity: .8;
+}
+
+.dashboard .countdown .minute::after {
+   content: 'Menit';
+   position: absolute;
+   transform: translate(-50%, 0);
+   left: 50%;
+   bottom: -16px;
+   font-size: 13px;
+   font-weight: 400;
+   opacity: .8;
+}
+
+.dashboard .countdown .second::after {
+   content: 'Detik';
+   position: absolute;
+   transform: translate(-50%, 0);
+   left: 50%;
+   bottom: -16px;
+   font-size: 13px;
+   font-weight: 400;
+   opacity: .8;
 }
 
 /* Dashboard Table */
