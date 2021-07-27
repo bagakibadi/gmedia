@@ -6,7 +6,7 @@
         <div class="card-shadow mb-3">
 					<div class="p-3">
             <div class="d-flex flex-wrap justify-content-between align-items-center">
-              <div class="title-content">Data Pemandu</div>
+              <div class="title-content">Data Gugus</div>
               <div class="d-flex">
                 <a href="#" type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#tambahModal" >
                   + Tambah
@@ -18,18 +18,88 @@
 				<div class="card-shadow mb-3">
 					<div class="p-3">
 						<div class="table-responsive">
-							<table class="table">
+							<table id="tablenya" class="table">
                 <thead>
                   <tr>
-                    <th scope="col">NAMA</th>
-                    <th scope="col">EMAIL</th>
-                    <th scope="col">TELEPON</th>
-                    <th scope="col">GUGUS</th>
+                    <th scope="col">NAMA PRODI</th>
+										<th scope="col">KODE PRODI</th>
+                    <th scope="col">NAMA FAKULTAS</th>
+                    <th scope="col">KODE FAKULTAS</th>
                     <th scope="col">AKSI</th>
                   </tr>
                 </thead>
-								<tbody>
-									<tr v-for="(items, index) in dataPemandu" :key="index">
+								<tbody v-if="dataProdi">
+									<tr v-for="(items,index) in dataProdi" :key="index">
+										<td>{{items.nama}}</td>
+										<td>{{items.kode}}</td>
+										<td>{{items.fakultas.nama}}</td>
+										<td>{{items.fakultas.kode}}</td>
+										<td>
+											<div class="d-flex">
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm me-2"
+                          data-bs-toggle="modal" data-bs-target="#lihatModal"
+                        >
+                          <i class="fas fa-eye"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-warning btn-sm text-white me-2"
+                          data-bs-toggle="modal" data-bs-target="#editModal"
+                        >
+                          <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm"
+                        >
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </div>
+										</td>
+									</tr>
+								</tbody>
+								<!-- <tbody v-if="dataGugus">
+                  <tr v-for="(items, index) in dataGugus" :key="index">
+                    <td v-if="items.name">
+                      {{items.name}}
+                    </td>
+                    <td v-if="items.pemandu">
+                      {{items.pemandu[0].nama}}
+                    </td>
+                    <td v-if="items.pemandu">
+                      {{items.pemandu[0].email}}
+                    </td>
+                    <td v-if="items.pemandu">
+                      {{items.pemandu[0].no_hp}}
+                    </td>
+                    <td>
+                      <div class="d-flex">
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm me-2"
+                          data-bs-toggle="modal" data-bs-target="#lihatModal"
+                        >
+                          <i class="fas fa-eye"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-warning btn-sm text-white me-2"
+                          data-bs-toggle="modal" data-bs-target="#editModal"
+                        >
+                          <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm"
+                        >
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr> -->
+									<!-- <tr v-for="(items, index) in dataPemandu" :key="index">
 										<td>
                       <div>
                         <div class="d-flex align-items-center">
@@ -89,8 +159,8 @@
                         </button>
                       </div>
                     </td>
-									</tr>
-								</tbody>
+									</tr> -->
+								<!-- </tbody> -->
 							</table>
 						</div>
 					</div>
@@ -101,7 +171,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Edit Pemandu</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Edit Gugus</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -178,11 +248,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="lihatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<!-- <div class="modal fade" id="lihatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Detail Pemandu</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Detail Gugus</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -237,79 +307,45 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<div class="modal fade" id="tambahModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
+			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Tambah Pemandu</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Tambah Prodi</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
 						<div class="container">
-							<form action="" @submit.prevent="tambahPemandu">
+							<form action="">
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label for="nama">Nama Pemandu</label>
+											<label for="nama">Nama Prodi</label>
 											<div class="check-error">
-												<input type="text" name="nama" id="nama" placeholder="Nama Pemandu" class="form-control" v-model="tambah.nama">
+												<input type="text" name="nama" id="nama" placeholder="Nama Prodi" class="form-control" v-model="tambah.name">
 												<small :class="`text-danger d-flex ${validationTambah.nama.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.nama.message}}</small>
 											</div>
 										</div>
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label for="email">Email</label>
+											<label for="fakultas">Fakultas <span class="text-info">*</span></label>
 											<div class="check-error">
-												<input type="email" name="email" id="email" class="form-control" placeholder="Contoh: nama@email.com" v-model="tambah.email">
-												<small :class="`text-danger d-flex ${validationTambah.email.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.email.message}}</small>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label for="nohp">Nomor Telepon</label>
-											<div class="check-error">
-												<input type="number" name="nohp" id="nohp" class="form-control" placeholder="Contoh: 08123456789" v-model="tambah.no_hp">
-												<small :class="`text-danger d-flex ${validationTambah.no_hp.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.no_hp.message}}</small>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label for="gugus">Gugus</label>
-											<div class="check-error">
-												<select name="gugus" id="gugus" v-model="tambah.gugus_id" class="form-select">
-													<option value="" selected disabled>Pilih Gugus</option>
-													<option :value="items.uuid" v-for="(items,index) in dataGugus" :key="index">{{items.name}}</option>
+												<select name="fakultas" v-model="tambah.fakultas_id" id="fakultas" class="form-select">
+													<option value="" selected>Pilih Fakultas</option>
+													<option :value="items.uuid" v-for="(items,index) in dataFakultas.data" :key="index">{{items.nama}}</option>
 												</select>
-												<small :class="`text-danger d-flex ${validationTambah.gugus_id.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.gugus_id.message}}</small>
+												<small :class="`text-danger d-flex ${validationTambah.fakultas_id.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.fakultas_id.message}}</small>
 											</div>
 										</div>
 									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label for="alamat">Alamat</label>
-											<div class="check-error">
-												<textarea name="alamat" id="alamat" class="form-control" v-model="tambah.alamat" placeholder="Masukkan Alamat" cols="30" rows="10"></textarea>
-												<small :class="`text-danger d-flex ${validationTambah.alamat.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.alamat.message}}</small>
+									<div class="col-lg-12">
+										<div class="modal-footer">
+											<div class="d-flex justify-content-end">
+												<button class="btn btn-primary" style="margin-right: 24px;" type="button">Tambah</button>
+												<a href="#" data-bs-dismiss="modal" aria-label="Close" class="btn btn-outline-primary">Batal</a>
 											</div>
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label for="foto">Foto Pemandu</label>
-											<div class="check-error">
-												<input type="file" name="foto" id="fotoTambah" class="dropify">
-												<small :class="`text-danger d-flex ${validationTambah.foto.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.foto.message}}</small>
-											</div>
-										</div>
-									</div>
-									<div class="col-lg-12 footer-modal">
-										<div class="d-flex justify-content-end">
-											<button class="btn btn-primary" style="margin-right: 24px;">Tambah</button>
-											<a class="btn btn-outline-primary" data-bs-dismiss="modal">Batal</a>
 										</div>
 									</div>
 								</div>
@@ -331,39 +367,20 @@ export default {
 	data: function() {
     return {
       width: null,
-			dataPemandu: null,
+			dataProdi: null,
 			dataGugus: null,
 			dataOnePemandu: null,
+			dataFakultas: null,
 			tambah: {
-				nama: null,
-				alamat: null,
-				no_hp: null,
-				foto: null,
-				email: null,
-				gugus_id: ''
+				name: null,
+				fakultas_id: ''
 			},
 			validationTambah: {
 				nama: {
 					status: true,
 					message: null
 				},
-				email: {
-					status: true,
-					message: null
-				},
-				no_hp: {
-					status: true,
-					message: null
-				},
-				gugus_id: {
-					status: true,
-					message: null
-				},
-				alamat: {
-					status: true,
-					message: null
-				},
-				foto: {
+				fakultas_id: {
 					status: true,
 					message: null
 				}
@@ -373,26 +390,6 @@ export default {
 					status: true,
 					message: null
 				},
-				email: {
-					status: true,
-					message: null
-				},
-				no_hp: {
-					status: true,
-					message: null
-				},
-				gugus_id: {
-					status: true,
-					message: null
-				},
-				alamat: {
-					status: true,
-					message: null
-				},
-				foto: {
-					status: true,
-					message: null
-				}
 			}
 		}
 	},
@@ -479,14 +476,6 @@ export default {
 				this.validationEdit.alamat.status = true
 				this.validationEdit.alamat.message = null
 			}
-
-			// if(!this.dataOnePemandu.foto) {
-			// 	this.validationEdit.foto.status = false
-			// 	this.validationEdit.foto.message = 'Foto Pemandu harus diisi!'
-			// } else{
-			// 	this.validationEdit.foto.status = true
-			// 	this.validationEdit.foto.message = null
-			// }
 		},
 		openEditPemandu(uuidPemandu) {
 			setTimeout(() => {
@@ -572,109 +561,70 @@ export default {
       };
       reader.readAsDataURL(asd);
     },
-		tambahPemandu() {
-			if(this.tambah.nama && this.tambah.email && this.tambah.no_hp && this.tambah.gugus_id && this.tambah.alamat && document.getElementById('fotoTambah').files[0]) {
-				if (document.getElementById('fotoTambah').files[0]) {
-					this.upload(document.getElementById('fotoTambah').files[0])
-				} else {
-					this.tambah.foto = null
-				}
-				setTimeout(() => {
-					axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/pemandu', this.tambah, {
-						headers: {
-							Authorization: localStorage.token
-						}
-					}).then((result) => {
-						console.log(result)
-						if(result.data.success) {
-							Swal.fire(
-								'Berhasil',
-								`${result.data.message}`,
-								'success'
-							).then(() => {
-								window.location.reload()
-							}).catch(() => {
-								window.location.reload()
-							});
-						} else {
-							Swal.fire(
-								'Gagal',
-								`${result.data.message}`,
-								'warning'
-							).then(() => {
-								window.location.reload()
-							}).catch(() => {
-								window.location.reload()
-							});
-						}
-					}).catch((err) => {
-						console.log(err)
-					});
-				}, 500);
+		tambahGugus() {
+			if(this.tambah.name && this.tambah.pemandu_id) {
+        axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/gugus', this.tambah, {
+          headers: {
+            Authorization: localStorage.token
+          }
+        }).then((result) => {
+          console.log(result)
+          if(result.data.success) {
+            Swal.fire(
+              'Berhasil',
+              `${result.data.message}`,
+              'success'
+            ).then(() => {
+              window.location.reload()
+            }).catch(() => {
+              window.location.reload()
+            });
+          } else {
+            Swal.fire(
+              'Gagal',
+              `${result.data.message}`,
+              'warning'
+            ).then(() => {
+              window.location.reload()
+            }).catch(() => {
+              window.location.reload()
+            });
+          }
+        }).catch((err) => {
+          console.log(err)
+        });
 			}
-			if(!this.tambah.nama) {
+			if(!this.tambah.name) {
 				this.validationTambah.nama.status = false
 				this.validationTambah.nama.message = 'Nama Pemandu harus diisi!'
-			}else {
+			} else {
 				this.validationTambah.nama.status = true
 				this.validationTambah.nama.message = null
 			}
 
-			if(!this.tambah.email) {
-				this.validationTambah.email.status = false
-				this.validationTambah.email.message = 'Email Pemandu harus diisi!'
+			if(!this.tambah.pemandu_id) {
+				this.validationTambah.pemandu_id.status = false
+				this.validationTambah.pemandu_id.message = 'Pemandu harus di pilih!'
 			} else {
-				this.validationTambah.email.status = true
-				this.validationTambah.email.message = null
-			}
-
-			if(!this.tambah.no_hp) {
-				this.validationTambah.no_hp.status = false
-				this.validationTambah.no_hp.message = 'Nomor Telepon harus diisi!'
-			} else {
-				this.validationTambah.no_hp.status = true
-				this.validationTambah.no_hp.message = null
-			}
-
-			if(!this.tambah.gugus_id) {
-				this.validationTambah.gugus_id.status = false
-				this.validationTambah.gugus_id.message = 'Gugus harus dipilih!'
-			} else {
-				this.validationTambah.gugus_id.status = true
-				this.validationTambah.gugus_id.message = null
-			}
-
-			if(!this.tambah.alamat) {
-				this.validationTambah.alamat.status = false
-				this.validationTambah.alamat.message = 'Alamat Pemandu harus diisi!'
-			} else {
-				this.validationTambah.alamat.status = true
-				this.validationTambah.alamat.message = null
-			}
-
-			if(!document.getElementById('fotoTambah').files[0]) {
-				this.validationTambah.foto.status = false
-				this.validationTambah.foto.message = 'Foto Pemandu harus diisi!'
-			} else {
-				this.validationTambah.foto.status = true
-				this.validationTambah.foto.message = null
+				this.validationTambah.pemandu_id.status = true
+				this.validationTambah.pemandu_id.message = null
 			}
 		}
 	},
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/pemandu', {
+		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/prodi', {
 			headers: {
 				Authorization: localStorage.token
 			}
 		}).then((result) => {
 			console.log(result)
-			this.dataPemandu = result.data.data.data
-			if(this.dataPemandu){
+			this.dataProdi = result.data.data.data
+			if(this.dataProdi){
 				setTimeout(() => {
-					$('.table').dataTable({
-						"ordering": false
+					$('#tablenya').dataTable({
+						"ordering": []
 					})
 				}, 500);
 			}
@@ -682,12 +632,27 @@ export default {
 			console.log(err)
 		});
 		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus', {
+			headers: {
+				Authorization: localStorage.token
+			}
+		}).then((result) => {
+			console.log(result)
+			this.dataGugus = result.data.data
+			if(this.dataGugus){
+				setTimeout(() => {
+					$('#tablenya').dataTable()
+				}, 500);
+			}
+		}).catch((err) => {
+			console.log(err)
+		});
+		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/fakultas', {
       headers: {
         Authorization : localStorage.token
       }
     }).then((result) => {
       console.log(result)
-      this.dataGugus = result.data.data.data
+      this.dataFakultas = result.data.data
     }).catch((err) => {
       console.log(err)
     });

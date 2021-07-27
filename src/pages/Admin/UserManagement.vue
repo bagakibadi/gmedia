@@ -6,7 +6,7 @@
         <div class="card-shadow mb-3">
 					<div class="p-3">
             <div class="d-flex flex-wrap justify-content-between align-items-center">
-              <div class="title-content">Data Pemandu</div>
+              <div class="title-content">User & Management</div>
               <div class="d-flex">
                 <a href="#" type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#tambahModal" >
                   + Tambah
@@ -18,18 +18,82 @@
 				<div class="card-shadow mb-3">
 					<div class="p-3">
 						<div class="table-responsive">
-							<table class="table">
+							<table id="tablenya" class="table">
                 <thead>
                   <tr>
+                    <th scope="col">USERNAME</th>
                     <th scope="col">NAMA</th>
-                    <th scope="col">EMAIL</th>
-                    <th scope="col">TELEPON</th>
-                    <th scope="col">GUGUS</th>
-                    <th scope="col">AKSI</th>
+										<th scope="col">EMAIL</th>
+										<th scope="col">Aksi</th>
+                    <!-- <th scope="col">TELEPON</th> -->
+                    <!-- <th scope="col">GUGUS</th> -->
+                    <!-- <th scope="col">AKSI</th> -->
                   </tr>
                 </thead>
 								<tbody>
-									<tr v-for="(items, index) in dataPemandu" :key="index">
+									<tr v-for="(items, index) in dataUser" :key="index">
+										<td>
+											<div v-if="items.username">
+												{{items.username}}
+											</div>
+											<div v-else>
+												-
+											</div>
+										</td>
+										<td>
+											<div v-if="items.mahasiswa">
+												{{items.mahasiswa.nama}}
+											</div>
+											<div v-else-if="items.pemadu">
+												{{items.pemandu.nama}}
+											</div>
+											<div v-else-if="items.role">
+												{{items.role.name}}
+											</div>
+											<div v-else>
+												None
+											</div>
+										</td>
+										<td>
+											<div v-if="items.mahasiswa">
+												{{items.mahasiswa.email}}
+											</div>
+											<div v-else-if="items.pemandu">
+												{{items.pemandu.email}}
+											</div>
+											<div v-else-if="items.role">
+												-
+											</div>
+											<div v-else>
+												None
+											</div>
+										</td>
+										<td>
+											<div class="d-flex">
+                        <button
+                          type="button"
+                          class="btn btn-primary btn-sm me-2"
+                          data-bs-toggle="modal" data-bs-target="#lihatModal"
+                        >
+                          <i class="fas fa-eye"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-warning btn-sm text-white me-2"
+                          data-bs-toggle="modal" data-bs-target="#editModal"
+                        >
+                          <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm"
+                        >
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </div>
+										</td>
+									</tr>
+									<!-- <tr v-for="(items, index) in dataPemandu" :key="index">
 										<td>
                       <div>
                         <div class="d-flex align-items-center">
@@ -89,7 +153,7 @@
                         </button>
                       </div>
                     </td>
-									</tr>
+									</tr> -->
 								</tbody>
 							</table>
 						</div>
@@ -97,7 +161,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<!-- <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -182,7 +246,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Detail Pemandu</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Edit Pemandu</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -318,7 +382,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
   </div>
 </template>
 
@@ -332,6 +396,7 @@ export default {
     return {
       width: null,
 			dataPemandu: null,
+			dataUser: null,
 			dataGugus: null,
 			dataOnePemandu: null,
 			tambah: {
@@ -662,7 +727,6 @@ export default {
 		}
 	},
 	mounted() {
-		$('.dropify').dropify()
 		this.width = $(document).width();
 		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/pemandu', {
 			headers: {
@@ -671,10 +735,20 @@ export default {
 		}).then((result) => {
 			console.log(result)
 			this.dataPemandu = result.data.data.data
+		}).catch((err) => {
+			console.log(err)
+		});
+		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/user', {
+			headers: {
+				Authorization: localStorage.token
+			}
+		}).then((result) => {
+			console.log(result)
+			this.dataUser = result.data.data
 			if(this.dataPemandu){
 				setTimeout(() => {
-					$('.table').dataTable({
-						"ordering": false
+					$('#tablenya').dataTable({
+						pageLength: 25
 					})
 				}, 500);
 			}

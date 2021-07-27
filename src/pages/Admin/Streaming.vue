@@ -253,7 +253,7 @@ textarea.form-control{
 	overflow: hidden;
 }
 .paddingnya{
-	padding: 31px 120px 0 120px;
+	padding: 31px 100px 0 100px;
 }
 .type{
 	display: flex;
@@ -261,12 +261,14 @@ textarea.form-control{
 	align-items: center;
 	margin: 0 25px 31px 25px;
 	cursor: pointer;
+	width: 100px;
 }
 .type p{
 	font-size: 14px;
 	font-weight: 400;
 	margin-bottom: 0;
 	color: rgba(11, 19, 42, 1);
+	text-align: center;
 }
 .card-type{
 	width: 68px;
