@@ -163,13 +163,14 @@
         </div>
         <div class="card-shadow mb-3" v-if="dataLogPresensi">
           <div class="p-3">
-            <div class="table-responsive">
+            <div>
               <table class="table">
                 <thead>
                   <tr>
                     <th scope="col">FOTO WAJAH</th>
                     <th scope="col">TANGGAL</th>
                     <th scope="col">JAM</th>
+                    <th scope="col">LOKASI</th>
                     <th scope="col">STATUS</th>
                   </tr>
                 </thead>
@@ -191,13 +192,26 @@
                       </div>
                     </td>
                     <td>
-                      {{formatDate(item.created_at.split(' ')[0])}}
+                      {{ formatDate(item.created_at.split(" ")[0]) }}
                     </td>
                     <td>
-                      {{item.created_at.split(' ')[1]}}
+                      {{ item.created_at.split(" ")[1] }}
                     </td>
                     <td>
-                      <div :class="`badge-custom ${item.jenis == 'masuk' ? 'success text-success' : 'danger text-danger'} text-capitalize`">{{item.jenis}}</div>
+                      {{ item.alamat }}
+                    </td>
+                    <td>
+                      <div
+                        :class="
+                          `badge-custom ${
+                            item.jenis == 'masuk'
+                              ? 'success text-success'
+                              : 'danger text-danger'
+                          } text-capitalize`
+                        "
+                      >
+                        {{ item.jenis }}
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -240,6 +254,19 @@
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
+            </div>
+            <div
+              class="p-3 warning mb-3 d-flex align-items-center"
+              style="border-radius: 7px;"
+            >
+              <i
+                class="fas fa-exclamation-circle text-danger me-2"
+                style="font-size: 26px;"
+              ></i>
+              <span style="font-size: 16px;">
+                Pastikan anda berada di ruangan yang terang dan wajah di layar
+                tertampil jelas.
+              </span>
             </div>
             <div class="w-100 position-relative">
               <!-- <canvas id="canvasDraw"></canvas> -->
@@ -464,14 +491,14 @@ export default {
       // const videoEl = $('#webcamPresensi').get(0)
       // console.log(faceapi.detectSingleFace())
     },
-    formatDate(date){
-      return moment(date).format("DD MMM YYYY");    
-    },
-    setLocation(address) {
-      this.address = address;
+    formatDate(date) {
+      return moment(date).format("DD MMM YYYY");
     },
     getLocation(longitude, latitude) {
       var address;
+      const setLocation = (address) => {
+        this.address = address;
+      };
 
       $("#location").text(address);
       var GEOCODING =
@@ -490,7 +517,11 @@ export default {
           location.localityInfo.administrative[1].name;
 
         $("#location").text(address);
+
+        setLocation(address);
       });
+
+      console.log(this.address);
     },
     openModalPresensi(status) {
       this.menuPresensi = status;
@@ -613,6 +644,7 @@ export default {
               .post(
                 "https://gmedia.primakom.co.id/presensi/mahasiswa/masuk",
                 {
+                  alamat: this.address,
                   long: this.location.long,
                   lat: this.location.lat,
                   foto: picture.split(",")[1],
@@ -647,6 +679,7 @@ export default {
               .post(
                 "https://gmedia.primakom.co.id/presensi/mahasiswa/keluar",
                 {
+                  alamat: this.address,
                   long: this.location.long,
                   lat: this.location.lat,
                   foto: picture.split(",")[1],

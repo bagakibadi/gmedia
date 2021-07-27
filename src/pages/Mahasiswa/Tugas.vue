@@ -1,164 +1,235 @@
 <template>
   <div class="dashboard">
-		<NavbarMahasiswa :widthContent="width" />
-		<div :class="`content content-dalem ${width > 992 ? '' : 'hide'}`">
+    <NavbarMahasiswa :widthContent="width" />
+    <div :class="`content content-dalem ${width > 992 ? '' : 'hide'}`">
       <div class="section">
-				<div class="row">
-					<div class="col-lg-12 mb-3">
-						<div class="card-shadow mb-3">
-							<div class="p-3">
-								<h4 class="judul">Tugas</h4>
-								<div class="table-responsive">
-									<table class="table">
-										<thead>
-											<tr>
-												<th scope="col">JUDUL</th>
-												<th scope="col">DEADLINE</th>
-												<th scope="col">TUGAS</th>
-												<th scope="col">REPORT</th>
-												<th scope="col">WAKTU KIRIM</th>
-												<th scope="col">STATUS</th>
-												<th scope="col">AKSI</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr class="align-middle">
-												<td>
-													<p class="text-td">
-														TP1-W2-S3-R1
-													</p>
-												</td>
-												<td>
-													<div>
-														<div class="main-text">05 Juli 2021</div>
-														<div class="sub-text">00:00:00</div>
-													</div>
-												</td>
-												<td>
-													<div class="d-flex justify-content-center align-items-center">
-														<img src="../../assets/icons/download.svg" alt="">
-													</div>
-												</td>
-												<td>
-													<div class="d-flex justify-content-center align-items-center">
-														<img src="../../assets/icons/upload.svg" alt="">
-													</div>
-												</td>
-												<td>
-													<div>
-														<div class="main-text">05 Juli 2021</div>
-														<div class="sub-text">02:30:50</div>
-													</div>
-												</td>
-												<td>
-													<span class="badge badge-success text-success">Dinilai</span>
-												</td>
-												<td>
-													<div class="d-flex justify-content-center">
-														<button
-															type="button"
-															class="btn btn-primary btn-sm me-2"
-														>
-															<i class="fas fa-eye"></i>
-														</button>
-													</div>
-												</td>
-											</tr>
-											<tr class="align-middle">
-												<td>
-													<p class="text-td">
-														TP9-W1-S2-R15
-													</p>
-												</td>
-												<td>
-													<div>
-														<div class="main-text">07 Juli 2021</div>
-														<div class="sub-text">00:00:00</div>
-													</div>
-												</td>
-												<td>
-													<div class="d-flex justify-content-center align-items-center">
-														<img src="../../assets/icons/download.svg" alt="">
-													</div>
-												</td>
-												<td>
-													<div class="d-flex justify-content-center align-items-center">
-														<img src="../../assets/icons/upload.svg" alt="">
-													</div>
-												</td>
-												<td>
-													<div>
-														<div class="main-text">07 Juli 2021</div>
-														<div class="sub-text">02:30:50</div>
-													</div>
-												</td>
-												<td>
-													<span class="badge badge-success text-success">Dinilai</span>
-												</td>
-												<td>
-													<div class="d-flex justify-content-center">
-														<button
-															type="button"
-															class="btn btn-primary btn-sm me-2"
-														>
-															<i class="fas fa-eye"></i>
-														</button>
-													</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+        <div class="card-shadow mb-3">
+          <div class="p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="title-content">Tugas</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 mb-3">
+            <div class="card-shadow mb-3">
+              <div class="p-3">
+                <!-- <h4 class="judul">Tugas</h4> -->
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">JUDUL</th>
+                        <th scope="col">DEADLINE</th>
+                        <th scope="col">WAKTU KIRIM</th>
+                        <th scope="col">STATUS</th>
+                        <th scope="col">NILAI</th>
+                        <th scope="col">AKSI</th>
+                      </tr>
+                    </thead>
+                    <tbody v-if="dataTugas">
+                      <tr
+                        class="align-middle"
+                        v-for="(item, id) in dataTugas.data"
+                        :key="id"
+                      >
+                        <td>
+                          <p class="text-td">
+                            {{ item.tugas.nama }}
+                          </p>
+                        </td>
+                        <td>
+                          <div class="text-danger">
+                            <div class="main-text">
+                              {{ formatDate(item.tugas.selesai.split(" ")[0]) }}
+                            </div>
+                            <div class="sub-text">
+                              {{ item.tugas.selesai.split(" ")[1] }}
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div>
+                            <div class="main-text">
+                              {{
+                                item.tugas.penilaian_formated.created_at
+                                  ? formatDate(
+                                      item.tugas.penilaian_formated.created_at.split(
+                                        " "
+                                      )[0]
+                                    )
+                                  : "-"
+                              }}
+                            </div>
+                            <div class="sub-text">
+                              {{
+                                item.tugas.penilaian_formated.created_at
+                                  ? item.tugas.penilaian_formated.created_at.split(
+                                      " "
+                                    )[1]
+                                  : "-"
+                              }}
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            class="px-3 py-1 primary text-primary border-radius d-inline-block"
+                            style="font-weight: 600;"
+                            v-if="!item.tugas.penilaian"
+                          >
+                            Aktif
+                          </div>
+                          <div
+                            class="px-3 py-1 success text-success border-radius d-inline-block"
+                            style="font-weight: 600;"
+                            v-else-if="!item.tugas.penilaian_formated.nilai"
+                          >
+                            Sedang dinilai
+                          </div>
+                          <div
+                            class="px-3 py-1 success text-success border-radius d-inline-block"
+                            style="font-weight: 600;"
+                            v-else-if="item.tugas.penilaian_formated.nilai"
+                          >
+                            Dinilai
+                          </div>
+                        </td>
+                        <td>
+                          <span
+                            style="font-weight: 600;"
+                            v-if="
+                              !item.tugas.penilaian ||
+                                !item.tugas.penilaian_formated.nilai
+                            "
+                            >-</span
+                          >
+                          <span
+                            class="text-success"
+                            style="font-weight: 600;"
+                            v-else
+                            >{{ item.tugas.penilaian_formated.nilai }}</span
+                          >
+                        </td>
+                        <td>
+                          <div class="d-flex justify-content-center">
+                            <!-- <router-link
+                              :to="{
+                                name: 'Do Tugas',
+                                params: { id: item.tugas_id },
+                              }"
+                              class="
+                                btn btn-primary btn-sm
+                              "
+                              v-if="!item.tugas.penilaian"
+                            >
+                              Kerjakan
+                            </router-link> -->
+                            <a
+                              :href="
+                                $router.resolve({
+                                  name: 'Do Tugas',
+                                  params: { id: item.tugas_id },
+                                }).href
+                              "
+                              class="
+                                btn btn-primary btn-sm
+                              "
+                              v-if="!item.tugas.penilaian"
+                              >Kerjakan</a
+                            >
+                            <button
+                              class="
+                                btn btn-secondary btn-sm
+                              "
+                              disabled
+                              v-else
+                            >
+                              Selesai
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 /* eslint-env jquery */
+import axios from "axios";
+import { mapState } from "vuex";
+import moment from "moment";
 
 export default {
-	data: function() {
+  computed: {
+    ...mapState(["url"]),
+  },
+  data: function() {
     return {
       width: null,
+      dataTugas: null,
     };
+  },
+  methods: {
+    formatDate(date) {
+      return moment(date).format("DD MMM YYYY");
+    },
   },
   mounted() {
     this.width = $(document).width();
 
-    $(document).ready(function() {
-      $(".table").DataTable();
-    });
+    axios
+      .get(this.url + "tugas/mahasiswa/tugas/", {
+        headers: {
+          Authorization: localStorage.token,
+        },
+      })
+      .then((res) => {
+        this.dataTugas = res.data.data;
+        console.log(res);
+        setTimeout(() => {
+          $(".table").DataTable();
+        }, 500);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    $(document).ready(function() {});
   },
-}
+};
 </script>
 
 <style scoped>
-tr th{
-	text-align: center;
+tr th {
+  text-align: center;
 }
-tr td{
-	text-align: center;
+tr td {
+  text-align: center;
 }
-.judul{
-	color: rgba(40, 40, 40, 1);
-	font-size: 18px;
-	font-weight: 700;
-	margin-bottom: 20px;
+/* .judul {
+  color: rgba(40, 40, 40, 1);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
-.badge{
-	padding: 8px 18px !important;
-	font-size: 14px;
-	font-weight: 700;
+.badge {
+  padding: 8px 18px !important;
+  font-size: 14px;
+  font-weight: 700;
 }
-.badge-success{
-	background-color: rgba(40, 199, 111, 0.1);
+.badge-success {
+  background-color: rgba(40, 199, 111, 0.1);
 }
-.text-success{
-	color: rgba(40, 199, 111, 1) !important;
-}
+.text-success {
+  color: rgba(40, 199, 111, 1) !important;
+} */
 </style>
