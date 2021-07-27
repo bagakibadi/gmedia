@@ -11,10 +11,12 @@ stages:
       branch:
         include:
         - master
+        - development
   when:
     branch:
       include:
       - master
+      - development
 - name: deployk8s
   steps:
   - applyYamlConfig:
@@ -23,6 +25,7 @@ stages:
       branch:
         include:
         - master
+        - development
 timeout: 60
 branch:
   include:

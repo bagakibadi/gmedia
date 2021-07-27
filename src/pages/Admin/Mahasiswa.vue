@@ -91,6 +91,8 @@
                         <button
                           type="button"
                           class="btn btn-primary btn-sm me-2"
+                          @click="openEditMahasiswa(items.uuid)"
+                          data-bs-toggle="modal" data-bs-target="#lihatModal"
                         >
                           <i class="fas fa-eye"></i>
                         </button>
@@ -119,6 +121,126 @@
         </div>
       </div>
     </div>
+    <div class="modal fade"  id="lihatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="max-width: 750px;">
+				<div class="modal-content" style="border: none;border-radius: 20px !important;">
+					<button type="button"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<div class="modal-body modal-tambah" >
+						<div class="judul-modal-tambah">
+							<h3>Edit Mahasiswa</h3>
+						</div>
+            <hr>
+						<form action="" v-if="editMahasiswaData" >
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<label for="nama">Nama <span class="text-info">*</span></label>
+                    <div class="check-error">
+										  <input readonly type="text" v-model="editMahasiswaData.nama" name="nama" id="nama" class="form-control" placeholder="Nama Mahasiswa">
+                      <small :class="`text-danger d-flex ${validationEdit.nama.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.nama.message}}</small>
+                    </div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<label for="nim">NIM <span class="text-info">*</span></label>
+                    <div class="check-error">
+										  <input readonly type="number" v-model="editMahasiswaData.nim" name="nim" id="nim" class="form-control" placeholder="Nomor Induk Mahasiswa">
+                      <small :class="`text-danger d-flex ${validationEdit.nim.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.nim.message}}</small>
+                    </div>
+									</div>
+								</div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="email">Email <span class="text-info">*</span></label>
+                    <div class="check-error">
+                      <input readonly type="email" v-model="editMahasiswaData.email" name="email" id="email" class="form-control" placeholder="example@gmail.com">
+                      <small :class="`text-danger d-flex ${validationEdit.email.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.email.message}}</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+									<div class="form-group">
+										<label for="nomor">Nomor Telepon <span class="text-info">*</span></label>
+                    <div class="check-error">
+										  <input readonly type="number" v-model="editMahasiswaData.nohp" name="nomor" id="nomor" class="form-control" placeholder="081234567890">
+                      <small :class="`text-danger d-flex ${validationEdit.nohp.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.nohp.message}}</small>
+                    </div>
+									</div>
+								</div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="tgllahir">Tanggal Lahir</label>
+                    <div class="check-error">
+                      <input readonly type="date" name="tgllahir" v-model="editMahasiswaData.tgllahir" id="tgllahir" class="form-control">
+                      <small :class="`text-danger d-flex ${validationEdit.tgllahir.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.tgllahir.message}}</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="prodi">Prodi <span class="text-info">*</span></label>
+                    <div class="check-error">
+                      <select disabled name="prodi" v-model="editMahasiswaData.prodi_id" id="prodi" class="form-select">
+                        <option value="" selected>Pilih Prodi</option>
+                        <option :value="items.uuid" v-for="(items,index) in dataProdi.data" :key="index">{{items.nama}}</option>
+                      </select>
+                      <small :class="`text-danger d-flex ${validationEdit.prodi_id.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.prodi_id.message}}</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="gugus">Gugus <span class="text-info">*</span></label>
+                    <div class="check-error">
+                      <select disabled name="gugus" v-model="editMahasiswaData.gugus_id" id="gugus" class="form-select">
+                        <option value="" selected>Pilih Gugus</option>
+                        <option :value="items.uuid" v-for="(items,index) in dataGugus.data" :key="index">{{items.name}}</option>
+                      </select>
+                      <small :class="`text-danger d-flex ${validationEdit.gugus_id.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.gugus_id.message}}</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="fakultas">Fakultas <span class="text-info">*</span></label>
+                    <div class="check-error">
+                      <select disabled name="fakultas" v-model="editMahasiswaData.prodi.fakultas.uuid" id="fakultas" class="form-select">
+                        <option value="" selected>Pilih Fakultas</option>
+                        <option :value="items.uuid" v-for="(items,index) in dataFakultas.data" :key="index">{{items.nama}}</option>
+                      </select>
+                      <small :class="`text-danger d-flex ${validationEdit.fakultas_id.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.fakultas_id.message}}</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="alamat">Alamat Mahasiswa</label>
+                    <div class="check-error">
+                      <textarea readonly name="alamat" v-model="editMahasiswaData.alamat" id="alamat" style="height: 72px;" cols="30" rows="4" class="form-control" placeholder="Masukkan Alamat"></textarea>
+                      <small :class="`text-danger d-flex ${validationEdit.alamat.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.alamat.message}}</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="foto">Foto Mahasiswa</label>
+                    <img :src="editMahasiswaData.foto" class="img-show" alt="">
+                    <!-- <input type="file" :data-default-file="editMahasiswaData.foto" name="foto" id="fotomahasiswaEdit" class="dropify"> -->
+                  </div>
+                </div>
+								<div class="col-lg-12 footer-modal">
+                  <div class="d-flex justify-content-end">
+                    <!-- <button class="btn btn-primary" style="margin-right: 24px;">Edit</button> -->
+                    <a href="#" data-bs-dismiss="modal" aria-label="Close" class="btn btn-outline-primary">Batal</a>
+                  </div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
     <div class="modal fade"  id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" style="max-width: 750px;">
 				<div class="modal-content" style="border: none;border-radius: 20px !important;">
@@ -726,6 +848,16 @@ export default {
               }).catch(() => {
                 window.location.reload()
               });
+            } else{
+              Swal.fire(
+                'Gagal',
+                `${result.data.message}`,
+                'warning'
+              ).then(() => {
+                window.location.reload()
+              }).catch(() => {
+                window.location.reload()
+              });
             }
           }).catch((err) => {
             console.log(err)
@@ -814,7 +946,9 @@ export default {
       console.log(result)
       this.dataMahasiswa = result.data.data
       $(document).ready(function() {
-        $(".table").DataTable();
+        $(".table").DataTable({
+          pageLength: 25
+        });
       });
     }).catch((err) => {
       console.log(err)

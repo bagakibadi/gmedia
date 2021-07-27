@@ -19,6 +19,7 @@ import EditSoalUpload from "../pages/Admin/EditSoalUpload.vue";
 import TugasMaster from "../pages/Admin/Penugasan.vue";
 import StreamingMaster from "../pages/Admin/Streaming.vue";
 import kegiatanMaster from "../pages/Admin/Kegiatan.vue";
+import pemanduMaster from "../pages/Admin/Pemandu.vue";
 
 // Pemandu
 import DashboardPemandu from "../pages/Pemandu/index.vue";
@@ -112,6 +113,11 @@ const routes = [
     path: "/admin/kegiatan",
     name: "Kegiatan Master",
     component: kegiatanMaster,
+  },
+  {
+    path: "/admin/pemandu",
+    name: "Pemandu Master",
+    component: pemanduMaster,
   },
 
   // Pemandu
