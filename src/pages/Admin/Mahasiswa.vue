@@ -1029,11 +1029,5 @@ export default {
   font-weight: 700;
   line-height: 21.48px;
 }
-.footer-modal{
-  margin-bottom: 32px;
-}
-.footer-modal .btn{
-  width: 100px;
-  height: 36px;
-}
+
 </style>

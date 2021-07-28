@@ -459,6 +459,14 @@ input.form-check-input:checked {
    height: 110%;
 }
 
+.footer-modal{
+   margin-bottom: 32px;
+}
+.footer-modal .btn{
+   width: 100px;
+   height: 36px;
+}
+
 .dashboard-navigation .sidebar .name-member {
    font-weight: 600;
    overflow: hidden;

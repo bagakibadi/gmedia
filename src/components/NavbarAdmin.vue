@@ -89,6 +89,29 @@
             </div>
           </router-link>
 
+          <router-link :to="{ name: 'Pemandu Master' }">
+            <div
+              :class="
+                `item ${
+                  link[2] == 'pemandu' ? 'active' : ''
+                } d-flex align-items-center`
+              "
+            >
+              <div
+                style="width: 20px"
+                class="icons d-flex justify-content-center me-2"
+              >
+                <img class="none" src="../assets/icons/mahasiswa.svg" alt="" />
+                <img
+                  class="active"
+                  src="../assets/icons/mahasiswa-active.svg"
+                  alt=""
+                />
+              </div>
+              <div class="text">Data Pemandu</div>
+            </div>
+          </router-link>
+
           <router-link :to="{ name: 'Kegiatan Master' }">
             <div
               :class="
@@ -219,32 +242,83 @@
               <div class="text">Konten & Informasi</div>
             </div>
           </router-link>
-
-          <div
-            :class="
-              `item ${
-                link[2] == 'order' ? 'active' : ''
-              } d-flex align-items-center`
-            "
-            data-bs-toggle="collapse"
-            data-bs-target="#userManagement"
-            aria-expanded="false"
-            aria-controls="order"
-          >
+          <router-link :to="{ name: 'User Management' }">
             <div
-              style="width: 20px"
-              class="icons d-flex justify-content-center me-2"
+              :class="
+                `item ${
+                  link[2] == 'usermanagement' ? 'active' : ''
+                } d-flex align-items-center`
+              "
+              data-bs-toggle="collapse"
+              data-bs-target="#userManagement"
+              aria-expanded="false"
+              aria-controls="order"
             >
-              <img class="none" src="../assets/icons/user.svg" alt="" />
-              <img
-                class="active"
-                src="../assets/icons/user-active.svg"
-                alt=""
-              />
+              <div
+                style="width: 20px"
+                class="icons d-flex justify-content-center me-2"
+              >
+                <img class="none" src="../assets/icons/user.svg" alt="" />
+                <img
+                  class="active"
+                  src="../assets/icons/user-active.svg"
+                  alt=""
+                />
+              </div>
+              <div class="text">User Management</div>
             </div>
-            <div class="text">User Management</div>
-          </div>
-          <div class="collapse show" id="userManagement">
+          </router-link>
+          <router-link :to="{ name: 'Gugus Master' }">
+            <div
+              :class="
+                `item ${
+                  link[2] == 'gugus' ? 'active' : ''
+                } d-flex align-items-center`
+              "
+              data-bs-toggle="collapse"
+              aria-expanded="false"
+              aria-controls="order"
+            >
+              <div
+                style="width: 20px"
+                class="icons d-flex justify-content-center me-2"
+              >
+                <img class="none" src="../assets/icons/user.svg" alt="" />
+                <img
+                  class="active"
+                  src="../assets/icons/user-active.svg"
+                  alt=""
+                />
+              </div>
+              <div class="text">Data Gugus</div>
+            </div>
+          </router-link>
+          <router-link :to="{ name: 'Prodi Master' }">
+            <div
+              :class="
+                `item ${
+                  link[2] == 'prodi' ? 'active' : ''
+                } d-flex align-items-center`
+              "
+              data-bs-toggle="collapse"
+              aria-expanded="false"
+              aria-controls="order"
+            >
+              <div
+                style="width: 20px"
+                class="icons d-flex justify-content-center me-2"
+              >
+                <img class="none" src="../assets/icons/user.svg" alt="" />
+                <img
+                  class="active"
+                  src="../assets/icons/user-active.svg"
+                  alt=""
+                />
+              </div>
+              <div class="text">Data Prodi</div>
+            </div>
+          </router-link>
+          <!-- <div class="collapse show" id="userManagement">
             <router-link :to="{ name: 'Pemandu Master' }">
               <div
                 :class="
@@ -265,7 +339,7 @@
                 <div class="text">Pemandu</div>
               </div>
             </router-link>
-          </div>
+          </div> -->
         </div>
         <div class="menu-wrapper">
           <div class="menu-name">Lainnya</div>

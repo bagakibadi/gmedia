@@ -363,7 +363,7 @@ export default {
 		logins() {
 			this.validation.status = true
 			if(this.login.nim && this.login.password && this.login.password.length >= 8) {
-				axios.post('https://gmedia.primakom.co.id/gmedia/auth/login',{
+				axios.post('https://gmedia.primakom.co.id/auth/login',{
 					username: this.login.nim,
 					password: this.login.password
 				}).then((result) => {
@@ -371,6 +371,8 @@ export default {
 						localStorage.token = result.data.data.token
 	
 						if(result.data.data.role == "MHS") {
+							localStorage.uid = result.data.data.ruserid
+							localStorage.tkn = result.data.data.rusertoken
 							window.location.replace('/dashboard');
 						}
 	

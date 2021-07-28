@@ -40,7 +40,15 @@
 								</div>
 								<hr>
 								<div class="box-message">
-									<div id="pesan_id" class="d-flex mb-4">
+									<div v-for="(item,messageIndex) in messages" :key="messageIndex">
+										<b v-if="formatMessage (item).formattedDate">
+											{{formatMessage (item).formattedDate}}
+										</b>
+										<code>
+											{{item}}
+										</code>
+									</div>
+									<!-- <div id="pesan_id" class="d-flex mb-4">
 										<div class="img d-flex align-self-end justify-content-center">
 											F
 										</div>
@@ -65,38 +73,12 @@
 										<div class="img d-flex align-self-end justify-content-center">
 											F
 										</div>
-									</div>
-									<div id="pesan_id" class="d-flex mb-4">
-										<div class="img d-flex align-self-end justify-content-center">
-											F
-										</div>
-										<div>
-											<h6 class="text-box-name">Bagus Nur Solayman</h6>
-											<div class="text-section box-chat">
-												<div class="chat-content">
-													Selamat sore juga bu, alhamdulilah sehat dan dijauhkan dari berbagai penyakit
-												</div>
-											</div>
-										</div>
-									</div>
-									<div id="pesan_id" class="d-flex mb-4">
-										<div class="img d-flex align-self-end justify-content-center">
-											F
-										</div>
-										<div>
-											<h6 class="text-box-name">Bagus Nur Solayman</h6>
-											<div class="text-section box-chat">
-												<div class="chat-content">
-													Selamat sore juga bu, alhamdulilah sehat dan dijauhkan dari berbagai penyakit
-												</div>
-											</div>
-										</div>
-									</div>
+									</div> -->
 								</div>
 								<div class="row send-input">
 									<div class="d-flex">
-										<input type="text" class="form-control" placeholder="Tulis Pesan...">
-										<button class="btn btn-primary send-button">S</button>
+										<input type="text" v-model="pesannya" class="form-control" placeholder="Tulis Pesan...">
+										<button class="btn btn-primary send-button" @click="kirimpesan">S</button>
 									</div>
 								</div>
 							</div>
@@ -126,21 +108,177 @@
 </template>
 
 <script>
+import rcApi from '../Api/Index'
+import {RealTimeAPI} from 'rocket.chat.realtime.api.rxjs'
 /* eslint-env jquery */
+let api = null
 
 export default {
   data: function() {
     return {
+			webSocketUrl: 'wss://gmedia-chat.primakom.co.id/websocket',
+			connectedToApi: true,
+			loggedIn: false,
+			userId: 'ZkehsvNwF2dfYbE6G',
+			authToken: 'O8kwYjJNUjot-4SagpN_8UjLbv2DG5FZKQPHAW2LnxV',
+			username: 'gmedia190190',
+			password: '190190gmediaaselole00',
+			roomName: 'GENERAL',
+			roomId: '',
+			roomConnected: false,
+			newMessage: '',
+			messages: [],
+			errors: [],
+			lastSync: new Date ().getTime (),
+			syncInterval: 30000,
       width: null,
+			pesannya: null,
     };
   },
   mounted() {
+		const realtime = new RealTimeAPI(this.webSocketUrl)
+		api = rcApi.connectToRocketChat (this.webSocketUrl)
+		api.onError (error => this.errors.push (error))
+		// api.onCompletion (() => {
+		// 	// this.recoWs()
+		// 	// this.loginss()
+		// 	console.log ("finished")
+		// })
+		console.log(realtime.keepAlive())
+		api.onMessage (message => {
+			this.messages.push(message)
+			// console.log(message)
+			// if(message.msg == 'ping'){
+			// 	realtime.keepAlive()
+			// 	api = rcApi.connectToRocketChat (this.webSocketUrl)
+			// 	console.log('pong!');
+			// 	api.sendMessage(({"msg": "pong","params": [
+			// 		'GENERAL',
+			// 		false
+			// 	]}));
+			// 	return;
+			// }
+		})
+		api.connectToServer ()
+			.subscribe (() => {
+				// api = rcApi.connectToRocketChat (this.webSocketUrl)
+				// realtime.keepAlive()
+				api.keepAlive () // Ping Server
+			},
+			(error) => {
+				this.errors.push (error)
+			})
+
+		// vérification pour mobile devices
+		setInterval (function () {
+			let now = new Date ().getTime ()
+			// console.log ('verify sync')
+			if ((now - this.lastSync) > this.syncInterval) {
+				console.log ('out of sync')
+				this.syncPage()
+			}
+		}, 2000) // vérifie toutes les 1 sec que 30 sec ont passé depuis la dernière synchro
     this.width = $(document).width();
 
     $(document).ready(function() {
       $(".table").DataTable();
     });
+		this.loginss()
   },
+	methods: {
+		recows2() {
+        api = rcApi.connectToRocketChat (this.webSocketUrl)
+        api.onError (error => this.errors.push (error))
+        api.onCompletion (() => console.log ("finished"))
+        api.onMessage (message => {
+          this.messages.push (message)
+        })
+        api.connectToServer ()
+          .subscribe (() => {
+              api.keepAlive () // Ping Server
+            },
+            (error) => {
+              this.errors.push (error)
+            }
+          )
+					this.loginss()
+      },
+		recoWs() {
+			api = rcApi.connectToRocketChat (this.webSocketUrl)
+			api.onError (error => this.errors.push (error))
+			api.onCompletion (() => console.log ("finished") )
+			api.onMessage (message => {
+				this.messages.push (message)
+			})
+			api.connectToServer ()
+				.subscribe (() => {
+						api.keepAlive () // Ping Server
+					},
+					(error) => {
+						this.errors.push (error)
+					}
+				)
+		},
+		formatMessage(message) {
+			let result = {message}
+			if (message.fields !== undefined &&
+				message.fields.args !== undefined &&
+				message.fields.args.length > 0 &&
+				message.fields.args[0].ts !== undefined &&
+				message.fields.args[0].ts.$date !== undefined
+			) {
+				result.formattedDate = new Date (message.fields.args[0].ts.$date)
+			}
+			return result
+		},
+		loginss() {
+			api.loginWithAuthToken (localStorage.tkn)
+				.subscribe (apiEvent => {
+				if (apiEvent.msg === 'result') {
+					// success
+					this.messages.push(apiEvent.msg)
+					this.connectRoom()
+				}
+			}, (error) => {
+				this.errors.push (error)
+			})
+		},
+		syncPage() {
+			this.lastSync = new Date ().getTime ()
+			console.log ('Synch')
+			if (this.connectedToApi && api && api.webSocket !== null && api.webSocket.socket == null) {
+				// on log et on redémarre la fenêtre
+				console.log ('reload')
+				window.location.reload ()
+			}
+		},
+		connectRoom() {
+			api.sendMessage ({
+				"msg": "sub",
+				"id": '' + new Date ().getTime (),
+				"name": "stream-room-messages",
+				"params": [
+					'GENERAL',
+					false
+				]
+			})
+		},
+		kirimpesan() {
+			api.sendMessage ({
+				"msg": "method",
+				"method": "sendMessage",
+				"id": '' + new Date ().getTime (),
+				"params": [
+					{
+						"_id": '' + new Date ().getTime (),
+						"rid": 'GENERAL',
+						"msg": this.pesannya
+					}
+				]
+			})
+			this.pesannya = ''
+		},
+	}
 }
 </script>
 
