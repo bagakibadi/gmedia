@@ -3,14 +3,75 @@
     <NavbarAdmin :widthContent="width" />
     <div :class="`content ${width > 992 ? '' : 'hide'}`">
       <div class="section">
-        <div class="card-shadow mb-3">
+        <div class="card-shadow mb-4">
           <div class="p-3">
             <div class="d-flex justify-content-between align-items-center">
-              <div class="title-content">Penugasan</div>
+              <div class="d-flex align-items-center">
+                <button
+                  class="btn btn-primary me-2"
+                  type="button"
+                  v-if="status == 'tambah'"
+                  @click="status = 'default'"
+                >
+                  <i class="fas fa-arrow-left"></i>
+                </button>
+                <div>
+                  <div class="title-content">
+                    {{ status == "default" ? "Penugasan" : "Tambah Tugas" }}
+                  </div>
+                  <div class="title-type-soal" v-if="status == 'tambah'">
+                    1 - Pilih Gugus
+                  </div>
+                </div>
+              </div>
+              <button
+                class="btn btn-success"
+                type="button"
+                v-if="status == 'default'"
+                @click="status = 'tambah'"
+              >
+                + Buat Tugas
+              </button>
+              <div class="d-flex" v-else>
+                <button
+                  class="btn btn-success"
+                  type="button"
+                  @click="checkedAll"
+                  v-if="setGugus.length !== dataGugus.data.length"
+                >
+                  Pilih Semua Gugus
+                </button>
+                <button
+                  class="btn btn-danger"
+                  type="button"
+                  @click="checkedAll"
+                  v-else
+                >
+                  Batalkan Pilih
+                </button>
+                <div>
+                  <button
+                    class="btn btn-secondary ms-2"
+                    type="button"
+                    v-if="setGugus.length == 0"
+                    disabled
+                  >
+                    Selanjutnya
+                  </button>
+                  <router-link
+                    :to="{ name: 'Buat Tugas', params: { gugus: setGugus } }"
+                    class="btn btn-primary ms-2"
+                    type="button"
+                    v-else
+                  >
+                    Selanjutnya
+                  </router-link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="card-shadow mb-5">
+        <!-- <div class="card-shadow mb-5">
           <div class="p-3">
             <div class="d-flex justify-content-between align-items-center">
               <div>
@@ -27,76 +88,86 @@
                   />
                 </div>
               </div>
-              <router-link
-                v-if="type == 'esai'"
-                :to="{ name: 'Buat Soal Esai' }"
-                class="btn btn-success"
-                type="button"
-              >
-                + Buat Tugas
-              </router-link>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card-shadow mb-3">
-              <div class="p-3">
-                <div class="menu-float-card">
-                  <div class="dropstart">
-                    <div
-                      class="menu-float d-flex align-items-center justify-content-center"
-                      id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <i class="fas fa-ellipsis-h"></i>
-                    </div>
-                    <ul
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton1"
-                    >
-                      <li>
-                        <a
-                          class="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <div
-                            class="d-flex justify-content-center me-2"
-                            style="width: 20px;"
-                          >
-                            <img src="../../assets/icons/edit.svg" alt="" />
-                          </div>
-                          <div>Ubah</div>
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class="dropdown-item d-flex align-items-center"
-                          href="#"
-                        >
-                          <div
-                            class="d-flex justify-content-center me-2"
-                            style="width: 20px;"
-                          >
-                            <img src="../../assets/icons/hapus.svg" alt="" />
-                          </div>
-                          <div>Hapus</div>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="d-flex">
-                  <div>G1</div>
-                  <div>
-                    <div>Gugus 1</div>
+        </div> -->
+        <div class="row" v-if="dataGugus">
+          <div
+            class="col-md-4 col-sm-6"
+            v-for="(item, id) in dataGugus.data"
+            :key="id"
+          >
+            <router-link
+              :to="{ name: 'Streaming Master' }"
+              v-if="status == 'default'"
+              style="color: inherit;"
+            >
+              <div
+                class="card-shadow hoverable overflow-hidden position-relative mb-3"
+              >
+                <div class="p-3 position-relative" style="z-index: 2;">
+                  <div class="title-soal mb-5">{{ item.name }}</div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
                     <div class="d-flex align-items-center">
-                      <div>20 Mahasiswa</div>
+                      <div
+                        class="pemandu-img d-flex align-items-center justify-content-center"
+                      >
+                        <img src="../../assets/images/profile.jpeg" alt="" />
+                      </div>
+                      <div class="pemandu-gugus ms-2" v-if="item.pemandu[0]">
+                        {{ item.pemandu[0].nama }}
+                      </div>
                     </div>
+                    <div>{{ item.mahasiswa_count }} Mahsiswa</div>
                   </div>
                 </div>
+                <img
+                  class="card-icon-bg"
+                  src="../../assets/icons/card-bg.svg"
+                  alt=""
+                />
               </div>
+            </router-link>
+            <div v-else>
+              <label
+                class="card-shadow hoverable overflow-hidden position-relative mb-3 w-100"
+                :for="`gugus${id}`"
+              >
+                <div class="p-3 position-relative" style="z-index: 2;">
+                  <div class="d-flex justify-content-between">
+                    <div class="title-soal mb-5">{{ item.name }}</div>
+                    <input
+                      class="form-check-input cursor-pointer"
+                      type="checkbox"
+                      :id="`gugus${id}`"
+                      v-model="setGugus"
+                      :value="item.uuid"
+                    />
+                  </div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="pemandu-img d-flex align-items-center justify-content-center"
+                      >
+                        <img src="../../assets/images/profile.jpeg" alt="" />
+                      </div>
+                      <div class="pemandu-gugus ms-2" v-if="item.pemandu[0]">
+                        {{ item.pemandu[0].nama }}
+                      </div>
+                    </div>
+                    <div>{{ item.mahasiswa_count }} Mahsiswa</div>
+                  </div>
+                </div>
+                <img
+                  class="card-icon-bg"
+                  src="../../assets/icons/card-bg.svg"
+                  alt=""
+                />
+              </label>
             </div>
           </div>
         </div>
@@ -126,25 +197,56 @@
 
 <script>
 /* eslint-env jquery */
+import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
+  computed: {
+    ...mapState(["url"]),
+  },
   data: function() {
     return {
       width: null,
-      type: "esai",
+      dataGugus: null,
+      status: "default",
+      setGugus: [],
     };
   },
   methods: {
     changeType(type) {
       this.type = type;
     },
+    checkedAll() {
+      if (this.setGugus.length == this.dataGugus.data.length) {
+        this.setGugus = [];
+      } else if (this.setGugus.length < this.dataGugus.data.length) {
+        this.setGugus = [];
+        for (let i = 0; i < this.dataGugus.data.length; i++) {
+          this.setGugus.push(this.dataGugus.data[i].uuid);
+        }
+      } else {
+        for (let i = 0; i < this.dataGugus.data.length; i++) {
+          this.setGugus.push(this.dataGugus.data[i].uuid);
+        }
+      }
+    },
   },
   mounted() {
     this.width = $(document).width();
 
-    $(document).ready(function() {
-      $(".table").DataTable();
-    });
+    axios
+      .get(this.url + "tugas/superadmin/tugas", {
+        headers: {
+          Authorization: localStorage.token,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        this.dataGugus = res.data.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>

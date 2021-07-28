@@ -3,7 +3,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import LandingPage from "../pages/LandingPage.vue";
-import Logout from '../pages/Auth/Logout.vue';
+import Logout from "../pages/Auth/Logout.vue";
 
 // Admin
 import DashboardAdmin from "../pages/Admin/index.vue";
@@ -17,6 +17,7 @@ import EditSoalPG from "../pages/Admin/EditSoalPG.vue";
 import BuatSoalUpload from "../pages/Admin/BuatSoalUpload.vue";
 import EditSoalUpload from "../pages/Admin/EditSoalUpload.vue";
 import TugasMaster from "../pages/Admin/Penugasan.vue";
+import BuatTugas from "../pages/Admin/BuatTugas.vue";
 import StreamingMaster from "../pages/Admin/Streaming.vue";
 import kegiatanMaster from "../pages/Admin/Kegiatan.vue";
 import pemanduMaster from "../pages/Admin/Pemandu.vue";
@@ -43,8 +44,8 @@ const routes = [
     component: LandingPage,
   },
   {
-    path: '/logout',
-    name: 'Logout',
+    path: "/logout",
+    name: "Logout",
     component: Logout,
   },
 
@@ -105,6 +106,11 @@ const routes = [
     component: TugasMaster,
   },
   {
+    path: "/admin/tugas/buat",
+    name: "Buat Tugas",
+    component: BuatTugas,
+  },
+  {
     path: "/admin/streaming",
     name: "Streaming Master",
     component: StreamingMaster,
@@ -146,27 +152,27 @@ const routes = [
   {
     path: "/dashboard/conference",
     name: "Conference Mahasiswa",
-    component: ConferenceMahasiswa
+    component: ConferenceMahasiswa,
   },
   {
     path: "/dashboard/tugas",
     name: "Tugas Mahasiswa",
-    component: TugasMahasiswa
+    component: TugasMahasiswa,
   },
   {
     path: "/dashboard/tugas/:id",
     name: "Do Tugas",
-    component: DoTugas
+    component: DoTugas,
   },
   {
     path: "/dashboard/kuis",
     name: "Kuis Mahasiswa",
-    component: KuisMahasiswa
+    component: KuisMahasiswa,
   },
   {
     path: "/dashboard/aktivitas",
     name: "Aktivitas Mahasiswa",
-    component: AktivitasMahasiswa
+    component: AktivitasMahasiswa,
   },
 ];
 
