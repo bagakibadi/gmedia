@@ -17,7 +17,10 @@ import EditSoalPG from "../pages/Admin/EditSoalPG.vue";
 import BuatSoalUpload from "../pages/Admin/BuatSoalUpload.vue";
 import EditSoalUpload from "../pages/Admin/EditSoalUpload.vue";
 import TugasMaster from "../pages/Admin/Penugasan.vue";
-import BuatTugas from "../pages/Admin/BuatTugas.vue";
+import BuatTugas from "../pages/Admin/BuatTugas1.vue";
+import BobotSoal from "../pages/Admin/BuatTugas2.vue";
+import TugasGugus from "../pages/Admin/TugasGugus.vue";
+import DetailTugas from "../pages/Admin/DetailTugas.vue";
 import StreamingMaster from "../pages/Admin/Streaming.vue";
 import kegiatanMaster from "../pages/Admin/Kegiatan.vue";
 import pemanduMaster from "../pages/Admin/Pemandu.vue";
@@ -109,9 +112,24 @@ const routes = [
     component: TugasMaster,
   },
   {
-    path: "/admin/tugas/buat",
+    path: "/admin/tugas/buat-tugas",
     name: "Buat Tugas",
     component: BuatTugas,
+  },
+  {
+    path: "/admin/tugas/pilih-soal",
+    name: "Set Bobot Soal",
+    component: BobotSoal,
+  },
+  {
+    path: "/admin/tugas/:name/:id",
+    name: "List Tugas Gugus",
+    component: TugasGugus,
+  },
+  {
+    path: "/admin/tugas/:name_gugus/:id_gugus/detail-:id_tugas",
+    name: "Detail Tugas",
+    component: DetailTugas,
   },
   {
     path: "/admin/streaming",

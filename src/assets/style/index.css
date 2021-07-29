@@ -163,19 +163,19 @@ a:hover {
 }
 
 .warning {
-   background-color: var(--background-warning);
+   background-color: var(--background-warning) !important;
 }
 
 .success {
-   background-color: var(--background-success);
+   background-color: var(--background-success) !important;
 }
 
 .primary {
-   background-color: var(--background-primary);
+   background-color: var(--background-primary) !important;
 }
 
 .danger {
-   background-color: var(--background-danger);
+   background-color: var(--background-danger) !important;
 }
 
 .iti {

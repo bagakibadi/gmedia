@@ -11,7 +11,7 @@
                   class="btn btn-primary me-2"
                   type="button"
                   v-if="status == 'tambah'"
-                  @click="status = 'default'"
+                  @click="previous"
                 >
                   <i class="fas fa-arrow-left"></i>
                 </button>
@@ -37,9 +37,9 @@
                   class="btn btn-success"
                   type="button"
                   @click="checkedAll"
-                  v-if="setGugus.length !== dataGugus.data.length"
+                  v-if="this.setGugus.length !== this.dataGugus.total"
                 >
-                  Pilih Semua Gugus
+                  Pilih Semua Gugus Halaman {{ dataGugus.current_page }}
                 </button>
                 <button
                   class="btn btn-danger"
@@ -47,7 +47,7 @@
                   @click="checkedAll"
                   v-else
                 >
-                  Batalkan Pilih
+                  Batalkan Pilih Gugus
                 </button>
                 <div>
                   <button
@@ -58,14 +58,15 @@
                   >
                     Selanjutnya
                   </button>
-                  <router-link
-                    :to="{ name: 'Buat Tugas', params: { gugus: setGugus } }"
+                  <a
+                    :href="$router.resolve({ name: 'Buat Tugas' }).href"
                     class="btn btn-primary ms-2"
                     type="button"
+                    @click="next"
                     v-else
                   >
                     Selanjutnya
-                  </router-link>
+                  </a>
                 </div>
               </div>
             </div>
@@ -98,7 +99,10 @@
             :key="id"
           >
             <router-link
-              :to="{ name: 'Streaming Master' }"
+              :to="{
+                name: 'List Tugas Gugus',
+                params: { name: item.name, id: item.uuid },
+              }"
               v-if="status == 'default'"
               style="color: inherit;"
             >
@@ -171,23 +175,55 @@
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-center align-items-center mt-5 pb-5">
-          <div
-            class="pagination-arrow bg-secondary me-3 d-flex align-items-center justify-content-center"
-          >
-            <i class="fas fa-chevron-left text-white"></i>
-          </div>
-          <div class="d-flex align-items-center">
-            <div class="pagination-number text-primary px-2 py-1 mx-2">1</div>
-            <div class="pagination-number px-2 py-1 mx-2">2</div>
-            <div class="pagination-number px-2 py-1 mx-2">3</div>
-            <div class="pagination-number px-2 py-1 mx-2">4</div>
-            <div class="pagination-number px-2 py-1 mx-2">5</div>
-          </div>
-          <div
-            class="pagination-arrow bg-primary ms-3 d-flex align-items-center justify-content-center"
-          >
-            <i class="fas fa-chevron-right text-white"></i>
+        <div
+          class="d-flex justify-content-center align-items-center mt-5 pb-5"
+          v-if="dataGugus"
+        >
+          <div v-for="(item, id) in dataGugus.links" :key="id">
+            <div
+              :class="
+                `pagination-arrow ${
+                  dataGugus.prev_page_url
+                    ? 'bg-primary cursor-pointer'
+                    : 'bg-secondary'
+                } me-3 d-flex align-items-center justify-content-center`
+              "
+              @click="navigation(dataGugus.prev_page_url)"
+              v-if="item.label == 'pagination.previous'"
+            >
+              <i class="fas fa-chevron-left text-white"></i>
+            </div>
+            <div
+              class="d-flex align-items-center"
+              v-if="
+                item.label !== 'pagination.previous' &&
+                  item.label !== 'pagination.next'
+              "
+            >
+              <div
+                :class="
+                  `pagination-number ${
+                    item.active ? 'text-primary' : ''
+                  } px-2 py-1 mx-2`
+                "
+                @click="navigation(item.url)"
+              >
+                {{ item.label }}
+              </div>
+            </div>
+            <div
+              :class="
+                `pagination-arrow ${
+                  dataGugus.next_page_url
+                    ? 'bg-primary cursor-pointer'
+                    : 'bg-secondary'
+                } ms-3 d-flex align-items-center justify-content-center`
+              "
+              v-if="item.label == 'pagination.next'"
+              @click="navigation(dataGugus.next_page_url)"
+            >
+              <i class="fas fa-chevron-right text-white"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -217,17 +253,44 @@ export default {
       this.type = type;
     },
     checkedAll() {
-      if (this.setGugus.length == this.dataGugus.data.length) {
+      if (this.setGugus.length == this.dataGugus.total) {
         this.setGugus = [];
-      } else if (this.setGugus.length < this.dataGugus.data.length) {
-        this.setGugus = [];
-        for (let i = 0; i < this.dataGugus.data.length; i++) {
-          this.setGugus.push(this.dataGugus.data[i].uuid);
-        }
       } else {
         for (let i = 0; i < this.dataGugus.data.length; i++) {
           this.setGugus.push(this.dataGugus.data[i].uuid);
         }
+      }
+    },
+    next() {
+      localStorage.removeItem("tempGugus");
+      var array = JSON.stringify(this.setGugus);
+      localStorage.tempGugus = array;
+    },
+    previous() {
+      localStorage.removeItem("tempGugus");
+      localStorage.removeItem("tempSoal");
+      localStorage.removeItem("tempTugas");
+      this.setGugus = [];
+      this.status = "default";
+    },
+    navigation(url) {
+      if (url) {
+        this.dataGugus = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataGugus = res.data.data;
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
       }
     },
   },
@@ -243,6 +306,12 @@ export default {
       .then((res) => {
         console.log(res);
         this.dataGugus = res.data.data;
+
+        if (localStorage.tempGugus) {
+          var tempGugus = JSON.parse(localStorage.tempGugus);
+          this.setGugus = tempGugus;
+          this.status = "tambah";
+        }
       })
       .catch((err) => {
         console.log(err);
