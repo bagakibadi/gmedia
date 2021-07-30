@@ -41,6 +41,7 @@ import PenilaianDetailPemandu from "../pages/Pemandu/PenilaianDetailPemandu.vue"
 // Mahasiswa
 import DashboardMahasiswa from "../pages/Mahasiswa/index.vue";
 import ConferenceMahasiswa from "../pages/Mahasiswa/Conference.vue";
+import ListConferenceMahasiswa from "../pages/Mahasiswa/ListConference.vue";
 import TugasMahasiswa from "../pages/Mahasiswa/Tugas.vue";
 import DoTugas from "../pages/Mahasiswa/DoTugas.vue";
 import KuisMahasiswa from "../pages/Mahasiswa/Kuis.vue";
@@ -217,6 +218,11 @@ const routes = [
   },
   {
     path: "/dashboard/conference",
+    name: "List Conference",
+    component: ListConferenceMahasiswa
+  },
+  {
+    path: "/dashboard/conference/:id",
     name: "Conference Mahasiswa",
     component: ConferenceMahasiswa,
   },

@@ -1,0 +1,118 @@
+<template>
+  <div class="dashboard">
+    <NavbarMahasiswa :widthContent="width" />
+    <div :class="`content ${width > 992 ? '' : 'hide'}`">
+      <div class="section">
+        <div class="card-shadow mb-3">
+					<div class="p-3">
+						<div class="d-flex flex-wrap justify-content-between align-items-center">
+              <div class="title-content">List Konferensi</div>
+              <!-- <div class="d-flex">
+                <a href="#" type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#tambahModal" >
+                  + Tambah
+                </a>
+              </div> -->
+            </div>
+					</div>
+        </div>
+				<div class="card-shadow mb-3">
+					<div class="p-3">
+						<div class="table-responsive">
+							<table class="table" id="table">
+								<thead>
+									<tr>
+										<th>Nama Konferensi</th>
+										<th>Deskripsi</th>
+										<th>Tanggal Mulai</th>
+										<th>Nama Pemandu</th>
+										<th>Aksi</th>
+									</tr>
+								</thead>
+								<tbody v-if="dataKonferensi">
+									<tr v-for="(items,index) in dataKonferensi" :key="index">
+										<td>
+											{{items.nama}}
+										</td>
+										<td>
+											{{items.deskripsi}}
+										</td>
+										<td>
+											{{items.tanggal}}
+										</td>
+										<td>
+											<div v-if="items.pemandu">
+												{{items.pemandu.nama}}
+											</div>
+										</td>
+										<td>
+											<div>
+												<router-link :to="{ name: 'Conference Mahasiswa', params: { id: items.uuid } }" class="btn btn-shadow btn-primary">Join</router-link>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+  </div>
+</template>
+
+<script>
+/* eslint-disable no-undef */
+import axios from 'axios'
+
+export default {
+	data: function() {
+    return {
+      width: null,
+			dataKonferensi: null,
+		}
+	},
+	methods: {
+		getConference() {
+			axios.get('https://gmedia.primakom.co.id/gmedia/mahasiswa/konferensi', {
+				headers: {
+					Authorization: localStorage.token
+				}
+			}).then((result) => {
+				if(result.data.success) {
+					this.dataKonferensi = result.data.data
+					setTimeout(() => {
+						$('#table').dataTable()
+					}, 200);
+				}
+			}).catch((err) => {
+				console.log(err)
+			});
+		}
+	},
+	mounted() {
+		this.width = $(document).width();
+		this.getConference()
+	}
+}
+</script>
+
+<style scoped>
+.btn{
+	transition: .3s all;
+	padding: .375rem .75rem;
+	border-radius: .25rem !important;
+}
+.btn-shadow{
+	box-shadow: 0 7px 14px 0 rgb(80 110 228 / 50%);
+}
+.btn-primary{
+	background: #506ee4;
+	border-color: #506ee4;
+}
+.btn-primary:hover {
+	color: #fff;
+	box-shadow: none;
+	background-color: #2f53df;
+	border-color: #2449dd;
+}
+</style>
