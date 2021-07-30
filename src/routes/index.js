@@ -3,7 +3,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import LandingPage from "../pages/LandingPage.vue";
-import Logout from '../pages/Auth/Logout.vue';
+import Logout from "../pages/Auth/Logout.vue";
 
 // Admin
 import DashboardAdmin from "../pages/Admin/index.vue";
@@ -17,6 +17,10 @@ import EditSoalPG from "../pages/Admin/EditSoalPG.vue";
 import BuatSoalUpload from "../pages/Admin/BuatSoalUpload.vue";
 import EditSoalUpload from "../pages/Admin/EditSoalUpload.vue";
 import TugasMaster from "../pages/Admin/Penugasan.vue";
+import BuatTugas from "../pages/Admin/BuatTugas1.vue";
+import BobotSoal from "../pages/Admin/BuatTugas2.vue";
+import TugasGugus from "../pages/Admin/TugasGugus.vue";
+import DetailTugas from "../pages/Admin/DetailTugas.vue";
 import StreamingMaster from "../pages/Admin/Streaming.vue";
 import kegiatanMaster from "../pages/Admin/Kegiatan.vue";
 import pemanduMaster from "../pages/Admin/Pemandu.vue";
@@ -47,8 +51,8 @@ const routes = [
     component: LandingPage,
   },
   {
-    path: '/logout',
-    name: 'Logout',
+    path: "/logout",
+    name: "Logout",
     component: Logout,
   },
 
@@ -107,6 +111,26 @@ const routes = [
     path: "/admin/tugas",
     name: "Tugas Master",
     component: TugasMaster,
+  },
+  {
+    path: "/admin/tugas/buat-tugas",
+    name: "Buat Tugas",
+    component: BuatTugas,
+  },
+  {
+    path: "/admin/tugas/pilih-soal",
+    name: "Set Bobot Soal",
+    component: BobotSoal,
+  },
+  {
+    path: "/admin/tugas/:name/:id",
+    name: "List Tugas Gugus",
+    component: TugasGugus,
+  },
+  {
+    path: "/admin/tugas/:name_gugus/:id_gugus/detail-:id_tugas",
+    name: "Detail Tugas",
+    component: DetailTugas,
   },
   {
     path: "/admin/streaming",
@@ -170,27 +194,27 @@ const routes = [
   {
     path: "/dashboard/conference/:id",
     name: "Conference Mahasiswa",
-    component: ConferenceMahasiswa
+    component: ConferenceMahasiswa,
   },
   {
     path: "/dashboard/tugas",
     name: "Tugas Mahasiswa",
-    component: TugasMahasiswa
+    component: TugasMahasiswa,
   },
   {
     path: "/dashboard/tugas/:id",
     name: "Do Tugas",
-    component: DoTugas
+    component: DoTugas,
   },
   {
     path: "/dashboard/kuis",
     name: "Kuis Mahasiswa",
-    component: KuisMahasiswa
+    component: KuisMahasiswa,
   },
   {
     path: "/dashboard/aktivitas",
     name: "Aktivitas Mahasiswa",
-    component: AktivitasMahasiswa
+    component: AktivitasMahasiswa,
   },
 ];
 

@@ -81,7 +81,7 @@
                             Aktif
                           </div>
                           <div
-                            class="px-3 py-1 success text-success border-radius d-inline-block"
+                            class="px-3 py-1 warning text-warning border-radius d-inline-block"
                             style="font-weight: 600;"
                             v-else-if="!item.tugas.penilaian_formated.nilai"
                           >

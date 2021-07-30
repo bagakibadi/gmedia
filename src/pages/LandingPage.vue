@@ -65,8 +65,8 @@
 					</div>
 				</header>
 			</div>
-			<section style="padding: 90px 150px 0 150px;">
-				<div class="card-shadow" style="height: 160px;box-shadow: -2px 1px 24px rgba(221, 224, 228, 0.32);border-radius: 10px;">
+			<section class="tambahan">
+				<div class="card-shadow">
 					<div class="row g-0 h-100">
 						<div class="col-lg-4 h-100">
 							<div class="h-100 d-flex justify-content-center align-items-center padding-card-mid">
@@ -163,7 +163,7 @@
 						Berikut beberapa tanggapan dari alumni kampus UPN Veteran :
 					</p>
 				</div>
-				<div class="d-flex testimoni">
+				<div class="d-flex testimoni flex-wrap">
 					<div class=" mb-3">
 						<div class="card active">
 							<div class="card-body">
@@ -206,7 +206,7 @@
 					</p>
 				</div>
 				<div class="row">
-					<div class="col-lg-6" style="padding-right: 74px;">
+					<div class="col-lg-6 tentang-text" >
 						<div class="tentang">
 							<h4>Tentang UPN Veteran</h4>
 							<div class="divider"></div>
@@ -221,7 +221,7 @@
 			<div class="footers">
 				<div class="foot-top">
 					<div class="row m-0">
-						<div class="col-lg-4">
+						<div class="col-lg-4 menufooter">
 							<div class="logo-img">
 								<a href="#" class="logo-dinsos-footer">
 									<img
@@ -270,7 +270,7 @@
 				</div>
 				<div class="foot-bot">
 					<p>©UPNVeteranYogyakarta</p>
-					<p style="opacity: .3">v0.6.1</p>
+					<p style="opacity: .3">v0.6.8</p>
 				</div>
 			</div>
 		</div>

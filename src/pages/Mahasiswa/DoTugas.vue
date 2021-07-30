@@ -140,12 +140,34 @@
                         }`
                       "
                     >
+                      <div
+                        class="d-inline-block px-3 py-1 primary mb-2"
+                        style="border-radius: 50px;"
+                        v-if="collectSoal[currentSoal].fileName"
+                      >
+                        <div class="d-flex align-items-center">
+                          <!-- <div
+                            class="d-flex align-items-center justify-content-center cursor-pointer bg-danger me-2 text-white"
+                            style="width: 25px; height: 25px; border-radius: 50px; opacity: .7;"
+                            @click="deleteFile"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div> -->
+                          <div>
+                            File saat ini:
+                            <span
+                              class="text-primary"
+                              style="font-weight: 500;"
+                              >{{ collectSoal[currentSoal].fileName }}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
                       <input
                         type="file"
-                        :id="`gambar${currentSoal}`"
+                        :id="`gambar${id}`"
                         class="dropify"
-                        :data-default-file="collectSoal[currentSoal].file"
-                        @change="cekUpload()"
+                        @change="cekUpload('gambar' + id)"
                       />
                     </div>
                   </div>
@@ -256,7 +278,6 @@ export default {
       currentSoal: 0,
       dataLetter: [],
       collectSoal: [],
-      temporaryPG: [],
       countdown: {
         days: null,
         hours: null,
@@ -266,16 +287,17 @@ export default {
     };
   },
   methods: {
-    cekUpload() {
-      if (document.getElementById("gambar" + this.currentSoal).files[0]) {
+    cekUpload(id) {
+      if (document.getElementById(id).files[0]) {
         this.uploadGambar(
-          document.getElementById("gambar" + this.currentSoal).files[0]
+          document.getElementById(id).files[0],
+          id
         );
       } else {
         this.collectSoal[this.currentSoal].file = null;
       }
     },
-    uploadGambar(selector) {
+    uploadGambar(selector, id) {
       var reader = new FileReader();
       reader.onload = (e) => {
         // console.log(e)
@@ -286,10 +308,25 @@ export default {
       reader.onerror = function(error) {
         alert(error);
       };
+
+      console.log(id);
+      this.collectSoal[this.currentSoal].fileName = $("#" + id)
+        .val()
+        .split("\\")[2];
+
+      console.log(this.collectSoal[this.currentSoal].fileName);
       reader.readAsDataURL(selector);
+    },
+    deleteFile() {
+      this.collectSoal[this.currentSoal].file = "";
+      this.collectSoal[this.currentSoal].fileName = null;
     },
     nextSoal(idClicked, typeClicked) {
       this.currentSoal++;
+
+      localStorage.removeItem("tempSoal");
+      var array = JSON.stringify(this.collectSoal);
+      localStorage.tempSoal = array;
 
       if (typeClicked == "ESSAI") {
         // eslint-disable-next-line
@@ -306,6 +343,10 @@ export default {
     },
     previousSoal(idClicked, typeClicked) {
       this.currentSoal--;
+
+      localStorage.removeItem("tempSoal");
+      var array = JSON.stringify(this.collectSoal);
+      localStorage.tempSoal = array;
 
       if (typeClicked == "ESSAI") {
         // eslint-disable-next-line
@@ -352,6 +393,7 @@ export default {
                 "success"
               ).then(() => {
                 window.location.replace("/dashboard/tugas");
+                localStorage.removeItem("tempSoal");
               });
             })
             .catch((err) => {
@@ -369,13 +411,16 @@ export default {
 
     const contentIsi = () => {
       this.collectSoal[this.currentSoal].file = "";
+      this.collectSoal[this.currentSoal].fileName = null;
     };
 
-    const setTimer = (days, hours, minutes, seconds) => {
-      this.countdown.days = days;
-      this.countdown.hours = hours;
-      this.countdown.minutes = minutes;
-      this.countdown.seconds = seconds;
+    const setTimer = (days, hours, minutes, seconds, duration) => {
+      if (duration > 0) {
+        this.countdown.days = days;
+        this.countdown.hours = hours;
+        this.countdown.minutes = minutes;
+        this.countdown.seconds = seconds;
+      }
     };
 
     var editorInterval = setInterval(() => {
@@ -426,7 +471,7 @@ export default {
           var minutes = Math.floor(minutesLeft / 60);
           var remainingSeconds = duration % 60;
 
-          setTimer(days, hours, minutes, remainingSeconds);
+          setTimer(days, hours, minutes, remainingSeconds, duration);
 
           // If the count down is over, write some text
           if (duration < 0) {
@@ -463,48 +508,114 @@ export default {
 
         console.log(res);
 
-        for (let i = 0; i < this.dataSoal.tipe_soal.pilihan_ganda.jumlah; i++) {
-          this.collectSoal.push({
-            soal_id: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].uuid,
-            tipe: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].tipe,
-            kuncijawaban_id: "",
-            jawaban: "",
-            file: "",
-            isi: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].isi,
-            kuncijawaban: this.dataSoal.tipe_soal.pilihan_ganda.soal[i]
-              .kuncijawaban,
-            kategori: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].kategori,
-          });
+        if (localStorage.tempSoal) {
+          console.log("benar");
+          var tempSoal = JSON.parse(localStorage.tempSoal);
+          if (tempSoal[0].tugas_id == this.dataSoal.tugas.uuid) {
+            this.collectSoal = tempSoal;
+          } else {
+            for (
+              let i = 0;
+              i < this.dataSoal.tipe_soal.pilihan_ganda.jumlah;
+              i++
+            ) {
+              this.collectSoal.push({
+                soal_id: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].uuid,
+                tipe: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].tipe,
+                kuncijawaban_id: "",
+                jawaban: "",
+                file: "",
+                isi: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].isi,
+                kuncijawaban: this.dataSoal.tipe_soal.pilihan_ganda.soal[i]
+                  .kuncijawaban,
+                kategori: this.dataSoal.tipe_soal.pilihan_ganda.soal[i]
+                  .kategori,
+                fileName: null,
+                tugas_id: this.dataSoal.tugas.uuid,
+              });
+            }
 
-          this.temporaryPG.push({
-            kuncijawaban_id: null,
-          });
-        }
+            for (let i = 0; i < this.dataSoal.tipe_soal.essai.jumlah; i++) {
+              this.collectSoal.push({
+                soal_id: this.dataSoal.tipe_soal.essai.soal[i].uuid,
+                tipe: this.dataSoal.tipe_soal.essai.soal[i].tipe,
+                kuncijawaban_id: "",
+                jawaban: "",
+                file: "",
+                isi: this.dataSoal.tipe_soal.essai.soal[i].isi,
+                kuncijawaban: null,
+                kategori: this.dataSoal.tipe_soal.essai.soal[i].kategori,
+                fileName: null,
+                tugas_id: this.dataSoal.tugas.uuid,
+              });
+            }
 
-        for (let i = 0; i < this.dataSoal.tipe_soal.essai.jumlah; i++) {
-          this.collectSoal.push({
-            soal_id: this.dataSoal.tipe_soal.essai.soal[i].uuid,
-            tipe: this.dataSoal.tipe_soal.essai.soal[i].tipe,
-            kuncijawaban_id: "",
-            jawaban: "",
-            file: "",
-            isi: this.dataSoal.tipe_soal.essai.soal[i].isi,
-            kuncijawaban: null,
-            kategori: this.dataSoal.tipe_soal.essai.soal[i].kategori,
-          });
-        }
+            for (let i = 0; i < this.dataSoal.tipe_soal.upload.jumlah; i++) {
+              this.collectSoal.push({
+                soal_id: this.dataSoal.tipe_soal.upload.soal[i].uuid,
+                tipe: this.dataSoal.tipe_soal.upload.soal[i].tipe,
+                kuncijawaban_id: "",
+                jawaban: "",
+                file: "",
+                isi: this.dataSoal.tipe_soal.upload.soal[i].isi,
+                kuncijawaban: null,
+                kategori: this.dataSoal.tipe_soal.upload.soal[i].kategori,
+                fileName: null,
+                tugas_id: this.dataSoal.tugas.uuid,
+              });
+            }
+          }
+        } else {
+          console.log("Salah");
+          for (
+            let i = 0;
+            i < this.dataSoal.tipe_soal.pilihan_ganda.jumlah;
+            i++
+          ) {
+            this.collectSoal.push({
+              soal_id: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].uuid,
+              tipe: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].tipe,
+              kuncijawaban_id: "",
+              jawaban: "",
+              file: "",
+              isi: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].isi,
+              kuncijawaban: this.dataSoal.tipe_soal.pilihan_ganda.soal[i]
+                .kuncijawaban,
+              kategori: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].kategori,
+              fileName: null,
+              tugas_id: this.dataSoal.tugas.uuid,
+            });
+          }
 
-        for (let i = 0; i < this.dataSoal.tipe_soal.upload.jumlah; i++) {
-          this.collectSoal.push({
-            soal_id: this.dataSoal.tipe_soal.upload.soal[i].uuid,
-            tipe: this.dataSoal.tipe_soal.upload.soal[i].tipe,
-            kuncijawaban_id: "",
-            jawaban: "",
-            file: "",
-            isi: this.dataSoal.tipe_soal.upload.soal[i].isi,
-            kuncijawaban: null,
-            kategori: this.dataSoal.tipe_soal.upload.soal[i].kategori,
-          });
+          for (let i = 0; i < this.dataSoal.tipe_soal.essai.jumlah; i++) {
+            this.collectSoal.push({
+              soal_id: this.dataSoal.tipe_soal.essai.soal[i].uuid,
+              tipe: this.dataSoal.tipe_soal.essai.soal[i].tipe,
+              kuncijawaban_id: "",
+              jawaban: "",
+              file: "",
+              isi: this.dataSoal.tipe_soal.essai.soal[i].isi,
+              kuncijawaban: null,
+              kategori: this.dataSoal.tipe_soal.essai.soal[i].kategori,
+              fileName: null,
+              tugas_id: this.dataSoal.tugas.uuid,
+            });
+          }
+
+          for (let i = 0; i < this.dataSoal.tipe_soal.upload.jumlah; i++) {
+            this.collectSoal.push({
+              soal_id: this.dataSoal.tipe_soal.upload.soal[i].uuid,
+              tipe: this.dataSoal.tipe_soal.upload.soal[i].tipe,
+              kuncijawaban_id: "",
+              jawaban: "",
+              file: "",
+              isi: this.dataSoal.tipe_soal.upload.soal[i].isi,
+              kuncijawaban: null,
+              kategori: this.dataSoal.tipe_soal.upload.soal[i].kategori,
+              fileName: null,
+              tugas_id: this.dataSoal.tugas.uuid,
+            });
+          }
         }
       })
       .catch((err) => {

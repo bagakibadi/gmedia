@@ -13,7 +13,7 @@
     "core-js": "^3.6.5",
     "face-api.js": "^0.22.2",
     "moment": "^2.29.1",
-    "rocket.chat.realtime.api.rxjs": "0.0.4",
+    "rocket.chat.realtime.api.rxjs": "^0.0.4",
     "smartcrop": "^2.0.3",
     "sweetalert2": "^11.0.18",
     "vue": "^2.6.11",
