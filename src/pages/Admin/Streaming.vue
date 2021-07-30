@@ -132,7 +132,7 @@
 					</div>
 					<div class="modal-footer">
 						<a href="#" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
-						<button type="button" class="btn btn-primary" @click="tambahMeeting">Tambah Meeting</button>
+						<button type="button" class="btn btn-primary" @click="tambahMeeting">Tambah Konferensi</button>
 					</div>
 				</div>
 			</div>

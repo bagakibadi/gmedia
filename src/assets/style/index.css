@@ -445,7 +445,9 @@ input.form-check-input:checked {
    overflow: hidden;
    border-radius: 100px;
 }
-
+.chat-content{
+   min-height: 21px;
+}
 .dashboard-navigation .sidebar .profile-img img {
    height: 110%;
 }

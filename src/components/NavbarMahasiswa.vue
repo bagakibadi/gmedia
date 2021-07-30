@@ -133,7 +133,7 @@
           </router-link>
         </div>
 
-        <router-link :to="{ name: 'Conference Mahasiswa' }">
+        <router-link :to="{ name: 'List Conference' }">
           <div
             :class="
                 `item ${

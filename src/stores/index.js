@@ -21,7 +21,7 @@ export default new Vuex.Store({
           })
           .then((res) => {
             console.log(res);
-            console.log("mahasiswa");
+            localStorage.nim = res.data.data.nim
             commit("SET_POSTS", res.data);
           })
           .catch((err) => {
