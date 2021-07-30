@@ -58,7 +58,7 @@
 												<div :class="`img ${items.uid === user.uid ? 'd-none' : 'd-flex'} align-self-end justify-content-center`">
 													{{items.initial}}
 												</div>
-												<div>
+												<div style="max-width: calc(271px - 45px)">
 													<h6 class="text-box-name">{{items.nama}}</h6>
 													<div class="text-section box-chat">
 														<div class="chat-content">
