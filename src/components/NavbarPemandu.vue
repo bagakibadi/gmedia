@@ -111,11 +111,11 @@
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Dashboard AM' }">
+        <router-link :to="{ name: 'Penilaian Pemandu' }">
           <div
             :class="
               `item ${
-                $route.fullPath == '/account-manager' ? 'active' : ''
+                link[2] == 'penilaian' ? 'active' : ''
               } d-flex align-items-center`
             "
           >
@@ -147,16 +147,19 @@
               class="icons d-flex justify-content-center me-2"
             >
               <img class="none" src="../assets/icons/streaming.svg" alt="" />
-              <img class="active" src="../assets/icons/streaming-active.svg" alt="" />
+              <img
+                class="active"
+                src="../assets/icons/streaming-active.svg"
+                alt=""
+              />
             </div>
             <div class="text">Live Chat</div>
           </div>
         </router-link>
-
       </div>
       <div class="menu-wrapper">
         <div class="menu-name">Lainnya</div>
-        <router-link :to="{ name: 'Logout'}">
+        <router-link :to="{ name: 'Logout' }">
           <div class="item logout d-flex align-items-center">
             <div class="icons">
               <img class="none" src="../assets/icons/login.svg" alt="" />
@@ -191,7 +194,7 @@
                   </div>
                   <div class="d-flex align-items-center" v-if="userData">
                     <div class="text-end me-2">
-                      <div class="username">{{userData.data.nama}}</div>
+                      <div class="username">{{ userData.data.nama }}</div>
                       <div class="role">Pemandu Gugus 12</div>
                     </div>
                     <div
@@ -242,5 +245,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
