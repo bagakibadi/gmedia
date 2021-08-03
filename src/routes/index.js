@@ -23,6 +23,8 @@ import TugasGugus from "../pages/Admin/TugasGugus.vue";
 import DetailTugas from "../pages/Admin/DetailTugas.vue";
 import StreamingMaster from "../pages/Admin/Streaming.vue";
 import kegiatanMaster from "../pages/Admin/Kegiatan.vue";
+import TambahKegiatanMaster from "../pages/Admin/TambahKegiatan.vue";
+import EditKegiatanMaster from "../pages/Admin/EditKegiatan.vue";
 import pemanduMaster from "../pages/Admin/Pemandu.vue";
 import userManagement from "../pages/Admin/UserManagement.vue";
 import gugusMaster from "../pages/Admin/Gugus.vue";
@@ -32,6 +34,7 @@ import prodiMaster from "../pages/Admin/Prodi.vue";
 import DashboardPemandu from "../pages/Pemandu/index.vue";
 import PresensiPemandu from "../pages/Pemandu/Presensi.vue";
 import MahasiswaPemandu from "../pages/Pemandu/Mahasiswa.vue";
+import ChatPemandu from "../pages/Pemandu/Chat.vue";
 
 // Mahasiswa
 import DashboardMahasiswa from "../pages/Mahasiswa/index.vue";
@@ -143,6 +146,16 @@ const routes = [
     component: kegiatanMaster,
   },
   {
+    path: "/admin/kegiatan/tambah",
+    name: "Tambah Kegiatan Master",
+    component: TambahKegiatanMaster,
+  },
+  {
+    path: "/admin/kegiatan/edit/:id",
+    name: "Edit Kegiatan Master",
+    component: EditKegiatanMaster,
+  },
+  {
     path: "/admin/pemandu",
     name: "Pemandu Master",
     component: pemanduMaster,
@@ -178,6 +191,11 @@ const routes = [
     path: "/pemandu/mahasiswa",
     name: "Mahasiswa Pemandu",
     component: MahasiswaPemandu,
+  },
+  {
+    path: "/pemandu/chat",
+    name: "Chat Pemandu",
+    component: ChatPemandu,
   },
 
   // Mahasiswa

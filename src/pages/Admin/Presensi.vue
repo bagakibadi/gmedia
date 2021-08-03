@@ -126,16 +126,10 @@
                         <input type="text" name="nim" readonly id="nim" v-model="dataOnePresensi.user.mahasiswa.nim" class="form-control">
                       </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                       <div class="form-group">
-                        <label for="lat">Lat</label>
-                        <input type="number" name="lat" readonly id="lat" v-model="dataOnePresensi.lat" class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label for="long">Long</label>
-                        <input type="number" name="long" readonly id="long" v-model="dataOnePresensi.long" class="form-control">
+                        <label for="alamat">Alamat</label>
+                        <textarea name="alamat" id="alamat" style="min-height: 80px" v-model="dataOnePresensi.alamat" class="form-control" cols="30" rows="10"></textarea>
                       </div>
                     </div>
                     <div class="col-lg-6">
@@ -192,7 +186,7 @@ export default {
       return moment(a).lang("id").format('MMMM Do YYYY')
     },
     timeChange(a) {
-      return moment(a).lang("id").format('h:mm:ss')
+      return moment(a).lang("id").format('H:mm:ss')
     }
   },
   mounted() {

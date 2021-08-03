@@ -1,4 +1,124 @@
 <template>
+<div>
+  <div class="chat">
+    <div class="box-chats shadow" id="box-chat">
+      <div class="name-chat">
+        <div class="d-flex align-items-center">
+          <img class="profile-42" src="../assets/icons/profile.svg" alt="">
+          <h3 class="name-profile">Admin Pemandu</h3>
+        </div>
+        <div class="d-flex align-items-center">
+          <img style="margin-right: 35px" src="../assets/icons/search-2.svg" alt="">
+          <img src="../assets/icons/burger-circle.svg" alt="">
+        </div>
+      </div>
+      <div class="message-box">
+        <div class="mb-4 d-flex chatme">
+          <div class="no-me">
+            <div data-v-4610f4d6="" class="img d-none align-self-end justify-content-center"> 1 </div>
+            <div style="max-width: 100%">
+              <h6 data-v-4610f4d6="" class="text-box-name">12345678911</h6>
+              <div data-v-4610f4d6="" class="text-section box-chat">
+                <div data-v-4610f4d6="" class="chat-content">
+                  ha
+                </div>
+                <small data-v-4610f4d6="" class="times">
+                  11:42
+                </small>
+              </div>
+            </div>
+          </div>
+          <div data-v-4610f4d6="" class="img d-flex aa align-self-end justify-content-center"> 1 </div>
+        </div>
+        <div class="mb-4 d-flex chatme">
+          <div class="no-me">
+            <div data-v-4610f4d6="" class="img d-none align-self-end justify-content-center"> 1 </div>
+            <div style="max-width: 100%">
+              <h6 data-v-4610f4d6="" class="text-box-name">12345678911</h6>
+              <div data-v-4610f4d6="" class="text-section box-chat">
+                <div data-v-4610f4d6="" class="chat-content">
+                  text-section text-section text-section text-section text-section text-section
+                </div>
+                <small data-v-4610f4d6="" class="times">
+                  11:42
+                </small>
+              </div>
+            </div>
+          </div>
+          <div data-v-4610f4d6="" class="img d-flex aa align-self-end justify-content-center"> 1 </div>
+        </div>
+        <div class="mb-4 d-flex chatme">
+          <div class="no-me">
+            <div data-v-4610f4d6="" class="img d-none align-self-end justify-content-center"> 1 </div>
+            <div style="max-width: 100%">
+              <h6 data-v-4610f4d6="" class="text-box-name">12345678911</h6>
+              <div data-v-4610f4d6="" class="text-section box-chat">
+                <div data-v-4610f4d6="" class="chat-content">
+                  ha
+                </div>
+                <small data-v-4610f4d6="" class="times">
+                  11:42
+                </small>
+              </div>
+            </div>
+          </div>
+          <div data-v-4610f4d6="" class="img d-flex aa align-self-end justify-content-center"> 1 </div>
+        </div>
+        <div class="mb-4 d-flex">
+          <div class="no-me">
+            <div data-v-4610f4d6="" class="img  align-self-end justify-content-center"> 1 </div>
+            <div style="max-width: 100%">
+              <h6 data-v-4610f4d6="" class="text-box-name">12345678911</h6>
+              <div data-v-4610f4d6="" class="text-section box-chat">
+                <div data-v-4610f4d6="" class="chat-content">
+                  ha
+                </div>
+                <small data-v-4610f4d6="" class="times">
+                  11:42
+                </small>
+              </div>
+            </div>
+          </div>
+          <div data-v-4610f4d6="" class="img d-none aa align-self-end justify-content-center"> 1 </div>
+        </div>
+      </div>
+      <form action="" @submit.prevent="kirimpesan">
+        <div class="send-box">
+          <input type="text" name="sendmsg" id="sendmsg" class="form-control " v-model="pesann" placeholder="Tulis Pesan..">
+          <div>
+            <button class="btn btn-primary profile-42 ms-3"><img src="../assets/icons/plane.svg" alt=""></button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="box-chats shadow" id="box-pemandu">
+      <div class="row h-100 align-items-center m-0">
+        <div class="px-4">
+          <div class="card-shadow">
+            <div class="p-3">
+              <form action="" @submit.prevent="pilihPemandu">
+                <div class="form-group mb-4">
+                  <label for="pemandu">Pilih Pemandu</label>
+                  <select name="pemandu" required v-model="pemanduuid" id="pemandu" class="form-select">
+                    <option value="" selected disabled>Pilih</option>
+                    <option :value="items.user.rusername" v-for="(items, index) in dataPemandu.data[0].pemandu" :key="index">{{items.nama}}</option>
+                  </select>
+                </div>
+                <div class="">
+                  <button class="btn btn-primary w-100"><img src="../assets/icons/plane.svg" class="me-2" alt=""> Kirim Pesan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end w-100">
+      <div @click="openChat" class="around-chat">
+        <img src="../assets/icons/chat.svg" alt="">
+      </div>
+    </div>
+  </div>
   <div class="dashboard-navigation">
     <div :class="`sidebar ${$attrs.widthContent > 992 ? '' : 'hide'}`">
       <div
@@ -208,12 +328,17 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 /* eslint-env jquery */
 import Swal from "sweetalert2";
 import { mapState } from "vuex";
+import axios from 'axios';
+import rcApi from '../pages/Api/Index'
+// import moment from 'moment'
+let api
 
 export default {
   computed: {
@@ -222,12 +347,57 @@ export default {
   data: function() {
     return {
       link: this.$route.fullPath.split("/"),
+      dataPemandu: null,
+      isiChats: null,
+      webSocketUrl: 'wss://gmedia-chat.primakom.co.id/websocket',
+      errors: [],
+      messagess: [],
+      lastSync: new Date ().getTime (),
+      syncInterval: 30000,
+      connectedToApi: true,
+      pesann: null,
+      pemanduuid: '',
+      dmRoom: ''
     };
   },
   beforeCreate() {
     this.$store.dispatch("getMahasiswa");
   },
   methods: {
+    kirimpesan() {
+			if(this.pesann) {
+				api.sendMessage ({
+					"msg": "method",
+					"method": "sendMessage",
+					"id": '' + new Date ().getTime (),
+					"params": [
+						{
+							"_id": '' + new Date ().getTime (),
+							"rid": this.dmRoom,
+							"msg": this.pesann
+						}
+					]
+				})
+				this.pesann = ''
+			}
+		},
+    openChat(){
+      document.getElementById('box-pemandu').classList.toggle('d-block')
+      if(document.querySelector('#box-chat').classList.contains('d-block')) {
+        document.getElementById('box-chat').classList.remove('d-block')
+        document.getElementById('box-pemandu').classList.remove('d-block')
+      }
+    },
+    pilihPemandu(){
+      api.sendMessage({
+        "msg": "method",
+        "method": "createDirectMessage",
+        "id": "roomid",
+        "params": [this.pemanduuid]
+      })
+      document.getElementById('box-pemandu').classList.remove('d-block')
+      document.getElementById('box-chat').classList.add('d-block')
+    },
     submit() {
       this.section = 0;
       Swal.fire("Data Berhasil Disimpan", "", "success");
@@ -241,10 +411,231 @@ export default {
       localStorage.clear();
       window.location.replace("/");
     },
+    getPemandu() {
+      axios.get('https://gmedia.primakom.co.id/gmedia/mahasiswa/gugus', {
+        headers: {
+          Authorization: localStorage.token
+        }
+      }).then((result) => {
+        this.dataPemandu = result.data.data
+      }).catch((err) => {
+        console.log(err)
+      });
+    },
+    connectRoom(a) {
+      api.sendMessage({
+        "msg": "sub",
+        "id": '' + new Date ().getTime (),
+        "name": "stream-notify-room",
+        "params": [
+          a,
+          false
+        ]
+      });
+		},
+    loginss() {
+			api.loginWithAuthToken (localStorage.tkn)
+				.subscribe (apiEvent => {
+				if (apiEvent.msg === 'result') {
+					// success
+					this.messagess.push(apiEvent.msg)
+          // this.createDirectMessage()
+					// this.connectRoom()
+				}
+			}, (error) => {
+				this.errors.push (error)
+			})
+    },
+    syncPage() {
+			this.lastSync = new Date ().getTime ()
+			console.log ('Synch')
+			if (this.connectedToApi && api && api.webSocket !== null && api.webSocket.socket == null) {
+				// on log et on redémarre la fenêtre
+				console.log ('reload')
+				window.location.reload ()
+			}
+		},
+
   },
-  mounted() {},
+  mounted() {
+    this.getPemandu()
+    api = rcApi.connectToRocketChat (this.webSocketUrl)
+			api.onError (error => this.errors.push (error))
+			api.onCompletion (() => console.log ("finished"))
+			api.onMessage (message => {
+				// let scrollDown = document.getElementById('box-message')
+				// if(message.msg === 'changed' && message.collection === 'stream-notify-room-users'){
+				// 	let datenya = new Date(message.fields.args[0].ts.$date)
+				// 	this.isiChats.push({
+				// 		value: message.fields.args[0].msg,
+				// 		date: moment(datenya).lang("id").format('h:mm'),
+				// 		nama: message.fields.args[0].u.name,
+				// 		uid: message.fields.args[0].u._id,
+				// 		initial: message.fields.args[0].u.name.charAt(0)
+				// 	})
+				// 	setTimeout(() => {
+				// 		scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
+				// 	}, 200);
+				// 	return;
+				// }
+        if(message.msg === 'result' && message.result) {
+          this.messagess = message
+        }
+				if(message.msg === 'result' && message.id === 'roomid'){
+          this.dmRoom = message.result.rid
+          this.connectRoom(message.result.rid)
+				}
+			})
+			api.connectToServer ()
+				.subscribe (() => {
+					api.keepAlive () // Ping Server
+				},
+				(error) => {
+					this.errors.push (error)
+				})
+
+			// vérification pour mobile devices
+			setInterval (function () {
+				let now = new Date ().getTime ()
+				if ((now - this.lastSync) > this.syncInterval) {
+					console.log ('out of sync')
+					this.syncPage()
+				}
+			}, 2000) // vérifie toutes les 1 sec que 30 sec ont passé depuis la dernière synchro
+			this.loginss()
+			// setTimeout(() => {
+			// 	this.recconect = false
+			// }, 1000);
+  },
 };
 </script>
 
 <style scoped>
+.chatme .no-me{
+  display: block !important;
+}
+.no-me{
+  display: flex;
+}
+.chatme{
+	justify-content: flex-end;
+}
+.box-chat{
+	position: relative;
+	max-width: 290px;
+	box-shadow: 0px 2px 5px 2px #00000012 !important;
+	border-radius: 10px;
+	border-bottom-left-radius: 0;
+	/* padding: 18px; */
+	padding: 6px 60px 8px 9px;
+	/* background: rgba(20, 104, 245, 1); */
+	background: rgba(114, 142, 224, 1);
+	color: white;
+	margin: 0 0 0 16px;
+}
+.chatme small.times{
+	color: #333 !important;
+}
+.box-chat small.times{
+	position: absolute;
+	right: 10px;
+	bottom: 3px;
+	font-size: 10px;
+	color: #ddd;
+}
+.chatme .box-chat{
+	background: #DDE0E4;
+	color: rgba(40, 40, 40, 1);
+	margin: 0 16px 0 0;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 0;
+}
+.chatme .text-box-name{
+	text-align: end;
+	margin: 0 20px 8px 0;
+}
+.text-box-name{
+	margin: 0 0 8px 16px;
+	font-size: 14px;
+	font-weight: 700;
+	color: rgba(40, 40, 40, 1);
+}
+
+.img{
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ccc;
+}
+.send-box{
+  width: 100%;
+  height: 70px;
+  padding: 14px 24px;
+  background: white;
+  display: flex;
+}
+/* .send-box  */
+.message-box{
+  width: 100%;
+  height: 360px;
+  overflow-y: auto;
+  padding: 10px 24px 10px 24px;
+}
+.name-profile{
+  margin-left: 12px;
+  margin-bottom: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: black;
+}
+.profile-42{
+  width: 42px;
+  height: 42px;
+  border-radius: 100% !important;
+  object-fit: cover;
+}
+.name-chat{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+  background: white;
+  padding: 14px 24px;
+}
+.chat{
+  position: fixed;
+  bottom: 50px;
+  right: 28px;
+  z-index: 2;
+}
+.box-chats{
+  display: none;
+  position: relative;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  width: 400px;
+  height: 500px;
+  background-color: rgba(255, 255, 255, 0.5);
+  background-image: url('../assets/icons/chat-background.svg');
+}
+.around-chat{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 47px;
+  height: 47px;
+  transition: .5s all;
+  border-radius: 100%;
+  background: rgba(20, 97, 245, 1);
+  box-shadow: 0px 2px 20px rgba(0,0,0,0.4)!important;
+}
+.around-chat:hover{
+  background: rgb(74, 129, 233);
+}
 </style>

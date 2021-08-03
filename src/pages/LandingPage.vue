@@ -378,6 +378,8 @@ export default {
 	
 						if(result.data.data.role == "PMD") {
 							// router.push({ name: 'Dashboard Mahasiswa'})
+							localStorage.uid = result.data.data.ruserid
+							localStorage.tkn = result.data.data.rusertoken
 							window.location.replace('/pemandu');
 						}
 	
