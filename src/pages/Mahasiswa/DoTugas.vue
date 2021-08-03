@@ -14,6 +14,22 @@
         </div>
         <div class="row">
           <div class="col-lg-9 col-md-8">
+            <div
+              class="card-shadow mb-3 warning text-warning"
+              v-if="loadingSend"
+            >
+              <div class="p-3">
+                <div class="d-flex align-items-center">
+                  <i
+                    class="fas fa-info-circle me-2"
+                    style="font-size: 22px;"
+                  ></i>
+                  <div style="font-size: 18px; font-weight: 500;">
+                    Sedang mengirim jawaban! Mohon menunggu.
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="card-shadow mb-3">
               <div class="p-3">
                 <div
@@ -143,7 +159,7 @@
                       <div
                         class="d-inline-block px-3 py-1 primary mb-2"
                         style="border-radius: 50px;"
-                        v-if="collectSoal[currentSoal].fileName"
+                        v-if="collectSoal[currentSoal].nama_file"
                       >
                         <div class="d-flex align-items-center">
                           <!-- <div
@@ -158,7 +174,7 @@
                             <span
                               class="text-primary"
                               style="font-weight: 500;"
-                              >{{ collectSoal[currentSoal].fileName }}</span
+                              >{{ collectSoal[currentSoal].nama_file }}</span
                             >
                           </div>
                         </div>
@@ -167,13 +183,36 @@
                         type="file"
                         :id="`gambar${id}`"
                         class="dropify"
+                        data-max-file-size="10M"
+                        data-allowed-file-extensions="jpeg jpg png docx doc txt pdf xlsx mp4 mpeg mov"
                         @change="cekUpload('gambar' + id)"
                       />
+                      <div class="mt-3 p-3 border-radius warning">
+                        <div
+                          class="fw-bold mb-2"
+                          style="opacity: .7; font-size: 16px;"
+                        >
+                          Perhatian!
+                        </div>
+                        <ol class="ps-3 mb-0" style="opacity: .7">
+                          <li>
+                            Ukuran file yang akan diupload maksimal
+                            <b>10 Mb</b>.
+                          </li>
+                          <li>
+                            Fileyang boleh diupload hanya berupa
+                            <b>gambar (.jpeg, .jpg, .png)</b>,
+                            <b>dokumen (.docx, .doc, .txt, .pdf, .xlsx)</b>, dan
+                            <b>video (.mp4, .mpeg, .mov)</b>.
+                          </li>
+                        </ol>
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div
                   class="d-flex flex-column flex-md-row justify-content-between pt-5"
+                  v-if="!loadingSend"
                 >
                   <button
                     class="btn btn-secondary px-4 mb-3 mb-md-0"
@@ -278,6 +317,7 @@ export default {
       currentSoal: 0,
       dataLetter: [],
       collectSoal: [],
+      loadingSend: false,
       countdown: {
         days: null,
         hours: null,
@@ -289,10 +329,7 @@ export default {
   methods: {
     cekUpload(id) {
       if (document.getElementById(id).files[0]) {
-        this.uploadGambar(
-          document.getElementById(id).files[0],
-          id
-        );
+        this.uploadGambar(document.getElementById(id).files[0], id);
       } else {
         this.collectSoal[this.currentSoal].file = null;
       }
@@ -309,17 +346,23 @@ export default {
         alert(error);
       };
 
-      console.log(id);
-      this.collectSoal[this.currentSoal].fileName = $("#" + id)
+      const name = $("#" + id).val();
+      const lastDot = name.lastIndexOf(".");
+
+      const ext = name.substring(lastDot + 1);
+
+      this.collectSoal[this.currentSoal].ekstensi = ext;
+      this.collectSoal[this.currentSoal].nama_file = $("#" + id)
         .val()
         .split("\\")[2];
 
-      console.log(this.collectSoal[this.currentSoal].fileName);
+      console.log(this.collectSoal[this.currentSoal].file);
+
       reader.readAsDataURL(selector);
     },
     deleteFile() {
       this.collectSoal[this.currentSoal].file = "";
-      this.collectSoal[this.currentSoal].fileName = null;
+      this.collectSoal[this.currentSoal].nama_file = null;
     },
     nextSoal(idClicked, typeClicked) {
       this.currentSoal++;
@@ -373,6 +416,7 @@ export default {
         confirmButtonText: "Simpan Jawaban",
       }).then((result) => {
         if (result.isConfirmed) {
+          this.loadingSend = true;
           axios
             .post(
               this.url + "tugas/mahasiswa/serahkan/" + id,
@@ -387,16 +431,23 @@ export default {
             )
             .then((res) => {
               console.log(res);
-              Swal.fire(
-                "Tugas Dikirim!",
-                "Jawaban telah disimpan.",
-                "success"
-              ).then(() => {
-                window.location.replace("/dashboard/tugas");
-                localStorage.removeItem("tempSoal");
-              });
+              this.loadingSend = false;
+
+              if (res.data.success) {
+                Swal.fire(
+                  "Tugas Dikirim!",
+                  "Jawaban telah disimpan.",
+                  "success"
+                ).then(() => {
+                  window.location.replace("/dashboard/tugas");
+                  localStorage.removeItem("tempSoal");
+                });
+              } else {
+                Swal.fire("Tugas Gagal Dikirim!", res.data.message, "warning");
+              }
             })
             .catch((err) => {
+              this.loadingSend = false;
               console.log(err);
             });
         }
@@ -411,7 +462,7 @@ export default {
 
     const contentIsi = () => {
       this.collectSoal[this.currentSoal].file = "";
-      this.collectSoal[this.currentSoal].fileName = null;
+      this.collectSoal[this.currentSoal].nama_file = null;
     };
 
     const setTimer = (days, hours, minutes, seconds, duration) => {
@@ -445,9 +496,16 @@ export default {
           remove: "Hapus",
           error: "Ooops, telah terjadi kesalahan.",
         },
+        error: {
+          fileSize: "Ukuran file terlalu besar, maksimal {{ value }}b.",
+          imageFormat: "File yg diupload hanya boleh berupa ({{ value }}).",
+        },
       });
 
       dropify.on("dropify.afterClear", function() {
+        contentIsi();
+      });
+      dropify.on("dropify.errors", function() {
         contentIsi();
       });
     }, 500);
@@ -525,12 +583,13 @@ export default {
                 kuncijawaban_id: "",
                 jawaban: "",
                 file: "",
+                ekstensi: "",
+                nama_file: null,
                 isi: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].isi,
                 kuncijawaban: this.dataSoal.tipe_soal.pilihan_ganda.soal[i]
                   .kuncijawaban,
                 kategori: this.dataSoal.tipe_soal.pilihan_ganda.soal[i]
                   .kategori,
-                fileName: null,
                 tugas_id: this.dataSoal.tugas.uuid,
               });
             }
@@ -542,10 +601,11 @@ export default {
                 kuncijawaban_id: "",
                 jawaban: "",
                 file: "",
+                ekstensi: "",
+                nama_file: null,
                 isi: this.dataSoal.tipe_soal.essai.soal[i].isi,
                 kuncijawaban: null,
                 kategori: this.dataSoal.tipe_soal.essai.soal[i].kategori,
-                fileName: null,
                 tugas_id: this.dataSoal.tugas.uuid,
               });
             }
@@ -557,10 +617,11 @@ export default {
                 kuncijawaban_id: "",
                 jawaban: "",
                 file: "",
+                ekstensi: "",
+                nama_file: null,
                 isi: this.dataSoal.tipe_soal.upload.soal[i].isi,
                 kuncijawaban: null,
                 kategori: this.dataSoal.tipe_soal.upload.soal[i].kategori,
-                fileName: null,
                 tugas_id: this.dataSoal.tugas.uuid,
               });
             }
@@ -578,11 +639,12 @@ export default {
               kuncijawaban_id: "",
               jawaban: "",
               file: "",
+              ekstensi: "",
+              nama_file: null,
               isi: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].isi,
               kuncijawaban: this.dataSoal.tipe_soal.pilihan_ganda.soal[i]
                 .kuncijawaban,
               kategori: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].kategori,
-              fileName: null,
               tugas_id: this.dataSoal.tugas.uuid,
             });
           }
@@ -594,10 +656,11 @@ export default {
               kuncijawaban_id: "",
               jawaban: "",
               file: "",
+              ekstensi: "",
+              nama_file: null,
               isi: this.dataSoal.tipe_soal.essai.soal[i].isi,
               kuncijawaban: null,
               kategori: this.dataSoal.tipe_soal.essai.soal[i].kategori,
-              fileName: null,
               tugas_id: this.dataSoal.tugas.uuid,
             });
           }
@@ -609,10 +672,11 @@ export default {
               kuncijawaban_id: "",
               jawaban: "",
               file: "",
+              ekstensi: "",
+              nama_file: null,
               isi: this.dataSoal.tipe_soal.upload.soal[i].isi,
               kuncijawaban: null,
               kategori: this.dataSoal.tipe_soal.upload.soal[i].kategori,
-              fileName: null,
               tugas_id: this.dataSoal.tugas.uuid,
             });
           }

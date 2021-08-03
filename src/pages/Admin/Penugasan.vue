@@ -87,10 +87,17 @@
                                 }).href
                               "
                               class="
-                                btn btn-primary btn-sm
+                                btn btn-primary btn-sm me-2
                               "
-                              >Detail</a
+                              ><i class="fas fa-eye"></i
+                            ></a>
+                            <button
+                              class="btn btn-danger btn-sm text-white"
+                              type="button"
+                              @click="deleteTugas(item.uuid)"
                             >
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -111,6 +118,7 @@
 import axios from "axios";
 import { mapState } from "vuex";
 import moment from "moment";
+import Swal from "sweetalert2";
 
 export default {
   computed: {
@@ -125,6 +133,45 @@ export default {
   methods: {
     formatDate(date) {
       return moment(date).format("DD MMM YYYY");
+    },
+    deleteTugas(id) {
+      console.log(id);
+
+      Swal.fire({
+        title: "Apakah anda yakin menghapus tugas ini?",
+        text: "Data anda tidak dapat dikembalikan setelah dihapus!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#fb4b4b",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Hapus Tugas!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios
+            .delete(this.url + "tugas/superadmin/tugas/" + id, {
+              headers: {
+                Authorization: localStorage.token,
+              },
+            })
+            .then((res) => {
+              console.log(res);
+              if (res.data.success) {
+                Swal.fire("Tugas telah dihapus!", "", "success").then(() => {
+                  location.reload();
+                });
+              } else {
+                Swal.fire({
+                  position: "center",
+                  icon: "error",
+                  title: res.data.messages,
+                });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
     },
   },
   mounted() {

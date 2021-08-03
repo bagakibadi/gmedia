@@ -30,7 +30,7 @@
           <div class="col-lg-12 mb-3">
             <div class="card-shadow mb-3">
               <div class="p-3">
-                <!-- <h4 class="judul">Tugas</h4> -->
+                <h4 class="judul">Tugas</h4>
                 <div class="table-responsive">
                   <table class="table">
                     <thead>
@@ -74,7 +74,7 @@
                           </div>
                         </td>
                         <td class="text-center">
-                          <div
+                          <!-- <div
                             class="px-3 py-1 danger text-danger border-radius d-inline-block"
                             style="font-weight: 600;"
                             v-if="item.tugas.pengerjaan.length == 0"
@@ -97,25 +97,27 @@
                             v-else
                           >
                             Dinilai
-                          </div>
+                          </div> -->
                         </td>
                         <td>
                           <div class="d-flex justify-content-center">
-                            <router-link
-                              :to="{
-                                name: 'Detail Penilaian',
-                                params: {
-                                  name_gugus: $route.params.name,
-                                  id_gugus: $route.params.id,
-                                  name_tugas: item.nama,
-                                  id_tugas: item.uuid,
-                                },
-                              }"
+                            <a
+                              :href="
+                                $router.resolve({
+                                  name: 'Detail Penilaian',
+                                  params: {
+                                    name_gugus: $route.params.name,
+                                    id_gugus: $route.params.id,
+                                    name_tugas: item.nama,
+                                    id_tugas: item.uuid,
+                                  },
+                                }).href
+                              "
                               class="
                                 btn btn-primary btn-sm
                               "
                               v-if="!item.penilaian"
-                              >Detail</router-link
+                              >Detail</a
                             >
                           </div>
                         </td>
@@ -127,6 +129,29 @@
             </div>
           </div>
         </div>
+        <!-- <div class="card-shadow mb-3">
+          <div class="p-3">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center">
+                <div></div>
+                <div>Tugas</div>
+              </div>
+              <div>Tenggat Waktu: 10 Agustus, 12:00</div>
+            </div>
+          </div>
+          <div class="p-3">
+            <div></div>
+            <div class="row">
+              <div class="col-md-6">
+                <div>
+                  Kerjakan soal yang diberikan dengan teliti. Kerjakan dengan
+                  ketulusan hati dan yang terpenting adalah kejujuran.
+                </div>
+              </div>
+              <div class="col-md-6"></div>
+            </div>
+          </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -156,9 +181,12 @@ export default {
   mounted() {
     this.width = $(document).width();
 
+    console.log(this.$route.params.id);
     axios
       .get(
-        this.url + "tugas/superadmin/tugas/pergugus/" + this.$route.params.id,
+        this.url +
+          "tugas/superadmin/tugas/list-tugas-per-gugus/" +
+          this.$route.params.id,
         {
           headers: {
             Authorization: localStorage.token,

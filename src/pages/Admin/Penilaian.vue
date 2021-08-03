@@ -35,7 +35,7 @@
         <div class="row" v-if="dataGugus">
           <div
             class="col-md-4 col-sm-6"
-            v-for="(item, id) in dataGugus"
+            v-for="(item, id) in dataGugus.data"
             :key="id"
           >
             <router-link
@@ -196,7 +196,7 @@ export default {
     this.width = $(document).width();
 
     axios
-      .get(this.url + "gmedia/superadmin/gugus", {
+      .get(this.url + "tugas/superadmin/tugas/list-gugus", {
         headers: {
           Authorization: localStorage.token,
         },

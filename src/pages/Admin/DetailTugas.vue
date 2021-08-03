@@ -20,9 +20,9 @@
                   <div class="title-content">
                     Detail Tugas
                   </div>
-                  <!-- <div class="title-type-soal">
-                    {{ $route.params.name_gugus }}
-                  </div> -->
+                  <div class="title-type-soal">
+                    {{ form.master.judul }}
+                  </div>
                 </div>
               </div>
               <div class="d-flex">
@@ -410,18 +410,68 @@
                 >
                   Ubah
                 </button>
-                <button
-                  class="btn btn-danger me-2 text-white"
-                  type="button"
-                  @click="status = 'default'"
-                  v-else
-                >
-                  Batal
-                </button>
+                <div v-else>
+                  <button
+                    :class="
+                      `btn ${
+                        totalBobot !== 100 || !isFilledAll
+                          ? 'btn-secondary'
+                          : 'btn-success'
+                      } me-2`
+                    "
+                    type="button"
+                    :disabled="totalBobot !== 100 || !isFilledAll"
+                    @click="editSoal"
+                  >
+                    Simpan
+                  </button>
+                  <button
+                    class="btn btn-danger me-2 text-white"
+                    type="button"
+                    @click="status = 'default'"
+                  >
+                    Batal
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-          <div class="row" v-if="dataSoal">
+          <div
+            :class="
+              `card-shadow ${
+                totalBobot == 0 || totalBobot > 100
+                  ? 'danger text-danger'
+                  : totalBobot == 100 && isFilledAll
+                  ? 'success text-success'
+                  : 'warning text-warning'
+              } mb-3`
+            "
+            v-if="status == 'edit'"
+          >
+            <div class="p-3">
+              <div class="d-flex align-items-center">
+                <i class="fas fa-info-circle me-2" style="font-size: 22px;"></i>
+                <div style="font-size: 18px; font-weight: 500;">
+                  {{
+                    totalBobot > 0
+                      ? totalBobot > 100
+                        ? "Total bobot nilai melebihi 100! (Total " +
+                          totalBobot +
+                          ")"
+                        : totalBobot == 100
+                        ? isFilledAll
+                          ? "Total bobot nilai 100."
+                          : "Total bobot nilai 100 namun ada bobot soal yang belum diisi!"
+                        : "Total bobot nilai " +
+                          totalBobot +
+                          ". Sesuaikan bobot nilai hingga mencapai nilai 100"
+                      : "Input bobot nilai soal yang telah anda pilih!"
+                  }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row pb-4" v-if="dataSoal">
             <div
               class="col-md-4 col-sm-6"
               v-for="(item, id) in defaultSoal"
@@ -429,7 +479,7 @@
             >
               <div class="d-block card-shadow mb-3">
                 <div class="p-3">
-                  <div class="mb-4" v-if="item.foto !== ''">
+                  <div class="mb-4" v-if="item.soal.foto !== ''">
                     <div
                       class="img-question d-flex align-items-center justify-content-center"
                     >
@@ -440,12 +490,12 @@
                     <div class="fw-bold">
                       Soal
                       <span class="text-capitalize">{{
-                        item.tipe.toLowerCase()
+                        item.soal.tipe.toLowerCase()
                       }}</span>
                     </div>
                     <div
                       style="font-size: 16px; font-weight: 300;"
-                      v-html="item.isi"
+                      v-html="item.soal.isi"
                     ></div>
                   </div>
                   <div
@@ -455,45 +505,172 @@
                       <div
                         class="py-1 d-inline-block px-2 text-success success"
                         style="border-radius: 7px; font-weight: 500;"
-                        v-if="item.kategori == 'MUDAH'"
+                        v-if="item.soal.kategori == 'MUDAH'"
                       >
                         Mudah
                       </div>
                       <div
                         class="py-1 d-inline-block px-2 text-warning warning"
                         style="border-radius: 7px; font-weight: 500;"
-                        v-else-if="item.kategori == 'SEDANG'"
+                        v-else-if="item.soal.kategori == 'SEDANG'"
                       >
                         Sedang
                       </div>
                       <div
                         class="py-1 d-inline-block px-2 text-danger danger"
                         style="border-radius: 7px; font-weight: 500;"
-                        v-else-if="item.kategori == 'SULIT'"
+                        v-else-if="item.soal.kategori == 'SULIT'"
                       >
                         Sulit
                       </div>
-                      <input
-                        type="number"
-                        :class="
-                          `form-control ${
-                            bobotSoal[id].bobot ? 'success' : ''
-                          } mt-2 number-input`
-                        "
-                        style="width: 105px; !important; border-width: 2px;"
-                        :id="`bobot${id}`"
-                        @change="checkBobot(id)"
-                        v-model="bobotSoal[id].bobot"
-                        placeholder="Bobot Soal"
-                        min="0"
-                        max="100"
-                      />
+                      <div>
+                        <div
+                          v-if="status == 'default'"
+                          class="mt-2 px-3 py-1 primary text-primary border-radius d-inline-block fw-bold"
+                        >
+                          Bobot {{ item.bobot }}
+                        </div>
+                        <input
+                          type="number"
+                          :class="
+                            `form-control ${
+                              item.bobot ? 'success' : ''
+                            } mt-2 number-input`
+                          "
+                          style="width: 105px; !important; border-width: 2px;"
+                          :id="`bobot${id}`"
+                          @change="checkBobot(id)"
+                          v-model="item.bobot"
+                          placeholder="Bobot Soal"
+                          min="0"
+                          max="100"
+                          v-else
+                        />
+                      </div>
                     </div>
                     <div style="opacity: .5">
-                      {{ formatDate(item.created_at) }}
+                      {{ formatDate(item.soal.created_at) }}
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div v-if="status == 'edit'">
+            <div class="card-shadow warning mb-3">
+              <div class="p-3">
+                <div class="title-content text-warning">
+                  Atur Soal
+                </div>
+                <!-- <div class="row">
+                  <div class="col-lg-3 col-md-4 col-6">
+                    <label class="form-label">Tipe Soal</label>
+                    <select
+                      v-model="filter.tipe"
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option value="default" selected disabled
+                        >- Pilih Tipe Soal -</option
+                      >
+                      <option value="essai">Essai</option>
+                      <option value="pilihan_ganda">Pilihan Ganda</option>
+                      <option value="upload">Upload</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-3 col-md-4 col-6">
+                    <label class="form-label">Kategori Soal</label>
+                    <select
+                      v-model="filter.kategori"
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option value="default" selected disabled
+                        >- Pilih Kategori Soal -</option
+                      >
+                      <option value="mudah">Mudah</option>
+                      <option value="sedang">Sedang</option>
+                      <option value="sulit">Sulit</option>
+                    </select>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+
+            <div class="row" v-if="dataSoal">
+              <div
+                class="col-md-4 col-sm-6"
+                v-for="(item, id) in dataSoal"
+                :key="id"
+              >
+                <label
+                  :for="`soal${id}`"
+                  class="d-block card-shadow hoverable mb-3"
+                >
+                  <div class="p-3">
+                    <input
+                      class="form-check-input cursor-pointer floating-check"
+                      type="checkbox"
+                      :id="`soal${id}`"
+                      v-model="defaultSoal"
+                      :value="{
+                        id: item.uuid,
+                        soal: dataSoal[id],
+                        bobot: item.bobot,
+                      }"
+                      @change="checkboxEvent"
+                    />
+                    <div class="mb-4" v-if="item.foto !== ''">
+                      <div
+                        class="img-question d-flex align-items-center justify-content-center"
+                      >
+                        <img :src="item.foto" alt="" />
+                      </div>
+                    </div>
+                    <div>
+                      <div class="fw-bold">
+                        Soal
+                        <span class="text-capitalize">{{
+                          item.tipe.toLowerCase()
+                        }}</span>
+                      </div>
+                      <div
+                        style="font-size: 16px; font-weight: 300;"
+                        v-html="item.isi"
+                      ></div>
+                    </div>
+                    <div
+                      class="d-flex justify-content-between align-items-center mt-5"
+                    >
+                      <div>
+                        <div
+                          class="py-1 d-inline-block px-2 text-success success"
+                          style="border-radius: 7px; font-weight: 500;"
+                          v-if="item.kategori == 'MUDAH'"
+                        >
+                          Mudah
+                        </div>
+                        <div
+                          class="py-1 d-inline-block px-2 text-warning warning"
+                          style="border-radius: 7px; font-weight: 500;"
+                          v-else-if="item.kategori == 'SEDANG'"
+                        >
+                          Sedang
+                        </div>
+                        <div
+                          class="py-1 d-inline-block px-2 text-danger danger"
+                          style="border-radius: 7px; font-weight: 500;"
+                          v-else-if="item.kategori == 'SULIT'"
+                        >
+                          Sulit
+                        </div>
+                      </div>
+                      <div style="opacity: .5">
+                        {{ formatDate(item.created_at) }}
+                      </div>
+                    </div>
+                  </div>
+                </label>
               </div>
             </div>
           </div>
@@ -522,8 +699,14 @@ export default {
       dataSoal: null,
       defaultGugus: [],
       defaultSoal: [],
+      totalBobot: null,
+      isFilledAll: true,
       menu: "Master Tugas",
       status: "default",
+      filter: {
+        tipe: "default",
+        kategori: "default",
+      },
       form: {
         master: {
           judul: "",
@@ -548,6 +731,65 @@ export default {
     changeMenu(menu) {
       this.menu = menu;
       this.status = "default";
+    },
+    checkBobot(id) {
+      var arr = [];
+      var validation = 0;
+      console.log(id);
+
+      if (this.defaultSoal[id].bobot > 100) {
+        this.defaultSoal[id].bobot = 100;
+      } else if (this.defaultSoal[id].bobot < 0) {
+        this.defaultSoal[id].bobot = 0;
+      }
+
+      for (let i = 0; i < this.defaultSoal.length; i++) {
+        if (this.defaultSoal[i].bobot) {
+          arr.push(parseInt(this.defaultSoal[i].bobot));
+        } else {
+          arr.push(0);
+          validation++;
+        }
+      }
+
+      this.totalBobot = arr.reduce((a, b) => a + b, 0);
+
+      if (validation == 0) {
+        this.isFilledAll = true;
+      } else {
+        this.isFilledAll = false;
+      }
+    },
+    checkboxEvent() {
+      var arr = [];
+      var validation = 0;
+
+      for (let i = 0; i < this.defaultSoal.length; i++) {
+        if (this.defaultSoal[i].bobot) {
+          arr.push(parseInt(this.defaultSoal[i].bobot));
+        } else {
+          arr.push(0);
+          validation++;
+        }
+      }
+
+      this.totalBobot = arr.reduce((a, b) => a + b, 0);
+
+      if (validation == 0) {
+        this.isFilledAll = true;
+      } else {
+        this.isFilledAll = false;
+      }
+    },
+    deleteSoal(id) {
+      const arr = this.defaultSoal;
+      var removeIndex = arr
+        .map(function(item) {
+          return item.soal.uuid;
+        })
+        .indexOf(id);
+
+      arr.splice(removeIndex, 1);
     },
     editMaster() {
       Swal.fire({
@@ -615,6 +857,52 @@ export default {
                 this.$route.params.id,
               {
                 gugus: this.form.setGugus,
+              },
+              {
+                headers: {
+                  Authorization: localStorage.token,
+                },
+              }
+            )
+            .then((res) => {
+              console.log(res);
+              Swal.fire("Data telah diubah!", "", "success").then(() => {
+                window.location.reload();
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
+    },
+    editSoal() {
+      Swal.fire({
+        title: "Apakah anda yakin mengubah soal?",
+        text: "Data otomatis akan berubah!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0B7517",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Ubah",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          var arrSoal = [];
+
+          for (let i = 0; i < this.defaultSoal.length; i++) {
+            arrSoal.push({
+              uuid: this.defaultSoal[i].soal.uuid,
+              bobot: this.defaultSoal[i].bobot,
+            });
+          }
+
+          axios
+            .put(
+              this.url +
+                "tugas/superadmin/tugas/update-soal/" +
+                this.$route.params.id,
+              {
+                soal: arrSoal,
               },
               {
                 headers: {
@@ -736,15 +1024,25 @@ export default {
         var soal = this.dataSoal;
         var set_soal = this.form.setSoal;
         var arr = [];
+        var arrBobot = [];
 
         for (let i = 0; i < this.form.setSoal.length; i++) {
           for (let j = 0; j < soal.length; j++) {
             if (set_soal[i].uuid == soal[j].uuid) {
-              // soal[j].push({ bobot: set_soal[i].bobot });
-              arr.push({ soal: soal[j], bobot: set_soal[i].bobot });
+              arr.push({
+                id: soal[j].uuid,
+                soal: soal[j],
+                bobot: set_soal[i].bobot,
+              });
             }
           }
         }
+
+        for (let k = 0; k < arr.length; k++) {
+          arrBobot.push(parseInt(arr[k].bobot));
+        }
+
+        this.totalBobot = arrBobot.reduce((a, b) => a + b, 0);
 
         this.defaultSoal = arr;
       })
