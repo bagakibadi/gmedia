@@ -187,7 +187,7 @@
               <div class="text">Tugas</div>
             </div>
           </router-link>
-          <router-link :to="{ name: 'Kuis Mahasiswa' }">
+          <!-- <router-link :to="{ name: 'Kuis Mahasiswa' }">
             <div
               :class="
                 `item sub ${
@@ -206,7 +206,7 @@
               </div>
               <div class="text">Kuis</div>
             </div>
-          </router-link>
+          </router-link> -->
         </div>
 
         <router-link :to="{ name: 'List Conference' }">
@@ -273,7 +273,15 @@
                     <div
                       class="profile align-items-center justify-content-center"
                     >
-                      <img src="../assets/images/profile.jpeg" alt="" />
+                      <img
+                        src="../assets/ilustrasi/avatar-mahasiswa.svg"
+                        alt=""
+                        v-if="
+                          userData.data.foto == '' ||
+                            userData.data.foto == 'foto.jpg'
+                        "
+                      />
+                      <img :src="userData.data.foto" v-else alt="" />
                     </div>
                   </div>
                 </div>

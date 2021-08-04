@@ -224,7 +224,7 @@ const routes = [
   },
   {
     path: "/pemandu/penilaian/:name-:id",
-    name: "Detail Penilaian",
+    name: "Detail Penilaian Pemandu",
     component: PenilaianDetailPemandu,
   },
 

@@ -492,7 +492,7 @@ export default {
       // console.log(faceapi.detectSingleFace())
     },
     formatDate(date) {
-      return moment(date).format("DD MMM YYYY");
+      return moment(date).locale("id").format("DD MMMM YYYY");
     },
     getLocation(longitude, latitude) {
       var address;
