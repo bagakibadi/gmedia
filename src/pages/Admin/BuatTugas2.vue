@@ -8,7 +8,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
                 <a
-                  :href="$router.resolve({ name: 'Buat Tugas' }).href"
+                  :href="$router.resolve({ name: 'Atur Tugas' }).href"
                   class="btn btn-primary me-2"
                   type="button"
                 >

@@ -17,10 +17,13 @@ import EditSoalPG from "../pages/Admin/EditSoalPG.vue";
 import BuatSoalUpload from "../pages/Admin/BuatSoalUpload.vue";
 import EditSoalUpload from "../pages/Admin/EditSoalUpload.vue";
 import TugasMaster from "../pages/Admin/Penugasan.vue";
-import BuatTugas from "../pages/Admin/BuatTugas1.vue";
+import PilihGugus from "../pages/Admin/BuatTugas0.vue";
+import AturTugas from "../pages/Admin/BuatTugas1.vue";
 import BobotSoal from "../pages/Admin/BuatTugas2.vue";
-import TugasGugus from "../pages/Admin/TugasGugus.vue";
 import DetailTugas from "../pages/Admin/DetailTugas.vue";
+import PenilaianMaster from "../pages/Admin/Penilaian.vue";
+import PenilaianTugas from "../pages/Admin/PenilaianTugasGugus.vue";
+import PenilaianDetail from "../pages/Admin/PenilaianDetail.vue";
 import StreamingMaster from "../pages/Admin/Streaming.vue";
 import kegiatanMaster from "../pages/Admin/Kegiatan.vue";
 import TambahKegiatanMaster from "../pages/Admin/TambahKegiatan.vue";
@@ -35,6 +38,8 @@ import DashboardPemandu from "../pages/Pemandu/index.vue";
 import PresensiPemandu from "../pages/Pemandu/Presensi.vue";
 import MahasiswaPemandu from "../pages/Pemandu/Mahasiswa.vue";
 import ChatPemandu from "../pages/Pemandu/Chat.vue";
+import PenilaianPemandu from "../pages/Pemandu/PenilaianPemandu.vue";
+import PenilaianDetailPemandu from "../pages/Pemandu/PenilaianDetailPemandu.vue";
 
 // Mahasiswa
 import DashboardMahasiswa from "../pages/Mahasiswa/index.vue";
@@ -116,24 +121,39 @@ const routes = [
     component: TugasMaster,
   },
   {
-    path: "/admin/tugas/buat-tugas",
-    name: "Buat Tugas",
-    component: BuatTugas,
+    path: "/admin/tugas/buat-tugas-1",
+    name: "Pilih Gugus",
+    component: PilihGugus,
   },
   {
-    path: "/admin/tugas/pilih-soal",
+    path: "/admin/tugas/buat-tugas-2",
+    name: "Atur Tugas",
+    component: AturTugas,
+  },
+  {
+    path: "/admin/tugas/buat-tugas-3",
     name: "Set Bobot Soal",
     component: BobotSoal,
   },
   {
-    path: "/admin/tugas/:name/:id",
-    name: "List Tugas Gugus",
-    component: TugasGugus,
-  },
-  {
-    path: "/admin/tugas/:name_gugus/:id_gugus/detail-:id_tugas",
+    path: "/admin/tugas/detail/:id",
     name: "Detail Tugas",
     component: DetailTugas,
+  },
+  {
+    path: "/admin/penilaian",
+    name: "Penilaian Master",
+    component: PenilaianMaster,
+  },
+  {
+    path: "/admin/penilaian/:name/:id",
+    name: "Penilaian Tugas",
+    component: PenilaianTugas,
+  },
+  {
+    path: "/admin/penilaian/:name_gugus/:id_gugus/:name_tugas-:id_tugas",
+    name: "Detail Penilaian",
+    component: PenilaianDetail,
   },
   {
     path: "/admin/streaming",
@@ -196,6 +216,16 @@ const routes = [
     path: "/pemandu/chat",
     name: "Chat Pemandu",
     component: ChatPemandu,
+  },
+  {
+    path: "/pemandu/penilaian",
+    name: "Penilaian Pemandu",
+    component: PenilaianPemandu,
+  },
+  {
+    path: "/pemandu/penilaian/:name-:id",
+    name: "Detail Penilaian",
+    component: PenilaianDetailPemandu,
   },
 
   // Mahasiswa

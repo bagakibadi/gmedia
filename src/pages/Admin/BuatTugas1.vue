@@ -8,7 +8,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
                 <a
-                  :href="$router.resolve({ name: 'Tugas Master' }).href"
+                  :href="$router.resolve({ name: 'Pilih Gugus' }).href"
                   @click="previous"
                   class="btn btn-primary me-2"
                   type="button"
@@ -29,7 +29,10 @@
                 v-if="
                   form.date == '' ||
                     form.judul == '' ||
-                    form.time == '' ||
+                    form.dateMulai == '' ||
+                    form.timeMulai == '' ||
+                    form.dateSelesai == '' ||
+                    form.timeSelesai == '' ||
                     form.deskripsi == '' ||
                     checkSoal.length == 0
                 "
@@ -153,7 +156,7 @@
             </div>
           </div>
         </div>
-        <div class="card-shadow mb-3">
+        <!-- <div class="card-shadow mb-3">
           <div class="p-3">
             <div class="row">
               <div class="col-lg-3 col-md-4 col-6">
@@ -186,17 +189,9 @@
                   <option value="sulit">Sulit</option>
                 </select>
               </div>
-              <div class="col-lg-3 col-md-4 col-6">
-                <label class="form-label">Tanggal</label>
-                <input
-                  v-model="filter.tanggal"
-                  class="form-control"
-                  type="date"
-                />
-              </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div
           class="card-shadow success text-success mb-3"
           v-if="checkSoal.length > 0"
@@ -361,7 +356,6 @@ export default {
       filter: {
         tipe: "default",
         kategori: "default",
-        tanggal: null,
       },
       form: {
         judul: "",

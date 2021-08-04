@@ -8,11 +8,11 @@
           <h3 class="name-profile">Admin Pemandu</h3>
         </div>
         <div class="d-flex align-items-center">
-          <img style="margin-right: 35px" src="../assets/icons/search-2.svg" alt="">
+          <img @click="getlist" style="margin-right: 35px" src="../assets/icons/search-2.svg" alt="">
           <img src="../assets/icons/burger-circle.svg" alt="">
         </div>
       </div>
-      <div class="message-box" id="box-message">
+      <div class="message-box" id="box-messages">
         <div v-if="recconect === true" class="ifdisconnect">
           <button @click="reconnects" class="btn btn-primary">Recconect</button>
         </div>
@@ -37,74 +37,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="mb-4 d-flex chatme">
-          <div class="no-me">
-            <div data-v-4610f4d6="" class="img d-none align-self-end justify-content-center"> 1 </div>
-            <div style="max-width: 100%">
-              <h6 data-v-4610f4d6="" class="text-box-name">12345678911</h6>
-              <div data-v-4610f4d6="" class="text-section box-chat">
-                <div data-v-4610f4d6="" class="chat-content">
-                  ha
-                </div>
-                <small data-v-4610f4d6="" class="times">
-                  11:42
-                </small>
-              </div>
-            </div>
-          </div>
-          <div data-v-4610f4d6="" class="img d-flex aa align-self-end justify-content-center"> 1 </div>
-        </div>
-        <div class="mb-4 d-flex chatme">
-          <div class="no-me">
-            <div data-v-4610f4d6="" class="img d-none align-self-end justify-content-center"> 1 </div>
-            <div style="max-width: 100%">
-              <h6 data-v-4610f4d6="" class="text-box-name">12345678911</h6>
-              <div data-v-4610f4d6="" class="text-section box-chat">
-                <div data-v-4610f4d6="" class="chat-content">
-                  text-section text-section text-section text-section text-section text-section
-                </div>
-                <small data-v-4610f4d6="" class="times">
-                  11:42
-                </small>
-              </div>
-            </div>
-          </div>
-          <div data-v-4610f4d6="" class="img d-flex aa align-self-end justify-content-center"> 1 </div>
-        </div>
-        <div class="mb-4 d-flex chatme">
-          <div class="no-me">
-            <div data-v-4610f4d6="" class="img d-none align-self-end justify-content-center"> 1 </div>
-            <div style="max-width: 100%">
-              <h6 data-v-4610f4d6="" class="text-box-name">12345678911</h6>
-              <div data-v-4610f4d6="" class="text-section box-chat">
-                <div data-v-4610f4d6="" class="chat-content">
-                  ha
-                </div>
-                <small data-v-4610f4d6="" class="times">
-                  11:42
-                </small>
-              </div>
-            </div>
-          </div>
-          <div data-v-4610f4d6="" class="img d-flex aa align-self-end justify-content-center"> 1 </div>
-        </div>
-        <div class="mb-4 d-flex">
-          <div class="no-me">
-            <div data-v-4610f4d6="" class="img  align-self-end justify-content-center"> 1 </div>
-            <div style="max-width: 100%">
-              <h6 data-v-4610f4d6="" class="text-box-name">12345678911</h6>
-              <div data-v-4610f4d6="" class="text-section box-chat">
-                <div data-v-4610f4d6="" class="chat-content">
-                  ha
-                </div>
-                <small data-v-4610f4d6="" class="times">
-                  11:42
-                </small>
-              </div>
-            </div>
-          </div>
-          <div data-v-4610f4d6="" class="img d-none aa align-self-end justify-content-center"> 1 </div>
-        </div> -->
       </div>
       <form action="" @submit.prevent="kirimpesan">
         <div class="send-box">
@@ -123,7 +55,7 @@
               <form action="" @submit.prevent="pilihPemandu">
                 <div class="form-group mb-4">
                   <label for="pemandu">Pilih Pemandu</label>
-                  <select name="pemandu" required v-model="pemanduuid" id="pemandu" class="form-select">
+                  <select v-if="dataPemandu" name="pemandu" required v-model="pemanduuid" id="pemandu" class="form-select">
                     <option value="" selected disabled>Pilih</option>
                     <option :value="items.user.rusername" v-for="(items, index) in dataPemandu.data[0].pemandu" :key="index">{{items.nama}}</option>
                   </select>
@@ -392,6 +324,14 @@ export default {
     this.$store.dispatch("getMahasiswa");
   },
   methods: {
+    getlist(){
+      api.sendMessage({
+        "msg": "method",
+        "method": "subscriptions/get",
+        "id": "getList",
+        "params": [ { "$date": 1480377601 } ]
+      })
+    },
     checkOnline() {
       api.sendMessage({
         "msg":"method",
@@ -475,6 +415,14 @@ export default {
           false
         ]
       });
+      setTimeout(() => {
+        api.sendMessage({
+          "msg": "method",
+          "method": "loadHistory",
+          "id": "oldChat",
+          "params": [ a, null, 10000000, { "$date": 1480377601 } ]
+        })
+      }, 200);
 		},
     loginss() {
 			api.loginWithAuthToken (localStorage.tkn)
@@ -506,7 +454,7 @@ export default {
 			api.onError (error => this.errors.push (error))
 			api.onCompletion (() => console.log ("finished"))
 			api.onMessage (message => {
-				let scrollDown = document.getElementById('box-message')
+				let scrollDown = document.getElementById('box-messages')
 				if(message.msg === 'changed' && message.collection === 'stream-room-messages'){
 					let datenya = new Date(message.fields.args[0].ts.$date)
 					this.isiChats.push({
@@ -525,6 +473,22 @@ export default {
           this.dmRoom = message.result.rid
           this.connectRoom(message.result.rid)
 				}
+        if(message.msg === 'result' && message.id === 'oldChat'){
+          let dataReverse = message.result.messages.reverse()
+          for(let i = 0; i < dataReverse.length; i++) {
+            this.isiChats.push({
+              value: dataReverse[i].msg,
+              date: moment(new Date(dataReverse[i].ts.$date)).lang("id").format('h:mm'),
+              nama: dataReverse[i].u.name,
+              uid: dataReverse[i].u._id,
+              initial: dataReverse[i].u.name.charAt(0)
+            })
+          }
+					setTimeout(() => {
+						scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
+					}, 200);
+					return;
+        }
 			})
 			api.connectToServer ()
 				.subscribe (() => {
