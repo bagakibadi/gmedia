@@ -227,7 +227,7 @@
                   <button
                     class="btn btn-success px-4"
                     type="button"
-                    @click="submitSoal(dataSoal.tugas.uuid)"
+                    @click="submitSoal(dataSoal.tugas.uuid, currentSoal, collectSoal[currentSoal].tipe)"
                     v-if="currentSoal + 1 == collectSoal.length"
                   >
                     Selesai
@@ -404,7 +404,13 @@ export default {
           .setContent(this.collectSoal[this.currentSoal].jawaban);
       }
     },
-    submitSoal(id) {
+    submitSoal(id, idClicked, typeClicked) {
+      if (typeClicked == "ESSAI") {
+        // eslint-disable-next-line
+        var getText = tinymce.get("jawaban").getContent();
+        this.collectSoal[idClicked].jawaban = getText;
+      }
+
       Swal.fire({
         title: "Apakah anda yakin untuk menyelesaikan tugas?",
         text:

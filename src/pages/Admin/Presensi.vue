@@ -126,16 +126,10 @@
                         <input type="text" name="nim" readonly id="nim" v-model="dataOnePresensi.user.mahasiswa.nim" class="form-control">
                       </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                       <div class="form-group">
-                        <label for="lat">Lat</label>
-                        <input type="number" name="lat" readonly id="lat" v-model="dataOnePresensi.lat" class="form-control">
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="form-group">
-                        <label for="long">Long</label>
-                        <input type="number" name="long" readonly id="long" v-model="dataOnePresensi.long" class="form-control">
+                        <label for="location">Lokasi</label>
+                        <textarea name="" id="" style="height: 85px" class=" form-control" readonly v-model="dataOnePresensi.alamat"></textarea>
                       </div>
                     </div>
                     <div class="col-lg-6">

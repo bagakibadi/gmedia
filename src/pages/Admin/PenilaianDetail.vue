@@ -566,12 +566,20 @@ export default {
       var validation = 0;
       for (let z = 0; z < this.total[id].nilai.length; z++) {
         if (
-          !this.total[id].nilai[z].nilai ||
-          this.total[id].nilai[z].nilai == ""
+          this.total[id].nilai[z].type == "essai" ||
+          this.total[id].nilai[z].type == "upload"
         ) {
-          validation++;
+          if (
+            !this.total[id].nilai[z].nilai ||
+            this.total[id].nilai[z].nilai == ""
+          ) {
+            validation++;
+          }
         }
       }
+
+      console.log(validation);
+      console.log(data);
 
       if (validation == 0) {
         Swal.fire({
@@ -621,7 +629,11 @@ export default {
           }
         });
       } else {
-        Swal.fire("Nilai Belum Dimasukkan!", 'Cek kembali apakah seluruh soal telah diberi nilai atau belum.', "warning");
+        Swal.fire(
+          "Nilai Belum Dimasukkan!",
+          "Cek kembali apakah seluruh soal telah diberi nilai atau belum.",
+          "warning"
+        );
       }
     },
   },
@@ -665,6 +677,7 @@ export default {
                   benar: data[k].soal_pg[n].data_jawaban.benar,
                   jawaban: data[k].soal_pg[n].data_jawaban.jawaban,
                   bobot: data[k].soal_pg[n].bobot,
+                  type: "pg",
                 });
 
                 if (data[k].soal_pg[n].data_jawaban.nilai) {
@@ -687,6 +700,7 @@ export default {
                   benar: data[k].soal_essai[l].data_jawaban.benar,
                   jawaban: data[k].soal_essai[l].data_jawaban.jawaban,
                   bobot: data[k].soal_essai[l].bobot,
+                  type: "essai",
                 });
 
                 if (data[k].soal_essai[l].data_jawaban.nilai) {
@@ -709,6 +723,7 @@ export default {
                   benar: data[k].soal_upload[m].data_jawaban.benar,
                   jawaban: data[k].soal_upload[m].data_jawaban.jawaban,
                   bobot: data[k].soal_upload[m].bobot,
+                  type: "upload",
                 });
 
                 if (data[k].soal_upload[m].data_jawaban.nilai) {
