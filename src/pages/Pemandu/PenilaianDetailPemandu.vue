@@ -563,10 +563,15 @@ export default {
       var validation = 0;
       for (let z = 0; z < this.total[id].nilai.length; z++) {
         if (
-          !this.total[id].nilai[z].nilai ||
-          this.total[id].nilai[z].nilai == ""
+          this.total[id].nilai[z].type == "essai" ||
+          this.total[id].nilai[z].type == "upload"
         ) {
-          validation++;
+          if (
+            !this.total[id].nilai[z].nilai ||
+            this.total[id].nilai[z].nilai == ""
+          ) {
+            validation++;
+          }
         }
       }
 
