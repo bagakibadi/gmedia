@@ -195,12 +195,20 @@
                   <div class="d-flex align-items-center" v-if="userData">
                     <div class="text-end me-2">
                       <div class="username">{{ userData.data.nama }}</div>
-                      <div class="role">Pemandu Gugus 12</div>
+                      <div class="role">Pemandu Gugus</div>
                     </div>
                     <div
                       class="profile align-items-center justify-content-center"
                     >
-                      <img src="../assets/images/profile.jpeg" alt="" />
+                      <img
+                        src="../assets/ilustrasi/avatar-admin-pemandu.svg"
+                        alt=""
+                        v-if="
+                          userData.data.foto == '' ||
+                            userData.data.foto == 'foto.jpg'
+                        "
+                      />
+                      <img :src="userData.data.foto" v-else alt="" />
                     </div>
                   </div>
                 </div>

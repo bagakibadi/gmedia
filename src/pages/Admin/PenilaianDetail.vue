@@ -65,7 +65,15 @@
                   <div
                     class="image d-md-flex d-none align-items-center justify-content-center"
                   >
-                    <img :src="items.foto" alt="" />
+                    <img
+                        src="../../assets/ilustrasi/avatar-admin-pemandu.svg"
+                        alt=""
+                        v-if="
+                          items.foto == '' ||
+                            items.foto == 'foto.jpg'
+                        "
+                      />
+                      <img :src="items.foto" v-else alt="" />
                   </div>
                   <div class="ms-2">
                     <div class="main-text">{{ items.nama }}</div>

@@ -197,7 +197,15 @@
                     <div
                       class="profile align-items-center justify-content-center"
                     >
-                      <img src="../assets/images/profile.jpeg" alt="" />
+                      <img
+                        src="../assets/ilustrasi/avatar-mahasiswa.svg"
+                        alt=""
+                        v-if="
+                          userData.data.foto == '' ||
+                            userData.data.foto == 'foto.jpg'
+                        "
+                      />
+                      <img :src="userData.data.foto" v-else alt="" />
                     </div>
                   </div>
                 </div>

@@ -1126,10 +1126,6 @@ tr th {
 /* Responsive */
 
 @media (max-width: 576px) {
-   .height-hide {
-      height: calc(100vh - 180px);
-   }
-
    .section {
       padding: 0 25px
    }
@@ -1152,7 +1148,6 @@ tr th {
 }
 
 @media (min-width: 992px) {
-
    .dashboard-modal .modal-lg,
    .dashboard-modal .modal-xl {
       max-width: 1100px;
@@ -1160,6 +1155,10 @@ tr th {
 }
 
 @media (max-width: 992px) {
+   .height-hide {
+      height: calc(100vh - 180px);
+   }
+   
    .dashboard-navigation .sidebar {
       left: 0;
       transition: all .6s;
