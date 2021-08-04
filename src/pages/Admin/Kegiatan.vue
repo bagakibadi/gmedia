@@ -4,96 +4,114 @@
     <div :class="`content ${width > 992 ? '' : 'hide'}`">
       <div class="section">
         <div class="card-shadow mb-3">
-					<div class="padding-kegiatan">
-						<div class="jadwal-baru">
-							<div class="top-tit">
-								<h4>Tambah Jadwal Baru</h4>
-								<hr class="line">
+					<div class="p-3">
+						<div class="d-flex flex-wrap justify-content-between align-items-center">
+              <div class="title-content">Jadwal Kegiatan</div>
+              <router-link :to="{name: 'Tambah Kegiatan Master'}" type="button" class="btn btn-success">+ Tambah</router-link>
+            </div>
+					</div>
+        </div>
+				<div class="card-shadow mb-3">
+					<div class="py-3 pe-3">
+						<div class="row m-0">
+							<div style="width: calc(100% - 723px)" class="g-0">
+								<div style="padding: 20px">
+									<div class="card" style="height: 250px;box-shadow: -1px 2px 24px rgba(11, 19, 42, 0.08);border:none"></div>
+								</div>
 							</div>
-							<div class="row tambahjadwal">
-								<div class="col-lg-3">
-									<div class="form-group">
-										<label for="topik">Topik</label>
-										<input type="text" v-model="jadwal.topik" name="topik" id="topik" placeholder="PKK-BN 2021 Sesi 1" class="form-control">
+							<div style="width: 723px;" class=" g-0 border-start border-dark">
+								<div class="d-flex first-kegiatan-top">
+									<div class="d-flex button-right-left">
+										<a href="#" class="button-firstnya">
+											<img src="../../assets/icons/left.svg" alt="">
+										</a>
+										<a href="#">
+											<img src="../../assets/icons/right.svg" alt="">
+										</a>
 									</div>
+									<h4>Juli 2021</h4>
 								</div>
-								<div class="col-lg-3">
-									<div class="form-group">
-										<label for="start_date">Start Date</label>
-										<input type="date" v-model="jadwal.start_date" name="start_date" id="start_date" class="form-control">
-									</div>
-								</div>
-								<div class="col-lg-3">
-									<div class="form-group">
-										<label for="end_date">End Date</label>
-										<input type="date" v-model="jadwal.end_date" name="end_date" id="end_date" class="form-control">
-									</div>
-								</div>
-								<div class="col-lg-3">
-									<div class="form-group">
-										<label for="lampiran">Lampiran</label>
-										<input type="file" name="lampiran" id="lampiran" class="form-control">
-									</div>
-								</div>
-								<div class="col-lg-3">
-									<div class="form-group">
-										<label for="video">Link Video</label>
-										<input type="text" v-model="jadwal.link_video" name="video" id="video" class="form-control" placeholder="htpps://...">
-									</div>
-								</div>
-								<div class="col-lg-3">
-										<div class="form-group">
-											<label for="deskripsi">Deskripsi</label>
-											<input type="text" v-model="jadwal.deskripsi" placeholder="Deskripsi" name="deskripsi" id="deskripsi" class="form-control">
+								<div class="accordion" id="accordionExample" v-if="dataKegiatan">
+									<div v-for="(items,index) in dataKegiatan.data" :key="index">
+										<div class="accordion-item">
+											<h2 class="accordion-header" :id="`heading${index}`">
+												<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapse${index}`" aria-expanded="true" aria-controls="collapseOne">
+													<div class="d-flex w-100 align-items-center justify-content-between pe-2">
+														<p>
+															{{items.topik}}
+														</p>
+														<small>
+															{{items.start_date}}
+														</small>
+													</div>
+												</button>
+											</h2>
+											<div :id="`collapse${index}`" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+												<div class="accordion-body">
+													<div>
+														<div class="row justify-content-between my-0" style="margin-bottom: 32px;">
+															<div class="col-lg-3">
+																<div class="form-group">
+																	<label for="lampirkan">Lampiran File</label>
+																	<a target="_blank" :href="items.lampiran" download="lampiran.jpg" class="btn btn-orange">
+																		<img src="../../assets/icons/download-lampiran.svg" alt=""> Download File
+																	</a>
+																</div>
+															</div>
+															<div class="col-lg-3 align-self-start">
+																<div class="d-flex w-100 justify-content-end">
+																	<router-link :to="{name: 'Edit Kegiatan Master', params: {id: items.uuid}}" class="btn btn-warning me-2"><i class="fas fa-pencil-alt text-white"></i> </router-link>
+																	<button class="btn btn-danger" @click="deleted(items.uuid, items.topik)"><i class="fa fa-trash"></i> </button>
+																</div>
+															</div>
+															<!-- <div class="col-lg-9">
+																<div class="form-group">
+																	<label for="link">Link</label>
+																	<div class="input-group mb-3">
+																		<input type="text" readonly name="link" id="link" value="https://www.youtube.com/watch?v=tjqRaS3F7xc" class="form-control">
+																		<span class="input-group-text btn btn-primary" id="basic-addon2"><img src="../../assets/icons/copy.svg" alt=""> Copy Link</span>
+																	</div>
+																</div>
+															</div> -->
+														</div>
+														<div v-if="items.aktivitas.length !== null">
+															<div v-for="(item, i) in items.aktivitas" :key="i">
+																<div :class="`d-flex ${item.tipenya.status === 'SELESAI' ? 'selesai-kegiatan' : ''}`">
+																	<div class="line-bot">
+																		<div class="rounded-check">
+																			<p>1</p>
+																			<img class="checkmark" src="../../assets/icons/checkmark-circle.svg" alt="">
+																		</div>
+																		<div class="d-flex justify-content-center" style="height: calc(100% - 32px)">
+																			<div class="garis-kebawah"></div>
+																		</div>
+																	</div>
+																	<div class="row g-0 m-0" style="width: calc(100% - 32px - 16px);">
+																		<div class="col-lg-10">
+																			<div class="activity">
+																				<h3>
+																					{{item.nama}}
+																				</h3>
+																				<p>{{changeTime(item.start_time) }} - {{ changeTime(item.end_time)}}</p>
+																				<p>
+																					{{item.deskripsi}}
+																				</p>
+																			</div>
+																		</div>
+																		<div class="col-lg-2">
+																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.tipenya.status === 'SELESAI'">Selesai</button>
+																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.tipenya.status === 'BELUM MULAI'">Mulai</button>
+																			<router-link :to="item.link" class="btn btn-success" target="_blank" v-if="item.tipenya.status === 'BERJALAN'">Mulai</router-link>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
-							</div>
-							<div class="padbot">
-								<hr class="bot">
-							</div>
-						</div>
-						<div class="jadwal-baru">
-							<div class="top-tit">
-								<h4>Detail Aktivitas</h4>
-								<hr class="line">
-							</div>
-							<div v-for="(items,index) in jadwal.aktivitas" :key="index.id">
-								<div class="row tambahjadwal">
-									<div class="col-lg-3">
-										<div class="form-group">
-											<label for="aktivitas">Aktivitas</label>
-											<input type="text" v-model="jadwal.aktivitas[index].nama" placeholder="PKK-BN 2021 Sesi 2" class="form-control">
-										</div>
-									</div>
-									<div class="col-lg-3">
-										<div class="form-group">
-											<label for="start_date">Start Time</label>
-											<input type="time" v-model="jadwal.aktivitas[index].start_time" id="start_date" class="form-control">
-										</div>
-									</div>
-									<div class="col-lg-3">
-										<div class="form-group">
-											<label for="end_date">End Time</label>
-											<input type="time" v-model="jadwal.aktivitas[index].end_time" name="end_date" id="end_date" class="form-control">
-										</div>
-									</div>
-									<!-- <div class="col-lg-3">
-										<div class="form-group">
-											<label for="deskripsi">Deskripsi</label>
-											<input type="text" v-model="jadwal.aktivitas[index].deskripsi" placeholder="Deskripsi" name="deskripsi" id="deskripsi" class="form-control">
-										</div>
-									</div> -->
-								</div>
-							</div>
-							<div>
-								<button @click="addfields" class="btn btn-outline-primary button-tambah-baris"><img src="../../assets/icons/add_circle.svg" alt=""> Tambah Baris</button>
-							</div>
-							<div class="padbot">
-								<hr class="bot">
-							</div>
-							<div class="d-flex justify-content-end">
-								<div>
-									<button @click="kirimKegiatan" class="btn btn-primary submit-jadwal">Submit Jadwal</button>
 								</div>
 							</div>
 						</div>
@@ -105,137 +123,198 @@
 </template>
 
 <script>
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import axios from 'axios'
+import moment from 'moment'
+import Swal from 'sweetalert2'
 /* eslint-disable no-undef */
 
 export default {
 	data: function() {
     return {
       width: null,
-			jadwal: {
-				topik: null,
-				aktivitas: [{ nama: '', start_time: '', end_time: '' }],
-				lampiran: null,
-			},
+			dataKegiatan: null
 		}
 	},
 	methods: {
-		addfields() {
-			this.jadwal.aktivitas.push({ nama: '', start_time: '', end_time: '' })
+		changeTime(time) {
+			return moment(time).lang("id").format('H:mm')
 		},
-		upload(asd) {
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        console.log(e)
-        var ee = e.target.result
-				this.jadwal.lampiran = ee.replace("data:image/jpeg;base64,", "")
-      };
-      reader.onerror = function(error) {
-        alert(error);
-      };
-      reader.readAsDataURL(asd);
-    },
-		kirimKegiatan() {
-			if (document.getElementById('lampiran').files[0]) {
-        this.upload(document.getElementById('lampiran').files[0])
-      } else {
-        this.jadwal.lampiran = null
-      }
-			setTimeout(() => {
-				axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/kegiatanaktivitas', this.jadwal, {
-					headers: {
-						Authorization : localStorage.token
+		deleted(uuid, topik) {
+			Swal.fire({
+        title: `Hapus Aktivitas ${topik}`,
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete(`https://gmedia.primakom.co.id/gmedia/superadmin/kegiatanaktivitas/${uuid}`, {
+            headers: {
+              Authorization: localStorage.token
+            }
+          }).then((res) => {
+            console.log(res)
+            if(res.data.success) {
+              Swal.fire(
+                'Deleted!',
+                `Topik ${topik} telah dihapus!`,
+                'success'
+              ).then(() => {
+                window.location.reload()
+              }).catch((err) => {
+                window.location.reload()
+                console.log(err)
+              });
+            } else{
+              Swal.fire(
+                'Gagal!',
+                res.data.message,
+                'warning'
+              ).then(() => {
+                window.location.reload()
+              }).catch((err) => {
+                console.log(err)
+                window.location.reload()
+              });
+            }
+          }).catch((err) => {
+            console.log(err)
+          });
 					}
-				}).then((result) => {
-					console.log(result)
-					if(result.data.success) {
-						Swal.fire({
-							position: 'center',
-							icon: 'success',
-							title: result.data.message,
-							showConfirmButton: false,
-							timer: 1500
-						})
-						setTimeout(() => {
-							window.location.reload()
-						}, 1700);
-						console.log('tr')
-					} else if (result.data.message == "Unauthorize") {
-						localStorage.clear()
-						console.log('el')
-						this.$router.push({ name: 'Landing Page' })
-					} else{
-						console.log('err')
-					}
-				}).catch((err) => {
-					console.log(err)
-				});
-			}, 500);
+      }).catch((errs) => {
+				console.log(errs)
+			})
+			console.log(uuid)
+			console.log(topik)
 		}
 	},
 	mounted() {
-    this.width = $(document).width();
+		$('.dropify').dropify()
+		this.width = $(document).width();
+		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/kegiatanaktivitas',{
+			headers:{
+				Authorization: localStorage.token
+			}
+		}).then((result) => {
+			console.log(result)
+			this.dataKegiatan = result.data
+		}).catch((err) => {
+			console.log(err)
+		});
 	}
 }
 </script>
 
 <style scoped>
-.submit-jadwal{
-	width: 134px;
-	height: 36px;
+.cursor-not-allowed{
+	cursor: not-allowed;
+}
+.btn-light{
+	background: #DDE0E4;
+	color: white;
+	border-color: #DDE0E4;
+}
+.activity h3{
 	font-size: 14px;
 	font-weight: 700;
+	color: rgba(19, 15, 38, 1);
+	margin: 8px 0 16px 0;
+}
+.activity p {
+	font-size: 14px;
+	font-weight: 400;
+	color: #130F26;
 	margin-bottom: 12px;
 }
-.button-tambah-baris{
+.line-bot{
+	margin-right: 16px;
+}
+.checkmark{
+	display: none;
+}
+.selesai-kegiatan .checkmark{
+	display: block;
+}
+.rounded-check p{
+	color: white;
+	font-size: 16px;
+	font-weight: 600;
+	margin: 0;
+}
+.selesai-kegiatan .rounded-check p{
+	display: none;
+}
+.selesai-kegiatan .rounded-check, .selesai-kegiatan .garis-kebawah{
+	background: rgba(20, 97, 245, 1) !important;
+}
+.garis-kebawah{
+	width: 2px;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	background: rgba(221, 224, 228, 1);
+}
+
+.rounded-check{
+	width: 32px;
+	height: 32px;
+	background: rgba(221, 224, 228, 1);
+	border-radius: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 144px;
-	height: 36px;
-	font-size: 14px;
-	font-weight: 700;
-	margin: 12px 0 40px 0;
 }
-.button-tambah-baris img {
-	margin-right: 8px;
-}
-.padding-kegiatan{
-	padding: 20px;
-}
-.top-tit{
-	margin-bottom: 32px;
-}
-hr.line{
-	border: .5px solid rgba(221, 224, 228, 1);
-	width: 100%;
-	margin: 12px 0;
-}
-.padbot{
-	padding: 0 30px;
-	margin-bottom: 40px;
-}
-hr.bot{
-	border: .5px solid rgba(221, 224, 228, 1);
-	width: 100%;
-}
-.form-group{
-	margin-bottom: 20px;
-}
-.jadwal-baru h4{
-	font-size: 18px;
-	font-weight: 700;
-	color: rgba(40, 40, 40, 1);
-	margin-bottom: 0px;
-}
-.tambahjadwal .form-control{
+.input-group .form-control{
+	background: white;
 	border-radius: 8px !important;
-	height: 36px;
-	border: 1px solid rgba(221, 224, 228, 1);
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
 }
-.tambahjadwal input[type='text'] {
-	background: #F8F8F8;
-	border: 1px solid hsl(0, 0%, 97%) !important;
+.input-group .input-group-text{
+	margin-left: -1px !important;
+	border-top-left-radius: 0 !important;
+	border-bottom-left-radius: 0 !important;
+}
+.btn-orange{
+	background: rgba(255, 170, 41, 1);
+	color: white;
+	box-shadow: -2px 4px 24px rgba(255, 170, 41, 0.32);
+}
+.accordion-button{
+	background: #F8F8F8 !important;
+	border-color: rgba(221, 224, 228, 1) !important;
+}
+.border-dark{
+	border-color: rgba(221, 224, 228, 1) !important;
+}
+.accordion-button p {
+	font-size: 16px;
+	font-weight: 600;
+	color: rgba(0, 0, 0, 1);
+	margin-bottom: 0;
+}
+.accordion-button small{
+	margin-bottom: 0;
+	font-size: 16px;
+	font-weight: 600;
+	color: rgba(79, 86, 101, 1);
+}
+.first-kegiatan-top{
+	/* margin-top: 19px; */
+	margin: 19px 0 32px 0;
+}
+.button-right-left{
+	margin: 0 28px 0 36px;
+}
+a.button-firstnya{
+	margin-right: 42px;
+}
+.first-kegiatan-top h4{
+	margin-bottom: 0;
+	font-size: 18px;
+	font-weight: 600;
+	color: rgba(11, 19, 42, 1);
 }
 </style>

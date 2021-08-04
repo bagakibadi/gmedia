@@ -656,8 +656,10 @@ export default {
                 'Berhasil Edit!',
                 `Akun Mahasiswa telah berhasil diedit!`,
                 'success'
-              ).then(() => {
-                window.location.reload()
+              ).then((a) => {
+                if(a.isConfirmed) {
+                  window.location.reload()
+                }
               }).catch((err) => {
                 window.location.reload()
                 console.log(err)

@@ -305,7 +305,7 @@ export default {
 			});
 		},
 		getOldChat(channel_name) {
-			axios.get(`https://gmedia.primakom.co.id/konferensi/chat/${channel_name}`).then((result) => {
+			axios.get(`https://gmedia.primakom.co.id/gmedia/chat/${channel_name}`).then((result) => {
 				for(let i = 0; i < result.data.fields.args.length; i++) {
 					this.isiChat.push({
 						value: result.data.fields.args[i].msg,
