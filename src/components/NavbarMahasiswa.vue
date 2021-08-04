@@ -12,8 +12,32 @@
           <img src="../assets/icons/burger-circle.svg" alt="">
         </div>
       </div>
-      <div class="message-box">
-        <div class="mb-4 d-flex chatme">
+      <div class="message-box" id="box-message">
+        <div v-if="recconect === true" class="ifdisconnect">
+          <button @click="reconnects" class="btn btn-primary">Recconect</button>
+        </div>
+        <div v-else v-for="(items, index) in isiChats" :key="index">
+          <div id="pesan_id" :class="`mb-4 d-flex ${items.uid === user.uid ? 'chatme' : ''}`">
+            <div :class="`${items.uid === user.uid ? '' : 'd-flex'}`">
+              <div :class="`img ${items.uid === user.uid ? 'd-none' : 'd-flex'} align-self-end justify-content-center`">
+                {{items.initial}}
+              </div>
+              <div style="max-width: calc(271px - 45px)">
+                <h6 class="text-box-name">{{items.nama}}</h6>
+                <div class="text-section box-chat">
+                  <div class="chat-content">
+                    {{items.value}}
+                  </div>
+                  <small class="times">{{items.date}}</small>
+                </div>
+              </div>
+            </div>
+            <div :class="`img ${items.uid === user.uid ? 'd-flex' : 'd-none'} aa align-self-end justify-content-center`">
+              {{items.initial}}
+            </div>
+          </div>
+        </div>
+        <!-- <div class="mb-4 d-flex chatme">
           <div class="no-me">
             <div data-v-4610f4d6="" class="img d-none align-self-end justify-content-center"> 1 </div>
             <div style="max-width: 100%">
@@ -80,7 +104,7 @@
             </div>
           </div>
           <div data-v-4610f4d6="" class="img d-none aa align-self-end justify-content-center"> 1 </div>
-        </div>
+        </div> -->
       </div>
       <form action="" @submit.prevent="kirimpesan">
         <div class="send-box">
@@ -337,7 +361,7 @@ import Swal from "sweetalert2";
 import { mapState } from "vuex";
 import axios from 'axios';
 import rcApi from '../pages/Api/Index'
-// import moment from 'moment'
+import moment from 'moment'
 let api
 
 export default {
@@ -346,9 +370,12 @@ export default {
   },
   data: function() {
     return {
+      user: {
+				uid: localStorage.uid
+			},
       link: this.$route.fullPath.split("/"),
       dataPemandu: null,
-      isiChats: null,
+      isiChats: [],
       webSocketUrl: 'wss://gmedia-chat.primakom.co.id/websocket',
       errors: [],
       messagess: [],
@@ -357,13 +384,25 @@ export default {
       connectedToApi: true,
       pesann: null,
       pemanduuid: '',
-      dmRoom: ''
+      dmRoom: '',
+      recconect: false,
     };
   },
   beforeCreate() {
     this.$store.dispatch("getMahasiswa");
   },
   methods: {
+    checkOnline() {
+      api.sendMessage({
+        "msg":"method",
+        "method":"livechat:getInitialData",
+        "params":["YhrWFbohXDSYzsG9m"],
+        "id":"1"
+      })
+    },
+    reconnects() {
+      console.log('reload')
+		},
     kirimpesan() {
 			if(this.pesann) {
 				api.sendMessage ({
@@ -382,10 +421,14 @@ export default {
 			}
 		},
     openChat(){
-      document.getElementById('box-pemandu').classList.toggle('d-block')
-      if(document.querySelector('#box-chat').classList.contains('d-block')) {
-        document.getElementById('box-chat').classList.remove('d-block')
-        document.getElementById('box-pemandu').classList.remove('d-block')
+      if(!this.dmRoom) {
+        document.getElementById('box-pemandu').classList.toggle('d-block')
+        if(document.querySelector('#box-chat').classList.contains('d-block')) {
+          document.getElementById('box-chat').classList.remove('d-block')
+          document.getElementById('box-pemandu').classList.remove('d-block')
+        }
+      } else {
+        document.getElementById('box-chat').classList.toggle('d-block')
       }
     },
     pilihPemandu(){
@@ -426,7 +469,7 @@ export default {
       api.sendMessage({
         "msg": "sub",
         "id": '' + new Date ().getTime (),
-        "name": "stream-notify-room",
+        "name": "stream-room-messages",
         "params": [
           a,
           false
@@ -463,24 +506,21 @@ export default {
 			api.onError (error => this.errors.push (error))
 			api.onCompletion (() => console.log ("finished"))
 			api.onMessage (message => {
-				// let scrollDown = document.getElementById('box-message')
-				// if(message.msg === 'changed' && message.collection === 'stream-notify-room-users'){
-				// 	let datenya = new Date(message.fields.args[0].ts.$date)
-				// 	this.isiChats.push({
-				// 		value: message.fields.args[0].msg,
-				// 		date: moment(datenya).lang("id").format('h:mm'),
-				// 		nama: message.fields.args[0].u.name,
-				// 		uid: message.fields.args[0].u._id,
-				// 		initial: message.fields.args[0].u.name.charAt(0)
-				// 	})
-				// 	setTimeout(() => {
-				// 		scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
-				// 	}, 200);
-				// 	return;
-				// }
-        if(message.msg === 'result' && message.result) {
-          this.messagess = message
-        }
+				let scrollDown = document.getElementById('box-message')
+				if(message.msg === 'changed' && message.collection === 'stream-room-messages'){
+					let datenya = new Date(message.fields.args[0].ts.$date)
+					this.isiChats.push({
+						value: message.fields.args[0].msg,
+						date: moment(datenya).lang("id").format('h:mm'),
+						nama: message.fields.args[0].u.name,
+						uid: message.fields.args[0].u._id,
+						initial: message.fields.args[0].u.name.charAt(0)
+					})
+					setTimeout(() => {
+						scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
+					}, 200);
+					return;
+				}
 				if(message.msg === 'result' && message.id === 'roomid'){
           this.dmRoom = message.result.rid
           this.connectRoom(message.result.rid)
