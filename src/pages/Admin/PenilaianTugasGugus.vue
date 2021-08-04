@@ -74,30 +74,38 @@
                           </div>
                         </td>
                         <td class="text-center">
-                          <!-- <div
-                            class="px-3 py-1 danger text-danger border-radius d-inline-block"
-                            style="font-weight: 600;"
-                            v-if="item.tugas.pengerjaan.length == 0"
-                          >
-                            Belum Dikerjakan
+                          <div class="d-flex flex-column align-items-baseline">
+                            <div
+                              class="px-3 py-1 success text-success border-radius mb-2"
+                              style="font-weight: 600;"
+                              v-if="item.dinilai > 0"
+                            >
+                              {{
+                                item.belum_mengerjakan == 0
+                                  ? "Semua telah dinilai"
+                                  : item.dinilai + " dinilai"
+                              }}
+                            </div>
+                            <div
+                              class="px-3 py-1 primary text-primary border-radius mb-2"
+                              style="font-weight: 600;"
+                              v-if="
+                                item.pengerjaan > 0 &&
+                                  item.pengerjaan > item.dinilai
+                              "
+                            >
+                              {{ item.pengerjaan - item.dinilai }}
+                              telah mengerjakan
+                            </div>
+                            <div
+                              class="px-3 py-1 danger text-danger border-radius"
+                              style="font-weight: 600;"
+                              v-if="item.belum_mengerjakan > 0"
+                            >
+                              {{ item.belum_mengerjakan }}
+                              belum mengerjakan
+                            </div>
                           </div>
-                          <div
-                            class="px-3 py-1 danger text-danger border-radius d-inline-block"
-                            style="font-weight: 600;"
-                            v-else-if="item.dinilai !== item.pengerjaan.length"
-                          >
-                            {{ item.dinilai }}/{{
-                              item.pengerjaan.length
-                            }}
-                            telah Dinilai
-                          </div>
-                          <div
-                            class="px-3 py-1 success text-success border-radius d-inline-block"
-                            style="font-weight: 600;"
-                            v-else
-                          >
-                            Dinilai
-                          </div> -->
                         </td>
                         <td>
                           <div class="d-flex justify-content-center">

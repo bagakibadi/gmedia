@@ -111,7 +111,7 @@
               <div class="text">Tugas</div>
             </div>
           </router-link>
-          <router-link :to="{ name: 'Kuis Mahasiswa' }">
+          <!-- <router-link :to="{ name: 'Kuis Mahasiswa' }">
             <div
               :class="
                 `item sub ${
@@ -130,7 +130,7 @@
               </div>
               <div class="text">Kuis</div>
             </div>
-          </router-link>
+          </router-link> -->
         </div>
 
         <router-link :to="{ name: 'List Conference' }">

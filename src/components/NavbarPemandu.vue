@@ -88,7 +88,7 @@
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Dashboard AM' }">
+        <router-link :to="{ name: 'Dashboard Pemandu' }">
           <div
             :class="
               `item ${
@@ -134,7 +134,7 @@
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Dashboard AM' }">
+        <router-link :to="{ name: 'Dashboard Pemandu' }">
           <div
             :class="
               `item ${
