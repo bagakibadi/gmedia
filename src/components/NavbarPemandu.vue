@@ -195,7 +195,7 @@
                   <div class="d-flex align-items-center" v-if="userData">
                     <div class="text-end me-2">
                       <div class="username">{{ userData.data.nama }}</div>
-                      <div class="role">Pemandu Gugus</div>
+                      <div class="role">{{ userData.data.gugus.name }}</div>
                     </div>
                     <div
                       class="profile align-items-center justify-content-center"
