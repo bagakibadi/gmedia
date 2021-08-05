@@ -9,31 +9,51 @@
               class="d-flex flex-wrap justify-content-between align-items-center"
             >
               <div class="title-content">Data Presensi</div>
-              <!-- <button type="button" class="btn btn-success">+ Tambah</button> -->
             </div>
           </div>
         </div>
         <div class="card-shadow mb-3">
           <div class="p-3">
-            <div class="row">
-              <div class="col-lg-3 col-md-4 col-6">
-                <label class="form-label">Prodi</label>
-                <select class="form-select" aria-label="Default select example">
-                  <option value="default" selected disabled
-                    >- Pilih Prodi -</option
+            <div class="d-flex flex-column flex-md-row align-items-end justify-content-between">
+              <div class="d-flex">
+                <div class="me-2">
+                  <label class="form-label">Prodi</label>
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    v-model="filter.prodi"
+                    @change="filterData"
                   >
-                  <option
-                    :value="prodi.nama"
-                    v-for="(prodi, idProdi) in dataProdi"
-                    :key="idProdi"
-                    >{{ prodi.nama }}</option
-                  >
-                </select>
+                    <option value="default" selected disabled
+                      >- Pilih Prodi -</option
+                    >
+                    <option value="all">Semua Prodi</option>
+                    <option
+                      :value="prodi.uuid"
+                      v-for="(prodi, idProdi) in dataProdi"
+                      :key="idProdi"
+                      >{{ prodi.nama }}</option
+                    >
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">Tanggal</label>
+                  <input
+                    class="form-control"
+                    type="date"
+                    v-model="filter.tanggal"
+                    @change="filterData"
+                  />
+                </div>
               </div>
-              <div class="col-lg-3 col-md-4 col-6">
-                <label class="form-label">Tanggal</label>
-                <input class="form-control" type="date" />
-              </div>
+              <button
+                type="button"
+                class="btn btn-danger mt-3 mt-md-0"
+                v-if="isFilter"
+                @click="resetFilterData"
+              >
+                Reset Filter
+              </button>
             </div>
           </div>
         </div>
@@ -132,6 +152,7 @@
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
     <div
@@ -254,9 +275,75 @@ export default {
       dataOnePresensi: null,
       dataProdi: null,
       loaderPopUp: false,
+      isFilter: false,
+      filter: {
+        prodi: "default",
+        tanggal: null,
+      },
     };
   },
   methods: {
+    filterData() {
+      this.dataPresensi = null;
+      this.isFilter = true,
+      axios
+        .post(
+          "https://gmedia.primakom.co.id/gmedia/superadmin/presensi/filter",
+          {
+            prodi_id:
+              this.filter.prodi == "default" || this.filter.prodi == "all"
+                ? null
+                : this.filter.prodi,
+            tanggal: this.filter.tanggal ? this.filter.tanggal : null,
+          },
+          {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          }
+        )
+        .then((res) => {
+          this.dataPresensi = res.data.data;
+          $(document).ready(function() {
+            $(".table").DataTable({
+              pageLength: 25,
+              ordering: false,
+            });
+          });
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    resetFilterData() {
+      this.dataPresensi = null;
+      this.filter.prodi = "default";
+      this.filter.tanggal = null;
+      this.isFilter = false,
+
+      axios
+        .get("https://gmedia.primakom.co.id/gmedia/superadmin/presensi", {
+          headers: {
+            Authorization: localStorage.token,
+          },
+        })
+        .then((result) => {
+          console.log(result);
+          this.dataPresensi = result.data.data;
+
+          this.loader = false;
+          $(document).ready(function() {
+            $(".table").DataTable({
+              pageLength: 25,
+              ordering: false,
+            });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     openPresensi(a) {
       this.loaderPopUp = true;
       axios
@@ -328,6 +415,7 @@ export default {
         $(document).ready(function() {
           $(".table").DataTable({
             pageLength: 25,
+            ordering: false,
           });
         });
       })

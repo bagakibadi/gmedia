@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-        <!-- <div class="card-shadow mb-3">
+        <div class="card-shadow mb-3">
           <div class="p-3">
             <div class="row">
               <div class="col-lg-3 col-md-4 col-6">
@@ -42,7 +42,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="card-shadow mb-3">
           <div class="p-3">
             <Loader text="Sedang memuat data mahasiswa." v-if="!dataMahasiswa" />
@@ -126,6 +126,7 @@
             </div>
           </div>
         </div>
+				<Footer />
       </div>
     </div>
     <div class="modal fade"  id="lihatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -958,7 +959,8 @@ export default {
       this.dataMahasiswa = result.data.data
       $(document).ready(function() {
         $(".table").DataTable({
-          pageLength: 25
+          pageLength: 25,
+          ordering: false,
         });
       });
     }).catch((err) => {

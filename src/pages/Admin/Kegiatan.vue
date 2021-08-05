@@ -41,7 +41,7 @@
 															{{items.topik}}
 														</p>
 														<small>
-															{{items.start_date}}
+															{{formatDate(items.start_date)}}
 														</small>
 													</div>
 												</button>
@@ -117,6 +117,7 @@
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		</div>
   </div>
@@ -137,7 +138,10 @@ export default {
 	},
 	methods: {
 		changeTime(time) {
-			return moment(time).lang("id").format('H:mm')
+			return moment(time).locale("id").format('H:mm')
+		},
+		formatDate(date) {
+			return moment(date).locale("id").format('DD MMMM YYYY')
 		},
 		deleted(uuid, topik) {
 			Swal.fire({

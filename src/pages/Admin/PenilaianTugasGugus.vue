@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <NavbarAdmin :widthContent="width" />
-    <div :class="`content content-dalem ${width > 992 ? '' : 'hide'}`">
+    <div :class="`content ${width > 992 ? '' : 'hide'}`">
       <div class="section">
         <div class="card-shadow mb-3">
           <div class="p-3">
@@ -161,6 +161,7 @@
             </div>
           </div>
         </div> -->
+        <Footer />
       </div>
     </div>
   </div>

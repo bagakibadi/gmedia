@@ -39,7 +39,7 @@
 											{{items.deskripsi}}
 										</td>
 										<td>
-											{{items.tanggal}}
+											{{formatDate(items.tanggal)}}
 										</td>
 										<td>
 											<div v-if="items.pemandu">
@@ -57,6 +57,8 @@
 						</div>
 					</div>
 				</div>
+				<Footer />
+
 			</div>
 		</div>
   </div>
@@ -65,6 +67,7 @@
 <script>
 /* eslint-disable no-undef */
 import axios from 'axios'
+import moment from "moment";
 
 export default {
 	data: function() {
@@ -89,7 +92,10 @@ export default {
 			}).catch((err) => {
 				console.log(err)
 			});
-		}
+		},
+		formatDate(date) {
+			return moment(date).locale("id").format("DD MMMM YYYY");
+		},
 	},
 	mounted() {
 		this.width = $(document).width();

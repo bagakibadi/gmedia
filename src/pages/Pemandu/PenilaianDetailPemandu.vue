@@ -2,7 +2,7 @@
   <div class="dashboard penilaian">
     <NavbarPemandu :widthContent="width" />
     <div
-      :class="`content content-dalem ${width > 992 ? '' : 'hide'}`"
+      :class="`content ${width > 992 ? '' : 'hide'}`"
       v-if="dataTugas"
     >
       <div class="section">
@@ -525,6 +525,7 @@
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   </div>

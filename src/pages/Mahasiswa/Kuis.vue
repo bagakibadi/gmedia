@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
 		<NavbarMahasiswa :widthContent="width" />
-		<div :class="`content content-dalem ${width > 992 ? '' : 'hide'}`">
+		<div :class="`content ${width > 992 ? '' : 'hide'}`">
       <div class="section">
 				<div class="row">
 					<div class="col-lg-12 mb-3">
@@ -65,6 +65,7 @@
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		</div>
   </div>

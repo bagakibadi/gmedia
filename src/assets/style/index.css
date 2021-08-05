@@ -218,13 +218,15 @@ a:hover {
 
 .section {
    padding: 0 30px;
-   /* margin-bottom: 28px; */
+   position: relative;
+   min-height: calc(100vh - 101px);
+   padding-bottom: 70px;
 }
 
 .footerd {
    position: absolute;
    bottom: 0;
-   width: calc(100% - 50px);
+   width: calc(100% - 60px);
    margin: 0;
 }
 
@@ -482,6 +484,11 @@ input.form-check-input:checked {
 .footer-modal .btn {
    width: 100px;
    height: 36px;
+}
+
+.dashboard-navigation .section {
+   padding-bottom: 0;
+   min-height: unset;
 }
 
 .dashboard-navigation .sidebar .name-member {
@@ -830,7 +837,7 @@ tr th {
 }
 
 .dashboard .modal .status-video.success {
-   background-color: #1aa91aa6;
+   background-color: #1aa91aa6 !important;
 }
 
 /* Bank Soal */

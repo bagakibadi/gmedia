@@ -89,6 +89,7 @@
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		</div>
 		<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

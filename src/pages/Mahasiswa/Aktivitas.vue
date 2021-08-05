@@ -29,7 +29,7 @@
 											<img src="../../assets/icons/right.svg" alt="">
 										</a>
 									</div> -->
-									<h4 style="margin: 0 0 0 20px">Juli 2021</h4>
+									<h4 style="margin: 0 0 0 20px">Kegiatan</h4>
 								</div>
 								<div class="accordion" id="accordionExample" style="padding: 0 0 0 20px;" v-if="dataKegiatan">
 									<div v-for="(items,index) in dataKegiatan.data" :key="index">
@@ -41,7 +41,7 @@
 															{{items.topik}}
 														</p>
 														<small>
-															{{items.start_date}}
+															{{formatDate(items.start_date)}}
 														</small>
 													</div>
 												</button>
@@ -117,6 +117,8 @@
 						</div>
 					</div>
 				</div>
+				<Footer />
+
 			</div>
 		</div>
   </div>
@@ -137,7 +139,10 @@ export default {
 	},
 	methods: {
 		changeTime(time) {
-			return moment(time).lang("id").format('H:mm')
+			return moment(time).locale("id").format('H:mm')
+		},
+		formatDate(date) {
+			return moment(date).locale("id").format("DD MMMM YY");
 		},
 		deleted(uuid, topik) {
 			Swal.fire({
