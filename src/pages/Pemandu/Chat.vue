@@ -198,6 +198,9 @@ export default {
 				}
 			}, 2000) // vérifie toutes les 1 sec que 30 sec ont passé depuis la dernière synchro
 			this.loginss()
+			setTimeout(() => {
+				this.recconect = false
+			}, 500);
 		},
 		kirimpesan() {
 			if(this.pesann) {

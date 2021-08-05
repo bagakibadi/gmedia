@@ -32,6 +32,7 @@ import pemanduMaster from "../pages/Admin/Pemandu.vue";
 import userManagement from "../pages/Admin/UserManagement.vue";
 import gugusMaster from "../pages/Admin/Gugus.vue";
 import prodiMaster from "../pages/Admin/Prodi.vue";
+import kontentMaster from "../pages/Admin/Kontent.vue";
 
 // Pemandu
 import DashboardPemandu from "../pages/Pemandu/index.vue";
@@ -194,6 +195,11 @@ const routes = [
     path: "/admin/prodi",
     name: "Prodi Master",
     component: prodiMaster,
+  },
+  {
+    path: "/admin/kontent",
+    name: "Kontent Master",
+    component: kontentMaster,
   },
 
   // Pemandu
