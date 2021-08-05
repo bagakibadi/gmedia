@@ -184,14 +184,14 @@
                   <i class="fas fa-bars"></i>
                 </div>
                 <div class="d-flex align-items-center">
-                  <div class="notif position-relative me-4">
+                  <!-- <div class="notif position-relative me-4">
                     <img src="../assets/icons/notif.svg" alt="" width="19" />
                     <div
                       class="notif-count d-flex align-items-center justify-content-center"
                     >
                       4
                     </div>
-                  </div>
+                  </div> -->
                   <div class="d-flex align-items-center" v-if="userData">
                     <div class="text-end me-2">
                       <div class="username">{{ userData.data.nama }}</div>

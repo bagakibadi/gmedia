@@ -20,21 +20,22 @@
 							</div>
 							<h3 class="title-name-chat">Percakapan</h3>
 							<div class="row g-0" v-if="listChat">
-								<div class="col-12" v-for="(item,index) in listChat.update.slice().reverse()" :key="index">
-									<div class="d-flex align-items-center padding-name-chat card-name-chat" @click="getChat(item._id)">
+								<div class="col-12" v-for="(item,index) in testChat.slice().reverse()" :key="index">
+								<!-- <div class="col-12" v-for="(item,index) in listChat.update.slice().reverse()" :key="index"> -->
+									<div class="d-flex align-items-center padding-name-chat card-name-chat" @click="getChat(item.id)">
 										<!-- <img src="../../assets/icons/profile.svg" alt=""> -->
 										<div class="img-profile-chat">
-											<p v-if="item.name">{{item.name.charAt(0)}}</p>
-											<p v-else>{{item.usernames[0].charAt(0)}}</p>
+											<p>{{item.name.charAt(0)}}</p>
+											<!-- <p v-if="item.name">{{item.name.charAt(0)}}</p> -->
+											<!-- <p v-else>{{item.usernames[0].charAt(0)}}</p> -->
 										</div>
 										<div class="info-name">
-											<h4 v-if="item.name">{{item.name}}</h4>
-											<h4 v-else>{{item.usernames[0]}}</h4>
-											<p>{{item.lastMessage.msg}}</p>
+											<h4>{{item.name}}</h4>
+											<p>{{item.lastMessage}}</p>
 										</div>
 										<div class="tanggal-chat">
 											<!-- <p>5 Juli 2021</p> -->
-											<p>{{getTimes(item.ts.$date)}}</p>
+											<p>{{item.date}}</p>
 										</div>
 									</div>
 								</div>
@@ -123,7 +124,7 @@ export default {
       dmRoom: '',
       recconect: false,
 			listChat: null,
-			testChat: null
+			testChat: []
 		}
 	},
 	methods: {
@@ -137,7 +138,31 @@ export default {
 			api.onMessage (message => {
 				let scrollDown = document.getElementById('box-message')
 				if(message.msg === 'result' && message.id === 'getList') {
-					this.listChat = message.result
+					// this.listChat = message.result
+					this.testChat = []
+					setTimeout(() => {
+						for(let i = 0; i < message.result.update.length ;i++) {
+							if(message.result.update[i].name) {
+								this.testChat.push({
+									lastMessage: message.result.update[i].lastMessage.msg,
+									name: message.result.update[i].name,
+									userCount: message.result.update[i].usersCount,
+									date: moment(message.result.update[i].ts.$date).lang("id").format('h:mm'),
+									id: message.result.update[i]._id
+								})
+							} else{
+								this.testChat.push({
+									lastMessage: message.result.update[i].lastMessage.msg,
+									name: message.result.update[i].usernames[0],
+									userCount: message.result.update[i].usersCount,
+									date: moment(message.result.update[i].ts.$date).lang("id").format('h:mm'),
+									id: message.result.update[i]._id
+								})
+							}
+						}
+					}, 200);
+					console.log(this.testChat)
+					console.log('this.testChat')
 				}
 				if(message.msg === 'changed' && message.collection === 'stream-room-messages'){
 					let datenya = new Date(message.fields.args[0].ts.$date)
@@ -286,6 +311,28 @@ export default {
 			let scrollDown = document.getElementById('box-message')
 			if(message.msg === 'result' && message.id === 'getList') {
 				this.listChat = message.result
+				this.testChat = []
+				setTimeout(() => {
+					for(let i = 0; i < message.result.update.length ;i++) {
+						if(message.result.update[i].name) {
+							this.testChat.push({
+								lastMessage: message.result.update[i].lastMessage.msg,
+								name: message.result.update[i].name,
+								userCount: message.result.update[i].usersCount,
+								date: moment(message.result.update[i].ts.$date).lang("id").format('h:mm'),
+								id: message.result.update[i]._id
+							})
+						} else{
+							this.testChat.push({
+								lastMessage: message.result.update[i].lastMessage.msg,
+								name: message.result.update[i].usernames[0],
+								userCount: message.result.update[i].usersCount,
+								date: moment(message.result.update[i].ts.$date).lang("id").format('h:mm'),
+								id: message.result.update[i]._id
+							})
+						}
+					}
+				}, 200);
 			}
 			if(message.msg === 'changed' && message.collection === 'stream-room-messages'){
 				let datenya = new Date(message.fields.args[0].ts.$date)
