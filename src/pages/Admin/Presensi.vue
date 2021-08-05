@@ -34,7 +34,8 @@
         </div>
         <div class="card-shadow mb-3">
           <div class="p-3">
-            <div class="table-responsive">
+            <Loader text="Sedang memuat data presensi." v-if="!dataPresensi" />
+            <div class="table-responsive" v-else>
               <table class="table">
                 <thead>
                   <tr>
@@ -149,7 +150,8 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div class="row">
+            <Loader text="Sedang memuat detail presensi." v-if="loaderPopUp" />
+            <div class="row" v-else>
               <div class="col-lg-4">
                 <img class="img-fluid" :src="dataOnePresensi.foto" alt="" />
                 <div class="form-group mt-3">
@@ -245,10 +247,12 @@ export default {
       width: null,
       dataPresensi: null,
       dataOnePresensi: null,
+      loaderPopUp: false,
     };
   },
   methods: {
     openPresensi(a) {
+      this.loaderPopUp = true;
       axios
         .get(`https://gmedia.primakom.co.id/gmedia/superadmin/presensi/${a}`, {
           headers: {
@@ -258,6 +262,7 @@ export default {
         .then((result) => {
           console.log(result);
           this.dataOnePresensi = result.data.data;
+          this.loaderPopUp = false;
 
           setTimeout(() => {
             /*eslint-disable */
@@ -312,6 +317,8 @@ export default {
       .then((result) => {
         console.log(result);
         this.dataPresensi = result.data.data;
+
+        this.loader = false;
         $(document).ready(function() {
           $(".table").DataTable({
             pageLength: 25,

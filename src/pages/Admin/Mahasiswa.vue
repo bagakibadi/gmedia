@@ -45,7 +45,8 @@
         </div> -->
         <div class="card-shadow mb-3">
           <div class="p-3">
-            <div class="table-responsive">
+            <Loader text="Sedang memuat data mahasiswa." v-if="!dataMahasiswa" />
+            <div class="table-responsive" v-else>
               <table class="table">
                 <thead>
                   <tr>
@@ -128,10 +129,11 @@
 					<button type="button"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					<div class="modal-body modal-tambah" >
 						<div class="judul-modal-tambah">
-							<h3>Edit Mahasiswa</h3>
+							<h3>Detail Mahasiswa</h3>
 						</div>
             <hr>
-						<form action="" v-if="editMahasiswaData" >
+            <Loader text="Sedang memuat detail mahasiswa." v-if="!editMahasiswaData && loaderPopUp" />
+						<form action="" v-else >
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
@@ -494,6 +496,7 @@ import Swal from 'sweetalert2';
 export default {
   data: function() {
     return {
+      loaderPopUp: false,
       validationTambah: {
         status: true,
         message: null,
@@ -737,6 +740,7 @@ export default {
 
     },
     openEditMahasiswa(uuidMahasiswa) {
+      this.loaderPopUp = true
       setTimeout(() => {
         $(".dropify").dropify({
           messages: {
@@ -752,6 +756,7 @@ export default {
           Authorization: localStorage.token
         }
       }).then((result) => {
+        this.loaderPopUp = false;
         this.editMahasiswaData = result.data.data
       }).catch((err) => {
         console.log(err)

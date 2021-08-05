@@ -3,6 +3,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import LandingPage from "../pages/LandingPage.vue";
+import Loaderio from "../pages/Loaderio.vue";
 import Logout from "../pages/Auth/Logout.vue";
 
 // Admin
@@ -63,6 +64,11 @@ const routes = [
     path: "/logout",
     name: "Logout",
     component: Logout,
+  },
+  {
+    path: "/loaderio-:id",
+    name: "Loaderio",
+    component: Loaderio,
   },
 
   // Admin

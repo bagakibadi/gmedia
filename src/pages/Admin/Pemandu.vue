@@ -17,7 +17,8 @@
 				</div>
 				<div class="card-shadow mb-3">
 					<div class="p-3">
-						<div class="table-responsive">
+						<Loader text="Sedang memuat data pemandu." v-if="!dataPemandu" />
+						<div class="table-responsive" v-else>
 							<table class="table">
                 <thead>
                   <tr>

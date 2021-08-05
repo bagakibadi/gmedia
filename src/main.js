@@ -6,6 +6,7 @@ import VueApexCharts from 'vue-apexcharts'
 import NavbarAdmin from "./components/NavbarAdmin.vue"
 import NavbarPemandu from "./components/NavbarPemandu.vue"
 import NavbarMahasiswa from "./components/NavbarMahasiswa.vue"
+import Loader from "./components/Loader.vue"
 
 
 Vue.config.productionTip = false
@@ -16,6 +17,7 @@ Vue.component('apexchart', VueApexCharts)
 Vue.component('NavbarAdmin', NavbarAdmin)
 Vue.component('NavbarPemandu', NavbarPemandu)
 Vue.component('NavbarMahasiswa', NavbarMahasiswa)
+Vue.component('Loader', Loader)
 
 
 new Vue({
