@@ -297,7 +297,7 @@ export default {
     },
     timeChange(a) {
       return moment(a)
-        .lang("id")
+        .locale("id")
         .format("h:mm:ss");
     },
   },

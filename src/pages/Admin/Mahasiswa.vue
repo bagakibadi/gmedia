@@ -12,14 +12,14 @@
                 <a href="#" type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#tambah" @click="openDropify">
                   + Tambah
                 </a>
-                <button type="button" class="btn btn-warning text-white">
+                <!-- <button type="button" class="btn btn-warning text-white">
                   Import Excel
-                </button>
+                </button> -->
               </div>
             </div>
           </div>
         </div>
-        <div class="card-shadow mb-3">
+        <!-- <div class="card-shadow mb-3">
           <div class="p-3">
             <div class="row">
               <div class="col-lg-3 col-md-4 col-6">
@@ -42,7 +42,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="card-shadow mb-3">
           <div class="p-3">
             <div class="table-responsive">
@@ -86,7 +86,7 @@
                     </td>
                     <td>{{items.prodi.fakultas.nama}}</td>
                     <td>{{items.email}}</td>
-                    <td>0873324213</td>
+                    <td>{{items.nohp}}</td>
                     <td>
                       <div class="d-flex">
                         <button
