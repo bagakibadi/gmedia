@@ -40,6 +40,7 @@ import DashboardPemandu from "../pages/Pemandu/index.vue";
 import PresensiPemandu from "../pages/Pemandu/Presensi.vue";
 import MahasiswaPemandu from "../pages/Pemandu/Mahasiswa.vue";
 import ChatPemandu from "../pages/Pemandu/Chat.vue";
+import AktivitasPemandu from "../pages/Pemandu/Aktivitas.vue";
 import PenilaianPemandu from "../pages/Pemandu/PenilaianPemandu.vue";
 import PenilaianDetailPemandu from "../pages/Pemandu/PenilaianDetailPemandu.vue";
 
@@ -228,6 +229,11 @@ const routes = [
     path: "/pemandu/chat",
     name: "Chat Pemandu",
     component: ChatPemandu,
+  },
+  {
+    path: "/pemandu/aktivitas",
+    name: "Aktivitas Pemandu",
+    component: AktivitasPemandu,
   },
   {
     path: "/pemandu/penilaian",

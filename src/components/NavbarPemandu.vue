@@ -88,11 +88,11 @@
           </div>
         </router-link>
 
-        <router-link :to="{ name: 'Dashboard Pemandu' }">
+        <router-link :to="{ name: 'Aktivitas Pemandu' }">
           <div
             :class="
               `item ${
-                $route.fullPath == '/account-manager' ? 'active' : ''
+                $route.fullPath == '/pemandu/aktivitas' ? 'active' : ''
               } d-flex align-items-center`
             "
           >
