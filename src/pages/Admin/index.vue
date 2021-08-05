@@ -7,7 +7,7 @@
           <div class="col-lg-5 col-md-6">
             <div class="card-shadow mb-3">
               <div class="p-3">
-                <div class="title-content mb-2">Selamat Putra 🎉</div>
+                <div class="title-content mb-2">Selamat Admin </div>
                 <div style="font-size: 18px;">Presensi terpagi hari ini</div>
                 <div class="time-presensi mt-4 mb-3 text-primary">
                   06.32 WIB
