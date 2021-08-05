@@ -82,6 +82,7 @@
                       <div>
                         <div class="main-text">{{items.prodi.nama}}</div>
                         <div class="sub-text" v-if="items.gugus">{{items.gugus.name}}</div>
+                        <div class="sub-text" v-else> </div>
                       </div>
                     </td>
                     <td>{{items.prodi.fakultas.nama}}</td>
