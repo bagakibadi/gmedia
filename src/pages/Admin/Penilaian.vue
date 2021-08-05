@@ -32,6 +32,13 @@
             </div>
           </div>
         </div> -->
+        <div class="d-flex justify-content-center" v-if="!dataGugus">
+          <div class="card-shadow">
+            <div class="px-5 py-3">
+              <Loader text="Sedang memuat data gugus." />
+            </div>
+          </div>
+        </div>
         <div class="row" v-if="dataGugus">
           <div
             class="col-md-4 col-sm-6"

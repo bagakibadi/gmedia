@@ -93,6 +93,7 @@
                 : 'danger text-danger'
             } mb-3`
           "
+          v-if="dataGugus"
         >
           <div class="p-3">
             <div class="d-flex align-items-center">
@@ -104,6 +105,13 @@
                     : "Pilih gugus yang mendapatkan tugas!"
                 }}
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center" v-if="!dataGugus">
+          <div class="card-shadow">
+            <div class="px-5 py-3">
+              <Loader text="Sedang memuat data gugus." />
             </div>
           </div>
         </div>

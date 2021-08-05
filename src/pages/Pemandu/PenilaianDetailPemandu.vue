@@ -54,330 +54,355 @@
         <!-- <div class="card-shadow mb-3">
           <div class="p-3"></div>
         </div> -->
-        <div v-for="(items, id) in dataTugas.data" :key="id">
-          <div class="card-shadow mb-3" v-if="!items.dikerjakan">
-            <div class="p-3">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center">
-                  <div
-                    class="image d-md-flex d-none align-items-center justify-content-center"
-                  >
-                    <img :src="items.foto" alt="" />
+        <div class="card-shadow" v-if="!dataTugas">
+          <div class="p-3">
+            <Loader text="Sedang memuat data tugas tiap mahasiswa." />
+          </div>
+        </div>
+        <div v-else>
+          <div v-for="(items, id) in dataTugas.data" :key="id">
+            <div class="card-shadow mb-3" v-if="!items.dikerjakan">
+              <div class="p-3">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="d-flex align-items-center">
+                    <div
+                      class="image d-md-flex d-none align-items-center justify-content-center"
+                    >
+                      <img :src="items.foto" alt="" />
+                    </div>
+                    <div class="ms-2">
+                      <div class="main-text">{{ items.nama }}</div>
+                      <div class="sub-text">{{ items.nim }}</div>
+                    </div>
                   </div>
-                  <div class="ms-2">
-                    <div class="main-text">{{ items.nama }}</div>
-                    <div class="sub-text">{{ items.nim }}</div>
-                  </div>
-                </div>
-                <div class="d-flex align-items-center">
-                  <div
-                    class="py-1 px-2 text-danger danger d-inline-block"
-                    style="border-radius: 7px; font-weight: 500;"
-                  >
-                    Belum Dikerjakan
+                  <div class="d-flex align-items-center">
+                    <div
+                      class="py-1 px-2 text-danger danger d-inline-block"
+                      style="border-radius: 7px; font-weight: 500;"
+                    >
+                      Belum Dikerjakan
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="card-shadow mb-3" v-else>
-            <div
-              class="p-3 collapsed"
-              data-bs-toggle="collapse"
-              :href="`#nilai${id}`"
-              role="button"
-              aria-expanded="false"
-              :aria-controls="`nilai${id}`"
-            >
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center">
-                  <div
-                    class="image d-md-flex d-none align-items-center justify-content-center"
-                  >
-                    <img
+            <div class="card-shadow mb-3" v-else>
+              <div
+                class="p-3 collapsed"
+                data-bs-toggle="collapse"
+                :href="`#nilai${id}`"
+                role="button"
+                aria-expanded="false"
+                :aria-controls="`nilai${id}`"
+              >
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="d-flex align-items-center">
+                    <div
+                      class="image d-md-flex d-none align-items-center justify-content-center"
+                    >
+                      <img
                         src="../../assets/ilustrasi/avatar-admin-pemandu.svg"
                         alt=""
-                        v-if="
-                          items.foto == '' ||
-                            items.foto == 'foto.jpg'
-                        "
+                        v-if="items.foto == '' || items.foto == 'foto.jpg'"
                       />
                       <img :src="items.foto" v-else alt="" />
+                    </div>
+                    <div class="ms-2">
+                      <div class="main-text">{{ items.nama }}</div>
+                      <div class="sub-text">{{ items.nim }}</div>
+                    </div>
                   </div>
-                  <div class="ms-2">
-                    <div class="main-text">{{ items.nama }}</div>
-                    <div class="sub-text">{{ items.nim }}</div>
+                  <div class="d-flex align-items-center">
+                    <div
+                      class="py-1 px-2 text-success success"
+                      style="border-radius: 7px; font-weight: 500;"
+                      v-if="items.nilai"
+                    >
+                      Dinilai
+                    </div>
+                    <div
+                      class="py-1 px-2 text-warning warning"
+                      style="border-radius: 7px; font-weight: 500;"
+                      v-else
+                    >
+                      Belum Dinilai
+                    </div>
+                    <i class="fas fa-chevron-right ms-3"></i>
                   </div>
-                </div>
-                <div class="d-flex align-items-center">
-                  <div
-                    class="py-1 px-2 text-success success"
-                    style="border-radius: 7px; font-weight: 500;"
-                    v-if="items.nilai"
-                  >
-                    Dinilai
-                  </div>
-                  <div
-                    class="py-1 px-2 text-warning warning"
-                    style="border-radius: 7px; font-weight: 500;"
-                    v-else
-                  >
-                    Belum Dinilai
-                  </div>
-                  <i class="fas fa-chevron-right ms-3"></i>
                 </div>
               </div>
-            </div>
-            <div class="collapse" :id="`nilai${id}`">
-              <div class="soal-section p-3">
-                <div v-if="items.soal_pg.length > 0">
-                  <div
-                    class="mb-5"
-                    v-for="(soalPG, idPG) in items.soal_pg"
-                    :key="soalPG.isi + idPG"
-                  >
+              <div class="collapse" :id="`nilai${id}`">
+                <div class="soal-section p-3">
+                  <div v-if="items.soal_pg.length > 0">
                     <div
-                      class="d-flex align-items-center justify-content-between"
+                      class="mb-5"
+                      v-for="(soalPG, idPG) in items.soal_pg"
+                      :key="soalPG.isi + idPG"
                     >
-                      <div class="d-flex align-items-center">
-                        <div
-                          class="number-soal primary text-primary d-flex align-items-center justify-content-center"
-                        >
-                          {{ idPG + 1 }}
-                        </div>
-                        <div class="type-soal">Soal Pilihan Ganda</div>
-                      </div>
                       <div
-                        :class="
-                          `py-1 px-2 ${
-                            soalPG.data_jawaban.benar == 1
-                              ? 'text-success success'
-                              : 'text-danger danger'
-                          }`
-                        "
-                        style="border-radius: 7px; font-weight: 500;"
+                        class="d-flex align-items-center justify-content-between"
                       >
-                        {{
-                          total[id].nilai[idPG].nilai
-                            ? total[id].nilai[idPG].nilai
-                            : 0
-                        }}
-                        / {{ soalPG.bobot }}
-                      </div>
-                    </div>
-                    <div style="padding-left: 40px;">
-                      <div v-if="soalPG.foto_soal !== ''">
-                        <img :src="soalPG.foto_soal" alt="" />
-                      </div>
-                      <div
-                        v-html="soalPG.isi"
-                        class="mt-1"
-                        style="font-size: 16px; font-weight: 400;"
-                      ></div>
-                      <div class="mt-2">
-                        <div
-                          v-for="(kunci, idKunci) in soalPG.kuncijawaban"
-                          :key="idKunci"
-                        >
+                        <div class="d-flex align-items-center">
                           <div
-                            class="d-flex align-items-center mb-3"
-                            v-if="kunci.benar == 1"
+                            class="number-soal primary text-primary d-flex align-items-center justify-content-center"
                           >
-                            <div class="me-2">
-                              <button
-                                class="
-                                btn btn-success mb-0 text-uppercase text-center
-                              "
-                                style="border-radius: 100px !important; min-width: 38px; max-width: 38px;"
-                                disabled
-                              >
-                                {{ dataLetter[idKunci] }}
-                              </button>
-                            </div>
-                            <div
-                              class="
-                              text-success mb-0 px-1 py-2
-                            "
-                              style="font-size: 16px; font-weight: 300;"
-                            >
-                              {{ kunci.jawaban }}
-                            </div>
+                            {{ idPG + 1 }}
                           </div>
-                          <div class="d-flex align-items-center mb-3" v-else>
-                            <div class="me-2">
-                              <button
-                                :class="
-                                  `btn ${
-                                    soalPG.data_jawaban.jawaban == kunci.jawaban
-                                      ? 'btn-danger'
-                                      : 'btn-outline-primary'
-                                  } mb-0 text-uppercase text-center`
-                                "
-                                style="border-radius: 100px !important; min-width: 38px; max-width: 38px;"
-                                disabled
-                              >
-                                {{ dataLetter[idKunci] }}
-                              </button>
-                            </div>
-                            <div
-                              :class="
-                                `${
-                                  soalPG.data_jawaban.jawaban == kunci.jawaban
-                                    ? 'text-danger fw-normal'
-                                    : ''
-                                } mb-0 px-1 py-2`
-                              "
-                              style="font-size: 16px; font-weight: 300;"
-                            >
-                              {{ kunci.jawaban }}
-                            </div>
-                          </div>
+                          <div class="type-soal">Soal Pilihan Ganda</div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="items.soal_essai.length > 0">
-                  <div
-                    class="mb-5"
-                    v-for="(soalEsai, idEsai) in items.soal_essai"
-                    :key="soalEsai.isi + idEsai"
-                  >
-                    <div
-                      class="d-flex align-items-center justify-content-between"
-                    >
-                      <div class="d-flex align-items-center">
-                        <div
-                          :class="
-                            `number-soal ${
-                              total[id].nilai[items.soal_pg.length + idEsai]
-                                .nilai
-                                ? 'primary text-primary'
-                                : 'warning text-warning'
-                            } d-flex align-items-center justify-content-center`
-                          "
-                        >
-                          {{ items.soal_pg.length + idEsai + 1 }}
-                        </div>
-                        <div class="type-soal">Soal Pilihan Ganda</div>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <input
-                          class="form-control form-control-sm"
-                          type="number"
-                          placeholder="Nilai"
-                          style="width: 55px;"
-                          maxlength="3"
-                          v-model="
-                            total[id].nilai[items.soal_pg.length + idEsai].nilai
-                          "
-                          @change="
-                            checkBobot(id, items.soal_pg.length + idEsai)
-                          "
-                          v-if="!items.nilai"
-                        />
                         <div
                           :class="
                             `py-1 px-2 ${
-                              total[id].nilai[items.soal_pg.length + idEsai]
-                                .nilai
-                                ? total[id].nilai[items.soal_pg.length + idEsai]
-                                    .nilai >= soalEsai.bobot
-                                  ? 'text-success success'
-                                  : 'text-primary primary'
-                                : 'text-warning warning'
-                            } ms-2`
+                              soalPG.data_jawaban.benar == 1
+                                ? 'text-success success'
+                                : 'text-danger danger'
+                            }`
                           "
                           style="border-radius: 7px; font-weight: 500;"
                         >
                           {{
-                            total[id].nilai[items.soal_pg.length + idEsai].nilai
-                              ? total[id].nilai[items.soal_pg.length + idEsai]
-                                  .nilai
+                            total[id].nilai[idPG].nilai
+                              ? total[id].nilai[idPG].nilai
                               : 0
                           }}
-                          / {{ soalEsai.bobot }}
+                          / {{ soalPG.bobot }}
+                        </div>
+                      </div>
+                      <div style="padding-left: 40px;">
+                        <div v-if="soalPG.foto_soal !== ''">
+                          <img :src="soalPG.foto_soal" alt="" />
+                        </div>
+                        <div
+                          v-html="soalPG.isi"
+                          class="mt-1"
+                          style="font-size: 16px; font-weight: 400;"
+                        ></div>
+                        <div class="mt-2">
+                          <div
+                            v-for="(kunci, idKunci) in soalPG.kuncijawaban"
+                            :key="idKunci"
+                          >
+                            <div
+                              class="d-flex align-items-center mb-3"
+                              v-if="kunci.benar == 1"
+                            >
+                              <div class="me-2">
+                                <button
+                                  class="
+                                btn btn-success mb-0 text-uppercase text-center
+                              "
+                                  style="border-radius: 100px !important; min-width: 38px; max-width: 38px;"
+                                  disabled
+                                >
+                                  {{ dataLetter[idKunci] }}
+                                </button>
+                              </div>
+                              <div
+                                class="
+                              text-success mb-0 px-1 py-2
+                            "
+                                style="font-size: 16px; font-weight: 300;"
+                              >
+                                {{ kunci.jawaban }}
+                              </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3" v-else>
+                              <div class="me-2">
+                                <button
+                                  :class="
+                                    `btn ${
+                                      soalPG.data_jawaban.jawaban ==
+                                      kunci.jawaban
+                                        ? 'btn-danger'
+                                        : 'btn-outline-primary'
+                                    } mb-0 text-uppercase text-center`
+                                  "
+                                  style="border-radius: 100px !important; min-width: 38px; max-width: 38px;"
+                                  disabled
+                                >
+                                  {{ dataLetter[idKunci] }}
+                                </button>
+                              </div>
+                              <div
+                                :class="
+                                  `${
+                                    soalPG.data_jawaban.jawaban == kunci.jawaban
+                                      ? 'text-danger fw-normal'
+                                      : ''
+                                  } mb-0 px-1 py-2`
+                                "
+                                style="font-size: 16px; font-weight: 300;"
+                              >
+                                {{ kunci.jawaban }}
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div style="padding-left: 40px;">
-                      <div v-if="soalEsai.foto_soal !== ''">
-                        <img :src="soalEsai.foto_soal" alt="" />
-                      </div>
+                  </div>
+                  <div v-if="items.soal_essai.length > 0">
+                    <div
+                      class="mb-5"
+                      v-for="(soalEsai, idEsai) in items.soal_essai"
+                      :key="soalEsai.isi + idEsai"
+                    >
                       <div
-                        v-html="soalEsai.isi"
-                        class="mt-1"
-                        style="font-size: 16px; font-weight: 400;"
-                      ></div>
-                      <div class="type-soal mt-3">Jawaban</div>
-                      <div class="mt-1">
-                        <textarea
-                          :id="`esai${id}${idEsai}`"
-                          class="d-none"
-                        ></textarea>
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <div class="d-flex align-items-center">
+                          <div
+                            :class="
+                              `number-soal ${
+                                total[id].nilai[items.soal_pg.length + idEsai]
+                                  .nilai
+                                  ? 'primary text-primary'
+                                  : 'warning text-warning'
+                              } d-flex align-items-center justify-content-center`
+                            "
+                          >
+                            {{ items.soal_pg.length + idEsai + 1 }}
+                          </div>
+                          <div class="type-soal">Soal Pilihan Ganda</div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <input
+                            class="form-control form-control-sm"
+                            type="number"
+                            placeholder="Nilai"
+                            style="width: 55px;"
+                            maxlength="3"
+                            v-model="
+                              total[id].nilai[items.soal_pg.length + idEsai]
+                                .nilai
+                            "
+                            @change="
+                              checkBobot(id, items.soal_pg.length + idEsai)
+                            "
+                            v-if="!items.nilai"
+                          />
+                          <div
+                            :class="
+                              `py-1 px-2 ${
+                                total[id].nilai[items.soal_pg.length + idEsai]
+                                  .nilai
+                                  ? total[id].nilai[
+                                      items.soal_pg.length + idEsai
+                                    ].nilai >= soalEsai.bobot
+                                    ? 'text-success success'
+                                    : 'text-primary primary'
+                                  : 'text-warning warning'
+                              } ms-2`
+                            "
+                            style="border-radius: 7px; font-weight: 500;"
+                          >
+                            {{
+                              total[id].nilai[items.soal_pg.length + idEsai]
+                                .nilai
+                                ? total[id].nilai[items.soal_pg.length + idEsai]
+                                    .nilai
+                                : 0
+                            }}
+                            / {{ soalEsai.bobot }}
+                          </div>
+                        </div>
+                      </div>
+                      <div style="padding-left: 40px;">
+                        <div v-if="soalEsai.foto_soal !== ''">
+                          <img :src="soalEsai.foto_soal" alt="" />
+                        </div>
+                        <div
+                          v-html="soalEsai.isi"
+                          class="mt-1"
+                          style="font-size: 16px; font-weight: 400;"
+                        ></div>
+                        <div class="type-soal mt-3">Jawaban</div>
+                        <div class="mt-1">
+                          <textarea
+                            :id="`esai${id}${idEsai}`"
+                            class="d-none"
+                          ></textarea>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div v-if="items.soal_upload.length > 0">
-                  <div
-                    class="mb-5"
-                    v-for="(soalUpload, idUpload) in items.soal_upload"
-                    :key="soalUpload.isi + idUpload"
-                  >
+                  <div v-if="items.soal_upload.length > 0">
                     <div
-                      class="d-flex align-items-center justify-content-between"
+                      class="mb-5"
+                      v-for="(soalUpload, idUpload) in items.soal_upload"
+                      :key="soalUpload.isi + idUpload"
                     >
-                      <div class="d-flex align-items-center">
-                        <div
-                          :class="
-                            `number-soal ${
+                      <div
+                        class="d-flex align-items-center justify-content-between"
+                      >
+                        <div class="d-flex align-items-center">
+                          <div
+                            :class="
+                              `number-soal ${
+                                total[id].nilai[
+                                  items.soal_pg.length +
+                                    items.soal_essai.length +
+                                    idUpload
+                                ].nilai
+                                  ? 'primary text-primary'
+                                  : 'warning text-warning'
+                              } d-flex align-items-center justify-content-center`
+                            "
+                          >
+                            {{
+                              items.soal_pg.length +
+                                items.soal_essai.length +
+                                idUpload +
+                                1
+                            }}
+                          </div>
+                          <div class="type-soal">Soal Upload</div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <input
+                            class="form-control form-control-sm"
+                            type="number"
+                            placeholder="Nilai"
+                            style="width: 55px;"
+                            maxlength="3"
+                            v-model="
                               total[id].nilai[
                                 items.soal_pg.length +
                                   items.soal_essai.length +
                                   idUpload
                               ].nilai
-                                ? 'primary text-primary'
-                                : 'warning text-warning'
-                            } d-flex align-items-center justify-content-center`
-                          "
-                        >
-                          {{
-                            items.soal_pg.length +
-                              items.soal_essai.length +
-                              idUpload +
-                              1
-                          }}
-                        </div>
-                        <div class="type-soal">Soal Upload</div>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <input
-                          class="form-control form-control-sm"
-                          type="number"
-                          placeholder="Nilai"
-                          style="width: 55px;"
-                          maxlength="3"
-                          v-model="
-                            total[id].nilai[
-                              items.soal_pg.length +
-                                items.soal_essai.length +
-                                idUpload
-                            ].nilai
-                          "
-                          @change="
-                            checkBobot(
-                              id,
-                              items.soal_pg.length +
-                                items.soal_essai.length +
-                                idUpload
-                            )
-                          "
-                          v-if="!items.nilai"
-                        />
-                        <div
-                          :class="
-                            `py-1 px-2 ${
+                            "
+                            @change="
+                              checkBobot(
+                                id,
+                                items.soal_pg.length +
+                                  items.soal_essai.length +
+                                  idUpload
+                              )
+                            "
+                            v-if="!items.nilai"
+                          />
+                          <div
+                            :class="
+                              `py-1 px-2 ${
+                                total[id].nilai[
+                                  items.soal_pg.length +
+                                    items.soal_essai.length +
+                                    idUpload
+                                ].nilai
+                                  ? total[id].nilai[
+                                      items.soal_pg.length +
+                                        items.soal_essai.length +
+                                        idUpload
+                                    ].nilai >= soalUpload.bobot
+                                    ? 'text-success success'
+                                    : 'text-primary primary'
+                                  : 'text-warning warning'
+                              } ms-2`
+                            "
+                            style="border-radius: 7px; font-weight: 500;"
+                          >
+                            {{
                               total[id].nilai[
                                 items.soal_pg.length +
                                   items.soal_essai.length +
@@ -387,124 +412,113 @@
                                     items.soal_pg.length +
                                       items.soal_essai.length +
                                       idUpload
-                                  ].nilai >= soalUpload.bobot
-                                  ? 'text-success success'
-                                  : 'text-primary primary'
-                                : 'text-warning warning'
-                            } ms-2`
-                          "
-                          style="border-radius: 7px; font-weight: 500;"
-                        >
-                          {{
-                            total[id].nilai[
-                              items.soal_pg.length +
-                                items.soal_essai.length +
-                                idUpload
-                            ].nilai
-                              ? total[id].nilai[
-                                  items.soal_pg.length +
-                                    items.soal_essai.length +
-                                    idUpload
-                                ].nilai
-                              : 0
-                          }}
-                          / {{ soalUpload.bobot }}
-                        </div>
-                      </div>
-                    </div>
-                    <div style="padding-left: 40px;">
-                      <div v-if="soalUpload.foto_soal !== ''">
-                        <img :src="soalUpload.foto_soal" alt="" />
-                      </div>
-                      <div
-                        v-html="soalUpload.isi"
-                        class="mt-1"
-                        style="font-size: 16px; font-weight: 400;"
-                      ></div>
-                      <div class="type-soal mt-3">Jawaban</div>
-                      <div class="mt-1">
-                        <div
-                          class="image-jawaban mb-3"
-                          v-if="
-                            soalUpload.data_jawaban.ekstensi == 'jpeg' ||
-                              soalUpload.data_jawaban.ekstensi == 'jpg' ||
-                              soalUpload.data_jawaban.ekstensi == 'png'
-                          "
-                        >
-                          <img :src="soalUpload.data_jawaban.jawaban" alt="" />
-                        </div>
-
-                        <div
-                          class="mb-3"
-                          v-else-if="
-                            soalUpload.data_jawaban.ekstensi == 'mov' ||
-                              soalUpload.data_jawaban.ekstensi == 'mpeg' ||
-                              soalUpload.data_jawaban.ekstensi == 'mp4'
-                          "
-                        >
-                          <video width="400" controls>
-                            <source
-                              :src="soalUpload.data_jawaban.jawaban"
-                              :type="
-                                `video/${soalUpload.data_jawaban.ekstensi}`
-                              "
-                            />
-                            Your browser does not support HTML video.
-                          </video>
-                        </div>
-
-                        <div
-                          v-else
-                          class="file-other mb-3 p-3 secondary border-radius"
-                        >
-                          <div class="d-flex align-items-center">
-                            <i
-                              class="fas fa-info-circle me-2"
-                              style="font-size: 22px; opacity: .7;"
-                            ></i>
-                            <div style="opacity: .7;">
-                              File tidak dapat ditampilkan. Anda dapat
-                              mendownload file untuk membuka file melalui
-                              perangkat anda.
-                            </div>
+                                  ].nilai
+                                : 0
+                            }}
+                            / {{ soalUpload.bobot }}
                           </div>
                         </div>
-
-                        <div>
-                          <a
-                            target="_blank"
-                            :href="soalUpload.data_jawaban.jawaban"
-                            :download="soalUpload.data_jawaban.nama_file"
-                            class="btn btn-primary btn-sm"
-                            >Download {{ soalUpload.data_jawaban.nama_file }}</a
+                      </div>
+                      <div style="padding-left: 40px;">
+                        <div v-if="soalUpload.foto_soal !== ''">
+                          <img :src="soalUpload.foto_soal" alt="" />
+                        </div>
+                        <div
+                          v-html="soalUpload.isi"
+                          class="mt-1"
+                          style="font-size: 16px; font-weight: 400;"
+                        ></div>
+                        <div class="type-soal mt-3">Jawaban</div>
+                        <div class="mt-1">
+                          <div
+                            class="image-jawaban mb-3"
+                            v-if="
+                              soalUpload.data_jawaban.ekstensi == 'jpeg' ||
+                                soalUpload.data_jawaban.ekstensi == 'jpg' ||
+                                soalUpload.data_jawaban.ekstensi == 'png'
+                            "
                           >
+                            <img
+                              :src="soalUpload.data_jawaban.jawaban"
+                              alt=""
+                            />
+                          </div>
+
+                          <div
+                            class="mb-3"
+                            v-else-if="
+                              soalUpload.data_jawaban.ekstensi == 'mov' ||
+                                soalUpload.data_jawaban.ekstensi == 'mpeg' ||
+                                soalUpload.data_jawaban.ekstensi == 'mp4'
+                            "
+                          >
+                            <video width="400" controls>
+                              <source
+                                :src="soalUpload.data_jawaban.jawaban"
+                                :type="
+                                  `video/${soalUpload.data_jawaban.ekstensi}`
+                                "
+                              />
+                              Your browser does not support HTML video.
+                            </video>
+                          </div>
+
+                          <div
+                            v-else
+                            class="file-other mb-3 p-3 secondary border-radius"
+                          >
+                            <div class="d-flex align-items-center">
+                              <i
+                                class="fas fa-info-circle me-2"
+                                style="font-size: 22px; opacity: .7;"
+                              ></i>
+                              <div style="opacity: .7;">
+                                File tidak dapat ditampilkan. Anda dapat
+                                mendownload file untuk membuka file melalui
+                                perangkat anda.
+                              </div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <a
+                              target="_blank"
+                              :href="soalUpload.data_jawaban.jawaban"
+                              :download="soalUpload.data_jawaban.nama_file"
+                              class="btn btn-primary btn-sm"
+                              >Download
+                              {{ soalUpload.data_jawaban.nama_file }}</a
+                            >
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="p-3">
-                <div class="d-flex align-items-center justify-content-between">
+                <div class="p-3">
                   <div
-                    class="px-3 py-2 primary text-primary border-radius d-inline-block"
-                    style="font-weight: 600; font-size: 16px;"
+                    class="d-flex align-items-center justify-content-between"
                   >
-                    Nilai Akhir: {{ total[id].totalNilai }}
-                  </div>
-                  <div class="d-flex">
-                    <button
-                      :class="
-                        `btn ${
-                          items.nilai ? 'btn-secondary' : 'btn-success'
-                        } px-4`
-                      "
-                      type="button"
-                      @click="submitNilai(dataTugas.data[id], id)"
-                      :disabled="items.nilai"
+                    <div
+                      class="px-3 py-2 primary text-primary border-radius d-inline-block"
+                      style="font-weight: 600; font-size: 16px;"
                     >
-                      {{ items.nilai ? "Dinilai" : "Simpan" }}
-                    </button>
+                      Nilai Akhir: {{ total[id].totalNilai }}
+                    </div>
+                    <div class="d-flex">
+                      <button
+                        :class="
+                          `btn ${
+                            items.nilai ? 'btn-secondary' : 'btn-success'
+                          } px-4`
+                        "
+                        type="button"
+                        @click="submitNilai(dataTugas.data[id], id)"
+                        :disabled="items.nilai"
+                      >
+                        {{ items.nilai ? "Dinilai" : "Simpan" }}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -161,9 +161,10 @@
             </div>
           </div> -->
         </div>
-        <div class="card-shadow mb-3" v-if="dataLogPresensi">
+        <div class="card-shadow mb-3">
           <div class="p-3">
-            <div>
+            <Loader text="Sedang memuat data tugas tiap mahasiswa." v-if="!dataLogPresensi" />
+            <div class="table-responsive" v-else>
               <table class="table">
                 <thead>
                   <tr>

@@ -25,7 +25,6 @@
           <div class="col-lg-12 mb-3">
             <div class="card-shadow mb-3">
               <div class="p-3">
-                <!-- <h4 class="judul">Tugas</h4> -->
                 <Loader text="Sedang memuat data tugas." v-if="!dataTugas" />
                 <div class="table-responsive" v-else>
                   <table class="table">

@@ -31,7 +31,8 @@
             <div class="card-shadow mb-3">
               <div class="p-3">
                 <h4 class="judul">Tugas</h4>
-                <div class="table-responsive">
+                <Loader text="Sedang memuat data tugas." v-if="!dataTugas" />
+                <div class="table-responsive" v-else>
                   <table class="table">
                     <thead>
                       <tr>

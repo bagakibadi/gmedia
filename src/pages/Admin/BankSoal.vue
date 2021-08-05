@@ -105,7 +105,7 @@
         </div>
         <div class="d-flex justify-content-center" v-if="!dataSoal">
           <div class="card-shadow">
-            <div class="p-3">
+            <div class="px-5 py-3">
               <Loader text="Sedang memuat data soal." />
             </div>
           </div>

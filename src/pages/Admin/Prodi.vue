@@ -17,7 +17,9 @@
 				</div>
 				<div class="card-shadow mb-3">
 					<div class="p-3">
-						<div class="table-responsive">
+						<Loader text="Sedang memuat data gugus." v-if="!dataProdi" />
+
+						<div class="table-responsive" v-else>
 							<table id="tablenya" class="table">
                 <thead>
                   <tr>

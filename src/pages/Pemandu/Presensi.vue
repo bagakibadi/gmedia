@@ -34,7 +34,8 @@
         </div> -->
         <div class="card-shadow mb-3">
           <div class="p-3">
-            <div class="table-responsive">
+						<Loader text="Sedang memuat data presensi." v-if="!dataPresensi" />
+            <div class="table-responsive" v-else>
               <table class="table">
                 <thead>
                   <tr>

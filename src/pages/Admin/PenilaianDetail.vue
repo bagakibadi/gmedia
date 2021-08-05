@@ -57,6 +57,11 @@
         <!-- <div class="card-shadow mb-3">
           <div class="p-3"></div>
         </div> -->
+        <div class="card-shadow" v-if="!dataTugas">
+          <div class="p-3">
+            <Loader text="Sedang memuat data tugas mahasiswa." />
+          </div>
+        </div>
         <div v-for="(items, id) in dataTugas.data" :key="id">
           <div class="card-shadow mb-3" v-if="!items.dikerjakan">
             <div class="p-3">

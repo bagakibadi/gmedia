@@ -17,7 +17,9 @@
 				</div>
 				<div class="card-shadow mb-3">
 					<div class="p-3">
-						<div class="table-responsive">
+						<Loader text="Sedang memuat data gugus." v-if="!dataGugus" />
+
+						<div class="table-responsive" v-else>
 							<table class="table">
                 <thead>
                   <tr>
@@ -489,13 +491,13 @@ export default {
 		}).then((result) => {
 			console.log(result)
 			this.dataGugus = result.data.data
-			if(this.dataPemandu){
-				setTimeout(() => {
-					$('.table').dataTable({
-						"ordering": false
-					})
-				}, 500);
-			}
+			// if(this.dataPemandu){
+			// 	setTimeout(() => {
+			// 		$('.table').dataTable({
+			// 			"ordering": false
+			// 		})
+			// 	}, 500);
+			// }
 		}).catch((err) => {
 			console.log(err)
 		});

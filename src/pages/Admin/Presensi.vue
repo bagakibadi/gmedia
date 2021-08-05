@@ -19,10 +19,15 @@
               <div class="col-lg-3 col-md-4 col-6">
                 <label class="form-label">Prodi</label>
                 <select class="form-select" aria-label="Default select example">
-                  <option selected>Open this select menu</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="default" selected disabled
+                    >- Pilih Prodi -</option
+                  >
+                  <option
+                    :value="prodi.nama"
+                    v-for="(prodi, idProdi) in dataProdi"
+                    :key="idProdi"
+                    >{{ prodi.nama }}</option
+                  >
                 </select>
               </div>
               <div class="col-lg-3 col-md-4 col-6">
@@ -247,6 +252,7 @@ export default {
       width: null,
       dataPresensi: null,
       dataOnePresensi: null,
+      dataProdi: null,
       loaderPopUp: false,
     };
   },
@@ -324,6 +330,20 @@ export default {
             pageLength: 25,
           });
         });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    axios
+      .get("https://gmedia.primakom.co.id/gmedia/superadmin/prodi", {
+        headers: {
+          Authorization: localStorage.token,
+        },
+      })
+      .then((result) => {
+        console.log(result);
+        this.dataProdi = result.data.data.data;
       })
       .catch((err) => {
         console.log(err);
