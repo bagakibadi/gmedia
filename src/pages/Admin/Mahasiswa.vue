@@ -72,7 +72,7 @@
                             />
                           </div>
                           <div class="ms-3">
-                            <div class="main-text">{{items.nama}}</div>
+                            <div v-if="items.nama" class="main-text">{{items.nama}}</div>
                             <div class="sub-text">{{items.nim}}</div>
                           </div>
                         </div>
@@ -85,7 +85,12 @@
                         <div class="sub-text" v-else> </div>
                       </div>
                     </td>
-                    <td>{{items.prodi.fakultas.nama}}</td>
+                    <td>
+                      <div v-if="items.prodi.fakultas">
+                        {{items.prodi.fakultas.nama}}
+                      </div>
+                      <div v-else>No Fakultas</div>
+                    </td>
                     <td>{{items.email}}</td>
                     <td>{{items.nohp}}</td>
                     <td>
@@ -109,7 +114,7 @@
                         <button
                           type="button"
                           class="btn btn-danger btn-sm"
-                          @click="hapusMahasiswa(items.uuid,items.nama)"
+                          @click="hapusMahasiswa(items.uuid,items.name)"
                         >
                           <i class="fas fa-trash-alt"></i>
                         </button>
@@ -133,7 +138,7 @@
 						</div>
             <hr>
             <Loader text="Sedang memuat detail mahasiswa." v-if="!editMahasiswaData && loaderPopUp" />
-						<form action="" v-else >
+						<form action="" v-if="editMahasiswaData" >
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
@@ -229,12 +234,10 @@
                   <div class="form-group">
                     <label for="foto">Foto Mahasiswa</label>
                     <img :src="editMahasiswaData.foto" class="img-show" alt="">
-                    <!-- <input type="file" :data-default-file="editMahasiswaData.foto" name="foto" id="fotomahasiswaEdit" class="dropify"> -->
                   </div>
                 </div>
 								<div class="col-lg-12 footer-modal">
                   <div class="d-flex justify-content-end">
-                    <!-- <button class="btn btn-primary" style="margin-right: 24px;">Edit</button> -->
                     <a href="#" data-bs-dismiss="modal" aria-label="Close" class="btn btn-outline-primary">Batal</a>
                   </div>
 								</div>
@@ -363,7 +366,7 @@
 				</div>
 			</div>
 		</div>
-    <div class="modal fade" v-if="dataProdi !== null && dataGugus !== null && dataFakultas !== null" id="tambah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" v-if="dataProdi !== null && dataGugus !== null && dataFakultas !== null" id="tambah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" style="max-width: 750px;">
 				<div class="modal-content" style="border: none;border-radius: 20px !important;">
 					<button type="button"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -484,7 +487,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
   </div>
 </template>
 
