@@ -103,6 +103,13 @@
             + Buat Soal yang Jawabannya Diupload
           </router-link>
         </div>
+        <div class="d-flex justify-content-center" v-if="!dataSoal">
+          <div class="card-shadow">
+            <div class="p-3">
+              <Loader text="Sedang memuat data soal." />
+            </div>
+          </div>
+        </div>
         <div class="row" v-if="dataSoal">
           <div
             class="col-md-4 col-sm-6"
