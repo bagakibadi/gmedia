@@ -163,7 +163,7 @@
                         <button
                           type="button"
                           class="btn btn-danger btn-sm"
-                          @click="hapusMahasiswa(items.uuid, items.name)"
+                          @click="hapusMahasiswa(items.uuid, items.nama)"
                         >
                           <i class="fas fa-trash-alt"></i>
                         </button>
@@ -1127,7 +1127,7 @@
                 </div>
                 <div class="col-lg-12 footer-modal">
                   <div class="d-flex justify-content-end">
-                    <button class="btn btn-primary" style="margin-right: 24px;">Tambah</button>
+                    <button class="btn btn-primary" style="margin-right: 24px;" @click="tambahMahasiswa">Tambah</button>
                     <a data-bs-dismiss="modal" aria-label="Close" class="btn btn-outline-primary">Batal</a>
                   </div>
                 </div>
