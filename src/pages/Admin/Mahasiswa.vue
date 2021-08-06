@@ -103,7 +103,7 @@
                 <tbody v-if="dataMahasiswa">
                   <tr
                     class="align-middle"
-                    v-for="(items, index) in dataMahasiswa"
+                    v-for="(items, index) in dataMahasiswa.data"
                     :key="index"
                   >
                     <td>
@@ -173,6 +173,7 @@
                 </tbody>
               </table>
             </div>
+            <Pagination :data="dataMahasiswa" :function="navigation" />
           </div>
         </div>
         <Footer />
@@ -844,299 +845,306 @@
               <h3>Tambah Mahasiswa</h3>
             </div>
             <hr />
-            <form action="" @submit.prevent="tambahMahasiswa">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label for="nama"
-                      >Nama <span class="text-info">*</span></label
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="nama"
+                    >Nama <span class="text-info">*</span></label
+                  >
+                  <div class="check-error">
+                    <input
+                      type="text"
+                      v-model="tambah.nama"
+                      name="nama"
+                      id="nama"
+                      class="form-control"
+                      placeholder="Nama Mahasiswa"
+                    />
+                    <small
+                      :class="
+                        `text-danger d-flex ${
+                          validationTambah.nama.status === true
+                            ? 'd-none'
+                            : 'd-flex'
+                        }`
+                      "
+                      >{{ validationTambah.nama.message }}</small
                     >
-                    <div class="check-error">
-                      <input
-                        type="text"
-                        v-model="tambah.nama"
-                        name="nama"
-                        id="nama"
-                        class="form-control"
-                        placeholder="Nama Mahasiswa"
-                      />
-                      <small
-                        :class="
-                          `text-danger d-flex ${
-                            validationTambah.nama.status === true
-                              ? 'd-none'
-                              : 'd-flex'
-                          }`
-                        "
-                        >{{ validationTambah.nama.message }}</small
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label for="nim"
-                      >NIM <span class="text-info">*</span></label
-                    >
-                    <div class="check-error">
-                      <input
-                        type="number"
-                        v-model="tambah.nim"
-                        name="nim"
-                        id="nim"
-                        class="form-control"
-                        placeholder="Nomor Induk Mahasiswa"
-                      />
-                      <small
-                        :class="
-                          `text-danger d-flex ${
-                            validationTambah.nim.status === true
-                              ? 'd-none'
-                              : 'd-flex'
-                          }`
-                        "
-                        >{{ validationTambah.nim.message }}</small
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label for="email"
-                      >Email <span class="text-info">*</span></label
-                    >
-                    <div class="check-error">
-                      <input
-                        type="email"
-                        v-model="tambah.email"
-                        name="email"
-                        id="email"
-                        class="form-control"
-                        placeholder="example@gmail.com"
-                      />
-                      <small
-                        :class="
-                          `text-danger d-flex ${
-                            validationTambah.email.status === true
-                              ? 'd-none'
-                              : 'd-flex'
-                          }`
-                        "
-                        >{{ validationTambah.email.message }}</small
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label for="nomor"
-                      >Nomor Telepon <span class="text-info">*</span></label
-                    >
-                    <div class="check-error">
-                      <input
-                        type="number"
-                        v-model="tambah.nomor"
-                        name="nomor"
-                        id="nomor"
-                        class="form-control"
-                        placeholder="081234567890"
-                      />
-                      <small
-                        :class="
-                          `text-danger ${
-                            validationTambah.nomor.status === true
-                              ? 'd-none'
-                              : 'd-flex'
-                          }`
-                        "
-                        >{{ validationTambah.nomor.message }}</small
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label for="tgllahir">Tanggal Lahir</label>
-                    <div class="check-error">
-                      <input
-                        type="date"
-                        name="tgllahir"
-                        v-model="tambah.tgllahir"
-                        id="tgllahir"
-                        class="form-control"
-                      />
-                      <small
-                        :class="
-                          `text-danger ${
-                            validationTambah.tgllahir.status === true
-                              ? 'd-none'
-                              : 'd-flex'
-                          }`
-                        "
-                        >{{ validationTambah.tgllahir.message }}</small
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group" v-if="dataProdi !== null">
-                    <label for="prodi"
-                      >Prodi <span class="text-info">*</span></label
-                    >
-                    <div class="check-error">
-                      <select
-                        name="prodi"
-                        v-model="tambah.prodi"
-                        id="prodi"
-                        class="form-select"
-                      >
-                        <option value="" selected>Pilih Prodi</option>
-                        <option
-                          :value="items.uuid"
-                          v-for="(items, index) in dataProdi.data"
-                          :key="index"
-                          >{{ items.nama }}</option
-                        >
-                      </select>
-                      <small
-                        :class="
-                          `text-danger ${
-                            validationTambah.prodi_id.status === true
-                              ? 'd-none'
-                              : 'd-flex'
-                          }`
-                        "
-                        >{{ validationTambah.prodi_id.message }}</small
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group" v-if="dataGugus !== null">
-                    <label for="gugus"
-                      >Gugus <span class="text-info">*</span></label
-                    >
-                    <div class="check-error">
-                      <select
-                        name="gugus"
-                        v-model="tambah.gugus"
-                        id="gugus"
-                        class="form-select"
-                      >
-                        <option value="" selected>Pilih Gugus</option>
-                        <option
-                          :value="items.uuid"
-                          v-for="(items, index) in dataGugus.data"
-                          :key="index"
-                          >{{ items.name }}</option
-                        >
-                      </select>
-                      <small
-                        :class="
-                          `text-danger d-flex ${
-                            validationTambah.gugus_id.status === true
-                              ? 'd-none'
-                              : 'd-flex'
-                          }`
-                        "
-                        >{{ validationTambah.gugus_id.message }}</small
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6" v-if="dataFakultas">
-                  <div class="form-group">
-                    <label for="fakultas"
-                      >Fakultas <span class="text-info">*</span></label
-                    >
-                    <div class="check-error">
-                      <select
-                        name="fakultas"
-                        v-model="tambah.fakultas"
-                        id="fakultas"
-                        class="form-select"
-                      >
-                        <option value="" selected>Pilih Fakultas</option>
-                        <option
-                          :value="items.uuid"
-                          v-for="(items, index) in dataFakultas.data"
-                          :key="index"
-                          >{{ items.nama }}</option
-                        >
-                      </select>
-                      <small
-                        :class="
-                          `text-danger d-flex ${
-                            validationTambah.fakultas_id.status === true
-                              ? 'd-none'
-                              : 'd-flex'
-                          }`
-                        "
-                        >{{ validationTambah.fakultas_id.message }}</small
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label for="alamat">Alamat Mahasiswa</label>
-                    <div class="check-error">
-                      <textarea
-                        name="alamat"
-                        v-model="tambah.alamat"
-                        id="alamat"
-                        style="height: 72px;"
-                        cols="30"
-                        rows="4"
-                        class="form-control"
-                        placeholder="Masukkan Alamat"
-                      ></textarea>
-                      <small
-                        :class="
-                          `text-danger d-flex ${
-                            validationTambah.alamat.status === true
-                              ? 'd-none'
-                              : 'd-flex'
-                          }`
-                        "
-                        >{{ validationTambah.alamat.message }}</small
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label for="foto">Foto Mahasiswa</label>
-                    <div class="check-error">
-                      <input
-                        type="file"
-                        name="foto"
-                        id="fotomahasiswa"
-                        class="dropify"
-                      />
-                      <small
-                        :class="
-                          `text-danger d-flex ${
-                            validationTambah.foto.status === true
-                              ? 'd-none'
-                              : 'd-flex'
-                          }`
-                        "
-                        >{{ validationTambah.foto.message }}</small
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-12 footer-modal">
-                  <div class="d-flex justify-content-end">
-                    <button class="btn btn-primary" style="margin-right: 24px;">
-                      Tambah
-                    </button>
-                    <button class="btn btn-outline-primary">Batal</button>
                   </div>
                 </div>
               </div>
-            </form>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="nim">NIM <span class="text-info">*</span></label>
+                  <div class="check-error">
+                    <input
+                      type="number"
+                      v-model="tambah.nim"
+                      name="nim"
+                      id="nim"
+                      class="form-control"
+                      placeholder="Nomor Induk Mahasiswa"
+                    />
+                    <small
+                      :class="
+                        `text-danger d-flex ${
+                          validationTambah.nim.status === true
+                            ? 'd-none'
+                            : 'd-flex'
+                        }`
+                      "
+                      >{{ validationTambah.nim.message }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="email"
+                    >Email <span class="text-info">*</span></label
+                  >
+                  <div class="check-error">
+                    <input
+                      type="email"
+                      v-model="tambah.email"
+                      name="email"
+                      id="email"
+                      class="form-control"
+                      placeholder="example@gmail.com"
+                    />
+                    <small
+                      :class="
+                        `text-danger d-flex ${
+                          validationTambah.email.status === true
+                            ? 'd-none'
+                            : 'd-flex'
+                        }`
+                      "
+                      >{{ validationTambah.email.message }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="nomor"
+                    >Nomor Telepon <span class="text-info">*</span></label
+                  >
+                  <div class="check-error">
+                    <input
+                      type="number"
+                      v-model="tambah.nomor"
+                      name="nomor"
+                      id="nomor"
+                      class="form-control"
+                      placeholder="081234567890"
+                    />
+                    <small
+                      :class="
+                        `text-danger ${
+                          validationTambah.nomor.status === true
+                            ? 'd-none'
+                            : 'd-flex'
+                        }`
+                      "
+                      >{{ validationTambah.nomor.message }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="tgllahir">Tanggal Lahir</label>
+                  <div class="check-error">
+                    <input
+                      type="date"
+                      name="tgllahir"
+                      v-model="tambah.tgllahir"
+                      id="tgllahir"
+                      class="form-control"
+                    />
+                    <small
+                      :class="
+                        `text-danger ${
+                          validationTambah.tgllahir.status === true
+                            ? 'd-none'
+                            : 'd-flex'
+                        }`
+                      "
+                      >{{ validationTambah.tgllahir.message }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group" v-if="dataGugus !== null">
+                  <label for="gugus"
+                    >Gugus <span class="text-info">*</span></label
+                  >
+                  <div class="check-error">
+                    <select
+                      name="gugus"
+                      v-model="tambah.gugus"
+                      id="gugus"
+                      class="form-select"
+                    >
+                      <option value="" selected>Pilih Gugus</option>
+                      <option
+                        :value="items.uuid"
+                        v-for="(items, index) in dataGugus.data"
+                        :key="index"
+                        >{{ items.name }}</option
+                      >
+                    </select>
+                    <small
+                      :class="
+                        `text-danger d-flex ${
+                          validationTambah.gugus_id.status === true
+                            ? 'd-none'
+                            : 'd-flex'
+                        }`
+                      "
+                      >{{ validationTambah.gugus_id.message }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6" v-if="dataFakultas">
+                <div class="form-group">
+                  <label for="fakultas"
+                    >Fakultas <span class="text-info">*</span></label
+                  >
+                  <div class="check-error">
+                    <select
+                      name="fakultas"
+                      v-model="tambah.fakultas"
+                      id="fakultas"
+                      class="form-select"
+                      @change="getProdi"
+                    >
+                      <option value="" disabled selected>Pilih Fakultas</option>
+                      <option
+                        :value="items.uuid"
+                        v-for="(items, index) in dataFakultas.data"
+                        :key="index"
+                        >{{ items.nama }}</option
+                      >
+                    </select>
+                    <small
+                      :class="
+                        `text-danger d-flex ${
+                          validationTambah.fakultas_id.status === true
+                            ? 'd-none'
+                            : 'd-flex'
+                        }`
+                      "
+                      >{{ validationTambah.fakultas_id.message }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group" v-if="tambah.prodiTemp">
+                  <label for="prodi"
+                    >Prodi <span class="text-info">*</span></label
+                  >
+                  <div class="check-error">
+                    <select
+                      name="prodi"
+                      v-model="tambah.prodi"
+                      id="prodi"
+                      class="form-select"
+                    >
+                      <option value="" disabled selected>Pilih Prodi</option>
+                      <option
+                        :value="items.uuid"
+                        v-for="(items, index) in tambah.prodiTemp"
+                        :key="index"
+                        >{{ items.nama }}</option
+                      >
+                    </select>
+                    <small
+                      :class="
+                        `text-danger ${
+                          validationTambah.prodi_id.status === true
+                            ? 'd-none'
+                            : 'd-flex'
+                        }`
+                      "
+                      >{{ validationTambah.prodi_id.message }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="alamat">Alamat Mahasiswa</label>
+                  <div class="check-error">
+                    <textarea
+                      name="alamat"
+                      v-model="tambah.alamat"
+                      id="alamat"
+                      style="height: 72px;"
+                      cols="30"
+                      rows="4"
+                      class="form-control"
+                      placeholder="Masukkan Alamat"
+                    ></textarea>
+                    <small
+                      :class="
+                        `text-danger d-flex ${
+                          validationTambah.alamat.status === true
+                            ? 'd-none'
+                            : 'd-flex'
+                        }`
+                      "
+                      >{{ validationTambah.alamat.message }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="foto">Foto Mahasiswa</label>
+                  <div class="check-error">
+                    <input
+                      type="file"
+                      name="foto"
+                      id="fotomahasiswa"
+                      class="dropify"
+                    />
+                    <small
+                      :class="
+                        `text-danger d-flex ${
+                          validationTambah.foto.status === true
+                            ? 'd-none'
+                            : 'd-flex'
+                        }`
+                      "
+                      >{{ validationTambah.foto.message }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 footer-modal">
+                <div class="d-flex justify-content-end">
+                  <button
+                    class="btn btn-primary"
+                    style="margin-right: 24px;"
+                    @click="tambahMahasiswa"
+                  >
+                    Tambah
+                  </button>
+                  <button
+                    class="btn btn-outline-secondary"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    Batal
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1260,6 +1268,7 @@ export default {
         nomor: null,
         foto: null,
         tgllahir: null,
+        prodiTemp: null,
       },
       filter: {
         fakultas: "default",
@@ -1268,6 +1277,35 @@ export default {
     };
   },
   methods: {
+    navigation(url) {
+      if (url) {
+        this.dataMahasiswa = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataMahasiswa = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
     filterData() {
       this.dataMahasiswa = null;
       this.isFilter = true;
@@ -1291,6 +1329,8 @@ export default {
             $(".table").DataTable({
               pageLength: 25,
               ordering: false,
+              paging: false,
+              info: false,
             });
           });
           console.log(res);
@@ -1306,25 +1346,26 @@ export default {
       this.isFilter = false;
 
       axios
-      .get("https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa", {
-        headers: {
-          Authorization: localStorage.token,
-        },
-      })
-      .then((result) => {
-        console.log(result);
-        this.dataMahasiswa = result.data.data;
-        $(document).ready(function() {
-          $(".table").DataTable({
-            pageLength: 25,
-            ordering: false,
+        .get("https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa", {
+          headers: {
+            Authorization: localStorage.token,
+          },
+        })
+        .then((result) => {
+          console.log(result);
+          this.dataMahasiswa = result.data.data;
+          $(document).ready(function() {
+            $(".table").DataTable({
+              pageLength: 25,
+              ordering: false,
+              paging: false,
+              info: false,
+            });
           });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
     },
     uploadEdit(asd) {
       const reader = new FileReader();
@@ -1580,15 +1621,35 @@ export default {
       };
       reader.readAsDataURL(asd);
     },
+    getProdi() {
+      this.tambah.prodi = "";
+      axios
+        .get(
+          "https://gmedia.primakom.co.id/gmedia/superadmin/fakultas/prodi/" +
+            this.tambah.fakultas,
+          {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          }
+        )
+        .then((result) => {
+          console.log(result);
+          this.tambah.prodiTemp = result.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     tambahMahasiswa() {
       if (
         this.tambah.nim &&
         this.tambah.nama &&
         this.tambah.email &&
         this.tambah.gugus &&
-        this.tambah.prodi &&
+        this.tambah.prodi !== "" &&
         this.tambah.alamat &&
-        this.tambah.fakultas &&
+        this.tambah.fakultas !== "" &&
         this.tambah.tgllahir &&
         this.tambah.nomor &&
         document.getElementById("fotomahasiswa").files[0]
@@ -1737,6 +1798,8 @@ export default {
           $(".table").DataTable({
             pageLength: 25,
             ordering: false,
+            paging: false,
+            info: false,
           });
         });
       })

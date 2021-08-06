@@ -163,7 +163,10 @@
         </div>
         <div class="card-shadow mb-3">
           <div class="p-3">
-            <Loader text="Sedang memuat data tugas tiap mahasiswa." v-if="!dataLogPresensi" />
+            <Loader
+              text="Sedang memuat data tugas tiap mahasiswa."
+              v-if="!dataLogPresensi"
+            />
             <div class="table-responsive" v-else>
               <table class="table">
                 <thead>
@@ -218,12 +221,12 @@
                 </tbody>
               </table>
             </div>
+            <Pagination :data="dataLogPresensi" :function="navigation" />
           </div>
         </div>
         <Footer />
       </div>
     </div>
-
 
     <div
       class="modal fade"
@@ -490,12 +493,43 @@ export default {
     };
   },
   methods: {
+    navigation(url) {
+      if (url) {
+        this.dataLogPresensi = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataLogPresensi = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
     onPlay() {
       // const videoEl = $('#webcamPresensi').get(0)
       // console.log(faceapi.detectSingleFace())
     },
     formatDate(date) {
-      return moment(date).locale("id").format("DD MMMM YYYY");
+      return moment(date)
+        .locale("id")
+        .format("DD MMMM YYYY");
     },
     getLocation(longitude, latitude) {
       var address;
@@ -813,6 +847,8 @@ export default {
           $(".table").DataTable({
             responsive: true,
             ordering: false,
+            paging: false,
+            info: false,
           });
         }, 500);
       })

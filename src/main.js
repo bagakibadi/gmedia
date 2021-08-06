@@ -8,6 +8,7 @@ import NavbarPemandu from "./components/NavbarPemandu.vue"
 import NavbarMahasiswa from "./components/NavbarMahasiswa.vue"
 import Loader from "./components/Loader.vue"
 import Footer from "./components/Footer.vue"
+import Pagination from "./components/Pagination.vue"
 
 
 Vue.config.productionTip = false
@@ -20,6 +21,7 @@ Vue.component('NavbarPemandu', NavbarPemandu)
 Vue.component('NavbarMahasiswa', NavbarMahasiswa)
 Vue.component('Loader', Loader)
 Vue.component('Footer', Footer)
+Vue.component('Pagination', Pagination)
 
 
 new Vue({

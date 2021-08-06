@@ -270,28 +270,6 @@ a:hover {
    color: white;
 }
 
-.pagination-arrow {
-   width: 35px;
-   height: 35px;
-   border-radius: 100px;
-}
-
-.pagination-arrow i {
-   font-size: 18px;
-}
-
-.pagination-number {
-   cursor: pointer;
-   font-size: 18px;
-   font-weight: 600;
-   transition: all .2s;
-}
-
-.pagination-number:hover {
-   color: #0d6efd;
-   transition: all .2s;
-}
-
 .cursor-pointer {
    cursor: pointer;
 }
@@ -425,6 +403,42 @@ input.form-check-input:checked {
 
 .content-footers {
    padding: 20px 40px;
+}
+
+/* Pagination */
+
+.pagination-arrow {
+   width: 35px;
+   height: 35px;
+   border-radius: 100px;
+}
+
+.pagination-arrow i {
+   font-size: 18px;
+}
+
+.pagination-number {
+   cursor: pointer;
+   font-size: 18px;
+   font-weight: 600;
+   transition: all .2s;
+}
+
+
+.table-pagination .pagination-arrow {
+   width: 28px;
+   height: 28px;
+   border-radius: 100px;
+}
+
+.table-pagination .pagination-arrow i {
+   font-size: 14px;
+}
+
+.table-pagination .pagination-number {
+   font-size: 14px;
+    padding: 3px 6px;
+    margin: 0 2px;
 }
 
 /* .footerd .card-shadow{
@@ -1141,7 +1155,11 @@ tr th {
 
 @media (max-width: 576px) {
    .section {
-      padding: 0 25px
+      padding: 0 25px 70px;
+   }
+
+   .footerd {
+      width: calc(100% - 50px);
    }
 
    .content-footers {

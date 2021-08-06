@@ -34,7 +34,7 @@
         </div> -->
         <div class="card-shadow mb-3">
           <div class="p-3">
-						<Loader text="Sedang memuat data presensi." v-if="!dataPresensi" />
+            <Loader text="Sedang memuat data presensi." v-if="!dataPresensi" />
             <div class="table-responsive" v-else>
               <table class="table">
                 <thead>
@@ -50,7 +50,7 @@
                 <tbody>
                   <tr
                     class="align-middle"
-                    v-for="(items, index) in dataPresensi"
+                    v-for="(items, index) in dataPresensi.data"
                     :key="index"
                   >
                     <td>
@@ -125,6 +125,7 @@
                 </tbody>
               </table>
             </div>
+            <Pagination :data="dataPresensi" :function="navigation" />
           </div>
         </div>
         <Footer />
@@ -254,6 +255,35 @@ export default {
     };
   },
   methods: {
+    navigation(url) {
+      if (url) {
+        this.dataPresensi = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataPresensi = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
     openPresensi(id) {
       axios
         .get(this.url + "gmedia/pemandu/presensi/" + id, {
@@ -322,6 +352,8 @@ export default {
           $(".table").DataTable({
             pageLength: 25,
             ordering: false,
+            paging: false,
+            info: false,
           });
         });
       })

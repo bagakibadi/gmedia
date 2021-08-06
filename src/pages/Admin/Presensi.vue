@@ -14,7 +14,9 @@
         </div>
         <div class="card-shadow mb-3">
           <div class="p-3">
-            <div class="d-flex flex-column flex-md-row align-items-end justify-content-between">
+            <div
+              class="d-flex flex-column flex-md-row align-items-end justify-content-between"
+            >
               <div class="d-flex">
                 <div class="me-2" style="max-width: 200px;">
                   <label class="form-label">Prodi</label>
@@ -74,7 +76,7 @@
                 <tbody>
                   <tr
                     class="align-middle"
-                    v-for="(items, index) in dataPresensi"
+                    v-for="(items, index) in dataPresensi.data"
                     :key="index"
                   >
                     <td>
@@ -149,6 +151,7 @@
                 </tbody>
               </table>
             </div>
+            <Pagination :data="dataPresensi" :function="navigation" />
           </div>
         </div>
         <Footer />
@@ -282,66 +285,98 @@ export default {
     };
   },
   methods: {
-    filterData() {
-      this.dataPresensi = null;
-      this.isFilter = true,
-      axios
-        .post(
-          "https://gmedia.primakom.co.id/gmedia/superadmin/presensi/filter",
-          {
-            prodi_id:
-              this.filter.prodi == "default" || this.filter.prodi == "all"
-                ? null
-                : this.filter.prodi,
-            tanggal: this.filter.tanggal ? this.filter.tanggal : null,
-          },
-          {
+    navigation(url) {
+      if (url) {
+        this.dataPresensi = null;
+
+        axios
+          .get(url, {
             headers: {
               Authorization: localStorage.token,
             },
-          }
-        )
-        .then((res) => {
-          this.dataPresensi = res.data.data;
-          $(document).ready(function() {
-            $(".table").DataTable({
-              pageLength: 25,
-              ordering: false,
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataPresensi = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
             });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
           });
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      }
+    },
+    filterData() {
+      this.dataPresensi = null;
+      (this.isFilter = true),
+        axios
+          .post(
+            "https://gmedia.primakom.co.id/gmedia/superadmin/presensi/filter",
+            {
+              prodi_id:
+                this.filter.prodi == "default" || this.filter.prodi == "all"
+                  ? null
+                  : this.filter.prodi,
+              tanggal: this.filter.tanggal ? this.filter.tanggal : null,
+            },
+            {
+              headers: {
+                Authorization: localStorage.token,
+              },
+            }
+          )
+          .then((res) => {
+            this.dataPresensi = res.data.data;
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
     },
     resetFilterData() {
       this.dataPresensi = null;
       this.filter.prodi = "default";
       this.filter.tanggal = null;
-      this.isFilter = false,
+      (this.isFilter = false),
+        axios
+          .get("https://gmedia.primakom.co.id/gmedia/superadmin/presensi", {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((result) => {
+            console.log(result);
+            this.dataPresensi = result.data.data;
 
-      axios
-        .get("https://gmedia.primakom.co.id/gmedia/superadmin/presensi", {
-          headers: {
-            Authorization: localStorage.token,
-          },
-        })
-        .then((result) => {
-          console.log(result);
-          this.dataPresensi = result.data.data;
-
-          this.loader = false;
-          $(document).ready(function() {
-            $(".table").DataTable({
-              pageLength: 25,
-              ordering: false,
+            this.loader = false;
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
             });
+          })
+          .catch((err) => {
+            console.log(err);
           });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
     openPresensi(a) {
       this.loaderPopUp = true;
@@ -415,6 +450,8 @@ export default {
           $(".table").DataTable({
             pageLength: 25,
             ordering: false,
+            paging: false,
+            info: false,
           });
         });
       })

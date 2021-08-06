@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex footerd">
-    <div class="col-lg-12">
+    <div class="col-12">
       <div class="card-shadow">
         <div class="content-footers">
           <div
