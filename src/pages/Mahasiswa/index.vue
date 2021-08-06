@@ -812,8 +812,7 @@ export default {
         setTimeout(() => {
           $(".table").DataTable({
             responsive: true,
-            columnDefs: [{ orderable: false, targets: 0 }],
-            order: [[1, "desc"]],
+            ordering: false,
           });
         }, 500);
       })

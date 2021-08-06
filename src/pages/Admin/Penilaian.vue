@@ -79,7 +79,7 @@
                         {{ item.pemandu[0].nama }}
                       </div>
                     </div>
-                    <div>{{ item.mahasiswa_count }} Mahsiswa</div>
+                    <div>{{ item.mahasiswa_count }} Mahasiswa</div>
                   </div>
                 </div>
                 <img

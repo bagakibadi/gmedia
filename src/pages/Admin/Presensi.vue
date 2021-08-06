@@ -16,7 +16,7 @@
           <div class="p-3">
             <div class="d-flex flex-column flex-md-row align-items-end justify-content-between">
               <div class="d-flex">
-                <div class="me-2">
+                <div class="me-2" style="max-width: 200px;">
                   <label class="form-label">Prodi</label>
                   <select
                     class="form-select"
@@ -27,7 +27,6 @@
                     <option value="default" selected disabled
                       >- Pilih Prodi -</option
                     >
-                    <option value="all">Semua Prodi</option>
                     <option
                       :value="prodi.uuid"
                       v-for="(prodi, idProdi) in dataProdi"
@@ -36,7 +35,7 @@
                     >
                   </select>
                 </div>
-                <div>
+                <div style="max-width: 200px;">
                   <label class="form-label">Tanggal</label>
                   <input
                     class="form-control"

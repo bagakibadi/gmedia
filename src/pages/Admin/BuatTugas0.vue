@@ -139,10 +139,19 @@
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="d-flex align-items-center">
                     <div
-                      class="pemandu-img d-flex align-items-center justify-content-center"
-                    >
-                      <img src="../../assets/images/profile.jpeg" alt="" />
-                    </div>
+                        class="pemandu-img d-flex align-items-center justify-content-center"
+                        v-if="item.pemandu.length > 0"
+                      >
+                        <img
+                          src="../../assets/ilustrasi/avatar-admin-pemandu.svg"
+                          alt=""
+                          v-if="
+                            item.pemandu[0].foto == '' ||
+                              item.pemandu[0].foto == 'foto.jpg'
+                          "
+                        />
+                        <img :src="item.pemandu[0].foto" v-else alt="" />
+                      </div>
                     <div class="pemandu-gugus ms-2" v-if="item.pemandu[0]">
                       {{ item.pemandu[0].nama }}
                     </div>
