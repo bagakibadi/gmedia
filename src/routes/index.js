@@ -30,6 +30,7 @@ import kegiatanMaster from "../pages/Admin/Kegiatan.vue";
 import TambahKegiatanMaster from "../pages/Admin/TambahKegiatan.vue";
 import EditKegiatanMaster from "../pages/Admin/EditKegiatan.vue";
 import pemanduMaster from "../pages/Admin/Pemandu.vue";
+import fakultasMaster from "../pages/Admin/Fakultas.vue";
 import userManagement from "../pages/Admin/UserManagement.vue";
 import gugusMaster from "../pages/Admin/Gugus.vue";
 import prodiMaster from "../pages/Admin/Prodi.vue";
@@ -172,6 +173,11 @@ const routes = [
     path: "/admin/kegiatan",
     name: "Kegiatan Master",
     component: kegiatanMaster,
+  },
+  {
+    path: "/admin/fakultas",
+    name: "Fakultas Master",
+    component: fakultasMaster,
   },
   {
     path: "/admin/kegiatan/tambah",

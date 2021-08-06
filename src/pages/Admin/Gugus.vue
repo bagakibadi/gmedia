@@ -552,98 +552,101 @@ export default {
       };
       reader.readAsDataURL(asd);
     },
-    tambahGugus() {
-      if (this.tambah.name) {
-        axios
-          .post(
-            "https://gmedia.primakom.co.id/gmedia/superadmin/gugus",
-            this.tambah,
-            {
-              headers: {
-                Authorization: localStorage.token,
-              },
-            }
-          )
-          .then((result) => {
-            console.log(result);
-            if (result.data.success) {
-              Swal.fire("Berhasil", `${result.data.message}`, "success")
-                .then(() => {
-                  window.location.reload();
-                })
-                .catch(() => {
-                  window.location.reload();
-                });
-            } else {
-              Swal.fire("Gagal", `${result.data.message}`, "warning")
-                .then(() => {
-                  window.location.reload();
-                })
-                .catch(() => {
-                  window.location.reload();
-                });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-      if (!this.tambah.name) {
-        this.validationTambah.nama.status = false;
-        this.validationTambah.nama.message = "Nama Pemandu harus diisi!";
-      } else {
-        this.validationTambah.nama.status = true;
-        this.validationTambah.nama.message = null;
-      }
-
-      if (!this.tambah.pemandu_id) {
-        this.validationTambah.pemandu_id.status = false;
-        this.validationTambah.pemandu_id.message = "Pemandu harus di pilih!";
-      } else {
-        this.validationTambah.pemandu_id.status = true;
-        this.validationTambah.pemandu_id.message = null;
-      }
-    },
-  },
-  mounted() {
-    $(".dropify").dropify();
-    this.width = $(document).width();
-    axios
-      .get("https://gmedia.primakom.co.id/gmedia/superadmin/pemandu", {
-        headers: {
-          Authorization: localStorage.token,
-        },
-      })
-      .then((result) => {
-        console.log(result);
-        this.dataPemandu = result.data.data.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    axios
-      .get(
-        "https://gmedia.primakom.co.id/gmedia/superadmin/gugus-nonpaginate",
-        {
+		tambahGugus() {
+			if(this.tambah.name) {
+        axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/gugus', this.tambah, {
           headers: {
-            Authorization: localStorage.token,
-          },
-        }
-      )
-      .then((result) => {
-        console.log(result);
-        this.dataGugus = result.data;
-        setTimeout(() => {
-          $(".table").dataTable({
-            ordering: false,
-          });
-        }, 500);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
-};
+            Authorization: localStorage.token
+          }
+        }).then((result) => {
+          console.log(result)
+          if(result.data.success) {
+            Swal.fire(
+              'Berhasil',
+              `${result.data.message}`,
+              'success'
+            ).then(() => {
+              window.location.reload()
+            }).catch(() => {
+              window.location.reload()
+            });
+          } else {
+            Swal.fire(
+              'Gagal',
+              `${result.data.message}`,
+              'warning'
+            )
+          }
+        }).catch((err) => {
+          console.log(err)
+        });
+			}
+			if(!this.tambah.name) {
+				this.validationTambah.nama.status = false
+				this.validationTambah.nama.message = 'Nama Pemandu harus diisi!'
+			} else {
+				this.validationTambah.nama.status = true
+				this.validationTambah.nama.message = null
+			}
+
+			if(!this.tambah.pemandu_id) {
+				this.validationTambah.pemandu_id.status = false
+				this.validationTambah.pemandu_id.message = 'Pemandu harus di pilih!'
+			} else {
+				this.validationTambah.pemandu_id.status = true
+				this.validationTambah.pemandu_id.message = null
+			}
+		}
+	},
+	mounted() {
+		$('.dropify').dropify()
+		this.width = $(document).width();
+		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/pemandu', {
+			headers: {
+				Authorization: localStorage.token
+			}
+		}).then((result) => {
+			console.log(result)
+			this.dataPemandu = result.data.data.data
+			if(this.dataPemandu){
+				setTimeout(() => {
+					$('.table').dataTable({
+						"ordering": false
+					})
+				}, 500);
+			}
+		}).catch((err) => {
+			console.log(err)
+		});
+		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus', {
+			headers: {
+				Authorization: localStorage.token
+			}
+		}).then((result) => {
+			console.log(result)
+			this.dataGugus = result.data.data
+			if(this.dataPemandu){
+				setTimeout(() => {
+					$('.table').dataTable({
+						"ordering": false
+					})
+				}, 500);
+			}
+		}).catch((err) => {
+			console.log(err)
+		});
+		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus-nonpaginate', {
+      headers: {
+        Authorization : localStorage.token
+      }
+    }).then((result) => {
+      console.log(result)
+      this.dataGugus = result.data.data
+    }).catch((err) => {
+      console.log(err)
+    });
+	}
+}
 </script>
 
 <style scoped>

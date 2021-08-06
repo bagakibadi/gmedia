@@ -5,16 +5,16 @@
 			<div class="section">
 				<div class="row meet-top">
 					<div class="col-lg-6">
-						<div class="card-bag">
-							<div class="paddingnya">
-								<div class="d-flex flex-wrap">
+						<div class="card-bag" style="min-height: 250px">
+							<div class="paddingnya h-100">
+								<div class="d-flex flex-wrap h-100 align-items-center justify-content-center">
 									<div class="type" @click="openMeeting" data-bs-toggle="modal" data-bs-target="#meetingModal">
 										<div class="card-type meet">
 											<img src="../../assets/icons/Meet.svg" alt="">
 										</div>
 										<p>Conference Baru</p>
 									</div>
-									<div class="type">
+									<!-- <div class="type">
 										<div class="card-type ikut">
 											<img src="../../assets/icons/Plus.svg" alt="">
 										</div>
@@ -31,7 +31,7 @@
 											<img src="../../assets/icons/Share.svg" alt="">
 										</div>
 										<p>Bagikan Layar</p>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
@@ -60,7 +60,7 @@
 					<div class="col-lg-12" style="margin-top: 58px;">
 						<div class="card-shadow">
 							<div class="p-3">
-								<h4 class="judul-name">Rekaman</h4>
+								<h4 class="judul-name">Data Streaming</h4>
 								<div class="table-responsive">
 									<table class="table dataTable">
 										<thead>
@@ -87,53 +87,76 @@
 			<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Meeting Baru</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Conference Baru</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
 						<div class="px-5 py-3 px-sm-2">
-							<form action="" class="tambahmeeting">
+							<form action="" class="tambahmeeting" @submit.prevent="tambahMeeting">
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label for="namaMeeting">Nama Conference</label>
-											<input type="text" placeholder="Nama Conference" name="namaMeeting" id="namaMeeting" v-model="tambah.nama" class="form-control">
+											<div class="check-error">
+												<input type="text" placeholder="Nama Conference" name="namaMeeting" id="namaMeeting" v-model="tambah.nama" class="form-control">
+												<small :class="`text-danger d-flex ${validationTambah.nama.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.nama.message}}</small>
+											</div>
 										</div>
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label for="tanggal">Tanggal Mulai</label>
-											<input type="date" v-model="tambah.tanggal" class="form-control" name="tanggal" id="tanggal">
+											<div class="check-error">
+												<input type="date" v-model="tambah.tanggal" class="form-control" name="tanggal" id="tanggal">
+												<small :class="`text-danger d-flex ${validationTambah.tanggal.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.tanggal.message}}</small>
+											</div>
 										</div>
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label for="link_video">Link Video</label>
-											<input type="text" placeholder="Cth: https://youtube.com/" class="form-control" name="link_video" id="link_video" v-model="tambah.link_video">
+											<label for="link_video">Link Embed Video Live</label>
+											<div class="check-error">
+												<input type="text" placeholder="Cth: https://www.youtube.com/embed/idlivestream" class="form-control" name="link_video" id="link_video" v-model="tambah.link_video">
+												<small :class="`text-danger d-flex ${validationTambah.link_video.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.link_video.message}}</small>
+											</div>
 										</div>
 									</div>
 									<div class="col-lg-6" v-if="dataPemandu">
 										<div class="form-group">
 											<label for="pemandu">Pemandu</label>
-											<select name="pemandu" id="pemandu" v-model="tambah.pemandu_id" class="form-select">
-												<option value="" selected disabled> Pilih Pemandu </option>
-												<option :value="items.uuid" v-for="(items, index) in dataPemandu" :key="index">{{items.nama}}</option>
-											</select>
+											<div class="check-error">
+												<select name="pemandu" id="pemandu" v-model="tambah.pemandu_id" class="form-select">
+													<option value="" selected disabled> Pilih Pemandu </option>
+													<option :value="items.uuid" v-for="(items, index) in dataPemandu" :key="index">{{items.nama}}</option>
+												</select>
+												<small :class="`text-danger d-flex ${validationTambah.pemandu_id.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.pemandu_id.message}}</small>
+											</div>
 										</div>
 									</div>
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label for="deskripsi">Deskripsi Conference</label>
-											<textarea name="deskripsi" id="deskripsi" v-model="tambah.deskripsi" placeholder="Deskripsi Conference" class="form-control" cols="30" rows="10"></textarea>
+											<div class="check-error">
+												<textarea name="deskripsi" id="deskripsi" v-model="tambah.deskripsi" placeholder="Deskripsi Conference" class="form-control" cols="30" rows="10"></textarea>
+												<small :class="`text-danger d-flex ${validationTambah.deskripsi.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.deskripsi.message}}</small>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-12 footer-modal mb-2">
+										<div class="d-flex justify-content-end">
+											<button class="btn btn-primary" style="width: auto;margin-right: 24px;">Tambah Konferensi</button>
+											<a
+												href="#"
+												data-bs-dismiss="modal"
+												aria-label="Close"
+												class="btn btn-outline-primary"
+											>Batal</a
+											>
 										</div>
 									</div>
 								</div>
 							</form>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
-						<button type="button" class="btn btn-primary" @click="tambahMeeting">Tambah Konferensi</button>
 					</div>
 				</div>
 			</div>
@@ -158,32 +181,97 @@ export default {
 				nama: null,
 				tanggal: null,
 				deskripsi: null
+			},
+			validationTambah: {
+				link_video: {
+					status: true,
+					message: null
+				},
+				pemandu_id: {
+					status: true,
+					message: null
+				},
+				nama: {
+					status: true,
+					message: null
+				},
+				tanggal: {
+					status: true,
+					message: null
+				},
+				deskripsi: {
+					status: true,
+					message: null
+				},
 			}
 		}
 	},
 	methods: {
 		tambahMeeting(){
-			axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/konferensi', this.tambah, {
-				headers: {
-					Authorization: localStorage.token
-				}
-			}).then((result) => {
-				console.log(result)
-				if(result.data.success) {
-					Swal.fire(
-						'Berhasil!',
-						`${result.data.message}!`,
-						'success'
-					).then(() => {
-						window.location.reload()
-					}).catch((err) => {
-						window.location.reload()
-						console.log(err)
-					});
-				}
-			}).catch((err) => {
-				console.log(err)
-			});
+			if(this.tambah.nama && this.tambah.tanggal && this.tambah.link_video && this.tambah.pemandu_id && this.tambah.deskripsi) {
+				axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/konferensi', this.tambah, {
+					headers: {
+						Authorization: localStorage.token
+					}
+				}).then((result) => {
+					console.log(result)
+					if(result.data.success) {
+						Swal.fire(
+							'Berhasil!',
+							`${result.data.message}!`,
+							'success'
+						).then(() => {
+							window.location.reload()
+						}).catch((err) => {
+							window.location.reload()
+							console.log(err)
+						});
+					} else {
+						Swal.fire(
+							'Gagal!',
+							result.data.message,
+							'warning'
+						)
+					}
+				}).catch((err) => {
+					console.log(err)
+				});
+			}
+			if (!this.tambah.nama) {
+        this.validationTambah.nama.status = false;
+        this.validationTambah.nama.message = "Nama Konference harus diisi!";
+      } else {
+        this.validationTambah.nama.status = true;
+        this.validationTambah.nama.message = null;
+      }
+			if (!this.tambah.tanggal) {
+        this.validationTambah.tanggal.status = false;
+        this.validationTambah.tanggal.message = "Tanggal harus diisi!";
+      } else {
+        this.validationTambah.tanggal.status = true;
+        this.validationTambah.tanggal.message = null;
+      }
+			if (!this.tambah.link_video) {
+        this.validationTambah.link_video.status = false;
+        this.validationTambah.link_video.message = "Link Video harus diisi!";
+      } else {
+        this.validationTambah.link_video.status = true;
+        this.validationTambah.link_video.message = null;
+      }
+			if (!this.tambah.pemandu_id) {
+        this.validationTambah.pemandu_id.status = false;
+        this.validationTambah.pemandu_id.message = "Pemandu harus di pilih!";
+      } else {
+        this.validationTambah.pemandu_id.status = true;
+        this.validationTambah.pemandu_id.message = null;
+      }
+			if (!this.tambah.deskripsi) {
+        this.validationTambah.deskripsi.status = false;
+        this.validationTambah.deskripsi.message = "Deskripsi harus diisi!";
+      } else {
+        this.validationTambah.deskripsi.status = true;
+        this.validationTambah.deskripsi.message = null;
+      }
 		},
 		openMeeting() {
 			console.log('aa')

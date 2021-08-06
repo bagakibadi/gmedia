@@ -1125,23 +1125,11 @@
                     >
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-12 footer-modal">
-                <div class="d-flex justify-content-end">
-                  <button
-                    class="btn btn-primary"
-                    style="margin-right: 24px;"
-                    @click="tambahMahasiswa"
-                  >
-                    Tambah
-                  </button>
-                  <button
-                    class="btn btn-outline-secondary"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    Batal
-                  </button>
+                <div class="col-lg-12 footer-modal">
+                  <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary" style="margin-right: 24px;">Tambah</button>
+                    <a data-bs-dismiss="modal" aria-label="Close" class="btn btn-outline-primary">Batal</a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1370,9 +1358,10 @@ export default {
     uploadEdit(asd) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        console.log(e);
-        const ee = e.target.result;
-        this.editMahasiswaData.foto = ee.replace("data:image/jpeg;base64,", "");
+        console.log(e)
+				this.editMahasiswaData.foto = e.target.result
+          .replace("data:", "")
+          .replace(/^.+,/, "");
       };
       reader.onerror = function(error) {
         alert(error);
@@ -1568,53 +1557,44 @@ export default {
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
         if (result.isConfirmed) {
-          axios
-            .delete(
-              `https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa/${uuidMahasiswa}`,
-              {
-                headers: {
-                  Authorization: localStorage.token,
-                },
-              }
-            )
-            .then((res) => {
-              console.log(res);
-              if (res.data.success) {
-                Swal.fire(
-                  "Deleted!",
-                  `Akun Mahasiswa ${namaMahasiswa} telah dihapus!`,
-                  "success"
-                )
-                  .then(() => {
-                    window.location.reload();
-                  })
-                  .catch((err) => {
-                    window.location.reload();
-                    console.log(err);
-                  });
-              } else {
-                Swal.fire("Gagal!", res.data.message, "warning")
-                  .then(() => {
-                    window.location.reload();
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                    window.location.reload();
-                  });
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          axios.delete(`https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa/${uuidMahasiswa}`, {
+            headers: {
+              Authorization: localStorage.token
+            }
+          }).then((res) => {
+            console.log(res)
+            if(res.data.success) {
+              Swal.fire(
+                'Deleted!',
+                `Akun Mahasiswa ${namaMahasiswa} telah dihapus!`,
+                'success'
+              ).then(() => {
+                window.location.reload()
+              }).catch((err) => {
+                window.location.reload()
+                console.log(err)
+              });
+            } else{
+              Swal.fire(
+                'Gagal!',
+                res.data.message,
+                'warning'
+              )
+            }
+          }).catch((err) => {
+            console.log(err)
+          });
+
         }
       });
     },
     upload(asd) {
       var reader = new FileReader();
       reader.onload = (e) => {
-        console.log(e);
-        var ee = e.target.result;
-        this.tambah.foto = ee.replace("data:image/jpeg;base64,", "");
+        console.log(e)
+				this.tambah.foto = e.target.result
+          .replace("data:", "")
+          .replace(/^.+,/, "");
       };
       reader.onerror = function(error) {
         alert(error);
@@ -1659,51 +1639,44 @@ export default {
         } else {
           this.tambah.foto = null;
         }
-        setTimeout(() => {
-          axios
-            .post(
-              "https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa",
-              {
-                nim: this.tambah.nim,
-                nama: this.tambah.nama,
-                email: this.tambah.email,
-                gugus_id: this.tambah.gugus,
-                prodi_id: this.tambah.prodi,
-                alamat: this.tambah.alamat,
-                foto: this.tambah.foto,
-                fakultas_id: this.tambah.fakultas,
-                tgllahir: this.tambah.tgllahir,
-                nohp: this.tambah.nomor,
-              },
-              {
-                headers: {
-                  Authorization: localStorage.token,
-                },
-              }
-            )
-            .then((result) => {
-              console.log(result);
-              if (result.data.success) {
-                Swal.fire("Berhasil", `Berhasil Tambah Mahasiswa`, "success")
-                  .then(() => {
-                    window.location.reload();
-                  })
-                  .catch(() => {
-                    window.location.reload();
-                  });
-              } else {
-                Swal.fire("Gagal", `${result.data.message}`, "warning")
-                  .then(() => {
-                    window.location.reload();
-                  })
-                  .catch(() => {
-                    window.location.reload();
-                  });
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+        setTimeout(() => {        
+          axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa', {
+            nim : this.tambah.nim,
+            nama: this.tambah.nama,
+            email: this.tambah.email,
+            gugus_id: this.tambah.gugus,
+            prodi_id: this.tambah.prodi,
+            alamat: this.tambah.alamat,
+            foto: this.tambah.foto,
+            fakultas_id: this.tambah.fakultas,
+            tgllahir: this.tambah.tgllahir,
+            nohp: this.tambah.nomor
+          }, {
+            headers: {
+              Authorization: localStorage.token
+            }
+          }).then((result) => {
+            console.log(result)
+            if(result.data.success) {
+              Swal.fire(
+                'Berhasil',
+                `Berhasil Tambah Mahasiswa`,
+                'success'
+              ).then(() => {
+                window.location.reload()
+              }).catch(() => {
+                window.location.reload()
+              });
+            } else{
+              Swal.fire(
+                'Gagal',
+                `${result.data.message}`,
+                'warning'
+              )
+            }
+          }).catch((err) => {
+            console.log(err)
+          });
         }, 500);
       }
       if (!this.tambah.nama) {

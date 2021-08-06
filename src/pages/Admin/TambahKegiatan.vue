@@ -49,7 +49,7 @@
 										<label for="gugus">Gugus</label>
 										<select v-if="dataGugus" name="gugus" id="gugus" class="form-select" v-model="jadwal.gugus_id">
 											<option value="" disabled selected>Pilih Gugus</option>
-											<option :value="items.uuid" v-for="(items,index) in dataGugus.data" :key="index">{{items.name}}</option>
+											<option :value="items.uuid" v-for="(items,index) in dataGugus" :key="index">{{items.name}}</option>
 										</select>
 									</div>
 								</div>
@@ -87,15 +87,33 @@
 										<div class="form-group">
 											<label for="tipe">Tipe Aktivitas</label>
 											<select v-if="dataTipe" class="form-select" name="tipe" required id="tipe" v-model="jadwal.aktivitas[index].tipe">
-												<option disabled selected>Pilih Tipe</option>
+												<option value="" disabled selected>Pilih Tipe</option>
 												<option :value="items.uuid" v-for="(items, index) in dataTipe.data" :key="index">{{items.nama}}</option>
 											</select>
 										</div>
 									</div>
-									<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe === '18bb18d9-3746-4f47-ad99-b337e772f4d2' || jadwal.aktivitas[index].tipe === 'a4c1e4a9-34da-4192-8dc1-a453d604cd99'">
+									<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe === 'eff1e631-3e18-4b91-a6e2-6a29af4b1554'">
 										<div class="form-group">
-											<label for="video">Link</label>
-											<input type="text" v-model="jadwal.aktivitas[index].link" name="video" id="video" class="form-control" placeholder="htpps://...">
+											<label for="tugas">Tugas</label>
+											<select name="tugas" v-model="jadwal.aktivitas[index].aktivitas_uuid" id="tugas" class="form-select">
+												<option value="" selected disabled>Pilih Tugas</option>
+												<option :value="items.uuid" v-for="(items, index) in dataTugas.data" :key="index">{{items.nama}}</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe === 'abadf8ed-1ef6-4857-add1-9b6b9bc911b1'">
+										<div class="form-group">
+											<label for="video">Link Meeting</label>
+											<input type="text" v-model="jadwal.aktivitas[index].aktivitas_uuid" name="video" id="video" class="form-control" placeholder="Cth: https://zoom.us/">
+										</div>
+									</div>
+									<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe === 'ac23eded-d09b-41d2-92c7-a082f7621a21'">
+										<div class="form-group">
+											<label for="tugas">Streaming</label>
+											<select name="tugas" v-model="jadwal.aktivitas[index].aktivitas_uuid" id="tugas" class="form-select">
+												<option value="" selected disabled>Pilih Streaming</option>
+												<option :value="items.uuid" v-for="(items,index) in dataStreaming" :key="index">{{items.nama}}</option>
+											</select>
 										</div>
 									</div>
 									<div class="col-lg-6">
@@ -146,15 +164,17 @@ export default {
 			dataGugus: null,
 			jadwal: {
 				topik: null,
-				aktivitas: [{ nama: '', start_time: '', end_time: '' }],
+				aktivitas: [{ nama: '', start_time: '', end_time: '',tipe: '', link: '', deskripsi: '', }],
 				lampiran: null,
 				gugus_id: ''
 			},
+			dataStreaming: null,
+			dataTugas: null
 		}
 	},
 	methods: {
 		getGugus() {
-			axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus', {
+			axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus-nonpaginate', {
 				headers: {
 					Authorization : localStorage.token
 				}
@@ -177,14 +197,15 @@ export default {
 			});
 		},
 		addfields() {
-			this.jadwal.aktivitas.push({ nama: '', start_time: '', end_time: '' })
+			this.jadwal.aktivitas.push({ nama: '', start_time: '', end_time: '',tipe: '', link: '', deskripsi: '', })
 		},
 		upload(asd) {
       var reader = new FileReader();
       reader.onload = (e) => {
         console.log(e)
-        var ee = e.target.result
-				this.jadwal.lampiran = ee.replace("data:image/jpeg;base64,", "")
+				this.jadwal.lampiran = e.target.result
+				.replace("data:", "")
+				.replace(/^.+,/, "");
       };
       reader.onerror = function(error) {
         alert(error);
@@ -226,25 +247,42 @@ export default {
 							'Gagal!',
 							result.data.message,
 							'warning'
-						).then(() => {
-							// if(a.isConfirmed) {
-							window.location.reload()
-							// }
-						}).catch((err) => {
-							window.location.reload()
-							console.log(err)
-						});
+						)
 					}
 				}).catch((err) => {
 					console.log(err)
 				});
 			}, 1000);
+		},
+		getListStream() {
+			axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/konferensi', {
+				headers: {
+					Authorization: localStorage.token
+				}
+			}).then((result) => {
+				this.dataStreaming = result.data.data
+			}).catch((err) => {
+				console.log(err)
+			});
+		},
+		getListTugas() {
+			axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/tugas', {
+				headers: {
+					Authorization: localStorage.token
+				}
+			}).then((result) => {
+				this.dataTugas = result.data
+			}).catch((err) => {
+				console.log(err)
+			});
 		}
 	},
 	mounted() {
     this.width = $(document).width();
 		this.getTipe()
 		this.getGugus()
+		this.getListStream()
+		this.getListTugas()
 	}
 }
 </script>

@@ -13,14 +13,15 @@
         </div>
 				<div class="card-shadow mb-3">
 					<div class="py-3 pe-3">
-						<div class="row m-0">
+						<Loader text="Sedang memuat data Kegiatan." v-if="!dataKegiatan" />
+						<div class="row m-0" v-else>
 							<div style="width: calc(100% - 723px)" class="g-0">
 								<div style="padding: 20px">
 									<div class="card" style="height: 250px;box-shadow: -1px 2px 24px rgba(11, 19, 42, 0.08);border:none"></div>
 								</div>
 							</div>
-							<div style="width: 723px;" class=" g-0 border-start border-dark">
-								<div class="d-flex first-kegiatan-top">
+							<div style="width: 723px;" class=" g-0 border-start border-dark ps-3">
+								<!-- <div class="d-flex first-kegiatan-top">
 									<div class="d-flex button-right-left">
 										<a href="#" class="button-firstnya">
 											<img src="../../assets/icons/left.svg" alt="">
@@ -30,12 +31,12 @@
 										</a>
 									</div>
 									<h4>Juli 2021</h4>
-								</div>
-								<div class="accordion" id="accordionExample" v-if="dataKegiatan">
+								</div> -->
+								<div class="accordion mb-2" id="accordionExample" v-if="dataKegiatan" style="box-shadow: 0 1px 13px 0 rgb(27 27 27 / 10%)">
 									<div v-for="(items,index) in dataKegiatan.data" :key="index">
 										<div class="accordion-item">
 											<h2 class="accordion-header" :id="`heading${index}`">
-												<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapse${index}`" aria-expanded="true" aria-controls="collapseOne">
+												<button class="accordion-button collapsed" type="button" style="border:none;" data-bs-toggle="collapse" :data-bs-target="`#collapse${index}`" aria-expanded="true" aria-controls="collapseOne">
 													<div class="d-flex w-100 align-items-center justify-content-between pe-2">
 														<p>
 															{{items.topik}}
@@ -132,6 +133,7 @@ import Swal from 'sweetalert2'
 export default {
 	data: function() {
     return {
+			loaderPopUp: false,
       width: null,
 			dataKegiatan: null
 		}
@@ -176,12 +178,7 @@ export default {
                 'Gagal!',
                 res.data.message,
                 'warning'
-              ).then(() => {
-                window.location.reload()
-              }).catch((err) => {
-                console.log(err)
-                window.location.reload()
-              });
+              )
             }
           }).catch((err) => {
             console.log(err)
