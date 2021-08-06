@@ -20,12 +20,12 @@
 										</div>
 									</div>
 									<div style="height: calc(100% - 72px);overflow-y: auto;" v-if="dataMahasiswa">
-										<div class="d-flex align-items-center py-2 px-3 mb-2 profile-chat-new" @click="openNewChat(items.user.rusername)" v-for="(items,index) in dataMahasiswa.data" :key="index">
+										<div class="d-flex align-items-center py-2 px-3 mb-2 profile-chat-new" @click="openNewChat(items.user.username)" v-for="(items,index) in dataMahasiswa.data" :key="index">
 											<div class="img-profile-chat">
-												<p>{{items.user.rusername.charAt(0)}}</p>
+												<p>{{items.user.username.charAt(0)}}</p>
 											</div>
 											<div class="info-name h-100 " style="border-color: #ddd">
-												<h4>{{items.user.rusername}}</h4>
+												<h4>{{items.user.username}}</h4>
 												<p>Mahasiswa</p>
 											</div>
 										</div>

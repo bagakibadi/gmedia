@@ -53,7 +53,7 @@
 															<div class="col-lg-3">
 																<div class="form-group">
 																	<label for="lampirkan">Lampiran File</label>
-																	<a target="_blank" :href="items.lampiran" download="lampiran.jpg" class="btn btn-orange">
+																	<a target="_blank" :href="items.lampiran" download="lampiran.jpg" class="btn btn-orange" v-if="items.lampiran">
 																		<img src="../../assets/icons/download-lampiran.svg" alt=""> Download File
 																	</a>
 																</div>
@@ -79,21 +79,27 @@
 																<div :class="`d-flex ${item.status === 'SELESAI' ? 'selesai-kegiatan' : ''}`">
 																	<div class="line-bot">
 																		<div class="rounded-check">
-																			<p>1</p>
+																			<p>{{i + 1}}</p>
 																			<img class="checkmark" src="../../assets/icons/checkmark-circle.svg" alt="">
 																		</div>
 																		<div class="d-flex justify-content-center" style="height: calc(100% - 32px)">
 																			<div class="garis-kebawah"></div>
 																		</div>
 																	</div>
-																	<div class="row g-0 m-0" style="width: calc(100% - 32px - 16px);">
+																	<div class="row g-0 mb-3" style="width: calc(100% - 32px - 16px);">
 																		<div class="col-lg-10">
 																			<div class="activity">
-																				<h3>
+																				<h3 class="text-primary">
 																					{{item.nama}}
 																				</h3>
-																				<p>{{changeTime(item.start_time) }} - {{ changeTime(item.end_time)}}</p>
-																				<p>
+																				<p class="fw-bold">{{changeTime(item.start_time) }} - {{ changeTime(item.end_time)}}</p>
+																				<p v-if="item.tugas" style="font-weight: 500;">
+																					{{item.tugas.nama}}
+																				</p>
+																				<p v-if="item.konferensi" style="font-weight: 500;">
+																					{{item.konferensi.nama}}
+																				</p>
+																				<p style="opacity: .5;">
 																					{{item.deskripsi}}
 																				</p>
 																			</div>
@@ -101,7 +107,11 @@
 																		<div class="col-lg-2">
 																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.status === 'SELESAI'">Selesai</button>
 																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.status === 'BELUM MULAI'">Mulai</button>
-																			<router-link :to="item.link" target="_blank" class="btn btn-success" v-if="item.status === 'BERJALAN'">Mulai</router-link>
+																			<span v-if="item.status === 'BERJALAN'">
+																				<router-link :to="{name: 'List Conference'}" target="_blank" class="btn btn-success" v-if="item.tipenya.nama == 'Streaming'">Mulai</router-link>
+																				<router-link :to="{name: 'Tugas Mahasiswa'}" target="_blank" class="btn btn-success" v-else-if="item.tipenya.nama == 'Tugas'">Mulai</router-link>
+																				<a :href="`${item.aktivitas_uuid}`" target="_blank" class="btn btn-success" v-else-if="item.tipenya.nama == 'Meeting'">Mulai</a>
+																			</span>
 																		</div>
 																	</div>
 																</div>

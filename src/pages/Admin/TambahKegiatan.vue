@@ -22,23 +22,23 @@
 								</div>
 								<div class="col-lg-3">
 									<div class="form-group">
-										<label for="start_date">Start Date</label>
+										<label for="start_date">Tanggal Kegiatan</label>
 										<input type="date" v-model="jadwal.start_date" name="start_date" id="start_date" class="form-control">
 									</div>
 								</div>
-								<div class="col-lg-3">
+								<!-- <div class="col-lg-3">
 									<div class="form-group">
-										<label for="end_date">End Date</label>
+										<label for="end_date">Tanggal Selesai</label>
 										<input type="date" v-model="jadwal.end_date" name="end_date" id="end_date" class="form-control">
 									</div>
-								</div>
+								</div> -->
 								<div class="col-lg-3">
 									<div class="form-group">
 										<label for="lampiran">Lampiran</label>
 										<input type="file" name="lampiran" id="lampiran" class="form-control">
 									</div>
 								</div>
-								<div class="col-lg-3">
+								<div class="col-lg-6">
 									<div class="form-group">
 										<label for="deskripsi">Deskripsi</label>
 										<input type="text" v-model="jadwal.deskripsi" placeholder="Deskripsi" name="deskripsi" id="deskripsi" class="form-control">
@@ -47,7 +47,7 @@
 								<div class="col-lg-3">
 									<div class="form-group">
 										<label for="gugus">Gugus</label>
-										<select v-if="dataGugus" name="gugus" id="gugus" class="form-select" v-model="jadwal.gugus_id">
+										<select v-if="dataGugus" name="gugus" id="gugus" class="form-select" v-model="jadwal.gugus_id" @change="getListTugas(jadwal.gugus_id)">
 											<option value="" disabled selected>Pilih Gugus</option>
 											<option :value="items.uuid" v-for="(items,index) in dataGugus" :key="index">{{items.name}}</option>
 										</select>
@@ -58,7 +58,7 @@
 								<hr class="bot">
 							</div>
 						</div>
-						<div class="jadwal-baru">
+						<div class="jadwal-baru" v-if="dataTugas">
 							<div class="top-tit">
 								<h4>Detail Aktivitas</h4>
 								<hr class="line">
@@ -73,14 +73,14 @@
 									</div>
 									<div class="col-lg-3">
 										<div class="form-group">
-											<label for="start_date">Start Time</label>
-											<input type="datetime-local" v-model="jadwal.aktivitas[index].start_time" id="start_date" class="form-control">
+											<label for="start_date">Waktu Mulai</label>
+											<input type="time" v-model="jadwal.aktivitas[index].start_time" id="start_date" class="form-control">
 										</div>
 									</div>
 									<div class="col-lg-3">
 										<div class="form-group">
-											<label for="end_date">End Time</label>
-											<input type="datetime-local" v-model="jadwal.aktivitas[index].end_time" name="end_date" id="end_date" class="form-control">
+											<label for="end_date">Waktu Selesai</label>
+											<input type="time" v-model="jadwal.aktivitas[index].end_time" name="end_date" id="end_date" class="form-control">
 										</div>
 									</div>
 									<div class="col-lg-3">
@@ -265,24 +265,25 @@ export default {
 				console.log(err)
 			});
 		},
-		getListTugas() {
-			axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/tugas', {
+		getListTugas(id) {
+			axios.get('https://gmedia.primakom.co.id/tugas/superadmin/tugas/list-tugas-per-gugus/' + id, {
 				headers: {
 					Authorization: localStorage.token
 				}
 			}).then((result) => {
+				console.log(result)
 				this.dataTugas = result.data
 			}).catch((err) => {
 				console.log(err)
 			});
-		}
+		},
 	},
 	mounted() {
     this.width = $(document).width();
 		this.getTipe()
 		this.getGugus()
 		this.getListStream()
-		this.getListTugas()
+		// this.getListTugas()
 	}
 }
 </script>
