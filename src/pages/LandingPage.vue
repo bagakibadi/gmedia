@@ -270,7 +270,7 @@
 				</div>
 				<div class="foot-bot">
 					<p>©UPNVeteranYogyakarta</p>
-					<p style="opacity: .3">v0.9.7</p>
+					<p style="opacity: .3">v0.9.8</p>
 				</div>
 			</div>
 		</div>

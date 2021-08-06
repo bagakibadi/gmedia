@@ -321,6 +321,7 @@ export default {
         $(document).ready(function() {
           $(".table").DataTable({
             pageLength: 25,
+            ordering: false,
           });
         });
       })
