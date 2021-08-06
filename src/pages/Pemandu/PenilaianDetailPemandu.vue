@@ -684,7 +684,7 @@ export default {
                 arrNilai[k].nilai.push({
                   nilai: data[k].soal_pg[n].data_jawaban.nilai
                     ? data[k].soal_pg[n].data_jawaban.nilai
-                    : null,
+                    : 0,
                   uuid: data[k].soal_pg[n].data_jawaban.uuid,
                   benar: data[k].soal_pg[n].data_jawaban.benar,
                   jawaban: data[k].soal_pg[n].data_jawaban.jawaban,

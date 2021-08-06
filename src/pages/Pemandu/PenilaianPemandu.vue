@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return moment(date).format("DD MMM YYYY");
+      return moment(date).locale('id').format("DD MMMM YYYY");
     },
   },
   mounted() {
