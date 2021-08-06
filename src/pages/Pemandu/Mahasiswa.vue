@@ -47,7 +47,8 @@
         </div> -->
         <div class="card-shadow mb-3">
           <div class="p-3">
-            <div class="table-responsive">
+						<Loader text="Sedang memuat data mahasiswa." v-if="!dataMahasiswa" />
+            <div class="table-responsive" v-else>
               <table class="table">
                 <thead>
                   <tr>
@@ -121,6 +122,7 @@
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
     <div class="modal fade"  id="lihatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

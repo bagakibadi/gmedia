@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <NavbarMahasiswa :widthContent="width" />
-		<div :class="`content content-dalem ${width > 992 ? '' : 'hide'}`">
+		<div :class="`content ${width > 992 ? '' : 'hide'}`">
       <div class="section">
 				<div class="row" id="content-online">
 					<div class="col-lg-7">
@@ -25,13 +25,13 @@
 							<iframe :src="dataKonferensi.link_video" autoplay="1" frameborder="0"></iframe>
 							<!-- <img src="../../assets/videoconference.png" alt=""> -->
 						</div>
-						<div class="d-flex align-items-center subtitle">
+						<!-- <div class="d-flex align-items-center subtitle">
 							<img src="../../assets/icons/graphic_eq.svg" alt="">
 							<div>
 								<h6>Brian Barker:</h6>
 								<p>Terima kasih atas partisipasinya teman teman semua, jaga kesehatan dan sehat selalu...</p>
 							</div>
-						</div>
+						</div> -->
 					</div>
 					<div class="col-lg-5 mt-sm-3">
 						<div class="card-shadow card-chat mb-3">
@@ -97,23 +97,7 @@
 					<h1>Connect To Internet</h1>
 					<button class="btn btn-outline-primary">Retry</button>
 				</div>
-				<div class="d-flex footerd">
-					<div class="col-lg-12">
-						<div class="card-shadow">
-							<div class="content-footers">
-								<div class="d-flex justify-content-between justify-content-sm-center flex-wrap">
-									<div class="copy-right d-flex">
-										<p>COPYRIGHT © 2021</p>
-										<b>PKK-BN 2021</b>
-									</div>
-									<div class="url-copyright">
-										<p>www.primakom.co.id</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<Footer />
       </div>
     </div>
   </div>

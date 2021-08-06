@@ -205,6 +205,13 @@
             </div>
           </div>
         </div>
+        <div class="d-flex justify-content-center" v-if="!dataSoal">
+          <div class="card-shadow">
+            <div class="px-5 py-3">
+              <Loader text="Sedang memuat data soal." />
+            </div>
+          </div>
+        </div>
         <div class="row" v-if="dataSoal">
           <div
             class="col-md-4 col-sm-6"
@@ -335,6 +342,7 @@
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   </div>
@@ -372,7 +380,7 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return moment(date).format("DD MMMM YY");
+      return moment(date).locale("id").format("DD MMM YY");
     },
     previous() {
       localStorage.removeItem("tempSoal");

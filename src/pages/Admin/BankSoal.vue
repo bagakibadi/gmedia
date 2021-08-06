@@ -105,7 +105,7 @@
         </div>
         <div class="d-flex justify-content-center" v-if="!dataSoal">
           <div class="card-shadow">
-            <div class="p-3">
+            <div class="px-5 py-3">
               <Loader text="Sedang memuat data soal." />
             </div>
           </div>
@@ -289,6 +289,7 @@
             </div>
           </div>
         </div>
+				<Footer />
       </div>
     </div>
   </div>
@@ -310,7 +311,7 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return moment(date).format("DD MMMM YY");
+      return moment(date).locale("id").format("DD MMM YY");
     },
     changeType(type) {
       this.dataSoal = null;

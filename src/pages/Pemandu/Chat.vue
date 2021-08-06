@@ -133,7 +133,8 @@
 							</div>
 						</div>
 					</div>
-        </div>
+				</div>
+				<Footer />
 			</div>
 		</div>
 		<!-- List Kontak -->

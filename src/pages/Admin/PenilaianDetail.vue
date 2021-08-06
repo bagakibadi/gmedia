@@ -1,10 +1,7 @@
 <template>
   <div class="dashboard penilaian">
     <NavbarAdmin :widthContent="width" />
-    <div
-      :class="`content content-dalem ${width > 992 ? '' : 'hide'}`"
-      v-if="dataTugas"
-    >
+    <div :class="`content ${width > 992 ? '' : 'hide'}`" v-if="dataTugas">
       <div class="section">
         <div class="card-shadow mb-3">
           <div class="p-3">
@@ -57,6 +54,11 @@
         <!-- <div class="card-shadow mb-3">
           <div class="p-3"></div>
         </div> -->
+        <div class="card-shadow" v-if="!dataTugas">
+          <div class="p-3">
+            <Loader text="Sedang memuat data tugas mahasiswa." />
+          </div>
+        </div>
         <div v-for="(items, id) in dataTugas.data" :key="id">
           <div class="card-shadow mb-3" v-if="!items.dikerjakan">
             <div class="p-3">
@@ -66,14 +68,11 @@
                     class="image d-md-flex d-none align-items-center justify-content-center"
                   >
                     <img
-                        src="../../assets/ilustrasi/avatar-admin-pemandu.svg"
-                        alt=""
-                        v-if="
-                          items.foto == '' ||
-                            items.foto == 'foto.jpg'
-                        "
-                      />
-                      <img :src="items.foto" v-else alt="" />
+                      src="../../assets/ilustrasi/avatar-admin-pemandu.svg"
+                      alt=""
+                      v-if="items.foto == '' || items.foto == 'foto.jpg'"
+                    />
+                    <img :src="items.foto" v-else alt="" />
                   </div>
                   <div class="ms-2">
                     <div class="main-text">{{ items.nama }}</div>
@@ -116,7 +115,7 @@
                   <div
                     class="py-1 px-2 text-success success"
                     style="border-radius: 7px; font-weight: 500;"
-                    v-if="items.nilai"
+                    v-if="items.nilai || items.nilai == 0"
                   >
                     Dinilai
                   </div>
@@ -499,14 +498,18 @@
                     <button
                       :class="
                         `btn ${
-                          items.nilai ? 'btn-secondary' : 'btn-success'
+                          items.nilai || items.nilai == 0
+                            ? 'btn-secondary'
+                            : 'btn-success'
                         } px-4`
                       "
                       type="button"
                       @click="submitNilai(dataTugas.data[id], id)"
-                      :disabled="items.nilai"
+                      :disabled="items.nilai || items.nilai == 0"
                     >
-                      {{ items.nilai ? "Dinilai" : "Simpan" }}
+                      {{
+                        items.nilai || items.nilai == 0 ? "Dinilai" : "Simpan"
+                      }}
                     </button>
                   </div>
                 </div>
@@ -514,6 +517,7 @@
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   </div>
@@ -680,7 +684,7 @@ export default {
                 arrNilai[k].nilai.push({
                   nilai: data[k].soal_pg[n].data_jawaban.nilai
                     ? data[k].soal_pg[n].data_jawaban.nilai
-                    : null,
+                    : 0,
                   uuid: data[k].soal_pg[n].data_jawaban.uuid,
                   benar: data[k].soal_pg[n].data_jawaban.benar,
                   jawaban: data[k].soal_pg[n].data_jawaban.jawaban,

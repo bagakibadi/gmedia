@@ -161,9 +161,10 @@
             </div>
           </div> -->
         </div>
-        <div class="card-shadow mb-3" v-if="dataLogPresensi">
+        <div class="card-shadow mb-3">
           <div class="p-3">
-            <div>
+            <Loader text="Sedang memuat data tugas tiap mahasiswa." v-if="!dataLogPresensi" />
+            <div class="table-responsive" v-else>
               <table class="table">
                 <thead>
                   <tr>
@@ -219,8 +220,10 @@
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
+
 
     <div
       class="modal fade"
@@ -809,8 +812,7 @@ export default {
         setTimeout(() => {
           $(".table").DataTable({
             responsive: true,
-            columnDefs: [{ orderable: false, targets: 0 }],
-            order: [[1, "desc"]],
+            ordering: false,
           });
         }, 500);
       })

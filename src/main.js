@@ -7,6 +7,7 @@ import NavbarAdmin from "./components/NavbarAdmin.vue"
 import NavbarPemandu from "./components/NavbarPemandu.vue"
 import NavbarMahasiswa from "./components/NavbarMahasiswa.vue"
 import Loader from "./components/Loader.vue"
+import Footer from "./components/Footer.vue"
 
 
 Vue.config.productionTip = false
@@ -18,6 +19,7 @@ Vue.component('NavbarAdmin', NavbarAdmin)
 Vue.component('NavbarPemandu', NavbarPemandu)
 Vue.component('NavbarMahasiswa', NavbarMahasiswa)
 Vue.component('Loader', Loader)
+Vue.component('Footer', Footer)
 
 
 new Vue({

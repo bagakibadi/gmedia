@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <NavbarAdmin :widthContent="width" />
-    <div :class="`content content-dalem ${width > 992 ? '' : 'hide'}`">
+    <div :class="`content ${width > 992 ? '' : 'hide'}`">
       <div class="section">
         <div class="card-shadow mb-3">
           <div class="p-3">
@@ -25,7 +25,6 @@
           <div class="col-lg-12 mb-3">
             <div class="card-shadow mb-3">
               <div class="p-3">
-                <!-- <h4 class="judul">Tugas</h4> -->
                 <Loader text="Sedang memuat data tugas." v-if="!dataTugas" />
                 <div class="table-responsive" v-else>
                   <table class="table">
@@ -109,6 +108,7 @@
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   </div>
@@ -188,7 +188,9 @@ export default {
         this.dataTugas = res.data;
         console.log(res);
         setTimeout(() => {
-          $(".table").DataTable();
+          $(".table").DataTable({
+            ordering: false,
+          });
         }, 500);
       })
       .catch((err) => {

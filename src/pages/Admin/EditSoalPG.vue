@@ -175,6 +175,7 @@
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   </div>

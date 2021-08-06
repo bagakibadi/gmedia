@@ -150,6 +150,7 @@
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   </div>
@@ -204,7 +205,7 @@ export default {
       }
     },
     formatDate(date) {
-      return moment(date).format("DD MMMM YY");
+      return moment(date).locale("id").format("DD MMM YY");
     },
     submit() {
       Swal.fire({

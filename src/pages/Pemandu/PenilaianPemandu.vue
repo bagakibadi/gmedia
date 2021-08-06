@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
     <NavbarPemandu :widthContent="width" />
-    <div :class="`content content-dalem ${width > 992 ? '' : 'hide'}`">
+    <div :class="`content ${width > 992 ? '' : 'hide'}`">
       <div class="section">
         <div class="card-shadow mb-3">
           <div class="p-3">
@@ -21,7 +21,8 @@
             <div class="card-shadow mb-3">
               <div class="p-3">
                 <h4 class="judul">Tugas</h4>
-                <div class="table-responsive">
+                <Loader text="Sedang memuat data presensi." v-if="!dataTugas" />
+                <div class="table-responsive" v-else>
                   <table class="table">
                     <thead>
                       <tr>
@@ -148,6 +149,7 @@
             </div>
           </div>
         </div> -->
+        <Footer />
       </div>
     </div>
   </div>
@@ -171,7 +173,7 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return moment(date).format("DD MMM YYYY");
+      return moment(date).locale('id').format("DD MMMM YYYY");
     },
   },
   mounted() {

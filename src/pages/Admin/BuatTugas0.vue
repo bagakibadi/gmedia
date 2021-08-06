@@ -93,6 +93,7 @@
                 : 'danger text-danger'
             } mb-3`
           "
+          v-if="dataGugus"
         >
           <div class="p-3">
             <div class="d-flex align-items-center">
@@ -104,6 +105,13 @@
                     : "Pilih gugus yang mendapatkan tugas!"
                 }}
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center" v-if="!dataGugus">
+          <div class="card-shadow">
+            <div class="px-5 py-3">
+              <Loader text="Sedang memuat data gugus." />
             </div>
           </div>
         </div>
@@ -131,10 +139,19 @@
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="d-flex align-items-center">
                     <div
-                      class="pemandu-img d-flex align-items-center justify-content-center"
-                    >
-                      <img src="../../assets/images/profile.jpeg" alt="" />
-                    </div>
+                        class="pemandu-img d-flex align-items-center justify-content-center"
+                        v-if="item.pemandu.length > 0"
+                      >
+                        <img
+                          src="../../assets/ilustrasi/avatar-admin-pemandu.svg"
+                          alt=""
+                          v-if="
+                            item.pemandu[0].foto == '' ||
+                              item.pemandu[0].foto == 'foto.jpg'
+                          "
+                        />
+                        <img :src="item.pemandu[0].foto" v-else alt="" />
+                      </div>
                     <div class="pemandu-gugus ms-2" v-if="item.pemandu[0]">
                       {{ item.pemandu[0].nama }}
                     </div>
@@ -201,6 +218,7 @@
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   </div>
