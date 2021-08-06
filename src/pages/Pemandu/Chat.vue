@@ -2,25 +2,58 @@
   <div class="dashboard">
     <NavbarPemandu :widthContent="width" />
     <div :class="`content ${width > 992 ? '' : 'hide'}`">
-      <div class="section">
-        <div class="card-shadow mb-5" style="overflow: hidden;">
-					<div class="row g-0">
-						<div class="col-lg-4 border-end " style="border-color: rgba(221, 224, 228, 1)">
+      <div class="section pb-5">
+        <div class="card-shadow " style="overflow: hidden;">
+					<div class="row g-0 position-relative">
+						<div class="col-lg-4 position-absolute" id="watchContact" style="left: -400px;top: 0;height: 600px;transition: .8s;">
+							<div class="h-100 ">
+								<div class="d-flex head-new-chat px-3">
+									<div class="d-flex align-items-center">
+										<i @click="backChat" class="fa fa-arrow-left cursor-pointer"></i>
+										<p>Chat Baru</p>
+									</div>
+								</div>
+								<div class="content-new-chat ">
+									<div style="box-shadow: rgb(3 18 26 / 20%) 0px 1px 2px;padding-bottom: 16px">
+										<div class="form-group pt-3 mb-3 px-3">
+											<input type="text" class="form-control" placeholder="Cari">
+										</div>
+									</div>
+									<div style="height: calc(100% - 72px);overflow-y: auto;" v-if="dataMahasiswa">
+										<div class="d-flex align-items-center py-2 px-3 mb-2 profile-chat-new" @click="openNewChat(items.user.rusername)" v-for="(items,index) in dataMahasiswa.data" :key="index">
+											<div class="img-profile-chat">
+												<p>{{items.user.rusername.charAt(0)}}</p>
+											</div>
+											<div class="info-name h-100 " style="border-color: #ddd">
+												<h4>{{items.user.rusername}}</h4>
+												<p>Mahasiswa</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-4 border-end " id="backChat" style="border-color: rgba(221, 224, 228, 1);height: 600px">
 							<div>
 								<div class="padding-name-chat borbot-name-top">
 									<div class="d-flex w-100">
 										<div class="img-name-chat">
 											<img src="../../assets/icons/profile.svg" alt="">
 										</div>
-										<div class="form-group mb-0 search-name-chat">
-											<input placeholder="Cari..." type="text" class="form-control icon-awesome" name="" id="">
+										<div data-v-1602fd16="" class="form-group mb-0 search-name-chat d-flex align-items-center justify-content-start">
+											<input data-v-1602fd16="" placeholder="Cari..." type="text" name="" id="" class="form-control icon-awesome">
+											<div style="margin-left: 10px;">
+												<div @click="showContact" class="new-chat cursor-pointer">
+													<i class="fas fa-comment-dots " ></i>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<h3 class="title-name-chat">Percakapan</h3>
-							<div class="row g-0" v-if="listChat">
-								<div class="col-12" v-for="(item,index) in testChat.slice().reverse()" :key="index">
+							<div class="d-flex flex-column" v-if="testChat" style="height: calc(100% - 124px);overflow-y: auto;">
+								<div class="col-12" v-for="(item,index) in testChat" :key="index">
 								<!-- <div class="col-12" v-for="(item,index) in listChat.update.slice().reverse()" :key="index"> -->
 									<div class="d-flex align-items-center padding-name-chat card-name-chat" @click="getChat(item.id, index)">
 										<!-- <img src="../../assets/icons/profile.svg" alt=""> -->
@@ -54,6 +87,16 @@
 									</div>
 								</div>
 								<div class="box-message" id="box-message">
+									<div class="d-flex align-items-center justify-content-center h-100 w-100" v-if="!dataPesan">
+										<div class="d-flex align-items-center flex-column justify-content-center">
+											<div class="round-start-chat cursor-pointer" data-bs-toggle="modal" data-bs-target="#kontak">
+												<img src="../../assets/icons/startchat.svg" alt="">
+											</div>
+											<div class="start-chat cursor-pointer" data-bs-toggle="modal" data-bs-target="#kontak">
+												<p>Mulai Percakapan</p>
+											</div>
+										</div>
+									</div>
 									<div v-if="recconect === true" class="ifdisconnect">
 										<button @click="reconnects" class="btn btn-primary">Recconect</button>
 									</div>
@@ -93,12 +136,32 @@
         </div>
 			</div>
 		</div>
+		<!-- List Kontak -->
+		<div class="modal fade" id="kontak" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content" style="border: none;border-radius: 20px !important;">
+					<button type="button"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<div class="modal-body modal-tambah" >
+						<div class="judul-modal-tambah">
+							<h3>Detail Mahasiswa</h3>
+						</div>
+            <hr>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
   </div>
 </template>
 
 <script>
 import rcApi from '../Api/Index'
 import moment from 'moment'
+import axios from 'axios'
 let api
 
 /* eslint-disable no-undef */
@@ -125,10 +188,59 @@ export default {
       dmRoom: '',
       recconect: false,
 			listChat: null,
-			testChat: []
+			testChat: [],
+			newChat: [],
+			dataMahasiswa: null,
+			dataTest: [
+				{
+					"lastMessage":"2",
+					"name":"general",
+					"userCount":48,
+					"date": moment(1627231731266).format(),
+					"id":"GENERAL"
+				},{
+					"lastMessage":"3",
+					"name":"gmedia1234567892",
+					"userCount":2,
+					"date":moment(1628179633385).format(),
+					"id":"GXutmDiCHPRvuQ4EmTereJqaYvJugmzBnc"
+				},{
+					"lastMessage":"4",
+					"name":"gmedia12345678912",
+					"userCount":2,
+					"date":moment(1628009219003).format(),
+					"id":"GXutmDiCHPRvuQ4EmYhrWFbohXDSYzsG9m"
+				},{
+					"lastMessage":"1",
+					"name":"gmedia1234567894",
+					"userCount":2,
+					"date": moment(1628179635871).format(),
+					"id":"3XZsM3pfgK4EK6ba3GXutmDiCHPRvuQ4Em"
+				},{
+					"lastMessage":"7",
+					"name":"gmedia1234567896",
+					"userCount":2,
+					"date": moment(1628179007653).format(),
+					"id":"GXutmDiCHPRvuQ4EmnSY5FwNTunyjBKLtQ"
+				}
+			]
 		}
 	},
 	methods: {
+		showContact() {
+			document.getElementById('watchContact').style.left = '0px'
+		},
+		backChat() {
+			document.getElementById('watchContact').style.left = '-400px'
+		},
+		openNewChat(username) {
+			api.sendMessage({
+				"msg": "method",
+				"method": "createDirectMessage",
+				"id": "roomid",
+				"params": [username]
+			})
+		},
 		reconnects() {
 			api = rcApi.connectToRocketChat (this.webSocketUrl)
 			api.onError (error => this.errors.push (error))
@@ -161,14 +273,6 @@ export default {
 										id: message.result.update[i]._id
 									})
 								}
-							} else{
-								this.testChat.push({
-									lastMessage: '',
-									name: message.result.update[i].usernames[0],
-									userCount: message.result.update[i].usersCount,
-									date: moment(message.result.update[i].ts.$date).lang("id").format('h:mm'),
-									id: message.result.update[i]._id
-								})
 							}
 						}
 					}, 200);
@@ -265,16 +369,30 @@ export default {
           false
         ]
       });
-			this.dataPesan = this.testChat[index]
-      setTimeout(() => {
-        api.sendMessage({
-          "msg": "method",
-          "method": "loadHistory",
-          "id": "oldChat",
-          "params": [ idRoom, null, 100000, { "$date": 1480377601 } ]
-        })
-				this.dmRoom = idRoom
-      }, 200);
+			console.log(index)
+			if(index === 'test') {
+				console.log('aa')
+				setTimeout(() => {
+					api.sendMessage({
+						"msg": "method",
+						"method": "loadHistory",
+						"id": "oldChat",
+						"params": [ idRoom, null, 100000, { "$date": 1480377601 } ]
+					})
+					this.dmRoom = idRoom
+				}, 200);
+			} else {
+				this.dataPesan = this.testChat[index]
+				setTimeout(() => {
+					api.sendMessage({
+						"msg": "method",
+						"method": "loadHistory",
+						"id": "oldChat",
+						"params": [ idRoom, null, 100000, { "$date": 1480377601 } ]
+					})
+					this.dmRoom = idRoom
+				}, 200);
+			}
 		},
 		getTimes(a) {
 			return moment(a).lang("id").format('h:mm')
@@ -284,7 +402,7 @@ export default {
         "msg": "method",
         "method": "rooms/get",
         "id": "getList",
-        "params": [ { "$date": 1480377601 } ]
+        "params": [ { "$date": new Date ().getTime ()} ]
       })
     },
 		loginss() {
@@ -310,8 +428,21 @@ export default {
 				window.location.reload ()
 			}
 		},
+		getMahasiswa() {
+			axios.get('https://gmedia.primakom.co.id/gmedia/pemandu/mahasiswa', {
+				headers: {
+					Authorization: localStorage.token
+				}
+			}).then((result) => {
+				this.dataMahasiswa = result.data
+				// console.log(result)
+			}).catch((err) => {
+				console.log(err)
+			});
+		},
 	},
 	mounted() {
+		this.getMahasiswa()
 		this.width = $(document).width();
 		api = rcApi.connectToRocketChat (this.webSocketUrl)
 		api.onError (error => this.errors.push (error))
@@ -332,6 +463,7 @@ export default {
 									lastMessage: message.result.update[i].lastMessage.msg,
 									name: message.result.update[i].name,
 									userCount: message.result.update[i].usersCount,
+									// date: new Date(message.result.update[i].lastMessage.ts.$date),
 									date: moment(message.result.update[i].ts.$date).lang("id").format('h:mm'),
 									id: message.result.update[i]._id
 								})
@@ -340,6 +472,7 @@ export default {
 									lastMessage: message.result.update[i].lastMessage.msg,
 									name: message.result.update[i].usernames[0],
 									userCount: message.result.update[i].usersCount,
+									// date: new Date(message.result.update[i].lastMessage.ts.$date),
 									date: moment(message.result.update[i].ts.$date).lang("id").format('h:mm'),
 									id: message.result.update[i]._id
 								})
@@ -349,12 +482,18 @@ export default {
 								lastMessage: '',
 								name: message.result.update[i].usernames[0],
 								userCount: message.result.update[i].usersCount,
+								// date: new Date(message.result.update[i].lastMessage.ts.$date),
 								date: moment(message.result.update[i].ts.$date).lang("id").format('h:mm'),
 								id: message.result.update[i]._id
 							})
 						}
 					}
 				}, 200);
+			}
+			if(message.msg === 'result' && message.id === 'roomid'){
+				this.dmRoom = message.result.rid
+				this.getChat(message.result.rid, 'test')
+				// this.connectRoom(message.result.rid)
 			}
 			if(message.msg === 'changed' && message.collection === 'stream-room-messages'){
 				let datenya = new Date(message.fields.args[0].ts.$date)
@@ -372,6 +511,7 @@ export default {
 				return;
 			}
 			if(message.msg === 'sub' && message.id === 'stream-room-messages'){
+				console.log('room')
 				this.dmRoom = message.params[0]
 				// this.connectRoom(message.para)
 			}
@@ -425,6 +565,75 @@ export default {
 </script>
 
 <style scoped>
+.profile-chat-new{
+	transition: .5s;
+	cursor: pointer;
+}
+.profile-chat-new:hover{
+	background: #324159;
+}
+.profile-chat-new:hover > .info-name h4, .profile-chat-new:hover > .info-name p{
+	color: white;
+}
+.content-new-chat{
+	width: 100%;
+	height: calc(100% - 90px);
+	background: white;
+	position: relative;
+	top: -35px;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
+}
+.head-new-chat{
+	width: 100%;
+	height: 125px;
+	align-items: flex-end;
+	background: #6E8CFC;
+	padding-bottom: 45px;
+	color: white;
+}
+.head-new-chat i{
+	font-size: 22px;
+}
+.head-new-chat p{
+	margin: 0 0 0 20px;
+	font-size: 22px;
+	font-weight: 500;
+}
+.new-chat{
+	box-shadow: rgb(3 18 26 / 40%) 0px 3px 8px;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 100%;
+	background: rgba(20, 97, 245, 1);
+	color: white;
+	box-sizing: border-box;
+}
+.start-chat p {
+	color: rgba(20, 97, 245, 1);
+	font-size: 16px;
+	font-weight: 400;
+	margin: 0;
+	text-align: center;
+}
+.start-chat{
+	padding: 9px 24px;
+	border-radius: 30px;
+	background: white;
+}
+.round-start-chat{
+	width: 81px;
+	height: 81px;
+	border-radius: 100%;
+	background: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 21px;
+}
 .ifdisconnect{
 	z-index: 5;
 	top: 0;
@@ -453,7 +662,7 @@ export default {
 	cursor: pointer;
 }
 .card-name-chat:hover{
-	background: #e4f3ff;
+	background: #f8f8f8;
 }
 .send-box{
   width: 100%;
@@ -581,11 +790,18 @@ export default {
 }
 .info-name h4{
 	font-size: 16px;
+	transition: .5s;
 	font-weight: 600;
 	color: black;
 	margin: 0;
+	overflow: hidden;
+	height: 19px;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
 }
 .info-name p{
+	transition: .5s;
 	color: rgba(79, 86, 101, 1);
 	font-size: 14px;
 	font-weight: 400;

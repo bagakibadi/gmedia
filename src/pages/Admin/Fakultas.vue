@@ -6,7 +6,7 @@
         <div class="card-shadow mb-3">
 					<div class="p-3">
             <div class="d-flex flex-wrap justify-content-between align-items-center">
-              <div class="title-content">Data Gugus</div>
+              <div class="title-content">Data Fakultas</div>
               <div class="d-flex">
                 <a href="#" type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#tambahModal" >
                   + Tambah
@@ -21,38 +21,22 @@
 							<table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">GUGUS</th>
-                    <th scope="col">NAMA PEMANDU</th>
-                    <th scope="col">EMAIL PEMANDU</th>
-                    <th scope="col">TELEPON PEMANDU</th>
+                    <th scope="col">FAKULTAS</th>
+                    <th scope="col">KODE FAKULTAS</th>
+                    <th scope="col">DIBUAT</th>
                     <th scope="col">AKSI</th>
                   </tr>
                 </thead>
-								<tbody v-if="dataGugus">
-                  <tr v-for="(items, index) in dataGugus" :key="index">
-                    <td v-if="items.name">
-                      {{items.name}}
+								<tbody v-if="dataFakultas">
+                  <tr v-for="(items, index) in dataFakultas" :key="index">
+                    <td v-if="items.nama">
+                      {{items.nama}}
                     </td>
                     <td >
-                      <div v-if="items.pemandu.length >= 1">
-                        <div v-for="(a, ii) in items.pemandu" :key="ii">
-                          {{a.nama}}
-                        </div>
-                      </div>
+											{{items.kode}}
                     </td>
                     <td >
-                      <div v-if="items.pemandu.length >= 1">
-                        <div v-for="(a, ii) in items.pemandu" :key="ii">
-                          {{a.email}}
-                        </div>
-                      </div>
-                    </td>
-                    <td >
-                      <div v-if="items.pemandu.length >= 1">
-                        <div v-for="(a, ii) in items.pemandu" :key="ii">
-                          {{a.no_hp}}
-                        </div>
-                      </div>
+											{{items.created_at}}
                     </td>
                     <td>
                       <div class="d-flex">
@@ -75,7 +59,7 @@
                         <button
                           type="button"
                           class="btn btn-danger btn-sm"
-                          @click="hapus(items.uuid, items.name)"
+                          @click="hapus(items.uuid, items.nama)"
                         >
                           <i class="fas fa-trash-alt"></i>
                         </button>
@@ -93,29 +77,36 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Edit Gugus</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Edit Fakultas</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
 						<div class="container">
-							<form action="" v-if="dataGugusOne" @submit.prevent="editGugus">
+							<form action="" v-if="dataFakultasOne" @submit.prevent="editData">
 								<div class="row">
 									<div class="col-lg-12">
 										<div class="form-group">
-											<label for="nama">Nama Gugus</label>
+											<label for="fakultas">Nama Fakultas</label>
 											<div class="check-error">
-												<input type="text" name="nama" id="nama" placeholder="Nama Pemandu" class="form-control" v-model="dataGugusOne.name">
+												<input type="text" name="fakultas" id="fakultas" class="form-control" placeholder="Masukkan Nama Fakultas" v-model="dataFakultasOne.nama">
 												<small :class="`text-danger d-flex ${validationEdit.nama.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.nama.message}}</small>
 											</div>
 										</div>
 									</div>
-									<div class="col-lg-12 ">
-                    <div class="modal-footer">
-                      <div class="d-flex justify-content-end">
-                        <button class="btn btn-primary" style="margin-right: 24px;">Edit</button>
-                        <a class="btn btn-outline-primary" data-bs-dismiss="modal">Batal</a>
-                      </div>
-                    </div>
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label for="kode">Kode Fakultas</label>
+											<div class="check-error">
+												<input type="number" name="kode" id="kode" placeholder="Kode Fakultas" class="form-control" v-model="dataFakultasOne.kode">
+												<small :class="`text-danger d-flex ${validationEdit.kode.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.kode.message}}</small>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-12 footer-modal">
+										<div class="d-flex justify-content-end">
+											<button class="btn btn-primary" style="margin-right: 24px;">Edit</button>
+											<a class="btn btn-outline-primary" data-bs-dismiss="modal">Batal</a>
+										</div>
 									</div>
 								</div>
 							</form>
@@ -125,33 +116,34 @@
 			</div>
 		</div>
 		<div class="modal fade" id="lihatModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
+			<div class="modal-dialog ">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Detail Gugus</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Detail Fakultas</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
 						<div class="container">
-							<form action="" v-if="dataGugusOne">
+							<form action="" v-if="dataFakultasOne">
 								<div class="row">
-									<div class="col-lg-6">
+									<div class="col-lg-12">
 										<div class="form-group">
-											<label for="nama">Nama Gugus</label>
+											<label for="fakultas">Nama Fakultas</label>
 											<div class="check-error">
-												<input type="text" name="nama" id="nama" placeholder="Nama Pemandu" class="form-control" v-model="dataGugusOne.name">
-												<small :class="`text-danger d-flex ${validationEdit.nama.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.nama.message}}</small>
+												<input readonly type="text" name="fakultas" id="fakultas" class="form-control" placeholder="Masukkan Nama Fakultas" v-model="dataFakultasOne.nama">
+												<small :class="`text-danger d-flex ${validationEdit.fakultas_id.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.fakultas_id.message}}</small>
 											</div>
 										</div>
 									</div>
-                  <div class="col-lg-12">
-                    <div class="form-group">
-                      <label for="list">List Pemandu</label>
-                      <div class="d-flex flex-wrap">
-                        <p class="me-1" v-for="(it, ind) in dataGugusOne.pemandu" :key="ind">{{it.nama}}, </p>
-                      </div>
-                    </div>
-                  </div>
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label for="kode">Kode Fakultas</label>
+											<div class="check-error">
+												<input readonly type="number" name="kode" id="kode" placeholder="Kode Fakultas" class="form-control" v-model="dataFakultasOne.kode">
+												<small :class="`text-danger d-flex ${validationEdit.kode.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.kode.message}}</small>
+											</div>
+										</div>
+									</div>
 								</div>
 							</form>
 						</div>
@@ -166,19 +158,28 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Tambah Gugus</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Tambah Fakultas</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
 						<div class="container">
-							<form action="" @submit.prevent="tambahGugus">
+							<form action="" @submit.prevent="tambahFakultas">
 								<div class="row">
 									<div class="col-lg-12">
 										<div class="form-group">
-											<label for="nama">Nama Gugus</label>
+											<label for="nama">Nama Fakultas</label>
 											<div class="check-error">
-												<input type="text" name="nama" id="nama" placeholder="Nama Gugus" class="form-control" v-model="tambah.name">
+												<input type="text" name="nama" id="nama" placeholder="Nama Fakultas" class="form-control" v-model="tambah.nama">
 												<small :class="`text-danger d-flex ${validationTambah.nama.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.nama.message}}</small>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label for="kode">Kode Fakultas</label>
+											<div class="check-error">
+												<input type="number" name="kode" id="kode" class="form-control" placeholder="Kode Fakultas" v-model="tambah.kode">
+												<small :class="`text-danger d-flex ${validationTambah.kode.status === true ? 'd-none' : 'd-flex'}`">{{validationTambah.kode.message}}</small>
 											</div>
 										</div>
 									</div>
@@ -210,6 +211,7 @@ export default {
 			dataPemandu: null,
 			dataGugus: null,
 			dataGugusOne: null,
+			dataFakultasOne: null,
 			tambah: {
 				name: null,
 			},
@@ -218,37 +220,26 @@ export default {
 					status: true,
 					message: null
 				},
-				pemandu_id: {
+				kode: {
 					status: true,
 					message: null
 				}
 			},
 			validationEdit: {
+				fakultas_id: {
+					status: true,
+					message: null
+				},
 				nama: {
 					status: true,
 					message: null
 				},
-				email: {
-					status: true,
-					message: null
-				},
-				no_hp: {
-					status: true,
-					message: null
-				},
-				gugus_id: {
-					status: true,
-					message: null
-				},
-				alamat: {
-					status: true,
-					message: null
-				},
-				foto: {
+				kode: {
 					status: true,
 					message: null
 				}
-			}
+			},
+			dataFakultas: null
 		}
 	},
 	methods: {
@@ -264,10 +255,11 @@ export default {
       };
       reader.readAsDataURL(asd);
     },
-		editGugus() {
-			if(this.dataGugusOne) {
+		editData() {
+			console.log('edit')
+			if(this.dataFakultasOne.nama && this.dataFakultasOne.kode) {
 				setTimeout(() => {
-					axios.put(`https://gmedia.primakom.co.id/gmedia/superadmin/gugus/${this.dataGugusOne.uuid}`, this.dataGugusOne, {
+					axios.put(`https://gmedia.primakom.co.id/gmedia/superadmin/fakultas/${this.dataFakultasOne.uuid}`, this.dataFakultasOne, {
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -284,68 +276,42 @@ export default {
 								window.location.reload()
 								console.log(err)
 							});
+						}else {
+							Swal.fire(
+                'Gagal!',
+                res.data.message,
+                'warning'
+              )
 						}
 					}).catch((err) => {
 						console.log(err)
 					});
 				}, 500);
 			}
-			if(!this.dataOnePemandu.nama) {
+			if(!this.dataFakultasOne.nama) {
 				this.validationEdit.nama.status = false
-				this.validationEdit.nama.message = 'Nama Pemandu harus diisi!'
+				this.validationEdit.nama.message = 'Nama Fakultas harus diisi!'
 			} else {
 				this.validationEdit.nama.status = true
 				this.validationEdit.nama.message = null
 			}
 
-			if(!this.dataOnePemandu.email) {
-				this.validationEdit.email.status = false
-				this.validationEdit.email.message = 'Email Pemandu harus diisi!'
+			if(!this.dataFakultasOne.kode) {
+				this.validationEdit.kode.status = false
+				this.validationEdit.kode.message = 'Kode harus diisi!'
 			} else {
-				this.validationEdit.email.status = true
-				this.validationEdit.email.message = null
+				this.validationEdit.kode.status = true
+				this.validationEdit.kode.message = null
 			}
-
-			if(!this.dataOnePemandu.no_hp) {
-				this.validationEdit.no_hp.status = false
-				this.validationEdit.no_hp.message = 'Nomor Telepon harus diisi!'
-			} else {
-				this.validationEdit.no_hp.status = true
-				this.validationEdit.no_hp.message = null
-			}
-
-			if(!this.dataOnePemandu.gugus_id) {
-				this.validationEdit.gugus_id.status = false
-				this.validationEdit.gugus_id.message = 'Gugus harus dipilih!'
-			} else {
-				this.validationEdit.gugus_id.status = true
-				this.validationEdit.gugus_id.message = null
-			}
-
-			if(!this.dataOnePemandu.alamat) {
-				this.validationEdit.alamat.status = false
-				this.validationEdit.alamat.message = 'Alamat Pemandu harus diisi!'
-			} else {
-				this.validationEdit.alamat.status = true
-				this.validationEdit.alamat.message = null
-			}
-
-			// if(!this.dataOnePemandu.foto) {
-			// 	this.validationEdit.foto.status = false
-			// 	this.validationEdit.foto.message = 'Foto Pemandu harus diisi!'
-			// } else{
-			// 	this.validationEdit.foto.status = true
-			// 	this.validationEdit.foto.message = null
-			// }
 		},
-		openEdit(uuidGugus) {
-			axios.get(`https://gmedia.primakom.co.id/gmedia/superadmin/gugus/${uuidGugus}`, {
+		openEdit(uuid) {
+			axios.get(`https://gmedia.primakom.co.id/gmedia/superadmin/fakultas/${uuid}`, {
 				headers: {
 					Authorization: localStorage.token
 				}
 			}).then((result) => {
 				console.log(result)
-				this.dataGugusOne = result.data.data
+				this.dataFakultasOne = result.data.data
 			}).catch((err) => {
 				console.log(err)
 			});
@@ -362,7 +328,7 @@ export default {
       }).then((result) => {
 				console.log(result)
 				if(result.isConfirmed) {
-					axios.delete(`https://gmedia.primakom.co.id/gmedia/superadmin/gugus/${uuidGugus}`,{
+					axios.delete(`https://gmedia.primakom.co.id/gmedia/superadmin/fakultas/${uuidGugus}`,{
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -371,7 +337,7 @@ export default {
 						if(res.data.success) {
               Swal.fire(
                 'Deleted!',
-                `Akun Pemandu ${namaGugus} telah dihapus!`,
+                `Fakultas ${namaGugus} telah dihapus!`,
                 'success'
               ).then(() => {
                 window.location.reload()
@@ -384,12 +350,7 @@ export default {
                 'Gagal!',
                 res.data.message,
                 'warning'
-              ).then(() => {
-                window.location.reload()
-              }).catch((err) => {
-                console.log(err)
-                window.location.reload()
-              });
+              )
             }
 					}).catch((errs) => {
 						console.log(errs)
@@ -412,9 +373,9 @@ export default {
       };
       reader.readAsDataURL(asd);
     },
-		tambahGugus() {
-			if(this.tambah.name) {
-        axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/gugus', this.tambah, {
+		tambahFakultas() {
+			if(this.tambah.nama && this.tambah.kode) {
+        axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/fakultas', this.tambah, {
           headers: {
             Authorization: localStorage.token
           }
@@ -441,34 +402,34 @@ export default {
           console.log(err)
         });
 			}
-			if(!this.tambah.name) {
+			if(!this.tambah.nama) {
 				this.validationTambah.nama.status = false
-				this.validationTambah.nama.message = 'Nama Pemandu harus diisi!'
+				this.validationTambah.nama.message = 'Nama Fakultas harus diisi!'
 			} else {
 				this.validationTambah.nama.status = true
 				this.validationTambah.nama.message = null
 			}
 
-			if(!this.tambah.pemandu_id) {
-				this.validationTambah.pemandu_id.status = false
-				this.validationTambah.pemandu_id.message = 'Pemandu harus di pilih!'
+			if(!this.tambah.kode) {
+				this.validationTambah.kode.status = false
+				this.validationTambah.kode.message = 'Kode Fakultas harus diisi!'
 			} else {
-				this.validationTambah.pemandu_id.status = true
-				this.validationTambah.pemandu_id.message = null
+				this.validationTambah.kode.status = true
+				this.validationTambah.kode.message = null
 			}
 		}
 	},
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/pemandu', {
+		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/fakultas', {
 			headers: {
 				Authorization: localStorage.token
 			}
 		}).then((result) => {
 			console.log(result)
-			this.dataPemandu = result.data.data.data
-			if(this.dataPemandu){
+			this.dataFakultas = result.data.data.data
+			if(this.dataFakultas){
 				setTimeout(() => {
 					$('.table').dataTable({
 						"ordering": false
@@ -479,29 +440,12 @@ export default {
 			console.log(err)
 		});
 		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus', {
-			headers: {
-				Authorization: localStorage.token
-			}
-		}).then((result) => {
-			console.log(result)
-			this.dataGugus = result.data.data
-			if(this.dataPemandu){
-				setTimeout(() => {
-					$('.table').dataTable({
-						"ordering": false
-					})
-				}, 500);
-			}
-		}).catch((err) => {
-			console.log(err)
-		});
-		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus-nonpaginate', {
       headers: {
         Authorization : localStorage.token
       }
     }).then((result) => {
       console.log(result)
-      this.dataGugus = result.data.data
+      this.dataGugus = result.data.data.data
     }).catch((err) => {
       console.log(err)
     });

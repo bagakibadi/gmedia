@@ -225,14 +225,7 @@ export default {
 							'Gagal!',
 							result.data.message,
 							'warning'
-						).then(() => {
-							// if(a.isConfirmed) {
-							window.location.reload()
-							// }
-						}).catch((err) => {
-							window.location.reload()
-							console.log(err)
-						});
+						)
 					}
 				}).catch((err) => {
 					console.log(err)

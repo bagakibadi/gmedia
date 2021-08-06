@@ -479,7 +479,7 @@
 								<div class="col-lg-12 footer-modal">
                   <div class="d-flex justify-content-end">
                     <button class="btn btn-primary" style="margin-right: 24px;">Tambah</button>
-                    <button class="btn btn-outline-primary">Batal</button>
+                    <a data-bs-dismiss="modal" aria-label="Close" class="btn btn-outline-primary">Batal</a>
                   </div>
 								</div>
 							</div>
@@ -614,8 +614,9 @@ export default {
       const reader = new FileReader();
       reader.onload = (e) => {
         console.log(e)
-        const ee = e.target.result
-				this.editMahasiswaData.foto = ee.replace("data:image/jpeg;base64,", "")
+				this.editMahasiswaData.foto = e.target.result
+          .replace("data:", "")
+          .replace(/^.+,/, "");
       };
       reader.onerror = function(error) {
         alert(error);
@@ -798,12 +799,7 @@ export default {
                 'Gagal!',
                 res.data.message,
                 'warning'
-              ).then(() => {
-                window.location.reload()
-              }).catch((err) => {
-                console.log(err)
-                window.location.reload()
-              });
+              )
             }
           }).catch((err) => {
             console.log(err)
@@ -816,8 +812,9 @@ export default {
       var reader = new FileReader();
       reader.onload = (e) => {
         console.log(e)
-        var ee = e.target.result
-				this.tambah.foto = ee.replace("data:image/jpeg;base64,", "")
+				this.tambah.foto = e.target.result
+          .replace("data:", "")
+          .replace(/^.+,/, "");
       };
       reader.onerror = function(error) {
         alert(error);
@@ -864,11 +861,7 @@ export default {
                 'Gagal',
                 `${result.data.message}`,
                 'warning'
-              ).then(() => {
-                window.location.reload()
-              }).catch(() => {
-                window.location.reload()
-              });
+              )
             }
           }).catch((err) => {
             console.log(err)
