@@ -403,8 +403,9 @@ export default {
       var reader = new FileReader();
       reader.onload = (e) => {
         console.log(e)
-        var ee = e.target.result
-				this.dataOnePemandu.foto = ee.replace("data:image/jpeg;base64,", "")
+				this.dataOnePemandu.foto = e.target.result
+				.replace("data:", "")
+				.replace(/^.+,/, "");
       };
       reader.onerror = function(error) {
         alert(error);
@@ -566,8 +567,9 @@ export default {
       var reader = new FileReader();
       reader.onload = (e) => {
         console.log(e)
-        var ee = e.target.result
-				this.tambah.foto = ee.replace("data:image/jpeg;base64,", "")
+				this.tambah.foto = e.target.result
+				.replace("data:", "")
+				.replace(/^.+,/, "");
       };
       reader.onerror = function(error) {
         alert(error);
