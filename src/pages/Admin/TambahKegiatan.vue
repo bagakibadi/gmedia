@@ -49,7 +49,7 @@
 										<label for="gugus">Gugus</label>
 										<select v-if="dataGugus" name="gugus" id="gugus" class="form-select" v-model="jadwal.gugus_id">
 											<option value="" disabled selected>Pilih Gugus</option>
-											<option :value="items.uuid" v-for="(items,index) in dataGugus.data" :key="index">{{items.name}}</option>
+											<option :value="items.uuid" v-for="(items,index) in dataGugus" :key="index">{{items.name}}</option>
 										</select>
 									</div>
 								</div>
@@ -95,22 +95,22 @@
 									<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe === 'eff1e631-3e18-4b91-a6e2-6a29af4b1554'">
 										<div class="form-group">
 											<label for="tugas">Tugas</label>
-											<select name="tugas" v-model="jadwal.aktivitas[index].link" id="tugas" class="form-select">
+											<select name="tugas" v-model="jadwal.aktivitas[index].aktivitas_uuid" id="tugas" class="form-select">
 												<option value="" selected disabled>Pilih Tugas</option>
-												<option :value="items.uuid" v-for="(items, index) in dataTugas" :key="index">{{items.nama}}</option>
+												<option :value="items.uuid" v-for="(items, index) in dataTugas.data" :key="index">{{items.nama}}</option>
 											</select>
 										</div>
 									</div>
 									<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe === 'abadf8ed-1ef6-4857-add1-9b6b9bc911b1'">
 										<div class="form-group">
 											<label for="video">Link Meeting</label>
-											<input type="text" v-model="jadwal.aktivitas[index].link" name="video" id="video" class="form-control" placeholder="Cth: https://zoom.us/">
+											<input type="text" v-model="jadwal.aktivitas[index].aktivitas_uuid" name="video" id="video" class="form-control" placeholder="Cth: https://zoom.us/">
 										</div>
 									</div>
 									<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe === 'ac23eded-d09b-41d2-92c7-a082f7621a21'">
 										<div class="form-group">
 											<label for="tugas">Streaming</label>
-											<select name="tugas" v-model="jadwal.aktivitas[index].link" id="tugas" class="form-select">
+											<select name="tugas" v-model="jadwal.aktivitas[index].aktivitas_uuid" id="tugas" class="form-select">
 												<option value="" selected disabled>Pilih Streaming</option>
 												<option :value="items.uuid" v-for="(items,index) in dataStreaming" :key="index">{{items.nama}}</option>
 											</select>
@@ -174,7 +174,7 @@ export default {
 	},
 	methods: {
 		getGugus() {
-			axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus', {
+			axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus-nonpaginate', {
 				headers: {
 					Authorization : localStorage.token
 				}
@@ -271,7 +271,7 @@ export default {
 					Authorization: localStorage.token
 				}
 			}).then((result) => {
-				this.dataTugas = result.data.data
+				this.dataTugas = result.data
 			}).catch((err) => {
 				console.log(err)
 			});
