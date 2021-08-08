@@ -2,7 +2,7 @@
   <div class="dashboard">
     <NavbarPemandu :widthContent="width" />
     <div :class="`content ${width > 992 ? '' : 'hide'}`">
-      <div class="section pb-5">
+      <div class="section">
         <div class="card-shadow " style="overflow: hidden;">
 					<div class="row g-0 position-relative">
 						<div class="col-lg-4 position-absolute" id="watchContact" style="left: -400px;top: 0;height: 600px;transition: .8s;">
@@ -20,12 +20,12 @@
 										</div>
 									</div>
 									<div style="height: calc(100% - 72px);overflow-y: auto;" v-if="dataMahasiswa">
-										<div class="d-flex align-items-center py-2 px-3 mb-2 profile-chat-new" @click="openNewChat(items.user.username)" v-for="(items,index) in dataMahasiswa.data" :key="index">
+										<div class="d-flex align-items-center py-2 px-3 mb-2 profile-chat-new" @click="openNewChat(items.user.rusername)" v-for="(items,index) in dataMahasiswa.data.data" :key="index">
 											<div class="img-profile-chat">
-												<p>{{items.user.username.charAt(0)}}</p>
+												<p>{{items.user.rusername.charAt(0)}}</p>
 											</div>
 											<div class="info-name h-100 " style="border-color: #ddd">
-												<h4>{{items.user.username}}</h4>
+												<h4>{{items.user.rusername}}</h4>
 												<p>Mahasiswa</p>
 											</div>
 										</div>
@@ -92,15 +92,12 @@
 											<div class="round-start-chat cursor-pointer" data-bs-toggle="modal" data-bs-target="#kontak">
 												<img src="../../assets/icons/startchat.svg" alt="">
 											</div>
-											<div class="start-chat cursor-pointer" data-bs-toggle="modal" data-bs-target="#kontak">
+											<div class="start-chat cursor-pointer" >
 												<p>Mulai Percakapan</p>
 											</div>
 										</div>
 									</div>
-									<div v-if="recconect === true" class="ifdisconnect">
-										<button @click="reconnects" class="btn btn-primary">Recconect</button>
-									</div>
-									<div v-else v-for="(items, index) in isiChats" :key="index">
+									<div v-for="(items, index) in isiChats" :key="index">
 										<div id="pesan_id" :class="`mb-4 d-flex ${items.uid === user.uid ? 'chatme' : ''}`">
 											<div :class="`${items.uid === user.uid ? '' : 'd-flex'}`">
 												<div :class="`img ${items.uid === user.uid ? 'd-none' : 'd-flex'} align-self-end justify-content-center`">
@@ -121,6 +118,10 @@
 											</div>
 										</div>
 									</div>
+									<div v-if="recconect === true" class="ifdisconnect">
+										<button @click="reconnects" class="btn btn-primary">Recconect</button>
+									</div>
+
 								</div>
 								<form v-if="dataPesan" action="" @submit.prevent="kirimpesan">
 									<div class="send-box">
@@ -235,6 +236,7 @@ export default {
 			document.getElementById('watchContact').style.left = '-400px'
 		},
 		openNewChat(username) {
+			this.dataPesan = {name: username}
 			api.sendMessage({
 				"msg": "method",
 				"method": "createDirectMessage",
@@ -403,7 +405,8 @@ export default {
         "msg": "method",
         "method": "rooms/get",
         "id": "getList",
-        "params": [ { "$date": new Date ().getTime ()} ]
+        // "params": [ { "$date": new Date ().getTime ()} ]
+        "params": [ { "$date": 0} ]
       })
     },
 		loginss() {
@@ -519,7 +522,7 @@ export default {
 			if(message.msg === 'result' && message.id === 'oldChat'){
 				let dataReverse = message.result.messages.reverse()
 				let arraynya = []
-				for(let i = 0; i < dataReverse.length; i++) {
+				for(let i = 0; i < message.result.messages.length; i++) {
 					if(message.result.messages[i].u.name) {
 						arraynya.push({
 							value: dataReverse[i].msg,
@@ -533,7 +536,7 @@ export default {
 					}
 				}
 				this.isiChats = arraynya
-				console.log(arraynya)
+				console.log(this.isiChats)
 				setTimeout(() => {
 					scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
 				}, 200);
