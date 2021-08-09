@@ -93,7 +93,7 @@
 																				<h3>
 																					{{item.nama}}
 																				</h3>
-																				<p>{{changeTime(item.start_time) }} - {{ changeTime(item.end_time)}}</p>
+																				<p>{{item.start_time}} - {{ item.end_time }}</p>
 																				<p>
 																					{{item.deskripsi}}
 																				</p>
@@ -102,7 +102,7 @@
 																		<div class="col-lg-2">
 																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.tipenya.status === 'SELESAI'">Selesai</button>
 																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.tipenya.status === 'BELUM MULAI'">Mulai</button>
-																			<router-link :to="item.link" class="btn btn-success" target="_blank" v-if="item.tipenya.status === 'BERJALAN'">Mulai</router-link>
+																			<a :href="item.aktivitas_uuid" class="btn btn-success" target="_blank" v-if="item.tipenya.status === 'BERJALAN'">Mulai</a>
 																		</div>
 																	</div>
 																</div>

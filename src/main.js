@@ -9,7 +9,9 @@ import NavbarMahasiswa from "./components/NavbarMahasiswa.vue"
 import Loader from "./components/Loader.vue"
 import Footer from "./components/Footer.vue"
 import Pagination from "./components/Pagination.vue"
+import { ObserveVisibility } from 'vue-observe-visibility'
 
+Vue.directive('observe-visibility', ObserveVisibility)
 
 Vue.config.productionTip = false
 

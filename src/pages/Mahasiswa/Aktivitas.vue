@@ -108,8 +108,8 @@
 																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.status === 'SELESAI'">Selesai</button>
 																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.status === 'BELUM MULAI'">Mulai</button>
 																			<span v-if="item.status === 'BERJALAN'">
-																				<router-link :to="{name: 'List Conference'}" target="_blank" class="btn btn-success" v-if="item.tipenya.nama == 'Streaming'">Mulai</router-link>
-																				<router-link :to="{name: 'Tugas Mahasiswa'}" target="_blank" class="btn btn-success" v-else-if="item.tipenya.nama == 'Tugas'">Mulai</router-link>
+																				<router-link :to="{name: 'Conference Mahasiswa', params: { id: item.uuid } }" target="_blank" class="btn btn-success" v-if="item.tipenya.nama == 'Streaming'">Mulai</router-link>
+																				<router-link :to="{name: 'Do Tugas', params: {id: item.tugas.uuid}}" target="_blank" class="btn btn-success" v-else-if="item.tipenya.nama == 'Tugas'">Mulai</router-link>
 																				<a :href="`${item.aktivitas_uuid}`" target="_blank" class="btn btn-success" v-else-if="item.tipenya.nama == 'Meeting'">Mulai</a>
 																			</span>
 																		</div>

@@ -20,19 +20,8 @@
 								</div>
 							</div>
 							<div style="width: 723px;" class=" g-0 border-start border-dark">
-								<div class="d-flex first-kegiatan-top">
-									<!-- <div class="d-flex button-right-left">
-										<a href="#" class="button-firstnya">
-											<img src="../../assets/icons/left.svg" alt="">
-										</a>
-										<a href="#">
-											<img src="../../assets/icons/right.svg" alt="">
-										</a>
-									</div> -->
-									<h4 style="margin: 0 0 0 20px">Juli 2021</h4>
-								</div>
 								<div class="accordion" id="accordionExample" style="padding: 0 0 0 20px;" v-if="dataKegiatan">
-									<div v-for="(items,index) in dataKegiatan.data" :key="index">
+									<div v-for="(items,index) in dataKegiatan" :key="index">
 										<div class="accordion-item shadow mb-2">
 											<h2 class="accordion-header" :id="`heading${index}`">
 												<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="`#collapse${index}`" aria-expanded="true" aria-controls="collapseOne">
@@ -112,6 +101,9 @@
 											</div>
 										</div>
 									</div>
+								</div>
+								<div v-if="!dataKegiatan || datakegiatan.length < 1" class="h-100 d-flex align-items-center justify-content-center">
+									<h4 style="color: #999" class="text-center">Belum ada Kegiatan/Aktivitas</h4>
 								</div>
 							</div>
 						</div>
@@ -203,7 +195,7 @@ export default {
 			}
 		}).then((result) => {
 			console.log(result)
-			this.dataKegiatan = result.data
+			this.dataKegiatan = result.data.data
 		}).catch((err) => {
 			console.log(err)
 		});
