@@ -19,17 +19,28 @@
 											<input type="text" class="form-control" placeholder="Cari">
 										</div>
 									</div>
-									<div style="height: calc(100% - 72px);overflow-y: auto;" v-if="dataMahasiswa">
-										<div class="d-flex align-items-center py-2 px-3 mb-2 profile-chat-new" @click="openNewChat(items.user.rusername)" v-for="(items,index) in dataMahasiswa.data.data" :key="index">
-											<div class="img-profile-chat">
-												<p>{{items.user.rusername.charAt(0)}}</p>
+									<div id="testscroll" style="height: calc(100% - 90px);overflow-y: auto;">
+										<div  v-if="dataMahasiswa">
+											<div class="d-flex align-items-center py-2 px-3 mb-2 profile-chat-new" @click="openNewChat(items.user.rusername)" v-for="(items,index) in dataMahasiswa" :key="index">
+												<div class="img-profile-chat">
+													<p class="text-uppercase">{{items.user.rusername.charAt(0)}}</p>
+												</div>
+												<div class="info-name h-100 " style="border-color: #ddd">
+													<h4>{{items.user.rusername}}</h4>
+													<p>Mahasiswa</p>
+												</div>
 											</div>
-											<div class="info-name h-100 " style="border-color: #ddd">
-												<h4>{{items.user.rusername}}</h4>
-												<p>Mahasiswa</p>
+											<div class="d-flex align-items-center justify-content-center" v-if="loadings">
+												<div class="loading">
+													<span class="fa fa-spinner fa-spin"></span> Loading
+												</div>
 											</div>
 										</div>
+										<div class="text-center mt-4" v-else>
+											Data Kosong
+										</div>
 									</div>
+									<!-- <div v-observe-visibility="handleScrollBottom"></div> -->
 								</div>
 							</div>
 						</div>
@@ -89,7 +100,7 @@
 								<div class="box-message" id="box-message">
 									<div class="d-flex align-items-center justify-content-center h-100 w-100" v-if="!dataPesan">
 										<div class="d-flex align-items-center flex-column justify-content-center">
-											<div class="round-start-chat cursor-pointer" data-bs-toggle="modal" data-bs-target="#kontak">
+											<div class="round-start-chat cursor-pointer">
 												<img src="../../assets/icons/startchat.svg" alt="">
 											</div>
 											<div class="start-chat cursor-pointer" >
@@ -100,7 +111,7 @@
 									<div v-for="(items, index) in isiChats" :key="index">
 										<div id="pesan_id" :class="`mb-4 d-flex ${items.uid === user.uid ? 'chatme' : ''}`">
 											<div :class="`${items.uid === user.uid ? '' : 'd-flex'}`">
-												<div :class="`img ${items.uid === user.uid ? 'd-none' : 'd-flex'} align-self-end justify-content-center`">
+												<div :class="`img ${items.uid === user.uid ? 'd-none' : 'd-flex'} align-self-end justify-content-center text-uppercase`">
 													{{items.initial}}
 												</div>
 												<div style="max-width: calc(271px - 45px)">
@@ -113,7 +124,7 @@
 													</div>
 												</div>
 											</div>
-											<div :class="`img ${items.uid === user.uid ? 'd-flex' : 'd-none'} aa align-self-end justify-content-center`">
+											<div :class="`img ${items.uid === user.uid ? 'd-flex' : 'd-none'} aa align-self-end justify-content-center text-uppercase`">
 												{{items.initial}}
 											</div>
 										</div>
@@ -138,25 +149,6 @@
 				<Footer />
 			</div>
 		</div>
-		<!-- List Kontak -->
-		<div class="modal fade" id="kontak" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content" style="border: none;border-radius: 20px !important;">
-					<button type="button"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					<div class="modal-body modal-tambah" >
-						<div class="judul-modal-tambah">
-							<h3>Detail Mahasiswa</h3>
-						</div>
-            <hr>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
   </div>
 </template>
 
@@ -165,6 +157,7 @@ import rcApi from '../Api/Index'
 import moment from 'moment'
 import axios from 'axios'
 let api
+let current_page = 1
 
 /* eslint-disable no-undef */
 
@@ -192,40 +185,9 @@ export default {
 			listChat: null,
 			testChat: [],
 			newChat: [],
-			dataMahasiswa: null,
-			dataTest: [
-				{
-					"lastMessage":"2",
-					"name":"general",
-					"userCount":48,
-					"date": moment(1627231731266).format(),
-					"id":"GENERAL"
-				},{
-					"lastMessage":"3",
-					"name":"gmedia1234567892",
-					"userCount":2,
-					"date":moment(1628179633385).format(),
-					"id":"GXutmDiCHPRvuQ4EmTereJqaYvJugmzBnc"
-				},{
-					"lastMessage":"4",
-					"name":"gmedia12345678912",
-					"userCount":2,
-					"date":moment(1628009219003).format(),
-					"id":"GXutmDiCHPRvuQ4EmYhrWFbohXDSYzsG9m"
-				},{
-					"lastMessage":"1",
-					"name":"gmedia1234567894",
-					"userCount":2,
-					"date": moment(1628179635871).format(),
-					"id":"3XZsM3pfgK4EK6ba3GXutmDiCHPRvuQ4Em"
-				},{
-					"lastMessage":"7",
-					"name":"gmedia1234567896",
-					"userCount":2,
-					"date": moment(1628179007653).format(),
-					"id":"GXutmDiCHPRvuQ4EmnSY5FwNTunyjBKLtQ"
-				}
-			]
+			dataMahasiswa: [],
+			lastPage: 1,
+			loadings: false
 		}
 	},
 	methods: {
@@ -432,14 +394,17 @@ export default {
 				window.location.reload ()
 			}
 		},
-		getMahasiswa() {
-			axios.get('https://gmedia.primakom.co.id/gmedia/pemandu/mahasiswa', {
+		async getMahasiswa() {
+			axios.get(`https://gmedia.primakom.co.id/gmedia/pemandu/mahasiswa?page=${current_page}`, {
 				headers: {
 					Authorization: localStorage.token
 				}
 			}).then((result) => {
-				this.dataMahasiswa = result.data
-				// console.log(result)
+				for(let i in result.data.data.data) {
+					this.dataMahasiswa.push(result.data.data.data[i])
+				}
+				this.lastPage = result.data.data.last_page
+				this.loadings = false
 			}).catch((err) => {
 				console.log(err)
 			});
@@ -558,17 +523,31 @@ export default {
 				console.log ('out of sync')
 				this.syncPage()
 			}
-		}, 2000) // vérifie toutes les 1 sec que 30 sec ont passé depuis la dernière synchro
+		}, 2000)
 		this.loginss()
-		// setTimeout(() => {
-		// 	this.recconect = false
-		// }, 1000);
-		
+		document.getElementById('testscroll').addEventListener('scroll', () => {
+			if(document.getElementById('testscroll').scrollTop + document.getElementById('testscroll').clientHeight >= document.getElementById('testscroll').scrollHeight) {
+				if(current_page === this.lastPage) { this.loadings = false } else{
+					this.loadings = true
+					current_page += 1
+					this.getMahasiswa()
+				}
+			}
+		})
 	}
 }
 </script>
 
 <style scoped>
+.loading{
+	text-align: center;
+	z-index: 9;
+	color: #6E8CFC;
+	padding: 8px 18px;
+	border-radius: 5px;
+	width: 75%;
+	font-size: 18px;
+}
 .profile-chat-new{
 	transition: .5s;
 	cursor: pointer;
