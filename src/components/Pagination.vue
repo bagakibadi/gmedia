@@ -4,8 +4,8 @@
     v-if="$attrs.data"
   >
     <div style="opacity: .7; font-weight: 300;">
-      {{ $attrs.data.from }}-{{ $attrs.data.to }} presensi dari total
-      {{ $attrs.data.total }} presensi
+      {{ $attrs.data.from }}-{{ $attrs.data.to }} {{$attrs.ammount ? $attrs.ammount : 'data'}} dari total
+      {{ $attrs.data.total }} {{$attrs.ammount ? $attrs.ammount : 'data'}}
     </div>
     <div class="d-flex align-items-center mt-2 mt-md-0">
       <div v-for="(item, id) in $attrs.data.links" :key="id">

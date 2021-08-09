@@ -221,7 +221,7 @@
                 </tbody>
               </table>
             </div>
-            <Pagination :data="dataLogPresensi" :function="navigation" />
+            <Pagination :data="dataLogPresensi" ammount="presensi" :function="navigation" />
           </div>
         </div>
         <Footer />
