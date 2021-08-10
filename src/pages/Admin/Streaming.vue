@@ -61,7 +61,11 @@
 						<div class="card-shadow">
 							<div class="p-3">
 								<h4 class="judul-name">Data Streaming</h4>
-								<div class="table-responsive">
+								<Loader
+									text="Sedang memuat data Streaming."
+									v-if="!dataKonferensi"
+								/>
+								<div class="table-responsive" v-else>
 									<table class="table dataTable">
 										<thead>
 											<tr>
@@ -74,7 +78,7 @@
 										</thead>
 										
 										<tbody v-if="dataKonferensi">
-											<tr v-for="(items,index) in dataKonferensi" :key="index">
+											<tr v-for="(items,index) in dataKonferensi.data" :key="index">
 												<td>
 													{{items.nama}}
 												</td>
@@ -104,6 +108,7 @@
 										</tbody>
 									</table>
 								</div>
+								<Pagination :data="dataKonferensi" ammount="mahasiswa" :function="navigation" />
 							</div>
 						</div>
 					</div>
@@ -343,6 +348,35 @@ export default {
 		}
 	},
 	methods: {
+		navigation(url) {
+      if (url) {
+        this.dataKonferensi = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataKonferensi = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
 		konferensiTodays() {
 			axios.get(`${this.url}konferensi/konferensi/hari-ini`, {
 				headers: {
@@ -484,7 +518,12 @@ export default {
 				if(result.data.success) {
 					this.dataKonferensi = result.data.data
 					setTimeout(() => {
-						$('#table').dataTable()
+						$(".table").DataTable({
+							pageLength: 25,
+							ordering: false,
+							paging: false,
+							info: false,
+						});
 					}, 200);
 				}
 			}).catch((err) => {

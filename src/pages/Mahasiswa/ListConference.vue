@@ -31,7 +31,7 @@
 									</tr>
 								</thead>
 								<tbody v-if="dataKonferensi">
-									<tr v-for="(items,index) in dataKonferensi" :key="index">
+									<tr v-for="(items,index) in dataKonferensi.data" :key="index">
 										<td>
 											{{items.nama}}
 										</td>
@@ -55,6 +55,7 @@
 								</tbody>
 							</table>
 						</div>
+						<Pagination :data="dataKonferensi" ammount="mahasiswa" :function="navigation" />
 					</div>
 				</div>
 				<Footer />
@@ -77,6 +78,35 @@ export default {
 		}
 	},
 	methods: {
+		navigation(url) {
+      if (url) {
+        this.dataKonferensi = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataKonferensi = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
 		getConference() {
 			axios.get('https://gmedia.primakom.co.id/gmedia/mahasiswa/konferensi', {
 				headers: {
@@ -86,7 +116,12 @@ export default {
 				if(result.data.success) {
 					this.dataKonferensi = result.data.data
 					setTimeout(() => {
-						$('#table').dataTable()
+						$(".table").DataTable({
+							pageLength: 25,
+							ordering: false,
+							paging: false,
+							info: false,
+						});
 					}, 200);
 				}
 			}).catch((err) => {

@@ -97,6 +97,7 @@
                 </tbody>
               </table>
             </div>
+            <Pagination :data="dataGugus" ammount="mahasiswa" :function="navigation" />
           </div>
         </div>
         <Footer />
@@ -370,6 +371,35 @@ export default {
     };
   },
   methods: {
+    navigation(url) {
+      if (url) {
+        this.dataGugus = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataGugus = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
     uploadEdit(asd) {
       var reader = new FileReader();
       reader.onload = (e) => {
@@ -608,13 +638,6 @@ export default {
 		}).then((result) => {
 			console.log(result)
 			this.dataPemandu = result.data.data.data
-			if(this.dataPemandu){
-				setTimeout(() => {
-					$('.table').dataTable({
-						"ordering": false
-					})
-				}, 500);
-			}
 		}).catch((err) => {
 			console.log(err)
 		});
@@ -625,26 +648,17 @@ export default {
 		}).then((result) => {
 			console.log(result)
 			this.dataGugus = result.data.data
-			if(this.dataPemandu){
-				setTimeout(() => {
-					$('.table').dataTable({
-						"ordering": false
-					})
-				}, 500);
-			}
+      $(document).ready(function() {
+        $(".table").DataTable({
+          pageLength: 25,
+          ordering: false,
+          paging: false,
+          info: false,
+        });
+      });
 		}).catch((err) => {
 			console.log(err)
 		});
-		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus-nonpaginate', {
-      headers: {
-        Authorization : localStorage.token
-      }
-    }).then((result) => {
-      console.log(result)
-      this.dataGugus = result.data.data
-    }).catch((err) => {
-      console.log(err)
-    });
 	}
 }
 </script>

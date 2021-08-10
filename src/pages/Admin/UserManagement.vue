@@ -26,13 +26,10 @@
                     <th scope="col">NAMA</th>
 										<th scope="col">EMAIL</th>
 										<th scope="col">Aksi</th>
-                    <!-- <th scope="col">TELEPON</th> -->
-                    <!-- <th scope="col">GUGUS</th> -->
-                    <!-- <th scope="col">AKSI</th> -->
                   </tr>
                 </thead>
 								<tbody>
-									<tr v-for="(items, index) in dataUser" :key="index">
+									<tr v-for="(items, index) in dataUser.data" :key="index">
 										<td>
 											<div v-if="items.username">
 												{{items.username}}
@@ -94,70 +91,10 @@
                       </div>
 										</td>
 									</tr>
-									<!-- <tr v-for="(items, index) in dataPemandu" :key="index">
-										<td>
-                      <div>
-                        <div class="d-flex align-items-center">
-                          <div
-                            class="image d-flex align-items-center justify-content-center"
-                          >
-                            <img
-                              :src="items.foto"
-                              alt=""
-                            />
-                          </div>
-                          <div class="ms-3">
-                            <div class="main-text">{{items.nama}}</div>
-                            <div class="sub-text">{{items.nim}}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-										<td>
-											{{items.email}}
-										</td>
-										<td>
-											{{items.no_hp}}
-										</td>
-										<td>
-											<div v-if="items.gugus">
-                        <div class="main-text" >{{items.gugus.name}}</div>
-                      </div>
-											<div v-else>
-                        <div class="sub-text"></div>
-											</div>
-										</td>
-										<td>
-                      <div class="d-flex">
-                        <button
-                          type="button"
-                          class="btn btn-primary btn-sm me-2"
-													@click="openEditPemandu(items.uuid)"
-                          data-bs-toggle="modal" data-bs-target="#lihatModal"
-                        >
-                          <i class="fas fa-eye"></i>
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-warning btn-sm text-white me-2"
-													@click="openEditPemandu(items.uuid)"
-                          data-bs-toggle="modal" data-bs-target="#editModal"
-                        >
-                          <i class="fas fa-pencil-alt"></i>
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-danger btn-sm"
-													@click="hapusPemandu(items.uuid,items.nama)"
-                        >
-                          <i class="fas fa-trash-alt"></i>
-                        </button>
-                      </div>
-                    </td>
-									</tr> -->
 								</tbody>
 							</table>
 						</div>
+						<Pagination :data="dataUser" ammount="mahasiswa" :function="navigation" />
 					</div>
 				</div>
 				<Footer />
@@ -464,6 +401,35 @@ export default {
 		}
 	},
 	methods: {
+		navigation(url) {
+      if (url) {
+        this.dataUser = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataUser = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
 		uploadEdit(asd) {
       var reader = new FileReader();
       reader.onload = (e) => {
@@ -749,9 +715,12 @@ export default {
 			this.dataUser = result.data.data
 			if(this.dataPemandu){
 				setTimeout(() => {
-					$('#tablenya').dataTable({
-						pageLength: 25
-					})
+					$(".table").DataTable({
+						pageLength: 25,
+						ordering: false,
+						paging: false,
+						info: false,
+					});
 				}, 500);
 			}
 		}).catch((err) => {

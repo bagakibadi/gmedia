@@ -32,9 +32,9 @@
 									</div>
 									<h4>Juli 2021</h4>
 								</div> -->
-								<div class="accordion mb-2" id="accordionExample" v-if="dataKegiatan" style="box-shadow: 0 1px 13px 0 rgb(27 27 27 / 10%)">
+								<div class="accordion mb-2" id="accordionExample" v-if="dataKegiatan" style="box-shadow: 0 1px 13px 0 rgb(27 27 27 / 10%);">
 									<div v-for="(items,index) in dataKegiatan.data" :key="index">
-										<div class="accordion-item">
+										<div class="accordion-item shadow mb-2">
 											<h2 class="accordion-header" :id="`heading${index}`">
 												<button class="accordion-button collapsed" type="button" style="border:none;" data-bs-toggle="collapse" :data-bs-target="`#collapse${index}`" aria-expanded="true" aria-controls="collapseOne">
 													<div class="d-flex w-100 align-items-center justify-content-between pe-2">
@@ -128,9 +128,13 @@
 import axios from 'axios'
 import moment from 'moment'
 import Swal from 'sweetalert2'
+import { mapState } from 'vuex'
 /* eslint-disable no-undef */
 
 export default {
+	computed: {
+		...mapState(['url'])
+	},
 	data: function() {
     return {
 			loaderPopUp: false,
@@ -156,7 +160,7 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete(`https://gmedia.primakom.co.id/gmedia/superadmin/kegiatanaktivitas/${uuid}`, {
+          axios.delete(`${this.url}gmedia/superadmin/kegiatanaktivitas/${uuid}`, {
             headers: {
               Authorization: localStorage.token
             }
@@ -194,7 +198,7 @@ export default {
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/kegiatanaktivitas',{
+		axios.get(`${this.url}gmedia/superadmin/kegiatanaktivitas`,{
 			headers:{
 				Authorization: localStorage.token
 			}
@@ -209,6 +213,9 @@ export default {
 </script>
 
 <style scoped>
+.accordion-item.shadow{
+	box-shadow: 0px 2px 18px rgb(0 0 0 / 8%) !important;
+}
 .cursor-not-allowed{
 	cursor: not-allowed;
 }

@@ -332,31 +332,6 @@
               <div class="text">Data Gugus</div>
             </div>
           </router-link>
-          <router-link :to="{ name: 'Fakultas Master' }">
-            <div
-              :class="
-                `item ${
-                  link[2] == 'fakultas' ? 'active' : ''
-                } d-flex align-items-center`
-              "
-              data-bs-toggle="collapse"
-              aria-expanded="false"
-              aria-controls="order"
-            >
-              <div
-                style="width: 20px"
-                class="icons d-flex justify-content-center me-2"
-              >
-                <img class="none" src="../assets/icons/user.svg" alt="" />
-                <img
-                  class="active"
-                  src="../assets/icons/user-active.svg"
-                  alt=""
-                />
-              </div>
-              <div class="text">Data Fakultas</div>
-            </div>
-          </router-link>
           <router-link :to="{ name: 'Prodi Master' }">
             <div
               :class="

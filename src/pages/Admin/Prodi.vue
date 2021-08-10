@@ -31,7 +31,7 @@
                   </tr>
                 </thead>
 								<tbody v-if="dataProdi">
-									<tr v-for="(items,index) in dataProdi" :key="index">
+									<tr v-for="(items,index) in dataProdi.data" :key="index">
 										<td>{{items.nama}}</td>
 										<td>{{items.kode}}</td>
 										<td>{{items.fakultas.nama}}</td>
@@ -67,6 +67,7 @@
 								</tbody>
 							</table>
 						</div>
+						<Pagination :data="dataProdi" ammount="mahasiswa" :function="navigation" />
 					</div>
 				</div>
 				<Footer />
@@ -284,6 +285,35 @@ export default {
 		}
 	},
 	methods: {
+		navigation(url) {
+      if (url) {
+        this.dataProdi = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataProdi = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
 		uploadEdit(asd) {
       var reader = new FileReader();
       reader.onload = (e) => {
@@ -488,14 +518,15 @@ export default {
 			}
 		}).then((result) => {
 			console.log(result)
-			this.dataProdi = result.data.data.data
-			if(this.dataProdi){
-				setTimeout(() => {
-					$('#tablenya').dataTable({
-						"ordering": []
-					})
-				}, 500);
-			}
+			this.dataProdi = result.data.data
+			$(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
 		}).catch((err) => {
 			console.log(err)
 		});
@@ -506,11 +537,6 @@ export default {
 		}).then((result) => {
 			console.log(result)
 			this.dataGugus = result.data.data
-			if(this.dataGugus){
-				setTimeout(() => {
-					$('#tablenya').dataTable()
-				}, 500);
-			}
 		}).catch((err) => {
 			console.log(err)
 		});
