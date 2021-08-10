@@ -26,6 +26,7 @@ import PenilaianMaster from "../pages/Admin/Penilaian.vue";
 import PenilaianTugas from "../pages/Admin/PenilaianTugasGugus.vue";
 import PenilaianDetail from "../pages/Admin/PenilaianDetail.vue";
 import StreamingMaster from "../pages/Admin/Streaming.vue";
+import StreamingDetailMaster from "../pages/Admin/StreamingDetail.vue";
 import kegiatanMaster from "../pages/Admin/Kegiatan.vue";
 import TambahKegiatanMaster from "../pages/Admin/TambahKegiatan.vue";
 import EditKegiatanMaster from "../pages/Admin/EditKegiatan.vue";
@@ -170,6 +171,11 @@ const routes = [
     path: "/admin/streaming",
     name: "Streaming Master",
     component: StreamingMaster,
+  },
+  {
+    path: "/admin/streaming/:id",
+    name: "Streaming Detail Master",
+    component: StreamingDetailMaster,
   },
   {
     path: "/admin/kegiatan",
