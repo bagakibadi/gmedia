@@ -83,6 +83,10 @@ input[type=number] {
    -moz-appearance: textfield;
 }
 
+td p {
+   margin: 0 !important;
+ }
+
 .border-radius {
    border-radius: 7px;
 }
@@ -430,6 +434,7 @@ input.form-check-input:checked {
    height: 28px;
    border-radius: 100px;
 }
+
 
 .table-pagination .pagination-arrow i {
    font-size: 14px;

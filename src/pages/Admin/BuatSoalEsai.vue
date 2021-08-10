@@ -151,9 +151,6 @@ export default {
       }
 
       if (!this.validation.isi && !this.validation.kategori) {
-        console.log("success");
-        console.log(this.form);
-
         axios
           .post(
             "https://gmedia.primakom.co.id/tugas/superadmin/soal/",

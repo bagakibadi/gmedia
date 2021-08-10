@@ -212,7 +212,7 @@ const routes = [
     component: prodiMaster,
   },
   {
-    path: "/admin/kontent",
+    path: "/admin/konten",
     name: "Kontent Master",
     component: kontentMaster,
   },

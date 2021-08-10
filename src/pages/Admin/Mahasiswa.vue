@@ -173,7 +173,7 @@
                 </tbody>
               </table>
             </div>
-            <Pagination :data="dataMahasiswa" :function="navigation" />
+            <Pagination :data="dataMahasiswa" ammount="mahasiswa" :function="navigation" />
           </div>
         </div>
         <Footer />

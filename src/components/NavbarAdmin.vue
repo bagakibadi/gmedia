@@ -259,11 +259,11 @@
             </div>
           </router-link>
 
-          <router-link :to="{ name: 'Dashboard Admin' }">
+          <router-link :to="{ name: 'Kontent Master' }">
             <div
               :class="
                 `item ${
-                  $route.fullPath == '/account-manager' ? 'active' : ''
+                  link[2] == 'konten' ? 'active' : ''
                 } d-flex align-items-center`
               "
             >
