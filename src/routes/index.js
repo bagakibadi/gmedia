@@ -42,6 +42,8 @@ import PresensiPemandu from "../pages/Pemandu/Presensi.vue";
 import MahasiswaPemandu from "../pages/Pemandu/Mahasiswa.vue";
 import ChatPemandu from "../pages/Pemandu/Chat.vue";
 import AktivitasPemandu from "../pages/Pemandu/Aktivitas.vue";
+import ListConferencePemandu from "../pages/Pemandu/ListConference.vue";
+import ConferencePemandu from "../pages/Pemandu/Conference.vue";
 import PenilaianPemandu from "../pages/Pemandu/PenilaianPemandu.vue";
 import PenilaianDetailPemandu from "../pages/Pemandu/PenilaianDetailPemandu.vue";
 
@@ -240,6 +242,16 @@ const routes = [
     path: "/pemandu/aktivitas",
     name: "Aktivitas Pemandu",
     component: AktivitasPemandu,
+  },
+  {
+    path: "/pemandu/conference",
+    name: "List Conference Pemandu",
+    component: ListConferencePemandu,
+  },
+  {
+    path: "/pemandu/conference/:id",
+    name: "Conference Pemandu",
+    component: ConferencePemandu,
   },
   {
     path: "/pemandu/penilaian",

@@ -134,6 +134,29 @@
           </div>
         </router-link>
 
+        <router-link :to="{ name: 'List Conference Pemandu' }">
+          <div
+            :class="
+              `item ${
+                link[2] == 'conference' ? 'active' : ''
+              } d-flex align-items-center`
+            "
+          >
+            <div
+              style="width: 20px"
+              class="icons d-flex justify-content-center me-2"
+            >
+              <img class="none" src="../assets/icons/streaming.svg" alt="" />
+              <img
+                class="active"
+                src="../assets/icons/streaming-active.svg"
+                alt=""
+              />
+            </div>
+            <div class="text">Conference</div>
+          </div>
+        </router-link>
+
         <router-link :to="{ name: 'Chat Pemandu' }">
           <div
             :class="
