@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <NavbarMahasiswa :widthContent="width" />
+    <NavbarPemandu :widthContent="width" />
     <div :class="`content ${width > 992 ? '' : 'hide'}`">
       <div class="section">
         <div class="card-shadow mb-3">
@@ -48,7 +48,7 @@
 										</td>
 										<td>
 											<div>
-												<router-link :to="{ name: 'Conference Mahasiswa', params: { id: items.uuid } }" class="btn btn-shadow btn-primary">Join</router-link>
+												<router-link :to="{ name: 'Conference Pemandu', params: { id: items.uuid } }" class="btn btn-shadow btn-primary">Join</router-link>
 											</div>
 										</td>
 									</tr>
@@ -69,8 +69,12 @@
 /* eslint-disable no-undef */
 import axios from 'axios'
 import moment from "moment";
+import { mapState } from 'vuex'
 
 export default {
+	computed: {
+    ...mapState(["url"]),
+  },
 	data: function() {
     return {
       width: null,
@@ -108,7 +112,7 @@ export default {
       }
     },
 		getConference() {
-			axios.get('https://gmedia.primakom.co.id/gmedia/mahasiswa/konferensi', {
+			axios.get(`${this.url}gmedia/pemandu/konferensi`, {
 				headers: {
 					Authorization: localStorage.token
 				}

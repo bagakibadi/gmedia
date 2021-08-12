@@ -1154,9 +1154,13 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import { mapState } from 'vuex'
 /* eslint-env jquery */
 
 export default {
+  computed: {
+    ...mapState(["url"])
+  },
   data: function() {
     return {
       loaderPopUp: false,
@@ -1310,7 +1314,7 @@ export default {
       this.isFilter = true;
       axios
         .post(
-          "https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa/filter",
+          `${this.url}gmedia/superadmin/mahasiswa/filter`,
           {
             fakultas_id:
               this.filter.fakultas == "default" ? null : this.filter.fakultas,
@@ -1345,7 +1349,7 @@ export default {
       this.isFilter = false;
 
       axios
-        .get("https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa", {
+        .get(`${this.url}gmedia/superadmin/mahasiswa`, {
           headers: {
             Authorization: localStorage.token,
           },
@@ -1411,7 +1415,7 @@ export default {
         setTimeout(() => {
           axios
             .put(
-              `https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa/${this.editMahasiswaData.uuid}`,
+              `${this.url}gmedia/superadmin/mahasiswa/${this.editMahasiswaData.uuid}`,
               {
                 nim: this.editMahasiswaData.nim,
                 nama: this.editMahasiswaData.nama,
@@ -1557,7 +1561,7 @@ export default {
       }, 200);
       axios
         .get(
-          `https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa/${uuidMahasiswa}`,
+          `${this.url}gmedia/superadmin/mahasiswa/${uuidMahasiswa}`,
           {
             headers: {
               Authorization: localStorage.token,
@@ -1585,7 +1589,7 @@ export default {
         if (result.isConfirmed) {
           axios
             .delete(
-              `https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa/${uuidMahasiswa}`,
+              `${this.url}gmedia/superadmin/mahasiswa/${uuidMahasiswa}`,
               {
                 headers: {
                   Authorization: localStorage.token,
@@ -1634,7 +1638,7 @@ export default {
       this.tambah.prodi = "";
       axios
         .get(
-          "https://gmedia.primakom.co.id/gmedia/superadmin/fakultas/prodi/" +
+          `${this.url}gmedia/superadmin/fakultas/prodi/` +
             this.tambah.fakultas,
           {
             headers: {
@@ -1671,7 +1675,7 @@ export default {
         setTimeout(() => {
           axios
             .post(
-              "https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa",
+              `${this.url}gmedia/superadmin/mahasiswa`,
               {
                 nim: this.tambah.nim,
                 nama: this.tambah.nama,
@@ -1804,7 +1808,7 @@ export default {
   mounted() {
     this.width = $(document).width();
     axios
-      .get("https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa", {
+      .get(`${this.url}gmedia/superadmin/mahasiswa`, {
         headers: {
           Authorization: localStorage.token,
         },
@@ -1835,7 +1839,7 @@ export default {
       },
     });
     axios
-      .get("https://gmedia.primakom.co.id/gmedia/superadmin/prodi", {
+      .get(`${this.url}gmedia/superadmin/prodi`, {
         headers: {
           Authorization: localStorage.token,
         },
@@ -1848,7 +1852,7 @@ export default {
         console.log(err);
       });
     axios
-      .get("https://gmedia.primakom.co.id/gmedia/superadmin/gugus", {
+      .get(`${this.url}gmedia/superadmin/gugus`, {
         headers: {
           Authorization: localStorage.token,
         },
@@ -1861,7 +1865,7 @@ export default {
         console.log(err);
       });
     axios
-      .get("https://gmedia.primakom.co.id/gmedia/superadmin/fakultas", {
+      .get(`${this.url}gmedia/superadmin/fakultas`, {
         headers: {
           Authorization: localStorage.token,
         },

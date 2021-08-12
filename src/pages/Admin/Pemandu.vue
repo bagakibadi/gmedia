@@ -30,7 +30,7 @@
                   </tr>
                 </thead>
 								<tbody>
-									<tr v-for="(items, index) in dataPemandu" :key="index">
+									<tr v-for="(items, index) in dataPemandu.data" :key="index">
 										<td>
                       <div>
                         <div class="d-flex align-items-center">
@@ -94,6 +94,7 @@
 								</tbody>
 							</table>
 						</div>
+						<Pagination :data="dataPemandu" ammount="mahasiswa" :function="navigation" />
 					</div>
 				</div>
 				<Footer />
@@ -399,6 +400,35 @@ export default {
 		}
 	},
 	methods: {
+		navigation(url) {
+      if (url) {
+        this.dataPemandu = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataPemandu = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
 		uploadEdit(asd) {
       var reader = new FileReader();
       reader.onload = (e) => {
@@ -674,12 +704,15 @@ export default {
 			}
 		}).then((result) => {
 			console.log(result)
-			this.dataPemandu = result.data.data.data
+			this.dataPemandu = result.data.data
 			if(this.dataPemandu){
 				setTimeout(() => {
-					$('.table').dataTable({
-						"ordering": false
-					})
+					$(".table").DataTable({
+						pageLength: 25,
+						ordering: false,
+						paging: false,
+						info: false,
+					});
 				}, 500);
 			}
 		}).catch((err) => {

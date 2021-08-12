@@ -17,7 +17,11 @@
 				</div>
 				<div class="card-shadow mb-3">
 					<div class="p-3">
-						<div class="table-responsive">
+						<Loader
+							text="Sedang memuat data Fakultas."
+							v-if="!dataFakultas"
+						/>
+						<div class="table-responsive" v-else>
 							<table class="table">
                 <thead>
                   <tr>
@@ -28,7 +32,7 @@
                   </tr>
                 </thead>
 								<tbody v-if="dataFakultas">
-                  <tr v-for="(items, index) in dataFakultas" :key="index">
+                  <tr v-for="(items, index) in dataFakultas.data" :key="index">
                     <td v-if="items.nama">
                       {{items.nama}}
                     </td>
@@ -69,6 +73,7 @@
 								</tbody>
 							</table>
 						</div>
+						<Pagination :data="dataFakultas" ammount="mahasiswa" :function="navigation" />
 					</div>
 				</div>
 			</div>
@@ -243,6 +248,35 @@ export default {
 		}
 	},
 	methods: {
+		navigation(url) {
+      if (url) {
+        this.dataFakultas = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataFakultas = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
 		uploadEdit(asd) {
       var reader = new FileReader();
       reader.onload = (e) => {
@@ -428,14 +462,15 @@ export default {
 			}
 		}).then((result) => {
 			console.log(result)
-			this.dataFakultas = result.data.data.data
-			if(this.dataFakultas){
-				setTimeout(() => {
-					$('.table').dataTable({
-						"ordering": false
-					})
-				}, 500);
-			}
+			this.dataFakultas = result.data.data
+			$(document).ready(function() {
+				$(".table").DataTable({
+					pageLength: 25,
+					ordering: false,
+					paging: false,
+					info: false,
+				});
+			});
 		}).catch((err) => {
 			console.log(err)
 		});

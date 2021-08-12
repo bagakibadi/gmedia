@@ -61,7 +61,7 @@
                   </tr>
                 </thead>
                 <tbody v-if="dataMahasiswa">
-                  <tr class="align-middle" v-for="(items, index) in dataMahasiswa" :key="index">
+                  <tr class="align-middle" v-for="(items, index) in dataMahasiswa.data" :key="index">
                     <td>
                       <div>
                         <div class="d-flex align-items-center">
@@ -120,6 +120,7 @@
                 </tbody>
               </table>
             </div>
+            <Pagination :data="dataMahasiswa" ammount="mahasiswa" :function="navigation" />
           </div>
         </div>
         <Footer />
@@ -598,6 +599,35 @@ export default {
     };
   },
   methods: {
+    navigation(url) {
+      if (url) {
+        this.dataMahasiswa = null;
+
+        axios
+          .get(url, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataMahasiswa = res.data.data;
+
+            $(document).ready(function() {
+              $(".table").DataTable({
+                pageLength: 25,
+                ordering: false,
+                paging: false,
+                info: false,
+              });
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            // localStorage.clear();
+          });
+      }
+    },
     uploadEdit(asd) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -943,7 +973,10 @@ export default {
       this.dataMahasiswa = result.data.data
       $(document).ready(function() {
         $(".table").DataTable({
-          pageLength: 25
+          pageLength: 25,
+          ordering: false,
+          paging: false,
+          info: false,
         });
       });
     }).catch((err) => {

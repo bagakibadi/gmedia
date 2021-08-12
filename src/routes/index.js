@@ -26,6 +26,7 @@ import PenilaianMaster from "../pages/Admin/Penilaian.vue";
 import PenilaianTugas from "../pages/Admin/PenilaianTugasGugus.vue";
 import PenilaianDetail from "../pages/Admin/PenilaianDetail.vue";
 import StreamingMaster from "../pages/Admin/Streaming.vue";
+import StreamingDetailMaster from "../pages/Admin/StreamingDetail.vue";
 import kegiatanMaster from "../pages/Admin/Kegiatan.vue";
 import TambahKegiatanMaster from "../pages/Admin/TambahKegiatan.vue";
 import EditKegiatanMaster from "../pages/Admin/EditKegiatan.vue";
@@ -42,6 +43,8 @@ import PresensiPemandu from "../pages/Pemandu/Presensi.vue";
 import MahasiswaPemandu from "../pages/Pemandu/Mahasiswa.vue";
 import ChatPemandu from "../pages/Pemandu/Chat.vue";
 import AktivitasPemandu from "../pages/Pemandu/Aktivitas.vue";
+import ListConferencePemandu from "../pages/Pemandu/ListConference.vue";
+import ConferencePemandu from "../pages/Pemandu/Conference.vue";
 import PenilaianPemandu from "../pages/Pemandu/PenilaianPemandu.vue";
 import PenilaianDetailPemandu from "../pages/Pemandu/PenilaianDetailPemandu.vue";
 
@@ -170,6 +173,11 @@ const routes = [
     component: StreamingMaster,
   },
   {
+    path: "/admin/streaming/:id",
+    name: "Streaming Detail Master",
+    component: StreamingDetailMaster,
+  },
+  {
     path: "/admin/kegiatan",
     name: "Kegiatan Master",
     component: kegiatanMaster,
@@ -240,6 +248,16 @@ const routes = [
     path: "/pemandu/aktivitas",
     name: "Aktivitas Pemandu",
     component: AktivitasPemandu,
+  },
+  {
+    path: "/pemandu/conference",
+    name: "List Conference Pemandu",
+    component: ListConferencePemandu,
+  },
+  {
+    path: "/pemandu/conference/:id",
+    name: "Conference Pemandu",
+    component: ConferencePemandu,
   },
   {
     path: "/pemandu/penilaian",

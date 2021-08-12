@@ -5,7 +5,7 @@
       <div class="section">
         <div class="card-shadow " style="overflow: hidden;">
 					<div class="row g-0 position-relative">
-						<div class="col-lg-4 position-absolute" id="watchContact" style="left: -400px;top: 0;height: 600px;transition: .8s;">
+						<div class="col-lg-4 position-absolute" id="watchContact" style="left: -100%;top: 0;height: 600px;transition: .8s;">
 							<div class="h-100 ">
 								<div class="d-flex head-new-chat px-3">
 									<div class="d-flex align-items-center">
@@ -195,7 +195,7 @@ export default {
 			document.getElementById('watchContact').style.left = '0px'
 		},
 		backChat() {
-			document.getElementById('watchContact').style.left = '-400px'
+			document.getElementById('watchContact').style.left = '-100%'
 		},
 		openNewChat(username) {
 			this.dataPesan = {name: username}

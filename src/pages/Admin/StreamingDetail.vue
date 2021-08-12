@@ -1,20 +1,20 @@
 <template>
   <div class="dashboard">
-    <NavbarMahasiswa :widthContent="width" />
+    <NavbarAdmin :widthContent="width" />
 		<div :class="`content ${width > 992 ? '' : 'hide'}`">
       <div class="section">
-				<div class="row" id="content-online">
-					<div class="col-lg-7">
-						<div class="card-shadow mb-3">
-							<div class="p-3">
-								<div class="d-flex">
-									<router-link :to="{ name: 'List Conference Pemandu' }" class="btn btn-outline-primary">Kembali</router-link>
-									<div class="d-flex flex-wrap justify-content-center w-75 align-items-center" v-if="dataKonferensi">
-										<div class="title-content text-capitalize">{{dataKonferensi.nama}}</div>
-									</div>
-								</div>
+				<div class="card-shadow mb-3">
+					<div class="p-3">
+						<div class="d-flex">
+							<router-link :to="{ name: 'List Conference Pemandu' }" class="btn btn-outline-primary">Kembali</router-link>
+							<div class="d-flex flex-wrap justify-content-center w-75 align-items-center" v-if="dataKonferensi">
+								<div class="title-content text-capitalize">{{dataKonferensi.nama}}</div>
 							</div>
 						</div>
+					</div>
+				</div>
+				<div class="row" id="content-online">
+					<div class="col-lg-7">
 						<div class="video" v-if="dataKonferensi">
 							<iframe :src="dataKonferensi.link_video" autoplay="1" frameborder="0"></iframe>
 							<!-- <img src="../../assets/videoconference.png" alt=""> -->
@@ -27,7 +27,7 @@
 							</div>
 						</div> -->
 					</div>
-					<div class="col-lg-5 mt-sm-3">
+					<div class="col-lg-5">
 						<div class="card-shadow card-chat mb-3">
 							<div class="p-3 h-100">
 								<div class="d-flex justify-content-between align-items-center">
@@ -35,14 +35,6 @@
 								</div>
 								<hr>
 								<div class="box-message" id="box-message">
-									<!-- <div v-for="(item,messageIndex) in messages" :key="messageIndex">
-										<b v-if="formatMessage (item).formattedDate">
-											{{formatMessage (item).formattedDate}}
-										</b>
-										<code>
-											{{item}}
-										</code>
-									</div> -->
 									<div v-if="recconect === true" class="ifdisconnect">
 										<button @click="reconnects" class="btn btn-primary">Recconect</button>
 									</div>
@@ -102,11 +94,15 @@ import rcApi from '../Api/Index'
 import axios from 'axios'
 import moment from 'moment'
 import vueInternetChecker from 'vue-internet-checker'
+import { mapState } from 'vuex'
 
 /* eslint-env jquery */
 let api = null
 
 export default {
+	computed: {
+		...mapState(["url"])
+	},
 	components: {
 		vueInternetChecker,
 	},
@@ -269,7 +265,7 @@ export default {
 			}, 1000);
 		},
 		getConference() {
-			axios.get(`https://gmedia.primakom.co.id/gmedia/mahasiswa/konferensi/${ this.$route.params.id }`, {
+			axios.get(`${this.url}gmedia/superadmin/konferensi/${ this.$route.params.id }`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -283,7 +279,7 @@ export default {
 			});
 		},
 		getOldChat(channel_name) {
-			axios.get(`https://gmedia.primakom.co.id/gmedia/chat/${channel_name}`).then((result) => {
+			axios.get(`${this.url}gmedia/chat/${channel_name}`).then((result) => {
 				for(let i = 0; i < result.data.fields.args.length; i++) {
 					this.isiChat.push({
 						value: result.data.fields.args[i].msg,

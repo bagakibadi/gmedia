@@ -371,17 +371,14 @@ export default {
 				}).then((result) => {
 					if(result.data.success) {
 						localStorage.token = result.data.data.token
-	
+						localStorage.uid = result.data.data.ruserid
+						localStorage.tkn = result.data.data.rusertoken
+
 						if(result.data.data.role == "MHS") {
-							localStorage.uid = result.data.data.ruserid
-							localStorage.tkn = result.data.data.rusertoken
 							window.location.replace('/dashboard');
 						}
 	
 						if(result.data.data.role == "PMD") {
-							// router.push({ name: 'Dashboard Mahasiswa'})
-							localStorage.uid = result.data.data.ruserid
-							localStorage.tkn = result.data.data.rusertoken
 							window.location.replace('/pemandu');
 						}
 	
