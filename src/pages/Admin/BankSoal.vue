@@ -200,7 +200,7 @@
                   <div
                     class="img-question d-flex align-items-center justify-content-center"
                   >
-                    <img :src="item.foto" alt="" />
+                    <img :src="item.foto" alt="" class="w-100" />
                   </div>
                 </div>
                 <div>
