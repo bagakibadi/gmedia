@@ -371,6 +371,9 @@ section.tambahan{
 }
 
 @media only screen and (max-width: 600px) {
+    .logo-img h5{
+        width: 150px;
+    }
     .menufooter{
         margin: 15px 0;
     }
@@ -391,13 +394,14 @@ section.tambahan{
         display: none;
     }
     .logo-dinsos{
-        margin-left: 20px;
+        margin-left: 10px;
     }
     .navbar-click{
         margin-right: 20px;
     }
     .navbar-click .btn{
-        width: 120px;
+        height: 35px !important;
+        width: 95px;
     }
     .logo-dinsos h5{
         font-size: 15px;

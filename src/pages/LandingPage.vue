@@ -1,15 +1,23 @@
 <template>
 	<div style="position: relative;">
 		<div class="navbars navbar" >
-			<div class="logo-img">
+			<div class="logo-img" v-if="landing">
 				<a href="#" class="logo-dinsos">
-					<img
+					<!-- <img
 						src="../assets/PKKBN.png"
+						alt=""
+					/> -->
+					<img
+					width="48px"
+						:src="landing.aplikasi.logo"
 						alt=""
 					/>
 					<div>
 						<!-- <h5>BEM KM UPN "Veteran" YogyakartaPKK-BN <strong>2021</strong></h5> -->
-						<h5 class="fw-bold d-none d-sm-block">BEM KM UPN "Veteran" Yogyakarta</h5>
+						<!-- <h5 class="fw-bold d-none d-sm-block">BEM KM UPN "Veteran" Yogyakarta</h5> -->
+						<h5 class="fw-bold d-none d-sm-block">
+							{{landing.aplikasi.nama}}
+						</h5>
 						<h5 class="fw-bold d-sm-none d-block">BEM KM UPN Yogyakarta</h5>
 					</div>
 				</a>
@@ -264,34 +272,44 @@
 				</div>
 			</section>
 			<div class="footers">
-				<div class="foot-top">
+				<div class="foot-top" v-if="landing">
 					<div class="row m-0">
 						<div class="col-lg-4 menufooter">
 							<div class="logo-img">
 								<a href="#" class="logo-dinsos-footer">
-									<img
+									<!-- <img
 										src="../assets/LogoPKK-BN.png"
+										alt=""
+									/> -->
+									<img
+										width="36px"
+										:src="landing.aplikasi.logo"
 										alt=""
 									/>
 									<div>
-										<h5>PKK-BN <strong>2021</strong></h5>
+										<!-- <h5>PKK-BN <strong>2021</strong></h5> -->
+										<h5>
+											{{landing.aplikasi.nama}}
+										</h5>
 									</div>
 								</a>
 							</div>
-							<h5 class="foot-one-col">UPN “VETERAN” YOGYAKARTA</h5>
+							<h5 class="foot-one-col">
+								{{landing.footer.subtitle_footer}}
+							</h5>
 							<div class="d-flex socmed">
-								<a href="#">
+								<a :href="landing.footer.sosmed.facebook" target="_blank">
 									<img src="../assets/icons/icon-facebook.svg" alt="">
 								</a>
-								<a href="#">
+								<a :href="landing.footer.sosmed.twitter" target="_blank">
 									<img src="../assets/icons/icon-twitter.svg" alt="">
 								</a>
-								<a href="#">
+								<a :href="landing.footer.sosmed.instagram" target="_blank">
 									<img src="../assets/icons/icon-instagram.svg" alt="">
 								</a>
 							</div>
 						</div>
-						<div class="col-lg-4 menufooter">
+						<!-- <div class="col-lg-4 menufooter">
 							<div>
 								<div class="title-footer">
 									<h3>Kampus I</h3>
@@ -300,8 +318,26 @@
 								<p>(0274) 486733</p>
 								<p>info@upnyk.ac.id</p>
 							</div>
+						</div> -->
+						<div v-for="(items,index) in landing.footer.kampus" :key="index" class="col-lg-4 menufooter">
+							<div>
+								<div class="title-footer">
+									<h3>
+										{{items.nama}}
+									</h3>
+								</div>
+								<p>
+									{{items.alamat}}
+								</p>
+								<p>
+									{{items.telepon}}
+								</p>
+								<p>
+									{{items.email}}
+								</p>
+							</div>
 						</div>
-						<div class="col-lg-4 menufooter">
+						<!-- <div class="col-lg-4 menufooter">
 							<div>
 								<div class="title-footer">
 									<h3>Kampus II</h3>
@@ -310,7 +346,7 @@
 								<p>(0274) 486733</p>
 								<p>info@upnyk.ac.id</p>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="foot-bot">
