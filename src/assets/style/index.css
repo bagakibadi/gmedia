@@ -85,7 +85,7 @@ input[type=number] {
 
 td p {
    margin: 0 !important;
- }
+}
 
 .border-radius {
    border-radius: 7px;
@@ -442,8 +442,8 @@ input.form-check-input:checked {
 
 .table-pagination .pagination-number {
    font-size: 14px;
-    padding: 3px 6px;
-    margin: 0 2px;
+   padding: 3px 6px;
+   margin: 0 2px;
 }
 
 /* .footerd .card-shadow{
@@ -475,9 +475,10 @@ input.form-check-input:checked {
 }
 
 .dashboard-navigation .sidebar .logo-text {
-   font-size: 20px;
+   font-size: 16px;
    font-weight: 700;
    color: var(--primary-color);
+   line-height: 18px;
 }
 
 .dashboard-navigation .sidebar .profile-img {
@@ -870,9 +871,12 @@ tr th {
    border-radius: 7px;
    overflow: hidden;
    height: 120px;
+   width: 100%;
 }
 
-.img-question {
+.img-soal {
+   border-radius: 7px;
+   overflow: hidden;
    width: 100%;
 }
 

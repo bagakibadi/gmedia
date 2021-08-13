@@ -70,6 +70,16 @@
                   </div>
                 </div>
                 <div
+                  class="img-soal mb-3 d-flex align-items-center justify-content-center"
+                  v-if="collectSoal[currentSoal].gambar !== ''"
+                >
+                  <img
+                    :src="collectSoal[currentSoal].gambar"
+                    alt=""
+                    class="w-100"
+                  />
+                </div>
+                <div
                   style="font-size: 16px;"
                   v-html="collectSoal[currentSoal].isi"
                 ></div>
@@ -227,7 +237,13 @@
                   <button
                     class="btn btn-success px-4"
                     type="button"
-                    @click="submitSoal(dataSoal.tugas.uuid, currentSoal, collectSoal[currentSoal].tipe)"
+                    @click="
+                      submitSoal(
+                        dataSoal.tugas.uuid,
+                        currentSoal,
+                        collectSoal[currentSoal].tipe
+                      )
+                    "
                     v-if="currentSoal + 1 == collectSoal.length"
                   >
                     Selesai
@@ -574,7 +590,6 @@ export default {
         console.log(res);
 
         if (localStorage.tempSoal) {
-          console.log("benar");
           var tempSoal = JSON.parse(localStorage.tempSoal);
           if (tempSoal[0].tugas_id == this.dataSoal.tugas.uuid) {
             this.collectSoal = tempSoal;
@@ -597,6 +612,7 @@ export default {
                   .kuncijawaban,
                 kategori: this.dataSoal.tipe_soal.pilihan_ganda.soal[i]
                   .kategori,
+                gambar: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].foto,
                 tugas_id: this.dataSoal.tugas.uuid,
               });
             }
@@ -613,6 +629,7 @@ export default {
                 isi: this.dataSoal.tipe_soal.essai.soal[i].isi,
                 kuncijawaban: null,
                 kategori: this.dataSoal.tipe_soal.essai.soal[i].kategori,
+                gambar: this.dataSoal.tipe_soal.essai.soal[i].foto,
                 tugas_id: this.dataSoal.tugas.uuid,
               });
             }
@@ -629,12 +646,12 @@ export default {
                 isi: this.dataSoal.tipe_soal.upload.soal[i].isi,
                 kuncijawaban: null,
                 kategori: this.dataSoal.tipe_soal.upload.soal[i].kategori,
+                gambar: this.dataSoal.tipe_soal.upload.soal[i].foto,
                 tugas_id: this.dataSoal.tugas.uuid,
               });
             }
           }
         } else {
-          console.log("Salah");
           for (
             let i = 0;
             i < this.dataSoal.tipe_soal.pilihan_ganda.jumlah;
@@ -652,6 +669,7 @@ export default {
               kuncijawaban: this.dataSoal.tipe_soal.pilihan_ganda.soal[i]
                 .kuncijawaban,
               kategori: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].kategori,
+              gambar: this.dataSoal.tipe_soal.pilihan_ganda.soal[i].foto,
               tugas_id: this.dataSoal.tugas.uuid,
             });
           }
@@ -668,6 +686,7 @@ export default {
               isi: this.dataSoal.tipe_soal.essai.soal[i].isi,
               kuncijawaban: null,
               kategori: this.dataSoal.tipe_soal.essai.soal[i].kategori,
+              gambar: this.dataSoal.tipe_soal.essai.soal[i].foto,
               tugas_id: this.dataSoal.tugas.uuid,
             });
           }
@@ -684,6 +703,7 @@ export default {
               isi: this.dataSoal.tipe_soal.upload.soal[i].isi,
               kuncijawaban: null,
               kategori: this.dataSoal.tipe_soal.upload.soal[i].kategori,
+              gambar: this.dataSoal.tipe_soal.upload.soal[i].foto,
               tugas_id: this.dataSoal.tugas.uuid,
             });
           }

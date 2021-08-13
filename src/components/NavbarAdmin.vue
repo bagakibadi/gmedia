@@ -12,7 +12,7 @@
         <div class="d-flex align-items-center mb-4">
           <img src="../assets/images/logo.png" alt="" style="height: 45px;" />
           <div class="logo-text ms-2">
-            PKK-BN
+            BEM KM UPN "Veteran" Yogyakarta
           </div>
         </div>
       </router-link>

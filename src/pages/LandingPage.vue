@@ -8,7 +8,9 @@
 						alt=""
 					/>
 					<div>
-						<h5>PKK-BN <strong>2021</strong></h5>
+						<!-- <h5>BEM KM UPN "Veteran" YogyakartaPKK-BN <strong>2021</strong></h5> -->
+						<h5 class="fw-bold d-none d-sm-block">BEM KM UPN "Veteran" Yogyakarta</h5>
+						<h5 class="fw-bold d-sm-none d-block">BEM KM UPN Yogyakarta</h5>
 					</div>
 				</a>
 			</div>
@@ -313,7 +315,7 @@
 				</div>
 				<div class="foot-bot">
 					<p>©UPNVeteranYogyakarta</p>
-					<p style="opacity: .3">v0.10.2</p>
+					<p style="opacity: .3">v0.10.3</p>
 				</div>
 			</div>
 		</div>
