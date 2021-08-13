@@ -132,6 +132,11 @@ header{
     line-height: 70px;
 }
 .content-header p{
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    height: 120px;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
     line-height: 30px;
 	font-size: 16px;
 	color: rgba(79, 86, 101, 1);
@@ -163,8 +168,8 @@ section{
     font-weight: 400;
 }
 .visi-misi ul{
-    list-style: none;
-    padding: 0;
+    list-style-image: url('../icons/icon-checklist.svg');
+    /* padding: 0; */
 }
 .title-sections{
     color: rgba(11, 19, 42, 1);

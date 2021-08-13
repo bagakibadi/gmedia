@@ -259,28 +259,182 @@
             </div>
           </router-link>
 
-          <router-link :to="{ name: 'Kontent Master' }">
+          <div
+            :class="
+              `item ${
+                link[2] == 'order' ? 'active' : ''
+              } d-flex align-items-center`
+            "
+            data-bs-toggle="collapse"
+            data-bs-target="#konten"
+            aria-expanded="false"
+            aria-controls="order"
+          >
             <div
-              :class="
-                `item ${
-                  link[2] == 'konten' ? 'active' : ''
-                } d-flex align-items-center`
-              "
+              style="width: 20px"
+              class="icons d-flex justify-content-center me-2"
             >
-              <div
-                style="width: 20px"
-                class="icons d-flex justify-content-center me-2"
-              >
-                <img class="none" src="../assets/icons/setting.svg" alt="" />
-                <img
-                  class="active"
-                  src="../assets/icons/setting-active.svg"
-                  alt=""
-                />
-              </div>
-              <div class="text">Konten & Informasi</div>
+              <img class="none" src="../assets/icons/setting.svg" alt="" />
+              <img
+                class="active"
+                src="../assets/icons/setting-active.svg"
+                alt=""
+              />
             </div>
-          </router-link>
+            <div class="text">Kontent & Informasi</div>
+          </div>
+          <div class="collapse show" id="konten">
+            <router-link :to="{ name: 'Kontent Logo Master' }">
+              <div
+                :class="
+                  `item sub ${
+                    link[3] == 'logo' ? 'active' : ''
+                  } d-flex align-items-center`
+                "
+              >
+                <div class="icons">
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="none"
+                    src="../assets/icons/circle.svg"
+                    alt=""
+                  />
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="active"
+                    src="../assets/icons/circle-active.svg"
+                    alt=""
+                  />
+                </div>
+                <div class="text">Nama & Logo</div>
+              </div>
+            </router-link>
+            <router-link :to="{ name: 'Kontent Header Master' }">
+              <div
+                :class="
+                  `item sub ${
+                    link[3] == 'header' ? 'active' : ''
+                  } d-flex align-items-center`
+                "
+              >
+                <div class="icons">
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="none"
+                    src="../assets/icons/circle.svg"
+                    alt=""
+                  />
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="active"
+                    src="../assets/icons/circle-active.svg"
+                    alt=""
+                  />
+                </div>
+                <div class="text">Header</div>
+              </div>
+            </router-link>
+            <router-link :to="{ name: 'Kontent Analytic Master' }">
+              <div
+                :class="
+                  `item sub ${
+                    link[3] == 'analytic' ? 'active' : ''
+                  } d-flex align-items-center`
+                "
+              >
+                <div class="icons">
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="none"
+                    src="../assets/icons/circle.svg"
+                    alt=""
+                  />
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="active"
+                    src="../assets/icons/circle-active.svg"
+                    alt=""
+                  />
+                </div>
+                <div class="text">Analytic</div>
+              </div>
+            </router-link>
+            <router-link :to="{ name: 'Kontent VisiMisi Master' }">
+              <div
+                :class="
+                  `item sub ${
+                    link[3] == 'visimisi' ? 'active' : ''
+                  } d-flex align-items-center`
+                "
+              >
+                <div class="icons">
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="none"
+                    src="../assets/icons/circle.svg"
+                    alt=""
+                  />
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="active"
+                    src="../assets/icons/circle-active.svg"
+                    alt=""
+                  />
+                </div>
+                <div class="text">Visi & Misi</div>
+              </div>
+            </router-link>
+            <router-link :to="{ name: 'Kontent Tentang Master' }">
+              <div
+                :class="
+                  `item sub ${
+                    link[3] == 'tentang' ? 'active' : ''
+                  } d-flex align-items-center`
+                "
+              >
+                <div class="icons">
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="none"
+                    src="../assets/icons/circle.svg"
+                    alt=""
+                  />
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="active"
+                    src="../assets/icons/circle-active.svg"
+                    alt=""
+                  />
+                </div>
+                <div class="text">Tentang</div>
+              </div>
+            </router-link>
+            <router-link :to="{ name: 'Kontent Footer Master' }">
+              <div
+                :class="
+                  `item sub ${
+                    link[3] == 'footer' ? 'active' : ''
+                  } d-flex align-items-center`
+                "
+              >
+                <div class="icons">
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="none"
+                    src="../assets/icons/circle.svg"
+                    alt=""
+                  />
+                  <img
+                    style="width: 10px;height: 10px;"
+                    class="active"
+                    src="../assets/icons/circle-active.svg"
+                    alt=""
+                  />
+                </div>
+                <div class="text">Footer</div>
+              </div>
+            </router-link>
+          </div>
           <router-link :to="{ name: 'User Management' }">
             <div
               :class="

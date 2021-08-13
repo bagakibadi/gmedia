@@ -36,6 +36,12 @@ import userManagement from "../pages/Admin/UserManagement.vue";
 import gugusMaster from "../pages/Admin/Gugus.vue";
 import prodiMaster from "../pages/Admin/Prodi.vue";
 import kontentMaster from "../pages/Admin/Kontent.vue";
+import kontentLogoMaster from "../pages/Admin/Kontent/NamaLogo.vue";
+import kontentHeaderMaster from "../pages/Admin/Kontent/Header.vue";
+import kontentTentangMaster from "../pages/Admin/Kontent/Tentang.vue";
+import kontentVisiMisiMaster from "../pages/Admin/Kontent/VisiMisi.vue";
+import kontentFooterMaster from "../pages/Admin/Kontent/Footer.vue";
+import kontentAnalyticMaster from "../pages/Admin/Kontent/Analytic.vue";
 
 // Pemandu
 import DashboardPemandu from "../pages/Pemandu/index.vue";
@@ -221,6 +227,36 @@ const routes = [
     path: "/admin/konten",
     name: "Kontent Master",
     component: kontentMaster,
+  },
+  {
+    path: "/admin/konten/logo",
+    name: "Kontent Logo Master",
+    component: kontentLogoMaster,
+  },
+  {
+    path: "/admin/konten/header",
+    name: "Kontent Header Master",
+    component: kontentHeaderMaster,
+  },
+  {
+    path: "/admin/konten/footer",
+    name: "Kontent Footer Master",
+    component: kontentFooterMaster,
+  },
+  {
+    path: "/admin/konten/visimisi",
+    name: "Kontent VisiMisi Master",
+    component: kontentVisiMisiMaster,
+  },
+  {
+    path: "/admin/konten/tentang",
+    name: "Kontent Tentang Master",
+    component: kontentTentangMaster,
+  },
+  {
+    path: "/admin/konten/analytic",
+    name: "Kontent Analytic Master",
+    component: kontentAnalyticMaster,
   },
 
   // Pemandu

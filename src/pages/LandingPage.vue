@@ -26,12 +26,12 @@
 							class="menunya nav-link"
 						>Visi-Misi</a>
 					</li>
-					<li class="nav-item">
+					<!-- <li class="nav-item">
 						<a
 							href="#testimoni"
 							class="menunya nav-link"
 						>Testimoni</a	>
-					</li>
+					</li> -->
 					<li class="nav-item">
 						<a
 							href="#tentang"
@@ -44,37 +44,41 @@
 				<a href="#" class="d-flex align-items-center justify-content-center btn fw-bold btn-outline-primary" style="height: 44px;" data-bs-toggle="modal" data-bs-target="#login">Login</a>
 			</div>
 		</div>
-		<div class="p-100"  data-spy="scroll" data-target="#navbars" data-offset="0">
+		<div class="p-100" data-spy="scroll" data-target="#navbars" data-offset="0">
 			<div id="home">
 				<header >
-					<div class="row h-100 align-items-center">
+					<div class="row h-100 align-items-center" v-if="landing">
 						<div class="col-lg-6">
 							<div class="content-header">
 								<h1>
-									Yuk, kenalan dengan <br><b>UPN Veteran</b>
+									{{landing.header.judul}} <br><b>{{landing.header.sub_judul}}</b>
 								</h1>
-								<p>Universitas Pembangunan Nasional (UPN) "Veteran" semula adalah suatu lembaga pendidikan tinggi yang didirikan atas prakarsa para pejuang kemerdekaan R.I dengan nama Akademi Pembangunan Nasional (APN) "Veteran" yang didirikan dikota Yogyakarta...</p>
+								<!-- <p>Universitas Pembangunan Nasional (UPN) "Veteran" semula adalah suatu lembaga pendidikan tinggi yang didirikan atas prakarsa para pejuang kemerdekaan R.I dengan nama Akademi Pembangunan Nasional (APN) "Veteran" yang didirikan dikota Yogyakarta...</p> -->
+								<div v-html="landing.header.isi"></div>
 								<button class="btn btn-primary selengkapnya" style="box-shadow: -2px 4px 32px rgba(20, 97, 245, 0.2);">
 									Baca Selengkapnya
 								</button>
 							</div>
 						</div>
 						<div class="col-lg-6">
-							<img class="img-fluid" src="../assets/ilustrasi/ilustrasi-landing-page-1.svg" alt="">
+							<!-- <img class="img-fluid" src="../assets/ilustrasi/ilustrasi-landing-page-1.svg" alt=""> -->
+							<img class="img-fluid" :src="landing.header.logo" alt="">
 						</div>
 					</div>
 				</header>
 			</div>
 			<section class="tambahan">
 				<div class="card-shadow">
-					<div class="row g-0 h-100">
+					<div class="row g-0 h-100" v-if="landing">
 						<div class="col-lg-4 h-100">
 							<div class="h-100 d-flex justify-content-center align-items-center padding-card-mid">
 								<div class="frame">
 									<img src="../assets/icons/person.svg" alt="">
 								</div>
 								<div>
-									<h4>14312+</h4>
+									<h4>
+										{{landing.analitik.jumlah_mahasiswa}}
+										+</h4>
 									<p>Mahasiswa</p>
 								</div>
 							</div>
@@ -86,7 +90,9 @@
 										<img src="../assets/icons/school.svg" alt="">
 									</div>
 									<div>
-										<h4>2897+</h4>
+										<h4>
+											{{landing.analitik.jumlah_alumni}}
+											+</h4>
 										<p>Alumni</p>
 									</div>
 								</div>
@@ -98,7 +104,9 @@
 									<img src="../assets/icons/icon-fakultas.svg" alt="">
 								</div>
 								<div>
-									<h4>5</h4>
+									<h4>
+										{{landing.analitik.jumlah_fakultas}}
+									</h4>
 									<p>Fakultas</p>
 								</div>
 							</div>
@@ -107,27 +115,31 @@
 				</div>
 			</section>
 			<section id="visi-misi">
-				<div class="row">
+				<div class="row" v-if="landing">
 					<div class="col-lg-6">
-						<img src="../assets/ilustrasi/ilustrasi-landing-page-2.svg" class="img-fluid" alt="">
+						<!-- <img src="../assets/ilustrasi/ilustrasi-landing-page-2.svg" class="img-fluid" alt=""> -->
+						<img :src="landing.visi_misi.gambar" class="img-fluid" alt="">
 					</div>
 					<div class="col-lg-6">
 						<div class="visi-misi">
-							<h3>Visi & Misi UPN <br> Veteran Yogyakarta</h3>
+							<!-- <h3>Visi & Misi UPN <br> Veteran Yogyakarta</h3> -->
+							<h3>
+								{{landing.visi_misi.judul_visi}}
+							</h3>
 							<h5>Visi :</h5>
-							<ul class="list-visi">
-								<li>
+							<div class="list-visi" v-html="landing.visi_misi.visi">
+								<!-- <li>
 									<div class="d-flex align-items-start">
 										<img src="../assets/icons/icon-checklist.svg" class="me-3" alt="">
 										<p class="m-0">
 											Menjadi Universitas Pionir Pembangunan yang dilandasi jiwa bela negara di era global.
 										</p>
 									</div>
-								</li>
-							</ul>
+								</li> -->
+							</div>
 							<h5>Misi :</h5>
-							<ul class="list-visi">
-								<li>
+							<div v-html="landing.visi_misi.misi" class="list-visi">
+								<!-- <li>
 									<div class="d-flex align-items-start">
 										<img src="../assets/icons/icon-checklist.svg" class="me-3" alt="">
 										<p class="m-0">
@@ -150,13 +162,13 @@
 											Meningkatkan kualitas penelitian melalui program terencana, terintegrasi dan berkelanjutan.
 										</p>
 									</div>
-								</li>
-							</ul>
+								</li> -->
+							</div>
 						</div>
 					</div>
 				</div>
 			</section>
-			<section id="testimoni" style="background: #FDFDFD;">
+			<!-- <section id="testimoni" style="background: #FDFDFD;">
 				<div class="row flex-column align-items-center justify-content-center">
 					<h1 class="title-sections">Testimoni dari beberapa alumni</h1>
 					<p class="sub-head-title">
@@ -197,24 +209,55 @@
 						</div>
 					</div>
 				</div>
-			</section>
-			<section id="tentang" style="background: #FDFDFD;">
+			</section> -->
+			<section id="tentang" v-if="landing" style="background: #FDFDFD;">
 				<div class="row flex-column align-items-center justify-content-center">
-					<h1 class="title-sections">Tentang UPN Veteran Yogyakarta</h1>
-					<p class="sub-head-title">
+					<!-- <h1 class="title-sections">Tentang UPN Veteran Yogyakarta</h1> -->
+					<h1 class="title-sections">
+						{{landing.tentang.judul}}
+					</h1>
+					<!-- <p class="sub-head-title">
 						Ulasan mengenai UPN Yogyakarta :
+					</p> -->
+					<p class="sub-head-title">
+						{{landing.tentang.subtitle}}
 					</p>
 				</div>
 				<div class="row">
 					<div class="col-lg-6 tentang-text" >
 						<div class="tentang">
-							<h4>Tentang UPN Veteran</h4>
+							<!-- <h4>Tentang UPN Veteran</h4> -->
+							<h4>
+								{{landing.tentang.title}}
+							</h4>
 							<div class="divider"></div>
-							<p>Universitas Pembangunan Nasional "Veteran" Yogyakarta atau biasa disingkat UPN "Veteran", merupakan salah satu Perguruan Tinggi Negeri (PTN) di Indonesia yang berlokasi di Kecamatan Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta. Pada saat didirikan, UPN "Veteran" Yogyakarta hanya memiliki 3 jurusan. Sekarang UPN "Veteran" Yogyakarta memiliki 5 fakultas yang terdiri dari 1 program studi untuk D-3, 21 program studi untuk S-1, 8 program studi untuk S-2, serta 1 program studi untuk S-3.</p>
+							<!-- <p>Universitas Pembangunan Nasional "Veteran" Yogyakarta atau biasa disingkat UPN "Veteran", merupakan salah satu Perguruan Tinggi Negeri (PTN) di Indonesia yang berlokasi di Kecamatan Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta. Pada saat didirikan, UPN "Veteran" Yogyakarta hanya memiliki 3 jurusan. Sekarang UPN "Veteran" Yogyakarta memiliki 5 fakultas yang terdiri dari 1 program studi untuk D-3, 21 program studi untuk S-1, 8 program studi untuk S-2, serta 1 program studi untuk S-3.</p> -->
+							<p v-html="landing.tentang.isi">
+								
+							</p>
 						</div>
 					</div>
 					<div class="col-lg-6">
-						<img src="../assets/tentang.jpg" class="img-fluid" alt="">
+						<!-- <img src="../assets/tentang.jpg" class="img-fluid" alt=""> -->
+						<img v-if="
+						landing.tentang.ekstensi == 'jpg' ||
+						landing.tentang.ekstensi == 'png' ||
+						landing.tentang.ekstensi == 'jpeg' "
+						:src="landing.tentang.gambar" class="img-fluid" alt="">
+						<video v-if="
+						landing.tentang.ekstensi == 'mov' ||
+						landing.tentang.ekstensi == 'mp4' ||
+						landing.tentang.ekstensi == 'mpeg' "
+						class="video-tentang" controls>
+							<source
+								:src="landing.tentang.gambar"
+								:type="
+									`video/${landing.tentang.ekstensi}`
+								"
+							/>
+							Your browser does not support HTML video.
+						</video>
+						<!-- <iframe :src="landing.tentang.gambar" class="video-tentang" frameborder="0"></iframe> -->
 					</div>
 				</div>
 			</section>
@@ -334,10 +377,15 @@
 
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import { mapState } from 'vuex'
 
 export default {
+	computed: {
+		...mapState(["url"])
+	},
 	data() {
 		return {
+			landing: null,
 			validation: {
 				status: true,
 				message: null,
@@ -363,7 +411,7 @@ export default {
 		logins() {
 			this.validation.status = true
 			if(this.login.nim && this.login.password && this.login.password.length >= 8) {
-				axios.post('https://gmedia.primakom.co.id/auth/login',{
+				axios.post(`${this.url}auth/login`,{
 					username: this.login.nim,
 					password: this.login.password
 				}).then((result) => {
@@ -419,13 +467,24 @@ export default {
 		var scrollSpy = new bootstrap.ScrollSpy(document.body, {
 			target: '#navbars'
 		})
-
+		axios.get(`${this.url}gmedia/landing/`).then((result) => {
+			this.landing = result.data.data
+		}).catch((err) => {
+			console.log(err)
+		});
 	}
 }
 </script>
 <style src="../assets/style/landing.css"></style>
 
 <style scoped>
+.visi-misi ul{
+	list-style-image: url('../assets/icons/icon-checklist.svg');
+}
+.video-tentang{
+	width: 100%;
+	min-height: 300px;
+}
 .margin-err{
 	margin-bottom: 15px;
 }

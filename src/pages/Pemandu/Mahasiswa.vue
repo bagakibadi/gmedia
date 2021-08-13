@@ -813,12 +813,7 @@ export default {
                 'Gagal!',
                 res.data.message,
                 'warning'
-              ).then(() => {
-                window.location.reload()
-              }).catch((err) => {
-                console.log(err)
-                window.location.reload()
-              });
+              )
             }
           }).catch((err) => {
             console.log(err)
