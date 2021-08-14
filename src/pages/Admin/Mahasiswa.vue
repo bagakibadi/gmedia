@@ -322,6 +322,18 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
+                    <label for="jeniskelamin">Jenis Kelamin</label>
+                    <div class="check-error">
+                      <select class="form-select" name="jeniskelamin" id="jeniskelamin" v-model="editMahasiswaData.jenis_kelamin">
+                        <option value="" selected disabled>Pilih Jenis Kelamin</option>
+                        <option value="PEREMPUAN">Perempuan</option>
+                        <option value="LAKI-LAKI">Laki - Laki</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
                     <label for="tgllahir">Tanggal Lahir</label>
                     <div class="check-error">
                       <input
@@ -641,6 +653,28 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
+                    <label for="jeniskelamin">Jenis Kelamin</label>
+                    <div class="check-error">
+                      <select class="form-select" name="jeniskelamin" id="jeniskelamin" v-model="editMahasiswaData.jenis_kelamin">
+                        <option value="" selected disabled>Pilih Jenis Kelamin</option>
+                        <option value="PEREMPUAN">Perempuan</option>
+                        <option value="LAKI-LAKI">Laki - Laki</option>
+                      </select>
+                      <small
+                        :class="
+                          `text-danger ${
+                            validationEdit.jenis_kelamin.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationEdit.jenis_kelamin.message }}</small
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 edited">
+                  <div class="form-group">
                     <label for="tgllahir">Tanggal Lahir</label>
                     <div class="check-error">
                       <input
@@ -954,6 +988,28 @@
               </div>
               <div class="col-lg-6">
                 <div class="form-group">
+                  <label for="jeniskelamin">Jenis Kelamin</label>
+                  <div class="check-error">
+                    <select class="form-select" name="jeniskelamin" id="jeniskelamin" v-model="tambah.jenis_kelamin">
+                      <option value="" selected disabled>Pilih Jenis Kelamin</option>
+                      <option value="PEREMPUAN">Perempuan</option>
+                      <option value="LAKI-LAKI">Laki - Laki</option>
+                    </select>
+                    <small
+                      :class="
+                        `text-danger ${
+                          validationTambah.jenis_kelamin.status === true
+                            ? 'd-none'
+                            : 'd-flex'
+                        }`
+                      "
+                      >{{ validationTambah.jenis_kelamin.message }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
                   <label for="tgllahir">Tanggal Lahir</label>
                   <div class="check-error">
                     <input
@@ -1167,6 +1223,10 @@ export default {
       validationTambah: {
         status: true,
         message: null,
+        jenis_kelamin: {
+          status: true,
+          messages: null
+        },
         nama: {
           status: true,
           message: null,
@@ -1251,6 +1311,10 @@ export default {
           status: true,
           message: null,
         },
+        jenis_kelamin: {
+          status: true,
+          message: null
+        }
       },
       isFilter: false,
       fotoEdit: null,
@@ -1261,6 +1325,7 @@ export default {
       dataGugus: null,
       dataFakultas: null,
       tambah: {
+        jenis_kelamin: '',
         nim: null,
         nama: null,
         prodi: "",
@@ -1402,6 +1467,7 @@ export default {
         this.editMahasiswaData.email &&
         this.editMahasiswaData.prodi_id &&
         this.editMahasiswaData.user_id &&
+        this.editMahasiswaData.jenis_kelamin &&
         this.editMahasiswaData.tgllahir &&
         this.editMahasiswaData.nohp
       ) {
@@ -1427,6 +1493,7 @@ export default {
                 user_id: this.editMahasiswaData.user_id,
                 tgllahir: this.editMahasiswaData.tgllahir,
                 nohp: this.editMahasiswaData.nohp,
+                jenis_kelamin: this.editMahasiswaData.jenis_kelamin
               },
               {
                 headers: {
@@ -1458,6 +1525,13 @@ export default {
               console.log(err);
             });
         }, 500);
+      }
+      if (!this.editMahasiswaData.jenis_kelamin) {
+        this.validationEdit.jenis_kelamin.status = false;
+        this.validationEdit.jenis_kelamin.message = "Jenis Kelamin Mahasiswa harus dipilih!";
+      } else {
+        this.validationEdit.jenis_kelamin.status = true;
+        this.validationEdit.jenis_kelamin.message = null;
       }
       if (!this.editMahasiswaData.nama) {
         this.validationEdit.nama.status = false;
@@ -1665,6 +1739,7 @@ export default {
         this.tambah.fakultas !== "" &&
         this.tambah.tgllahir &&
         this.tambah.nomor &&
+        this.tambah.jenis_kelamin &&
         document.getElementById("fotomahasiswa").files[0]
       ) {
         if (document.getElementById("fotomahasiswa").files[0]) {
@@ -1677,6 +1752,7 @@ export default {
             .post(
               `${this.url}gmedia/superadmin/mahasiswa`,
               {
+                jenis_kelamin: this.tambah.jenis_kelamin,
                 nim: this.tambah.nim,
                 nama: this.tambah.nama,
                 email: this.tambah.email,
@@ -1719,6 +1795,13 @@ export default {
       } else {
         this.validationTambah.nama.status = true;
         this.validationTambah.nama.message = null;
+      }
+      if (!this.tambah.jenis_kelamin) {
+        this.validationTambah.jenis_kelamin.status = false;
+        this.validationTambah.jenis_kelamin.message = "Jenis Kelamin harus dipilih!";
+      } else {
+        this.validationTambah.jenis_kelamin.status = true;
+        this.validationTambah.jenis_kelamin.message = null;
       }
       if (!this.tambah.nim) {
         this.validationTambah.nim.status = false;

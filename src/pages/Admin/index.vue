@@ -4,7 +4,7 @@
     <div :class="`content ${width > 992 ? '' : 'hide'}`">
       <div class="section">
         <div class="row">
-          <div class="col-lg-5 col-md-6">
+          <div class="col-lg-4 col-md-4">
             <div class="card-shadow mb-3">
               <div class="p-3">
                 <div class="title-content mb-2">Selamat Admin </div>
@@ -15,6 +15,76 @@
                 <button type="button" class="btn btn-primary">
                   Lihat Presensi
                 </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4">
+            <div class="card-shadow mb-3">
+              <div class="p-4" v-if="datas">
+                <div style="height: 180px;" class="d-flex flex-column justify-content-between">
+                  <div class="d-flex justify-content-between">
+                    <h5 class="title-card-dash">Mahasiswa</h5>
+                    <h3 class="value">
+                      {{datas.mahasiswa.total}}
+                    </h3>
+                  </div>
+                  <div  class="d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <div class="rad-icon">
+                        <img src="../../assets/icons/user-red.svg" alt="">
+                      </div>
+                      <div>
+                        <h3 class="value">
+                          {{datas.mahasiswa.laki}}
+                        </h3>
+                        <p class="kelamin">Laki-Laki</p>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <div class="rad-icon">
+                        <img src="../../assets/icons/user-green.svg" alt="">
+                      </div>
+                      <div>
+                        <h3 class="value">
+                          {{datas.mahasiswa.perempuan}}
+                        </h3>
+                        <p class="kelamin">Perempuan</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4">
+            <div class="card-shadow mb-3">
+              <div class="p-3">
+                <div style="height: 180px;" class="d-flex flex-column justify-content-between">
+                  <div class="d-flex justify-content-between">
+                    <h5 class="title-card-dash">Mahasiswa</h5>
+                    <h3 class="value">206</h3>
+                  </div>
+                  <div  class="d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <div class="rad-icon">
+                        <img src="../../assets/icons/user-red.svg" alt="">
+                      </div>
+                      <div>
+                        <h3 class="value">120</h3>
+                        <p class="kelamin">Laki-Laki</p>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <div class="rad-icon">
+                        <img src="../../assets/icons/user-red.svg" alt="">
+                      </div>
+                      <div>
+                        <h3 class="value">120</h3>
+                        <p class="kelamin">Laki-Laki</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -38,20 +108,59 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { mapState } from 'vuex'
 /* eslint-env jquery */
 
 export default {
+  computed: {
+    ...mapState(['url'])
+  },
   data: function() {
     return {
       width: null,
+      datas: null
     };
   },
   mounted() {
     this.width = $(document).width();
-
-    $(document).ready(function() {
-      $(".table").DataTable();
+    axios.get(`${this.url}gmedia/superadmin/dashboard`, {
+      headers: {
+        Authorization: localStorage.token
+      }
+    }).then((result) => {
+      this.datas = result.data.data
+    }).catch((err) => {
+      console.log(err)
     });
   },
 };
 </script>
+
+<style scoped>
+.kelamin{
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(79, 86, 101, 1);
+}
+.rad-icon{
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  background-color: rgba(234, 84, 85, 0.1);
+  margin-right: 15px;
+}
+.title-card-dash{
+  font-size: 18px;
+  font-weight: 400;
+}
+.value{
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+</style>

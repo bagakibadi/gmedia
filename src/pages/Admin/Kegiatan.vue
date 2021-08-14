@@ -15,12 +15,12 @@
 					<div class="py-3 pe-3">
 						<Loader text="Sedang memuat data Kegiatan." v-if="!dataKegiatan" />
 						<div class="row m-0" v-else>
-							<div style="width: calc(100% - 723px)" class="g-0">
+							<!-- <div style="width: calc(100% - 723px)" class="g-0">
 								<div style="padding: 20px">
 									<div class="card" style="height: 250px;box-shadow: -1px 2px 24px rgba(11, 19, 42, 0.08);border:none"></div>
 								</div>
-							</div>
-							<div style="width: 723px;" class=" g-0 border-start border-dark ps-3">
+							</div> -->
+							<div style="width: 100%;" class=" g-0 border-start border-dark ps-3">
 								<!-- <div class="d-flex first-kegiatan-top">
 									<div class="d-flex button-right-left">
 										<a href="#" class="button-firstnya">

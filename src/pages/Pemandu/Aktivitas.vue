@@ -14,12 +14,12 @@
 				<div class="card-shadow mb-3">
 					<div class="py-3 pe-3">
 						<div class="row m-0">
-							<div style="width: calc(100% - 723px)" class="g-0">
+							<!-- <div style="width: calc(100% - 723px)" class="g-0">
 								<div style="padding: 20px">
 									<div class="card" style="height: 250px;box-shadow: -1px 2px 24px rgba(11, 19, 42, 0.08);border:none"></div>
 								</div>
-							</div>
-							<div style="width: 723px;" class=" g-0 border-start border-dark">
+							</div> -->
+							<div style="width: 100%;" class=" g-0 border-start border-dark">
 								<div class="accordion" id="accordionExample" style="padding: 0 0 0 20px;" v-if="dataKegiatan">
 									<div v-for="(items,index) in dataKegiatan" :key="index">
 										<div class="accordion-item shadow mb-2">
