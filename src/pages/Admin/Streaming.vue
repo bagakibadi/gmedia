@@ -50,8 +50,13 @@
 									</div>
 								</div>
 								<div class="col-6">
-									<div class="d-flex h-100 align-items-center justify-content-center">
+									<div class="d-flex h-100 align-items-center justify-content-center" v-if="konferesniToday.length < 1">
 										<p class="no-meet">Tidak ada meeting hari ini</p>
+									</div>
+									<div v-if="konferesniToday.length >= 1">
+										<div v-for="(items,index) in konferesniToday" :key="index">
+											{{items.nama}}
+										</div>
 									</div>
 								</div>
 							</div>
@@ -383,7 +388,7 @@ export default {
 					Authorization: localStorage.token
 				}
 			}).then((result) => {
-				console.log(result)
+				this.konferesniToday = result.data.data
 			}).catch((err) => {
 				console.log(err)
 			});

@@ -435,11 +435,11 @@
               </div>
             </router-link>
           </div>
-          <router-link :to="{ name: 'User Management' }">
+          <router-link :to="{ name: 'Superadmin Management' }">
             <div
               :class="
                 `item ${
-                  link[2] == 'usermanagement' ? 'active' : ''
+                  link[2] == 'superadmin' ? 'active' : ''
                 } d-flex align-items-center`
               "
               data-bs-toggle="collapse"

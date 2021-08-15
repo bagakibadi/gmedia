@@ -626,6 +626,13 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
+                    <label for="password">Password</label>
+                    <input style="background: white;" type="password" class="form-control" id="password" name="password" v-model="editMahasiswaData.password">
+                    <small class="text-warning">Kosongi bila tidak ingin merubah password</small>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
                     <label for="nomor"
                       >Nomor Telepon <span class="text-info">*</span></label
                     >
@@ -1493,7 +1500,8 @@ export default {
                 user_id: this.editMahasiswaData.user_id,
                 tgllahir: this.editMahasiswaData.tgllahir,
                 nohp: this.editMahasiswaData.nohp,
-                jenis_kelamin: this.editMahasiswaData.jenis_kelamin
+                jenis_kelamin: this.editMahasiswaData.jenis_kelamin,
+                password: this.editMahasiswaData.password
               },
               {
                 headers: {

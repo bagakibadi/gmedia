@@ -51,7 +51,30 @@
 				</ul>
 			</div>
 			<div class="navbar-click">
-				<a href="#" class="d-flex align-items-center justify-content-center btn fw-bold btn-outline-primary" style="height: 44px;" data-bs-toggle="modal" data-bs-target="#login">Login</a>
+				<a v-if="!getUserLogin" href="#" class="d-flex align-items-center justify-content-center btn fw-bold btn-outline-primary" style="height: 44px;" data-bs-toggle="modal" data-bs-target="#login">Login</a>
+				<div v-else class="dropdown">
+					<button type="button" id="dropdownmenu" data-bs-toggle="dropdown" aria-expanded="false" data-toggle="dropdown" href="#" class="btn text-muted dropdown-toggle">
+						Hi, {{getUserLogin.username}}
+					</button>
+					<ul role="menu" aria-labelledby="dropdownmenu" class="dropdown-menu">
+						<li>
+							<a v-if="getUserLogin.role == 'MHS'" href="/dashboard" class="dropdown-item">
+								Dashboard
+							</a>
+							<a v-if="getUserLogin.role == 'SPA'" href="/admin" class="dropdown-item">
+								Dashboard
+							</a>
+							<a v-if="getUserLogin.role == 'PMD'" href="/pemandu" class="dropdown-item">
+								Dashboard
+							</a>
+						</li>
+						<li>
+							<a href="/logout" class="dropdown-item">
+								Logout
+							</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class="p-100" data-spy="scroll" data-target="#navbars" data-offset="0">
@@ -419,7 +442,8 @@ import { mapState } from 'vuex'
 
 export default {
 	computed: {
-		...mapState(["url"])
+		...mapState(["url"]),
+		...mapState(["getUserLogin"])
 	},
 	data() {
 		return {
@@ -498,9 +522,13 @@ export default {
 				this.validation.password.status = false
 				this.validation.password.message = null
 			}
-		}
+		},
+	},
+	beforeCreate() {
+		this.$store.dispatch("getLogin");
 	},
 	mounted() {
+
 		// eslint-disable-next-line no-undef
 		var scrollSpy = new bootstrap.ScrollSpy(document.body, {
 			target: '#navbars'

@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     // put variables and collections here
+    getUserLogin: null,
     userData: null,
     url: "https://gmedia.primakom.co.id/",
   },
@@ -108,6 +109,34 @@ export default new Vuex.Store({
         console.log("Login First");
       }
     },
+    getLogin({ commit }) {
+      if (localStorage.token && localStorage.token !== undefined) {
+        axios
+          .get(`${this.state.url}auth/decodetoken`, {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            if (res.data.code == 401) {
+              // Swal.fire(
+              //   "Sesi habis!",
+              //   "Mohon melakukan login ulang",
+              //   "warning"
+              // ).then(() => {
+              //   window.location.replace("/");
+              //   localStorage.clear();
+              // });
+            } else {
+              commit("GET_LOGIN", res.data);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
   },
   getters: {
     // put sychronous functions for changing state e.g. add, edit, delete
@@ -116,6 +145,9 @@ export default new Vuex.Store({
     SET_POSTS(state, data) {
       state.userData = data;
     },
+    GET_LOGIN(state, data) {
+      state.getUserLogin = data
+    }
     // put sychronous functions for changing state e.g. add, edit, delete
   },
 });

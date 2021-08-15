@@ -6,7 +6,7 @@
 				<div class="card-shadow mb-3">
 					<div class="p-3">
 						<div class="d-flex">
-							<router-link :to="{ name: 'List Conference Pemandu' }" class="btn btn-outline-primary">Kembali</router-link>
+							<router-link :to="{ name: 'Streaming Master' }" class="btn btn-outline-primary">Kembali</router-link>
 							<div class="d-flex flex-wrap justify-content-center w-75 align-items-center" v-if="dataKonferensi">
 								<div class="title-content text-capitalize">{{dataKonferensi.nama}}</div>
 							</div>

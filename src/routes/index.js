@@ -33,6 +33,7 @@ import EditKegiatanMaster from "../pages/Admin/EditKegiatan.vue";
 import pemanduMaster from "../pages/Admin/Pemandu.vue";
 import fakultasMaster from "../pages/Admin/Fakultas.vue";
 import userManagement from "../pages/Admin/UserManagement.vue";
+import superadminManagement from "../pages/Admin/Superadmin.vue";
 import gugusMaster from "../pages/Admin/Gugus.vue";
 import prodiMaster from "../pages/Admin/Prodi.vue";
 import kontentMaster from "../pages/Admin/Kontent.vue";
@@ -212,6 +213,11 @@ const routes = [
     path: "/admin/usermanagement",
     name: "User Management",
     component: userManagement,
+  },
+  {
+    path: "/admin/superadmin",
+    name: "Superadmin Management",
+    component: superadminManagement,
   },
   {
     path: "/admin/gugus",
