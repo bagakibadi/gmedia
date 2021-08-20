@@ -90,7 +90,7 @@
 			<div class="modal-dialog modal-lg modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Edit Prodi</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Edit Superadmin</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -184,7 +184,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Lihat Prodi</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Lihat Superadmin</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -267,7 +267,7 @@
 			<div class="modal-dialog modal-lg modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Tambah Prodi</h5>
+						<h5 class="modal-title" id="exampleModalLabel">Tambah Superadmin</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
@@ -337,7 +337,7 @@
 											<label for="foto">Foto</label>
 											<div class="check-error">
 												<!-- <img :src="tambah.foto" class="img-fluid" alt=""> -->
-												<input type="file" class="dropify" :data-default-file="tambah.foto" name="foto" id="foto">
+												<input type="file" class="dropify" :data-default-file="tambah.foto" name="fototambah" id="fototambah">
 												<small :class="`text-danger d-flex ${validationTambah.foto.status === true ? 'd-none' : 'd-flex'}`">{{validationEdit.foto.message}}</small>
 											</div>
 										</div>
@@ -602,7 +602,7 @@ export default {
 						if(res.data.success) {
               Swal.fire(
                 'Deleted!',
-                `Akun Prodi ${nama} telah dihapus!`,
+                `Akun Superadmin ${nama} telah dihapus!`,
                 'success'
               ).then(() => {
                 window.location.reload()
@@ -645,9 +645,9 @@ export default {
       reader.readAsDataURL(asd);
     },
 		tambahmodal() {
-			if (document.getElementById('foto').files[0]) {
+			if (document.getElementById('fototambah').files[0]) {
 				console.log('aa')
-				this.upload(document.getElementById('foto').files[0])
+				this.upload(document.getElementById('fototambah').files[0])
 			} else {
 				console.log('bb')
 				this.tambah.foto = null

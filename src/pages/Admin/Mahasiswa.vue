@@ -40,7 +40,7 @@
                     v-model="filter.fakultas"
                     @change="filterData"
                   >
-                    <option value="default" selected disabled
+                    <option value="" selected disabled
                       >- Pilih Fakultas -</option
                     >
                     <option
@@ -59,7 +59,7 @@
                     v-model="filter.prodi"
                     @change="filterData"
                   >
-                    <option value="default" selected disabled
+                    <option value="" selected disabled
                       >- Pilih Prodi -</option
                     >
                     <option
@@ -439,6 +439,7 @@
                         v-model="editMahasiswaData.prodi.fakultas.uuid"
                         id="fakultas"
                         class="form-select"
+                        @change="getProdiEdit"
                       >
                         <option value="" selected>Pilih Fakultas</option>
                         <option
@@ -706,6 +707,40 @@
                     </div>
                   </div>
                 </div>
+                <div class="col-lg-6" v-if="editMahasiswaData.prodi">
+                  <div class="form-group">
+                    <label for="fakultas"
+                      >Fakultas <span class="text-info">*</span></label
+                    >
+                    <div class="check-error">
+                      <select
+                        name="fakultas"
+                        v-model="editMahasiswaData.prodi.fakultas.uuid"
+                        id="fakultas"
+                        class="form-select"
+                        @change="getProdiEdit"
+                      >
+                        <option value="" disabled selected>Pilih Fakultas</option>
+                        <option
+                          :value="items.uuid"
+                          v-for="(items, index) in dataFakultas.data"
+                          :key="index"
+                          >{{ items.nama }}</option
+                        >
+                      </select>
+                      <small
+                        :class="
+                          `text-danger d-flex ${
+                            validationEdit.fakultas_id.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationEdit.fakultas_id.message }}</small
+                      >
+                    </div>
+                  </div>
+                </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label for="prodi"
@@ -718,7 +753,7 @@
                         id="prodi"
                         class="form-select"
                       >
-                        <option value="" selected>Pilih Prodi</option>
+                        <option value="" disabled selected>Pilih Prodi</option>
                         <option
                           :value="items.uuid"
                           v-for="(items, index) in dataProdi.data"
@@ -768,39 +803,6 @@
                           }`
                         "
                         >{{ validationEdit.gugus_id.message }}</small
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label for="fakultas"
-                      >Fakultas <span class="text-info">*</span></label
-                    >
-                    <div class="check-error">
-                      <select
-                        name="fakultas"
-                        v-model="editMahasiswaData.prodi.fakultas.uuid"
-                        id="fakultas"
-                        class="form-select"
-                      >
-                        <option value="" selected>Pilih Fakultas</option>
-                        <option
-                          :value="items.uuid"
-                          v-for="(items, index) in dataFakultas.data"
-                          :key="index"
-                          >{{ items.nama }}</option
-                        >
-                      </select>
-                      <small
-                        :class="
-                          `text-danger d-flex ${
-                            validationEdit.fakultas_id.status === true
-                              ? 'd-none'
-                              : 'd-flex'
-                          }`
-                        "
-                        >{{ validationEdit.fakultas_id.message }}</small
                       >
                     </div>
                   </div>
@@ -1349,8 +1351,8 @@ export default {
         prodiTemp: null,
       },
       filter: {
-        fakultas: "default",
-        prodi: "default",
+        fakultas: '',
+        prodi: '',
       },
     };
   },
@@ -1388,13 +1390,8 @@ export default {
       this.dataMahasiswa = null;
       this.isFilter = true;
       axios
-        .post(
-          `${this.url}gmedia/superadmin/mahasiswa/filter`,
-          {
-            fakultas_id:
-              this.filter.fakultas == "default" ? null : this.filter.fakultas,
-            prodi_id: this.filter.prodi == "default" ? null : this.filter.prodi,
-          },
+        .get(
+          `${this.url}gmedia/superadmin/mahasiswa/?fakultas_id=${this.filter.fakultas}&prodi_id=${this.filter.prodi}`,
           {
             headers: {
               Authorization: localStorage.token,
@@ -1402,7 +1399,8 @@ export default {
           }
         )
         .then((res) => {
-          this.dataMahasiswa = res.data;
+          console.log(res)
+          this.dataMahasiswa = res.data.data;
           $(document).ready(function() {
             $(".table").DataTable({
               pageLength: 25,
@@ -1411,7 +1409,6 @@ export default {
               info: false,
             });
           });
-          console.log(res);
         })
         .catch((err) => {
           console.log(err);
@@ -1419,8 +1416,8 @@ export default {
     },
     resetFilterData() {
       this.dataMahasiswa = null;
-      this.filter.fakultas = "default";
-      this.filter.prodi = "default";
+      this.filter.fakultas = "";
+      this.filter.prodi = "";
       this.isFilter = false;
 
       axios
@@ -1734,6 +1731,23 @@ export default {
         .then((result) => {
           console.log(result);
           this.tambah.prodiTemp = result.data.data;
+          this.editMahasiswaData.prodi_id =  result.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getProdiEdit() {
+      axios.get(`${this.url}gmedia/superadmin/fakultas/prodi/${this.editMahasiswaData.prodi.fakultas.uuid}`,
+          {
+            headers: {
+              Authorization: localStorage.token,
+            },
+          }
+        )
+        .then((result) => {
+          console.log(result);
+          this.dataProdi = result.data
         })
         .catch((err) => {
           console.log(err);

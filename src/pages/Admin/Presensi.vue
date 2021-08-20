@@ -385,7 +385,7 @@ export default {
     openPresensi(a) {
       this.loaderPopUp = true;
       axios
-        .get(`${this.url}}gmedia/superadmin/presensi/${a}`, {
+        .get(`${this.url}gmedia/superadmin/presensi/${a}`, {
           headers: {
             Authorization: localStorage.token,
           },
