@@ -69,8 +69,12 @@
 /* eslint-disable no-undef */
 import axios from 'axios'
 import moment from "moment";
+import { mapState } from 'vuex';
 
 export default {
+	computed: {
+		...mapState(['url'])
+	},
 	data: function() {
     return {
       width: null,
@@ -108,7 +112,7 @@ export default {
       }
     },
 		getConference() {
-			axios.get('https://gmedia.primakom.co.id/gmedia/mahasiswa/konferensi', {
+			axios.get(`${this.url}gmedia/mahasiswa/konferensi`, {
 				headers: {
 					Authorization: localStorage.token
 				}

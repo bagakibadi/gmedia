@@ -237,7 +237,7 @@ export default {
 	},
 	mounted() {
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/gmedia/landing/tentang', {
+		axios.get(`${this.url}gmedia/landing/tentang`, {
 			headers: {
 				Authorization: localStorage.token
 			}

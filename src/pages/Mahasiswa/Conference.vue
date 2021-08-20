@@ -35,14 +35,6 @@
 								</div>
 								<hr>
 								<div class="box-message" id="box-message">
-									<!-- <div v-for="(item,messageIndex) in messages" :key="messageIndex">
-										<b v-if="formatMessage (item).formattedDate">
-											{{formatMessage (item).formattedDate}}
-										</b>
-										<code>
-											{{item}}
-										</code>
-									</div> -->
 									<div v-if="recconect === true" class="ifdisconnect">
 										<button @click="reconnects" class="btn btn-primary">Recconect</button>
 									</div>
@@ -102,11 +94,15 @@ import rcApi from '../Api/Index'
 import axios from 'axios'
 import moment from 'moment'
 import vueInternetChecker from 'vue-internet-checker'
+import { mapState } from 'vuex'
 
 /* eslint-env jquery */
 let api = null
 
 export default {
+	computed: {
+		...mapState(['url'])
+	},
 	components: {
 		vueInternetChecker,
 	},
@@ -170,6 +166,28 @@ export default {
 					allMsgs.map(x => console.log(x))
 					console.log('---------------------------------')
 				}
+			}
+			if(message.msg === 'result' && message.id === 'oldChat'){
+				let dataReverse = message.result.messages.reverse()
+				let arraynya = []
+				for(let i = 0; i < message.result.messages.length; i++) {
+					if(message.result.messages[i].u.name) {
+						arraynya.push({
+							value: dataReverse[i].msg,
+							date: moment(new Date(dataReverse[i].ts.$date)).lang("id").format('h:mm'),
+							nama: dataReverse[i].u.name,
+							uid: dataReverse[i].u._id,
+							initial: dataReverse[i].u.name.charAt(0)
+						})
+					}else {
+						console.log('joined')
+					}
+				}
+				this.isiChat = arraynya
+				setTimeout(() => {
+					scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
+				}, 200);
+				return;
 			}
 		})
 		api.connectToServer ()
@@ -246,6 +264,28 @@ export default {
 						console.log('---------------------------------')
 					}
 				}
+				if(message.msg === 'result' && message.id === 'oldChat'){
+					let dataReverse = message.result.messages.reverse()
+					let arraynya = []
+					for(let i = 0; i < message.result.messages.length; i++) {
+						if(message.result.messages[i].u.name) {
+							arraynya.push({
+								value: dataReverse[i].msg,
+								date: moment(dataReverse[i].ts.$date).lang("id").format('h:mm'),
+								nama: dataReverse[i].u.name,
+								uid: dataReverse[i].u._id,
+								initial: dataReverse[i].u.name.charAt(0)
+							})
+						}else {
+							console.log('joined')
+						}
+					}
+					this.isiChat = arraynya
+					setTimeout(() => {
+						scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
+					}, 200);
+					return;
+				}
 			})
 			api.connectToServer ()
 				.subscribe (() => {
@@ -269,7 +309,7 @@ export default {
 			}, 1000);
 		},
 		getConference() {
-			axios.get(`https://gmedia.primakom.co.id/gmedia/mahasiswa/konferensi/${ this.$route.params.id }`, {
+			axios.get(`${this.url}gmedia/mahasiswa/konferensi/${ this.$route.params.id }`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -283,27 +323,33 @@ export default {
 			});
 		},
 		getOldChat(channel_name) {
-			axios.get(`https://gmedia.primakom.co.id/gmedia/chat/${channel_name}`).then((result) => {
-				for(let i = 0; i < result.data.fields.args.length; i++) {
-					this.isiChat.push({
-						value: result.data.fields.args[i].msg,
-						nama: result.data.fields.args[i].u.name,
-						date: moment(result.data.fields.args[i].ts).lang("id").format('h:mm'),
-						uid: result.data.fields.args[i].u._id,
-						initial: result.data.fields.args[i].u.name.charAt(0)
-					})
-				}
-				let scrollDown = document.getElementById('box-message')
-				setTimeout(() => {
-					scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
-				}, 200);
-			}).catch((err) => {
-				console.log(err)
-				let scrollDown = document.getElementById('box-message')
-				setTimeout(() => {
-					scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
-				}, 200);
-			});
+			api.sendMessage({
+				"msg": "method",
+				"method": "loadHistory",
+				"id": "oldChat",
+				"params": [ channel_name, null, 100000, { "$date": 0 } ]
+			})
+			// axios.get(`${this.url}gmedia/chat/${channel_name}`).then((result) => {
+			// 	for(let i = 0; i < result.data.fields.args.length; i++) {
+			// 		this.isiChat.push({
+			// 			value: result.data.fields.args[i].msg,
+			// 			nama: result.data.fields.args[i].u.name,
+			// 			date: moment(result.data.fields.args[i].ts).lang("id").format('h:mm'),
+			// 			uid: result.data.fields.args[i].u._id,
+			// 			initial: result.data.fields.args[i].u.name.charAt(0)
+			// 		})
+			// 	}
+			// 	let scrollDown = document.getElementById('box-message')
+			// 	setTimeout(() => {
+			// 		scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
+			// 	}, 200);
+			// }).catch((err) => {
+			// 	console.log(err)
+			// 	let scrollDown = document.getElementById('box-message')
+			// 	setTimeout(() => {
+			// 		scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
+			// 	}, 200);
+			// });
 		},
 		formatMessage(message) {
 			let result = {message}

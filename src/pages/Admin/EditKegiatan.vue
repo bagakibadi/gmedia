@@ -228,10 +228,14 @@
 
 <script>
 import axios from 'axios';
+import { mapState } from 'vuex';
 // import Swal from 'sweetalert2';
 /* eslint-disable no-undef */
 
 export default {
+	computed: {
+		...mapState(['url'])
+	},
 	data: function() {
     return {
 			dataOneKegiatan: null,
@@ -276,7 +280,7 @@ export default {
 			this.dataOneKegiatan.data.aktivitas.splice(a ,1)
 		},
 		getListStream() {
-			axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/konferensi', {
+			axios.get(`${this.url}gmedia/superadmin/konferensi`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -287,7 +291,7 @@ export default {
 			});
 		},
 		getListTugas() {
-			axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/tugas', {
+			axios.get(`${this.url}gmedia/superadmin/tugas`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -298,7 +302,7 @@ export default {
 			});
 		},
 		getKegiatan() {
-			axios.get(`https://gmedia.primakom.co.id/gmedia/superadmin/kegiatanaktivitas/${this.$route.params.id}`, {
+			axios.get(`${this.url}gmedia/superadmin/kegiatanaktivitas/${this.$route.params.id}`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -339,7 +343,7 @@ export default {
 			});
 		},
 		getGugus() {
-			axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus-nonpaginate', {
+			axios.get(`${this.url}gmedia/superadmin/gugus-nonpaginate`, {
 				headers: {
 					Authorization : localStorage.token
 				}
@@ -351,7 +355,7 @@ export default {
 			});
 		},
 		getTipe() {
-			axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/tipeaktivitas', {
+			axios.get(`${this.url}gmedia/superadmin/tipeaktivitas`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -435,7 +439,7 @@ export default {
 				}
 			}
 			if( this.dataOneKegiatan.data.topik && this.dataOneKegiatan.data.gugus_id && this.dataOneKegiatan.data.start_date && this.dataOneKegiatan.data.deskripsi && count == this.dataOneKegiatan.data.aktivitas.length) {
-				axios.put(`https://gmedia.primakom.co.id/gmedia/superadmin/kegiatanaktivitas/${this.$route.params.id}`, this.dataOneKegiatan.data, {
+				axios.put(`${this.url}gmedia/superadmin/kegiatanaktivitas/${this.$route.params.id}`, this.dataOneKegiatan.data, {
 					headers: {
 						Authorization : localStorage.token
 					}
@@ -446,10 +450,11 @@ export default {
 							'Berhasil Edit!',
 							result.data.message,
 							'success'
-						).then((a) => {
-							if(a.isConfirmed) {
-								window.location.reload()
-							}
+						).then(() => {
+							this.$router.push({ name: 'Kegiatan Master' })
+							// window.location.repl()
+							// if(a.isConfirmed) {
+							// }
 						}).catch((err) => {
 							window.location.reload()
 							console.log(err)
@@ -517,7 +522,7 @@ export default {
         this.dataOneKegiatan.data.lampiran = null
       }
 			setTimeout(() => {
-				axios.put(`https://gmedia.primakom.co.id/gmedia/superadmin/kegiatanaktivitas/${this.$route.params.id}`, this.dataOneKegiatan.data, {
+				axios.put(`${this.url}gmedia/superadmin/kegiatanaktivitas/${this.$route.params.id}`, this.dataOneKegiatan.data, {
 					headers: {
 						Authorization : localStorage.token
 					}

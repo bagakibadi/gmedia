@@ -377,7 +377,7 @@ export default {
 	},
 	mounted() {
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/gmedia/landing/mahasiswaalumnifakultas', {
+		axios.get(`${this.url}gmedia/landing/mahasiswaalumnifakultas`, {
 			headers: {
 				Authorization: localStorage.token
 			}

@@ -50,12 +50,13 @@
 									</div>
 								</div>
 								<div class="col-6">
+									<h6 class="px-3 pt-3">List Meeting Hari Ini :</h6>
 									<div class="d-flex h-100 align-items-center justify-content-center" v-if="konferesniToday.length < 1">
 										<p class="no-meet">Tidak ada meeting hari ini</p>
 									</div>
-									<div v-if="konferesniToday.length >= 1">
-										<div v-for="(items,index) in konferesniToday" :key="index">
-											{{items.nama}}
+									<div v-if="konferesniToday.length >= 1" class="px-3 pt-2" style="height: 225px;">
+										<div v-for="(items,index) in konferesniToday" :key="index" style="height: 100%;overflow-y: auto">
+											<router-link :to="{ name: 'Streaming Detail Master', params: { id: items.uuid } }" class="btn text-start btn-outline-secondary mb-2 w-100" style="height: 38px;overflow: hidden;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">{{items.nama}}</router-link>
 										</div>
 									</div>
 								</div>
@@ -514,7 +515,6 @@ export default {
 			return moment(date).locale("id").format("DD MMMM YYYY");
 		},
 		getConference() {
-			console.log(this.url)
 			axios.get(`${this.url}gmedia/superadmin/konferensi`, {
 				headers: {
 					Authorization: localStorage.token
@@ -537,7 +537,7 @@ export default {
 		},
 		tambahMeeting(){
 			if(this.tambah.nama && this.tambah.tanggal && this.tambah.link_video && this.tambah.pemandu_id && this.tambah.deskripsi) {
-				axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/konferensi', this.tambah, {
+				axios.post(`${this.url}gmedia/superadmin/konferensi`, this.tambah, {
 					headers: {
 						Authorization: localStorage.token
 					}
@@ -609,7 +609,7 @@ export default {
 		this.getConference()
 		this.konferensiTodays()
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/pemandu', {
+		axios.get(`${this.url}gmedia/superadmin/pemandu`, {
 			headers: {
 				Authorization: localStorage.token
 			}

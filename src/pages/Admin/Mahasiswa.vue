@@ -125,15 +125,17 @@
                     </td>
                     <td>
                       <div>
-                        <div class="main-text">{{ items.prodi.nama }}</div>
+                        <div v-if="items.prodi">
+                          <div class="main-text">{{ items.prodi.nama }}</div>
+                        </div>
                         <div class="sub-text" v-if="items.gugus">
                           {{ items.gugus.name }}
                         </div>
                         <div class="sub-text" v-else></div>
                       </div>
                     </td>
-                    <td>
-                      <div v-if="items.prodi.fakultas">
+                    <td >
+                      <div v-if="items.prodi">
                         {{ items.prodi.fakultas.nama }}
                       </div>
                       <div v-else>No Fakultas</div>
@@ -407,7 +409,7 @@
                         <option value="" selected>Pilih Gugus</option>
                         <option
                           :value="items.uuid"
-                          v-for="(items, index) in dataGugus.data"
+                          v-for="(items, index) in dataGugus"
                           :key="index"
                           >{{ items.name }}</option
                         >
@@ -752,7 +754,7 @@
                         <option value="" selected>Pilih Gugus</option>
                         <option
                           :value="items.uuid"
-                          v-for="(items, index) in dataGugus.data"
+                          v-for="(items, index) in dataGugus"
                           :key="index"
                           >{{ items.name }}</option
                         >
@@ -844,7 +846,7 @@
                 </div>
                 <div class="col-lg-12 footer-modal">
                   <div class="d-flex justify-content-end">
-                    <button class="btn btn-primary" style="margin-right: 24px;">
+                    <button type="submit" class="btn btn-primary" style="margin-right: 24px;">
                       Edit
                     </button>
                     <a
@@ -886,306 +888,308 @@
               <h3>Tambah Mahasiswa</h3>
             </div>
             <hr />
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="nama"
-                    >Nama <span class="text-info">*</span></label
-                  >
-                  <div class="check-error">
-                    <input
-                      type="text"
-                      v-model="tambah.nama"
-                      name="nama"
-                      id="nama"
-                      class="form-control"
-                      placeholder="Nama Mahasiswa"
-                    />
-                    <small
-                      :class="
-                        `text-danger d-flex ${
-                          validationTambah.nama.status === true
-                            ? 'd-none'
-                            : 'd-flex'
-                        }`
-                      "
-                      >{{ validationTambah.nama.message }}</small
+            <form action="" @submit.prevent="tambahMahasiswa">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="nama"
+                      >Nama <span class="text-info">*</span></label
                     >
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="nim">NIM <span class="text-info">*</span></label>
-                  <div class="check-error">
-                    <input
-                      type="number"
-                      v-model="tambah.nim"
-                      name="nim"
-                      id="nim"
-                      class="form-control"
-                      placeholder="Nomor Induk Mahasiswa"
-                    />
-                    <small
-                      :class="
-                        `text-danger d-flex ${
-                          validationTambah.nim.status === true
-                            ? 'd-none'
-                            : 'd-flex'
-                        }`
-                      "
-                      >{{ validationTambah.nim.message }}</small
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="email"
-                    >Email <span class="text-info">*</span></label
-                  >
-                  <div class="check-error">
-                    <input
-                      type="email"
-                      v-model="tambah.email"
-                      name="email"
-                      id="email"
-                      class="form-control"
-                      placeholder="example@gmail.com"
-                    />
-                    <small
-                      :class="
-                        `text-danger d-flex ${
-                          validationTambah.email.status === true
-                            ? 'd-none'
-                            : 'd-flex'
-                        }`
-                      "
-                      >{{ validationTambah.email.message }}</small
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="nomor"
-                    >Nomor Telepon <span class="text-info">*</span></label
-                  >
-                  <div class="check-error">
-                    <input
-                      type="number"
-                      v-model="tambah.nomor"
-                      name="nomor"
-                      id="nomor"
-                      class="form-control"
-                      placeholder="081234567890"
-                    />
-                    <small
-                      :class="
-                        `text-danger ${
-                          validationTambah.nomor.status === true
-                            ? 'd-none'
-                            : 'd-flex'
-                        }`
-                      "
-                      >{{ validationTambah.nomor.message }}</small
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="jeniskelamin">Jenis Kelamin</label>
-                  <div class="check-error">
-                    <select class="form-select" name="jeniskelamin" id="jeniskelamin" v-model="tambah.jenis_kelamin">
-                      <option value="" selected disabled>Pilih Jenis Kelamin</option>
-                      <option value="PEREMPUAN">Perempuan</option>
-                      <option value="LAKI-LAKI">Laki - Laki</option>
-                    </select>
-                    <small
-                      :class="
-                        `text-danger ${
-                          validationTambah.jenis_kelamin.status === true
-                            ? 'd-none'
-                            : 'd-flex'
-                        }`
-                      "
-                      >{{ validationTambah.jenis_kelamin.message }}</small
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="tgllahir">Tanggal Lahir</label>
-                  <div class="check-error">
-                    <input
-                      type="date"
-                      name="tgllahir"
-                      v-model="tambah.tgllahir"
-                      id="tgllahir"
-                      class="form-control"
-                    />
-                    <small
-                      :class="
-                        `text-danger ${
-                          validationTambah.tgllahir.status === true
-                            ? 'd-none'
-                            : 'd-flex'
-                        }`
-                      "
-                      >{{ validationTambah.tgllahir.message }}</small
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group" v-if="dataGugus !== null">
-                  <label for="gugus"
-                    >Gugus <span class="text-info">*</span></label
-                  >
-                  <div class="check-error">
-                    <select
-                      name="gugus"
-                      v-model="tambah.gugus"
-                      id="gugus"
-                      class="form-select"
-                    >
-                      <option value="" selected>Pilih Gugus</option>
-                      <option
-                        :value="items.uuid"
-                        v-for="(items, index) in dataGugus.data"
-                        :key="index"
-                        >{{ items.name }}</option
+                    <div class="check-error">
+                      <input
+                        type="text"
+                        v-model="tambah.nama"
+                        name="nama"
+                        id="nama"
+                        class="form-control"
+                        placeholder="Nama Mahasiswa"
+                      />
+                      <small
+                        :class="
+                          `text-danger d-flex ${
+                            validationTambah.nama.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationTambah.nama.message }}</small
                       >
-                    </select>
-                    <small
-                      :class="
-                        `text-danger d-flex ${
-                          validationTambah.gugus_id.status === true
-                            ? 'd-none'
-                            : 'd-flex'
-                        }`
-                      "
-                      >{{ validationTambah.gugus_id.message }}</small
-                    >
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-6" v-if="dataFakultas">
-                <div class="form-group">
-                  <label for="fakultas"
-                    >Fakultas <span class="text-info">*</span></label
-                  >
-                  <div class="check-error">
-                    <select
-                      name="fakultas"
-                      v-model="tambah.fakultas"
-                      id="fakultas"
-                      class="form-select"
-                      @change="getProdi"
-                    >
-                      <option value="" disabled selected>Pilih Fakultas</option>
-                      <option
-                        :value="items.uuid"
-                        v-for="(items, index) in dataFakultas.data"
-                        :key="index"
-                        >{{ items.nama }}</option
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="nim">NIM <span class="text-info">*</span></label>
+                    <div class="check-error">
+                      <input
+                        type="number"
+                        v-model="tambah.nim"
+                        name="nim"
+                        id="nim"
+                        class="form-control"
+                        placeholder="Nomor Induk Mahasiswa"
+                      />
+                      <small
+                        :class="
+                          `text-danger d-flex ${
+                            validationTambah.nim.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationTambah.nim.message }}</small
                       >
-                    </select>
-                    <small
-                      :class="
-                        `text-danger d-flex ${
-                          validationTambah.fakultas_id.status === true
-                            ? 'd-none'
-                            : 'd-flex'
-                        }`
-                      "
-                      >{{ validationTambah.fakultas_id.message }}</small
-                    >
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group" v-if="tambah.prodiTemp">
-                  <label for="prodi"
-                    >Prodi <span class="text-info">*</span></label
-                  >
-                  <div class="check-error">
-                    <select
-                      name="prodi"
-                      v-model="tambah.prodi"
-                      id="prodi"
-                      class="form-select"
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="email"
+                      >Email <span class="text-info">*</span></label
                     >
-                      <option value="" disabled selected>Pilih Prodi</option>
-                      <option
-                        :value="items.uuid"
-                        v-for="(items, index) in tambah.prodiTemp"
-                        :key="index"
-                        >{{ items.nama }}</option
+                    <div class="check-error">
+                      <input
+                        type="email"
+                        v-model="tambah.email"
+                        name="email"
+                        id="email"
+                        class="form-control"
+                        placeholder="example@gmail.com"
+                      />
+                      <small
+                        :class="
+                          `text-danger d-flex ${
+                            validationTambah.email.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationTambah.email.message }}</small
                       >
-                    </select>
-                    <small
-                      :class="
-                        `text-danger ${
-                          validationTambah.prodi_id.status === true
-                            ? 'd-none'
-                            : 'd-flex'
-                        }`
-                      "
-                      >{{ validationTambah.prodi_id.message }}</small
-                    >
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="alamat">Alamat Mahasiswa</label>
-                  <div class="check-error">
-                    <textarea
-                      name="alamat"
-                      v-model="tambah.alamat"
-                      id="alamat"
-                      style="height: 72px;"
-                      cols="30"
-                      rows="4"
-                      class="form-control"
-                      placeholder="Masukkan Alamat"
-                    ></textarea>
-                    <small
-                      :class="
-                        `text-danger d-flex ${
-                          validationTambah.alamat.status === true
-                            ? 'd-none'
-                            : 'd-flex'
-                        }`
-                      "
-                      >{{ validationTambah.alamat.message }}</small
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="nomor"
+                      >Nomor Telepon <span class="text-info">*</span></label
                     >
+                    <div class="check-error">
+                      <input
+                        type="number"
+                        v-model="tambah.nomor"
+                        name="nomor"
+                        id="nomor"
+                        class="form-control"
+                        placeholder="081234567890"
+                      />
+                      <small
+                        :class="
+                          `text-danger ${
+                            validationTambah.nomor.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationTambah.nomor.message }}</small
+                      >
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label for="foto">Foto Mahasiswa</label>
-                  <div class="check-error">
-                    <input
-                      type="file"
-                      name="foto"
-                      id="fotomahasiswa"
-                      class="dropify"
-                    />
-                    <small
-                      :class="
-                        `text-danger d-flex ${
-                          validationTambah.foto.status === true
-                            ? 'd-none'
-                            : 'd-flex'
-                        }`
-                      "
-                      >{{ validationTambah.foto.message }}</small
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="jeniskelamin">Jenis Kelamin</label>
+                    <div class="check-error">
+                      <select class="form-select" name="jeniskelamin" id="jeniskelamin" v-model="tambah.jenis_kelamin">
+                        <option value="" selected disabled>Pilih Jenis Kelamin</option>
+                        <option value="PEREMPUAN">Perempuan</option>
+                        <option value="LAKI-LAKI">Laki - Laki</option>
+                      </select>
+                      <small
+                        :class="
+                          `text-danger ${
+                            validationTambah.jenis_kelamin.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationTambah.jenis_kelamin.message }}</small
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="tgllahir">Tanggal Lahir</label>
+                    <div class="check-error">
+                      <input
+                        type="date"
+                        name="tgllahir"
+                        v-model="tambah.tgllahir"
+                        id="tgllahir"
+                        class="form-control"
+                      />
+                      <small
+                        :class="
+                          `text-danger ${
+                            validationTambah.tgllahir.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationTambah.tgllahir.message }}</small
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group" v-if="dataGugus !== null">
+                    <label for="gugus"
+                      >Gugus <span class="text-info">*</span></label
                     >
+                    <div class="check-error">
+                      <select
+                        name="gugus"
+                        v-model="tambah.gugus"
+                        id="gugus"
+                        class="form-select"
+                      >
+                        <option value="" selected>Pilih Gugus</option>
+                        <option
+                          :value="items.uuid"
+                          v-for="(items, index) in dataGugus"
+                          :key="index"
+                          >{{ items.name }}</option
+                        >
+                      </select>
+                      <small
+                        :class="
+                          `text-danger d-flex ${
+                            validationTambah.gugus_id.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationTambah.gugus_id.message }}</small
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6" v-if="dataFakultas">
+                  <div class="form-group">
+                    <label for="fakultas"
+                      >Fakultas <span class="text-info">*</span></label
+                    >
+                    <div class="check-error">
+                      <select
+                        name="fakultas"
+                        v-model="tambah.fakultas"
+                        id="fakultas"
+                        class="form-select"
+                        @change="getProdi"
+                      >
+                        <option value="" disabled selected>Pilih Fakultas</option>
+                        <option
+                          :value="items.uuid"
+                          v-for="(items, index) in dataFakultas.data"
+                          :key="index"
+                          >{{ items.nama }}</option
+                        >
+                      </select>
+                      <small
+                        :class="
+                          `text-danger d-flex ${
+                            validationTambah.fakultas_id.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationTambah.fakultas_id.message }}</small
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group" v-if="tambah.prodiTemp">
+                    <label for="prodi"
+                      >Prodi <span class="text-info">*</span></label
+                    >
+                    <div class="check-error">
+                      <select
+                        name="prodi"
+                        v-model="tambah.prodi"
+                        id="prodi"
+                        class="form-select"
+                      >
+                        <option value="" disabled selected>Pilih Prodi</option>
+                        <option
+                          :value="items.uuid"
+                          v-for="(items, index) in tambah.prodiTemp"
+                          :key="index"
+                          >{{ items.nama }}</option
+                        >
+                      </select>
+                      <small
+                        :class="
+                          `text-danger ${
+                            validationTambah.prodi_id.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationTambah.prodi_id.message }}</small
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="alamat">Alamat Mahasiswa</label>
+                    <div class="check-error">
+                      <textarea
+                        name="alamat"
+                        v-model="tambah.alamat"
+                        id="alamat"
+                        style="height: 72px;"
+                        cols="30"
+                        rows="4"
+                        class="form-control"
+                        placeholder="Masukkan Alamat"
+                      ></textarea>
+                      <small
+                        :class="
+                          `text-danger d-flex ${
+                            validationTambah.alamat.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationTambah.alamat.message }}</small
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="foto">Foto Mahasiswa</label>
+                    <div class="check-error">
+                      <input
+                        type="file"
+                        name="foto"
+                        id="fotomahasiswa"
+                        class="dropify"
+                      />
+                      <small
+                        :class="
+                          `text-danger d-flex ${
+                            validationTambah.foto.status === true
+                              ? 'd-none'
+                              : 'd-flex'
+                          }`
+                        "
+                        >{{ validationTambah.foto.message }}</small
+                      >
+                    </div>
                   </div>
                 </div>
                 <div class="col-lg-12 footer-modal">
@@ -1193,7 +1197,6 @@
                     <button
                       class="btn btn-primary"
                       style="margin-right: 24px;"
-                      @click="tambahMahasiswa"
                     >
                       Tambah
                     </button>
@@ -1206,7 +1209,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -1399,7 +1402,7 @@ export default {
           }
         )
         .then((res) => {
-          this.dataMahasiswa = res.data.data;
+          this.dataMahasiswa = res.data;
           $(document).ready(function() {
             $(".table").DataTable({
               pageLength: 25,
@@ -1555,28 +1558,28 @@ export default {
         this.validationEdit.nim.status = true;
         this.validationEdit.nim.message = null;
       }
-      if (this.editMahasiswaData.email !== "") {
-        if (
-          //eslint-disable-next-line
-          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.form.email)
-        ) {
-          this.validationEdit.email.status = true;
-          this.validationEdit.email.message = null;
-        } else {
-          this.validationEdit.email.status = false;
-          this.validationEdit.email.message = "Format email tidak valid!";
-        }
-      } else {
-        this.validationEdit.email.status = false;
-        this.validationEdit.email.message = "Email harus diisi!";
-      }
-      // if (!this.editMahasiswaData.email) {
+      // if (this.editMahasiswaData.email !== "") {
+      //   if (
+      //     //eslint-disable-next-line
+      //     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.form.email)
+      //   ) {
+      //     this.validationEdit.email.status = true;
+      //     this.validationEdit.email.message = null;
+      //   } else {
+      //     this.validationEdit.email.status = false;
+      //     this.validationEdit.email.message = "Format email tidak valid!";
+      //   }
+      // } else {
       //   this.validationEdit.email.status = false;
       //   this.validationEdit.email.message = "Email harus diisi!";
-      // } else {
-      //   this.validationEdit.email.status = true;
-      //   this.validationEdit.email.message = null;
       // }
+      if (!this.editMahasiswaData.email) {
+        this.validationEdit.email.status = false;
+        this.validationEdit.email.message = "Email harus diisi!";
+      } else {
+        this.validationEdit.email.status = true;
+        this.validationEdit.email.message = null;
+      }
       if (!this.editMahasiswaData.nohp) {
         this.validationEdit.nohp.status = false;
         this.validationEdit.nohp.message = "Nomor Telepon harus diisi!";
@@ -1818,28 +1821,28 @@ export default {
         this.validationTambah.nim.status = true;
         this.validationTambah.nim.message = null;
       }
-      // if (!this.tambah.email) {
-      //   this.validationTambah.email.status = false;
-      //   this.validationTambah.email.message = "Email Mahasiswa harus diisi!";
-      // } else {
-      //   this.validationTambah.email.status = true;
-      //   this.validationTambah.email.message = null;
-      // }
-      if (this.tambah.email !== "") {
-        if (
-          //eslint-disable-next-line
-          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.form.email)
-        ) {
-          this.validationTambah.email.status = true;
-          this.validationTambah.email.message = null;
-        } else {
-          this.validationTambah.email.status = false;
-          this.validationTambah.email.message = "Format Email harus sesuai!";
-        }
-      } else {
+      if (!this.tambah.email) {
         this.validationTambah.email.status = false;
         this.validationTambah.email.message = "Email Mahasiswa harus diisi!";
+      } else {
+        this.validationTambah.email.status = true;
+        this.validationTambah.email.message = null;
       }
+      // if (this.tambah.email !== "") {
+      //   if (
+      //     //eslint-disable-next-line
+      //     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.form.email)
+      //   ) {
+      //     this.validationTambah.email.status = true;
+      //     this.validationTambah.email.message = null;
+      //   } else {
+      //     this.validationTambah.email.status = false;
+      //     this.validationTambah.email.message = "Format Email harus sesuai!";
+      //   }
+      // } else {
+      //   this.validationTambah.email.status = false;
+      //   this.validationTambah.email.message = "Email Mahasiswa harus diisi!";
+      // }
       if (!this.tambah.nomor) {
         this.validationTambah.nomor.status = false;
         this.validationTambah.nomor.message =
@@ -1943,7 +1946,7 @@ export default {
         console.log(err);
       });
     axios
-      .get(`${this.url}gmedia/superadmin/gugus`, {
+      .get(`${this.url}gmedia/superadmin/gugus-nonpaginate`, {
         headers: {
           Authorization: localStorage.token,
         },

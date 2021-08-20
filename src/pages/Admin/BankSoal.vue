@@ -300,8 +300,12 @@
 import axios from "axios";
 import moment from "moment";
 import Swal from "sweetalert2";
+import { mapState } from 'vuex'
 
 export default {
+  computed: {
+    ...mapState(["url"])
+  },
   data: function() {
     return {
       width: null,
@@ -318,7 +322,7 @@ export default {
       this.type = type;
       axios
         .get(
-          "https://gmedia.primakom.co.id/tugas/superadmin/soal?tipe=" + type,
+          `${this.url}tugas/superadmin/soal?tipe=` + type,
           {
             headers: {
               Authorization: localStorage.token,
@@ -369,7 +373,7 @@ export default {
         if (result.isConfirmed) {
           axios
             .delete(
-              "https://gmedia.primakom.co.id/tugas/superadmin/soal/" + id,
+              `${this.url}tugas/superadmin/soal/` + id,
               {
                 headers: {
                   Authorization: localStorage.token,
@@ -400,7 +404,7 @@ export default {
   mounted() {
     axios
       .get(
-        "https://gmedia.primakom.co.id/tugas/superadmin/soal?tipe=" + this.type,
+        `${this.url}tugas/superadmin/soal?tipe=` + this.type,
         {
           headers: {
             Authorization: localStorage.token,

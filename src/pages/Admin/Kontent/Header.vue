@@ -253,7 +253,7 @@ export default {
 	},
 	mounted() {
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/gmedia/landing/header', {
+		axios.get(`${this.url}gmedia/landing/header`, {
 			headers: {
 				Authorization: localStorage.token
 			}

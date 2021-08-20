@@ -96,8 +96,12 @@
 /* eslint-env jquery */
 import axios from "axios";
 import Swal from "sweetalert2";
+import { mapState } from 'vuex'
 
 export default {
+  computed: {
+    ...mapState(["url"])
+  },
   data: function() {
     return {
       width: null,
@@ -153,7 +157,7 @@ export default {
       if (!this.validation.isi && !this.validation.kategori) {
         axios
           .post(
-            "https://gmedia.primakom.co.id/tugas/superadmin/soal/",
+            `${this.url}tugas/superadmin/soal/`,
             {
               foto: this.form.foto,
               isi: getText,

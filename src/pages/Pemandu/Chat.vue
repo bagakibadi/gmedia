@@ -156,12 +156,16 @@
 import rcApi from '../Api/Index'
 import moment from 'moment'
 import axios from 'axios'
+import { mapState } from 'vuex'
 let api
 let current_page = 1
 
 /* eslint-disable no-undef */
 
 export default {
+	computed: {
+		...mapState(['url'])
+	},
 	data: function() {
     return {
 			width: null,
@@ -372,14 +376,12 @@ export default {
       })
     },
 		loginss() {
-			api.loginWithAuthToken (localStorage.tkn)
+			api.login (localStorage.name, localStorage.pw)
 				.subscribe (apiEvent => {
 				if (apiEvent.msg === 'result') {
 					// success
 					this.messagess.push(apiEvent.msg)
 					this.getlist()
-          // this.createDirectMessage()
-					// this.connectRoom()
 				}
 			}, (error) => {
 				this.errors.push (error)
@@ -395,7 +397,7 @@ export default {
 			}
 		},
 		async getMahasiswa() {
-			axios.get(`https://gmedia.primakom.co.id/gmedia/pemandu/mahasiswa?page=${current_page}`, {
+			axios.get(`${this.url}gmedia/pemandu/mahasiswa?page=${current_page}`, {
 				headers: {
 					Authorization: localStorage.token
 				}

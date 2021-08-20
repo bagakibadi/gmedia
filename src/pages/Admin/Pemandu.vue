@@ -335,9 +335,13 @@
 <script>
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { mapState } from 'vuex';
 /* eslint-disable no-undef */
 
 export default {
+	computed: {
+		...mapState(['url'])
+	},
 	data: function() {
     return {
       width: null,
@@ -467,7 +471,7 @@ export default {
 						this.dataOnePemandu.foto = null
 					}
 					setTimeout(() => {
-						axios.put(`https://gmedia.primakom.co.id/gmedia/superadmin/pemandu/${this.dataOnePemandu.uuid}`, this.dataOnePemandu, {
+						axios.put(`${this.url}gmedia/superadmin/pemandu/${this.dataOnePemandu.uuid}`, this.dataOnePemandu, {
 							headers: {
 								Authorization: localStorage.token
 							}
@@ -550,7 +554,7 @@ export default {
           },
         });
       }, 200);
-			axios.get(`https://gmedia.primakom.co.id/gmedia/superadmin/pemandu/${uuidPemandu}`, {
+			axios.get(`${this.url}gmedia/superadmin/pemandu/${uuidPemandu}`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -573,7 +577,7 @@ export default {
       }).then((result) => {
 				console.log(result)
 				if(result.isConfirmed) {
-					axios.delete(`https://gmedia.primakom.co.id/gmedia/superadmin/pemandu/${uuidPemandu}`,{
+					axios.delete(`${this.url}gmedia/superadmin/pemandu/${uuidPemandu}`,{
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -632,7 +636,7 @@ export default {
 					this.tambah.foto = null
 				}
 				setTimeout(() => {
-					axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/pemandu', this.tambah, {
+					axios.post(`${this.url}gmedia/superadmin/pemandu`, this.tambah, {
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -716,7 +720,7 @@ export default {
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/pemandu', {
+		axios.get(`${this.url}gmedia/superadmin/pemandu`, {
 			headers: {
 				Authorization: localStorage.token
 			}
@@ -736,7 +740,7 @@ export default {
 		}).catch((err) => {
 			console.log(err)
 		});
-		axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus', {
+		axios.get(`${this.url}gmedia/superadmin/gugus`, {
       headers: {
         Authorization : localStorage.token
       }

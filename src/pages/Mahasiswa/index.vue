@@ -679,7 +679,7 @@ export default {
           if (this.menuPresensi == "masuk") {
             axios
               .post(
-                "https://gmedia.primakom.co.id/presensi/mahasiswa/masuk",
+                `${this.url}presensi/mahasiswa/masuk`,
                 {
                   alamat: this.address,
                   long: this.location.long,
@@ -714,7 +714,7 @@ export default {
           } else if (this.menuPresensi == "keluar") {
             axios
               .post(
-                "https://gmedia.primakom.co.id/presensi/mahasiswa/keluar",
+                `${this.url}presensi/mahasiswa/keluar`,
                 {
                   alamat: this.address,
                   long: this.location.long,
@@ -806,7 +806,7 @@ export default {
 
           axios
             .post(
-              "https://gmedia.primakom.co.id/gmedia/mahasiswa/learn",
+              `${this.url}gmedia/mahasiswa/learn`,
               {
                 media: "web",
                 foto: arr,
@@ -835,7 +835,7 @@ export default {
   },
   mounted() {
     axios
-      .get("https://gmedia.primakom.co.id/presensi/mahasiswa", {
+      .get(`${this.url}presensi/mahasiswa`, {
         headers: {
           Authorization: localStorage.token,
         },
@@ -857,7 +857,7 @@ export default {
       });
 
     axios
-      .get("https://gmedia.primakom.co.id/presensi/mahasiswa/hari-ini", {
+      .get(`${this.url}presensi/mahasiswa/hari-ini`, {
         headers: {
           Authorization: localStorage.token,
         },

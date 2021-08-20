@@ -185,8 +185,12 @@
 /* eslint-env jquery */
 import axios from "axios";
 import Swal from "sweetalert2";
+import { mapState } from 'vuex';
 
 export default {
+  computed: {
+    ...mapState(['url'])
+  },
   data: function() {
     return {
       width: null,
@@ -298,7 +302,7 @@ export default {
 
         axios
           .put(
-            "https://gmedia.primakom.co.id/tugas/superadmin/soal/" +
+            `${this.url}tugas/superadmin/soal/` +
               this.$route.params.id,
             {
               is_foto_ubah: this.form.is_foto_ubah,
@@ -343,7 +347,7 @@ export default {
 
     axios
       .get(
-        "https://gmedia.primakom.co.id/tugas/superadmin/soal/" +
+        `${this.url}tugas/superadmin/soal/` +
           this.$route.params.id,
         {
           headers: {

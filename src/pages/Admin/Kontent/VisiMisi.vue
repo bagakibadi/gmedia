@@ -210,7 +210,7 @@ export default {
 	},
 	mounted() {
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/gmedia/landing/visi', {
+		axios.get(`${this.url}gmedia/landing/visi`, {
 			headers: {
 				Authorization: localStorage.token
 			}

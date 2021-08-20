@@ -346,9 +346,13 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import moment from "moment";
+import { mapState } from 'vuex';
 /* eslint-disable no-undef */
 
 export default {
+  computed: {
+    ...mapState(['url'])
+  },
   data: function() {
     return {
       width: null,
@@ -517,7 +521,7 @@ export default {
           if (result.isConfirmed) {
             axios
               .delete(
-                `https://gmedia.primakom.co.id/gmedia/superadmin/informasi/${id}`,
+                `${this.url}gmedia/superadmin/informasi/${id}`,
                 {
                   headers: {
                     Authorization: localStorage.token,
@@ -579,7 +583,7 @@ export default {
       if (!this.validationTambah.nama && !this.validationTambah.isi) {
         axios
           .post(
-            "https://gmedia.primakom.co.id/gmedia/superadmin/informasi/",
+            `${this.url}gmedia/superadmin/informasi/`,
             this.tambah,
             {
               headers: {
@@ -640,7 +644,7 @@ export default {
         console.log(this.ubah_gambar);
         axios
           .put(
-            "https://gmedia.primakom.co.id/gmedia/superadmin/informasi/" + id,
+            `${this.url}gmedia/superadmin/informasi/` + id,
             {
               judul: this.dataDetailKonten.judul,
               isi: this.dataDetailKonten.isi,
@@ -696,7 +700,7 @@ export default {
     var countEditor = 0;
 
     axios
-      .get("https://gmedia.primakom.co.id/gmedia/superadmin/informasi/", {
+      .get(`${this.url}gmedia/superadmin/informasi/`, {
         headers: {
           Authorization: localStorage.token,
         },

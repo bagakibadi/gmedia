@@ -10,21 +10,20 @@ export default new Vuex.Store({
     // put variables and collections here
     getUserLogin: null,
     userData: null,
-    url: "https://gmedia.primakom.co.id/",
+    url: "https://gmediates.primakom.co.id/",
   },
   actions: {
     getMahasiswa({ commit }) {
       if (localStorage.token && localStorage.token !== undefined) {
         axios
-          .get("https://gmedia.primakom.co.id/auth/mahasiswa/profil", {
+          .get(`${this.state.url}auth/mahasiswa/profil`, {
             headers: {
               Authorization: localStorage.token,
             },
           })
           .then((res) => {
             console.log(res);
-            console.log("mahasiswa");
-            if (res.data.code == 401) {
+            if (res.data.message == 'Unauthorize') {
               Swal.fire(
                 "Sesi habis!",
                 "Mohon melakukan login ulang",
@@ -48,7 +47,7 @@ export default new Vuex.Store({
     getPemandu({ commit }) {
       if (localStorage.token && localStorage.token !== undefined) {
         axios
-          .get("https://gmedia.primakom.co.id/auth/pemandu/profil/", {
+          .get(`${this.state.url}auth/pemandu/profil/`, {
             headers: {
               Authorization: localStorage.token,
             },
@@ -56,7 +55,7 @@ export default new Vuex.Store({
           .then((res) => {
             console.log(res);
             console.log("pemandu");
-            if (res.data.code == 401) {
+            if (res.data.message == 'Unauthorize') {
               Swal.fire(
                 "Sesi habis!",
                 "Mohon melakukan login ulang",
@@ -81,14 +80,14 @@ export default new Vuex.Store({
     getAdmin({ commit }) {
       if (localStorage.token && localStorage.token !== undefined) {
         axios
-          .get("https://gmedia.primakom.co.id/gmedia/superadmin/profil/", {
+          .get(`${this.state.url}gmedia/superadmin/profil/`, {
             headers: {
               Authorization: localStorage.token,
             },
           })
           .then((res) => {
             console.log(res);
-            if (res.data.code == 401) {
+            if (res.data.message == 'Unauthorize') {
               Swal.fire(
                 "Sesi habis!",
                 "Mohon melakukan login ulang",

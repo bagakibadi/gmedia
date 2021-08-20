@@ -484,9 +484,13 @@
 <script>
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { mapState } from 'vuex';
 /* eslint-env jquery */
 
 export default {
+  computed: {
+    ...mapState(['url'])
+  },
   data: function() {
     return {
       validationTambah: {
@@ -658,7 +662,7 @@ export default {
           this.editMahasiswaData.foto = null
         }
         setTimeout(() => {
-          axios.put(`https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa/${this.editMahasiswaData.uuid}`, {
+          axios.put(`${this.url}gmedia/superadmin/mahasiswa/${this.editMahasiswaData.uuid}`, {
             nim: this.editMahasiswaData.nim,
             nama: this.editMahasiswaData.nama,
             alamat: this.editMahasiswaData.alamat,
@@ -769,7 +773,7 @@ export default {
           },
         });
       }, 200);
-      axios.get(`https://gmedia.primakom.co.id/gmedia/pemandu/mahasiswa/${uuidMahasiswa}`, {
+      axios.get(`${this.url}gmedia/pemandu/mahasiswa/${uuidMahasiswa}`, {
         headers: {
           Authorization: localStorage.token
         }
@@ -791,7 +795,7 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete(`https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa/${uuidMahasiswa}`, {
+          axios.delete(`${this.url}gmedia/superadmin/mahasiswa/${uuidMahasiswa}`, {
             headers: {
               Authorization: localStorage.token
             }
@@ -842,7 +846,7 @@ export default {
           this.tambah.foto = null
         }
         setTimeout(() => {        
-          axios.post('https://gmedia.primakom.co.id/gmedia/superadmin/mahasiswa', {
+          axios.post(`${this.url}gmedia/superadmin/mahasiswa`, {
             nim : this.tambah.nim,
             nama: this.tambah.nama,
             email: this.tambah.email,
@@ -959,7 +963,7 @@ export default {
   },
   mounted() {
     this.width = $(document).width();
-    axios.get('https://gmedia.primakom.co.id/gmedia/pemandu/mahasiswa', {
+    axios.get(`${this.url}gmedia/pemandu/mahasiswa`, {
       headers: {
         Authorization : localStorage.token
       }
@@ -987,36 +991,6 @@ export default {
         error: "Ooops, telah terjadi kesalahan.",
       },
     });
-    // axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/prodi', {
-    //   headers: {
-    //     Authorization : localStorage.token
-    //   }
-    // }).then((result) => {
-    //   console.log(result)
-    //   this.dataProdi = result.data.data
-    // }).catch((err) => {
-    //   console.log(err)
-    // });
-    // axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/gugus', {
-    //   headers: {
-    //     Authorization : localStorage.token
-    //   }
-    // }).then((result) => {
-    //   console.log(result)
-    //   this.dataGugus = result.data.data
-    // }).catch((err) => {
-    //   console.log(err)
-    // });
-    // axios.get('https://gmedia.primakom.co.id/gmedia/superadmin/fakultas', {
-    //   headers: {
-    //     Authorization : localStorage.token
-    //   }
-    // }).then((result) => {
-    //   console.log(result)
-    //   this.dataFakultas = result.data.data
-    // }).catch((err) => {
-    //   console.log(err)
-    // });
   }
 };
 </script>

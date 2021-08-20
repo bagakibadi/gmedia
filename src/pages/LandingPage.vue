@@ -479,8 +479,8 @@ export default {
 				}).then((result) => {
 					if(result.data.success) {
 						localStorage.token = result.data.data.token
-						localStorage.uid = result.data.data.ruserid
 						localStorage.tkn = result.data.data.rusertoken
+						localStorage.uid = result.data.data.ruserid
 
 						if(result.data.data.role == "MHS") {
 							window.location.replace('/dashboard');

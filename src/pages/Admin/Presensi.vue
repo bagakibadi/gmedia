@@ -267,9 +267,13 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+import { mapState } from 'vuex';
 /* eslint-env jquery */
 
 export default {
+  computed: {
+    ...mapState(['url'])
+  },
   data: function() {
     return {
       width: null,
@@ -319,7 +323,7 @@ export default {
       (this.isFilter = true),
         axios
           .post(
-            "https://gmedia.primakom.co.id/gmedia/superadmin/presensi/filter",
+            `${this.url}gmedia/superadmin/presensi/filter`,
             {
               prodi_id:
                 this.filter.prodi == "default" || this.filter.prodi == "all"
@@ -355,7 +359,7 @@ export default {
       this.filter.tanggal = null;
       (this.isFilter = false),
         axios
-          .get("https://gmedia.primakom.co.id/gmedia/superadmin/presensi", {
+          .get(`${this.url}gmedia/superadmin/presensi`, {
             headers: {
               Authorization: localStorage.token,
             },
@@ -381,7 +385,7 @@ export default {
     openPresensi(a) {
       this.loaderPopUp = true;
       axios
-        .get(`https://gmedia.primakom.co.id/gmedia/superadmin/presensi/${a}`, {
+        .get(`${this.url}}gmedia/superadmin/presensi/${a}`, {
           headers: {
             Authorization: localStorage.token,
           },
@@ -436,7 +440,7 @@ export default {
   mounted() {
     this.width = $(document).width();
     axios
-      .get("https://gmedia.primakom.co.id/gmedia/superadmin/presensi", {
+      .get(`${this.url}gmedia/superadmin/presensi`, {
         headers: {
           Authorization: localStorage.token,
         },
@@ -460,7 +464,7 @@ export default {
       });
 
     axios
-      .get("https://gmedia.primakom.co.id/gmedia/superadmin/prodi", {
+      .get(`${this.url}gmedia/superadmin/prodi`, {
         headers: {
           Authorization: localStorage.token,
         },

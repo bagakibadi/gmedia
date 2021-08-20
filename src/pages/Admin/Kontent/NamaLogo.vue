@@ -255,10 +255,12 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+
 import axios from 'axios';
 import { mapState } from 'vuex'
-// import Swal from 'sweetalert2';
-/* eslint-disable no-undef */
+import Swal from 'sweetalert2';
 
 export default {
 	computed: {
@@ -360,7 +362,7 @@ export default {
 	},
 	mounted() {
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/gmedia/landing/namelogo', {
+		axios.get(`${this.url}gmedia/landing/namelogo`, {
 			headers: {
 				Authorization: localStorage.token
 			}

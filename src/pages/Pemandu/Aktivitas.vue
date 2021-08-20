@@ -119,9 +119,13 @@
 import axios from 'axios'
 import moment from 'moment'
 import Swal from 'sweetalert2'
+import { mapState } from 'vuex'
 /* eslint-disable no-undef */
 
 export default {
+	computed: {
+		...mapState(['url'])
+	},
 	data: function() {
     return {
       width: null,
@@ -146,7 +150,7 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete(`https://gmedia.primakom.co.id/kegiatan/pemandu/${uuid}`, {
+          axios.delete(`${this.url}kegiatan/pemandu/${uuid}`, {
             headers: {
               Authorization: localStorage.token
             }
@@ -189,7 +193,7 @@ export default {
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/kegiatan/pemandu/',{
+		axios.get(`${this.url}kegiatan/pemandu/`,{
 			headers:{
 				Authorization: localStorage.token
 			}

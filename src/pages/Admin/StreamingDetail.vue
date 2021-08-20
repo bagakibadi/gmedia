@@ -167,6 +167,28 @@ export default {
 					console.log('---------------------------------')
 				}
 			}
+			if(message.msg === 'result' && message.id === 'oldChat'){
+				let dataReverse = message.result.messages.reverse()
+				let arraynya = []
+				for(let i = 0; i < message.result.messages.length; i++) {
+					if(message.result.messages[i].u.name) {
+						arraynya.push({
+							value: dataReverse[i].msg,
+							date: moment(new Date(dataReverse[i].ts.$date)).lang("id").format('h:mm'),
+							nama: dataReverse[i].u.name,
+							uid: dataReverse[i].u._id,
+							initial: dataReverse[i].u.name.charAt(0)
+						})
+					}else {
+						console.log('joined')
+					}
+				}
+				this.isiChat = arraynya
+				setTimeout(() => {
+					scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
+				}, 200);
+				return;
+			}
 		})
 		api.connectToServer ()
 			.subscribe (() => {
@@ -242,6 +264,28 @@ export default {
 						console.log('---------------------------------')
 					}
 				}
+				if(message.msg === 'result' && message.id === 'oldChat'){
+					let dataReverse = message.result.messages.reverse()
+					let arraynya = []
+					for(let i = 0; i < message.result.messages.length; i++) {
+						if(message.result.messages[i].u.name) {
+							arraynya.push({
+								value: dataReverse[i].msg,
+								date: moment(new Date(dataReverse[i].ts.$date)).lang("id").format('h:mm'),
+								nama: dataReverse[i].u.name,
+								uid: dataReverse[i].u._id,
+								initial: dataReverse[i].u.name.charAt(0)
+							})
+						}else {
+							console.log('joined')
+						}
+					}
+					this.isiChat = arraynya
+					setTimeout(() => {
+						scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
+					}, 200);
+					return;
+				}
 			})
 			api.connectToServer ()
 				.subscribe (() => {
@@ -279,27 +323,33 @@ export default {
 			});
 		},
 		getOldChat(channel_name) {
-			axios.get(`${this.url}gmedia/chat/${channel_name}`).then((result) => {
-				for(let i = 0; i < result.data.fields.args.length; i++) {
-					this.isiChat.push({
-						value: result.data.fields.args[i].msg,
-						nama: result.data.fields.args[i].u.name,
-						date: moment(result.data.fields.args[i].ts).lang("id").format('h:mm'),
-						uid: result.data.fields.args[i].u._id,
-						initial: result.data.fields.args[i].u.name.charAt(0)
-					})
-				}
-				let scrollDown = document.getElementById('box-message')
-				setTimeout(() => {
-					scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
-				}, 200);
-			}).catch((err) => {
-				console.log(err)
-				let scrollDown = document.getElementById('box-message')
-				setTimeout(() => {
-					scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
-				}, 200);
-			});
+			api.sendMessage({
+				"msg": "method",
+				"method": "loadHistory",
+				"id": "oldChat",
+				"params": [ channel_name, null, 100000, { "$date": 0 } ]
+			})
+			// axios.get(`${this.url}gmedia/chat/${channel_name}`).then((result) => {
+			// 	for(let i = 0; i < result.data.fields.args.length; i++) {
+			// 		this.isiChat.push({
+			// 			value: result.data.fields.args[i].msg,
+			// 			nama: result.data.fields.args[i].u.name,
+			// 			date: moment(result.data.fields.args[i].ts).lang("id").format('h:mm'),
+			// 			uid: result.data.fields.args[i].u._id,
+			// 			initial: result.data.fields.args[i].u.name.charAt(0)
+			// 		})
+			// 	}
+			// 	let scrollDown = document.getElementById('box-message')
+			// 	setTimeout(() => {
+			// 		scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
+			// 	}, 200);
+			// }).catch((err) => {
+			// 	console.log(err)
+			// 	let scrollDown = document.getElementById('box-message')
+			// 	setTimeout(() => {
+			// 		scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
+			// 	}, 200);
+			// });
 		},
 		formatMessage(message) {
 			let result = {message}

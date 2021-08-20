@@ -7,28 +7,14 @@
 					<div class="p-3">
 						<div class="d-flex flex-wrap justify-content-between align-items-center">
               <div class="title-content">Jadwal Kegiatan</div>
-              <!-- <router-link :to="{name: 'Tambah Kegiatan Master'}" type="button" class="btn btn-success">+ Tambah</router-link> -->
             </div>
 					</div>
         </div>
 				<div class="card-shadow mb-3">
 					<div class="py-3 pe-3">
 						<div class="row m-0">
-							<!-- <div style="width: calc(100% - 723px)" class="g-0">
-								<div style="padding: 20px">
-									<div class="card" style="height: 250px;box-shadow: -1px 2px 24px rgba(11, 19, 42, 0.08);border:none"></div>
-								</div>
-							</div> -->
 							<div style="width: 100%;" class=" g-0 border-start border-dark">
 								<div class="d-flex first-kegiatan-top">
-									<!-- <div class="d-flex button-right-left">
-										<a href="#" class="button-firstnya">
-											<img src="../../assets/icons/left.svg" alt="">
-										</a>
-										<a href="#">
-											<img src="../../assets/icons/right.svg" alt="">
-										</a>
-									</div> -->
 									<h4 style="margin: 0 0 0 20px">Kegiatan</h4>
 								</div>
 								<div class="accordion" id="accordionExample" style="padding: 0 0 0 20px;" v-if="dataKegiatan">
@@ -58,21 +44,6 @@
 																	</a>
 																</div>
 															</div>
-															<!-- <div class="col-lg-3 align-self-start">
-																<div class="d-flex w-100 justify-content-end">
-																	<router-link :to="{name: 'Edit Kegiatan Master', params: {id: items.uuid}}" class="btn btn-warning me-2"><i class="fas fa-pencil-alt text-white"></i> </router-link>
-																	<button class="btn btn-danger" @click="deleted(items.uuid, items.topik)"><i class="fa fa-trash"></i> </button>
-																</div>
-															</div> -->
-															<!-- <div class="col-lg-9">
-																<div class="form-group">
-																	<label for="link">Link</label>
-																	<div class="input-group mb-3">
-																		<input type="text" readonly name="link" id="link" value="https://www.youtube.com/watch?v=tjqRaS3F7xc" class="form-control">
-																		<span class="input-group-text btn btn-primary" id="basic-addon2"><img src="../../assets/icons/copy.svg" alt=""> Copy Link</span>
-																	</div>
-																</div>
-															</div> -->
 														</div>
 														<div v-if="items.aktivitas.length !== null">
 															<div v-for="(item, i) in items.aktivitas" :key="i">
@@ -138,9 +109,13 @@
 import axios from 'axios'
 import moment from 'moment'
 import Swal from 'sweetalert2'
+import { mapState } from 'vuex'
 /* eslint-disable no-undef */
 
 export default {
+	computed: {
+		...mapState(['url'])
+	},
 	data: function() {
     return {
       width: null,
@@ -165,7 +140,7 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete(`https://gmedia.primakom.co.id/kegiatan/mahasiswa/${uuid}`, {
+          axios.delete(`${this.url}kegiatan/mahasiswa/${uuid}`, {
             headers: {
               Authorization: localStorage.token
             }
@@ -208,7 +183,7 @@ export default {
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get('https://gmedia.primakom.co.id/kegiatan/mahasiswa/',{
+		axios.get(`${this.url}kegiatan/mahasiswa/`,{
 			headers:{
 				Authorization: localStorage.token
 			}
