@@ -10,7 +10,7 @@ export default new Vuex.Store({
     // put variables and collections here
     getUserLogin: null,
     userData: null,
-    url: "https://gmediates.primakom.co.id/",
+    url: "https://gmedia.primakom.co.id/",
   },
   actions: {
     getMahasiswa({ commit }) {
