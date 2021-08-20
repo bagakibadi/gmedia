@@ -102,7 +102,11 @@
 																		<div class="col-lg-2">
 																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.tipenya.status === 'SELESAI'">Selesai</button>
 																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.tipenya.status === 'BELUM MULAI'">Mulai</button>
-																			<a :href="item.aktivitas_uuid" class="btn btn-success" target="_blank" v-if="item.tipenya.status === 'BERJALAN'">Mulai</a>
+																			<div v-if="item.tipenya.status === 'BERJALAN'">
+																				<router-link class="btn btn-success" target="_blank" :to="{ name: 'Streaming Detail Master', params: {id: item.aktivitas_uuid}}" v-if="item.tipenya.nama == 'Streaming'">Mulai</router-link>
+																				<router-link class="btn btn-success" target="_blank" :to="{ name: 'Detail Tugas', params: {id: item.aktivitas_uuid} }" v-if="item.tipenya.nama == 'Tugas'">Mulai</router-link>
+																				<a class="btn btn-success" target="_blank" :href="item.aktivitas_uuid" v-if="item.tipenya.nama == 'Meeting'">Mulai</a>
+																			</div>
 																		</div>
 																	</div>
 																</div>

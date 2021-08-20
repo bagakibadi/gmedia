@@ -14,13 +14,8 @@
 				<div class="card-shadow mb-3">
 					<div class="py-3 pe-3">
 						<div class="row m-0">
-							<!-- <div style="width: calc(100% - 723px)" class="g-0">
-								<div style="padding: 20px">
-									<div class="card" style="height: 250px;box-shadow: -1px 2px 24px rgba(11, 19, 42, 0.08);border:none"></div>
-								</div>
-							</div> -->
-							<div style="width: 100%;" class=" g-0 border-start border-dark">
-								<div class="accordion" id="accordionExample" style="padding: 0 0 0 20px;" v-if="dataKegiatan">
+							<div style="width: 100%;" class=" g-0 border-start border-dark" v-if="dataKegiatan">
+								<div class="accordion" id="accordionExample" style="padding: 0 0 0 20px;" v-if="dataKegiatan.length > 0">
 									<div v-for="(items,index) in dataKegiatan" :key="index">
 										<div class="accordion-item shadow mb-2">
 											<h2 class="accordion-header" :id="`heading${index}`">
@@ -47,23 +42,8 @@
 																	</a>
 																</div>
 															</div>
-															<!-- <div class="col-lg-3 align-self-start">
-																<div class="d-flex w-100 justify-content-end">
-																	<router-link :to="{name: 'Edit Kegiatan Master', params: {id: items.uuid}}" class="btn btn-warning me-2"><i class="fas fa-pencil-alt text-white"></i> </router-link>
-																	<button class="btn btn-danger" @click="deleted(items.uuid, items.topik)"><i class="fa fa-trash"></i> </button>
-																</div>
-															</div> -->
-															<!-- <div class="col-lg-9">
-																<div class="form-group">
-																	<label for="link">Link</label>
-																	<div class="input-group mb-3">
-																		<input type="text" readonly name="link" id="link" value="https://www.youtube.com/watch?v=tjqRaS3F7xc" class="form-control">
-																		<span class="input-group-text btn btn-primary" id="basic-addon2"><img src="../../assets/icons/copy.svg" alt=""> Copy Link</span>
-																	</div>
-																</div>
-															</div> -->
 														</div>
-														<div v-if="items.aktivitas.length !== null">
+														<div v-if="items.aktivitas.length > 0">
 															<div v-for="(item, i) in items.aktivitas" :key="i">
 																<div :class="`d-flex ${item.status === 'SELESAI' ? 'selesai-kegiatan' : ''}`">
 																	<div class="line-bot">
@@ -88,9 +68,14 @@
 																			</div>
 																		</div>
 																		<div class="col-lg-2">
-																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.status === 'SELESAI'">Selesai</button>
-																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.status === 'BELUM MULAI'">Mulai</button>
-																			<router-link :to="item.link" target="_blank" class="btn btn-success" v-if="item.status === 'BERJALAN'">Mulai</router-link>
+																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.tipenya.status === 'SELESAI'">Selesai</button>
+																			<button class="btn btn-light cursor-not-allowed" disabled v-if="item.tipenya.status === 'BELUM MULAI'">Mulai</button>
+																			<div v-if="item.tipenya.status === 'BERJALAN'">
+																				<router-link class="btn btn-success" target="_blank" :to="{ name: 'Conference Pemandu', params: {id: item.aktivitas_uuid}}" v-if="item.tipenya.nama == 'Streaming'">Mulai</router-link>
+																				<router-link class="btn btn-success" target="_blank" :to="{ name: 'Detail Penilaian Pemandu', params: { id: item.aktivitas_uuid, name: '.' } }" v-if="item.tipenya.nama == 'Tugas'">Mulai</router-link>
+																				<a class="btn btn-success" target="_blank" :href="item.aktivitas_uuid" v-if="item.tipenya.nama == 'Meeting'">Mulai</a>
+																			</div>
+																			<!-- <router-link :to="item.link" target="_blank" class="btn btn-success" v-if="item.status === 'BERJALAN'">Mulai</router-link>a -->
 																		</div>
 																	</div>
 																</div>
@@ -102,10 +87,14 @@
 										</div>
 									</div>
 								</div>
-								<div v-if="!dataKegiatan || datakegiatan.length < 1" class="h-100 d-flex align-items-center justify-content-center">
+								<div v-if="dataKegiatan.length < 1" class="h-100 d-flex align-items-center justify-content-center">
 									<h4 style="color: #999" class="text-center">Belum ada Kegiatan/Aktivitas</h4>
 								</div>
 							</div>
+							<Loader
+								text="Sedang memuat Data Kegiatan."
+								v-else
+							/>
 						</div>
 					</div>
 				</div>
@@ -129,7 +118,8 @@ export default {
 	data: function() {
     return {
       width: null,
-			dataKegiatan: null
+			dataKegiatan: null,
+			loadings: true,
 		}
 	},
 	methods: {
@@ -199,6 +189,7 @@ export default {
 			}
 		}).then((result) => {
 			console.log(result)
+			this.loadings = false
 			this.dataKegiatan = result.data.data
 		}).catch((err) => {
 			console.log(err)

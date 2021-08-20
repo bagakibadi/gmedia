@@ -103,9 +103,9 @@
 													<label for="aktivitas">Aktivitas</label>
 													<div class="check-error">
 														<input type="text" v-model="dataOneKegiatan.data.aktivitas[index].nama" placeholder="PKK-BN 2021 Sesi 2" class="form-control">
-														<!-- <small :class="`text-danger d-flex ${aktivitas[index].nama.status === true ? 'd-none' : 'd-flex'}`">
+														<small :class="`text-danger d-flex ${aktivitas[index].nama.status === true ? 'd-none' : 'd-flex'}`">
 															{{ aktivitas[index].nama.message }}
-														</small> -->
+														</small>
 													</div>
 												</div>
 											</div>
@@ -176,7 +176,7 @@
 													<div class="check-error">
 														<select name="tugas" v-model="dataOneKegiatan.data.aktivitas[index].aktivitas_uuid" id="tugas" class="form-select">
 															<option value="" selected disabled>Pilih Streaming</option>
-															<option :value="items.uuid" v-for="(items,index) in dataStreaming" :key="index">{{items.nama}}</option>
+															<option :value="items.uuid" v-for="(items,index) in dataStreaming.data" :key="index">{{items.nama}}</option>
 														</select>
 														<small :class="`text-danger d-flex ${aktivitas[index].aktivitas_uuid.status === true ? 'd-none' : 'd-flex'}`">
 															{{ aktivitas[index].aktivitas_uuid.message }}

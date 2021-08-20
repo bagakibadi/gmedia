@@ -37,12 +37,6 @@
 											</div>
 										</div>
 									</div>
-									<!-- <div class="col-lg-3">
-										<div class="form-group">
-											<label for="end_date">Tanggal Selesai</label>
-											<input type="date" v-model="jadwal.end_date" name="end_date" id="end_date" class="form-control">
-										</div>
-									</div> -->
 									<div class="col-lg-4">
 										<div class="form-group">
 											<label for="lampiran">Lampiran</label>
@@ -139,7 +133,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe === 'eff1e631-3e18-4b91-a6e2-6a29af4b1554'">
+										<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe == 'eff1e631-3e18-4b91-a6e2-6a29af4b1554'">
 											<div class="form-group">
 												<label for="tugas">Tugas</label>
 												<div class="check-error">
@@ -153,7 +147,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe === 'abadf8ed-1ef6-4857-add1-9b6b9bc911b1'">
+										<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe == 'abadf8ed-1ef6-4857-add1-9b6b9bc911b1'">
 											<div class="form-group">
 												<label for="video">Link Meeting</label>
 												<div class="check-error">
@@ -164,13 +158,13 @@
 												</div>
 											</div>
 										</div>
-										<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe === 'ac23eded-d09b-41d2-92c7-a082f7621a21'">
+										<div class="col-lg-3" v-if="jadwal.aktivitas[index].tipe == 'ac23eded-d09b-41d2-92c7-a082f7621a21'">
 											<div class="form-group">
 												<label for="tugas">Streaming</label>
 												<div class="check-error">
 													<select name="tugas" v-model="jadwal.aktivitas[index].aktivitas_uuid" id="tugas" class="form-select">
 														<option value="" selected disabled>Pilih Streaming</option>
-														<option :value="items.uuid" v-for="(items,index) in dataStreaming" :key="index">{{items.nama}}</option>
+														<option :value="items.uuid" v-for="(items,index) in dataStreaming.data" :key="index">{{items.nama}}</option>
 													</select>
 													<small :class="`text-danger d-flex ${aktivitas[index].aktivitas_uuid.status === true ? 'd-none' : 'd-flex'}`">
 														{{ aktivitas[index].aktivitas_uuid.message }}
@@ -341,7 +335,9 @@ export default {
 		kirimKegiatan() {
 			if (document.getElementById('lampiran').files[0]) {
         this.upload(document.getElementById('lampiran').files[0])
+				console.log('1')
       } else {
+				console.log('2')
         this.jadwal.lampiran = null
       }
 			let aktivitas = this.jadwal.aktivitas
@@ -395,41 +391,43 @@ export default {
 					count += 1
 				}
 			}
-			if( this.jadwal.topik && this.jadwal.gugus_id && this.jadwal.start_date && this.jadwal.deskripsi && count == this.jadwal.aktivitas.length) {
-				axios.post(`${this.url}gmedia/superadmin/kegiatanaktivitas`, this.jadwal, {
-					headers: {
-						Authorization : localStorage.token
-					}
-				}).then((result) => {
-					console.log(result)
-					if(result.data.success) {
-						Swal.fire(
-							'Berhasil Tambah!',
-							result.data.message,
-							'success'
-						).then((a) => {
-							if(a.isConfirmed) {
+			setTimeout(() => {
+				if( this.jadwal.topik && this.jadwal.gugus_id && this.jadwal.start_date && this.jadwal.deskripsi && count == this.jadwal.aktivitas.length && this.jadwal.lampiran) {
+					axios.post(`${this.url}gmedia/superadmin/kegiatanaktivitas`, this.jadwal, {
+						headers: {
+							Authorization : localStorage.token
+						}
+					}).then((result) => {
+						console.log(result)
+						if(result.data.success) {
+							Swal.fire(
+								'Berhasil Tambah!',
+								result.data.message,
+								'success'
+							).then((a) => {
+								if(a.isConfirmed) {
+									window.location.reload()
+								}
+							}).catch((err) => {
 								window.location.reload()
-							}
-						}).catch((err) => {
-							window.location.reload()
-							console.log(err)
-						});
-					} else if (result.data.message == "Unauthorize") {
-						localStorage.clear()
-						console.log('el')
-						this.$router.push({ name: 'Landing Page' })
-					} else{
-						Swal.fire(
-							'Gagal!',
-							result.data.message,
-							'warning'
-						)
-					}
-				}).catch((err) => {
-					console.log(err)
-				});
-			}
+								console.log(err)
+							});
+						} else if (result.data.message == "Unauthorize") {
+							localStorage.clear()
+							console.log('el')
+							this.$router.push({ name: 'Landing Page' })
+						} else{
+							Swal.fire(
+								'Gagal!',
+								result.data.message,
+								'warning'
+							)
+						}
+					}).catch((err) => {
+						console.log(err)
+					});
+				}
+			}, 300);
 
 			if (!this.jadwal.topik) {
         this.validationTambah.topik.status = false;
