@@ -20,7 +20,12 @@
 										</div>
 									</div>
 									<div id="testscroll" style="height: calc(100% - 90px);overflow-y: auto;">
-										<div  v-if="dataMahasiswa">
+										<div class="d-flex align-items-center justify-content-center" v-if="dataMahasiswa.length < 0">
+											<div class="loading">
+												<span class="fa fa-spinner fa-spin"></span> Loading
+											</div>
+										</div>
+										<div  v-if="dataMahasiswa.length > 0">
 											<div class="d-flex align-items-center py-2 px-3 mb-2 profile-chat-new" @click="openNewChat(items.user.rusername)" v-for="(items,index) in dataMahasiswa" :key="index">
 												<div class="img-profile-chat">
 													<p class="text-uppercase">{{items.user.rusername.charAt(0)}}</p>
@@ -37,7 +42,11 @@
 											</div>
 										</div>
 										<div class="text-center mt-4" v-else>
-											Data Kosong
+											<div class="d-flex align-items-center justify-content-center">
+												<div class="loading">
+													<span class="fa fa-spinner fa-spin"></span> Loading
+												</div>
+											</div>
 										</div>
 									</div>
 									<!-- <div v-observe-visibility="handleScrollBottom"></div> -->
@@ -338,7 +347,6 @@ export default {
           false
         ]
       });
-			console.log(index)
 			if(index === 'test') {
 				console.log('aa')
 				setTimeout(() => {
@@ -376,7 +384,7 @@ export default {
       })
     },
 		loginss() {
-			api.login (localStorage.name, localStorage.pw)
+			api.loginWithAuthToken(localStorage.tkn)
 				.subscribe (apiEvent => {
 				if (apiEvent.msg === 'result') {
 					// success
@@ -503,7 +511,6 @@ export default {
 					}
 				}
 				this.isiChats = arraynya
-				console.log(this.isiChats)
 				setTimeout(() => {
 					scrollDown.scrollTop = scrollDown.scrollHeight + scrollDown.clientHeight
 				}, 200);
