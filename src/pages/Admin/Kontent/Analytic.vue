@@ -325,7 +325,7 @@ export default {
 	methods: {
 		edits() {
 			if(this.datas.jumlah_mahasiswa && this.datas.jumlah_fakultas && this.datas.jumlah_alumni) {
-				axios.post(`${this.url}gmedia/landing/mahasiswaalumnifakultas/`, this.datas, {
+				axios.post(`${this.url}bemkm/landing/mahasiswaalumnifakultas/`, this.datas, {
 					headers: {
 						Authorization: localStorage.token
 					}
@@ -377,7 +377,7 @@ export default {
 	},
 	mounted() {
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/landing/mahasiswaalumnifakultas`, {
+		axios.get(`${this.url}bemkm/landing/mahasiswaalumnifakultas`, {
 			headers: {
 				Authorization: localStorage.token
 			}

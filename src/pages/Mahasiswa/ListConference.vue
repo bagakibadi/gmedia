@@ -112,7 +112,7 @@ export default {
       }
     },
 		getConference() {
-			axios.get(`${this.url}gmedia/mahasiswa/konferensi`, {
+			axios.get(`${this.url}bemkm/mahasiswa/konferensi`, {
 				headers: {
 					Authorization: localStorage.token
 				}

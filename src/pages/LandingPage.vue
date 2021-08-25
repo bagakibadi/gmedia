@@ -533,7 +533,7 @@ export default {
 		var scrollSpy = new bootstrap.ScrollSpy(document.body, {
 			target: '#navbars'
 		})
-		axios.get(`${this.url}gmedia/landing/`).then((result) => {
+		axios.get(`${this.url}bemkm/landing/`).then((result) => {
 			this.landing = result.data.data
 		}).catch((err) => {
 			console.log(err)

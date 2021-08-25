@@ -662,7 +662,7 @@ export default {
           this.editMahasiswaData.foto = null
         }
         setTimeout(() => {
-          axios.put(`${this.url}gmedia/superadmin/mahasiswa/${this.editMahasiswaData.uuid}`, {
+          axios.put(`${this.url}bemkm/superadmin/mahasiswa/${this.editMahasiswaData.uuid}`, {
             nim: this.editMahasiswaData.nim,
             nama: this.editMahasiswaData.nama,
             alamat: this.editMahasiswaData.alamat,
@@ -773,7 +773,7 @@ export default {
           },
         });
       }, 200);
-      axios.get(`${this.url}gmedia/pemandu/mahasiswa/${uuidMahasiswa}`, {
+      axios.get(`${this.url}bemkm/pemandu/mahasiswa/${uuidMahasiswa}`, {
         headers: {
           Authorization: localStorage.token
         }
@@ -795,7 +795,7 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete(`${this.url}gmedia/superadmin/mahasiswa/${uuidMahasiswa}`, {
+          axios.delete(`${this.url}bemkm/superadmin/mahasiswa/${uuidMahasiswa}`, {
             headers: {
               Authorization: localStorage.token
             }
@@ -846,7 +846,7 @@ export default {
           this.tambah.foto = null
         }
         setTimeout(() => {        
-          axios.post(`${this.url}gmedia/superadmin/mahasiswa`, {
+          axios.post(`${this.url}bemkm/superadmin/mahasiswa`, {
             nim : this.tambah.nim,
             nama: this.tambah.nama,
             email: this.tambah.email,
@@ -963,7 +963,7 @@ export default {
   },
   mounted() {
     this.width = $(document).width();
-    axios.get(`${this.url}gmedia/pemandu/mahasiswa`, {
+    axios.get(`${this.url}bemkm/pemandu/mahasiswa`, {
       headers: {
         Authorization : localStorage.token
       }

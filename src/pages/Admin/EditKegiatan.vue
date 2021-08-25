@@ -280,7 +280,7 @@ export default {
 			this.dataOneKegiatan.data.aktivitas.splice(a ,1)
 		},
 		getListStream() {
-			axios.get(`${this.url}gmedia/superadmin/konferensi`, {
+			axios.get(`${this.url}bemkm/superadmin/konferensi`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -291,7 +291,7 @@ export default {
 			});
 		},
 		getListTugas() {
-			axios.get(`${this.url}gmedia/superadmin/tugas`, {
+			axios.get(`${this.url}bemkm/superadmin/tugas`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -302,7 +302,7 @@ export default {
 			});
 		},
 		getKegiatan() {
-			axios.get(`${this.url}gmedia/superadmin/kegiatanaktivitas/${this.$route.params.id}`, {
+			axios.get(`${this.url}bemkm/superadmin/kegiatanaktivitas/${this.$route.params.id}`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -343,7 +343,7 @@ export default {
 			});
 		},
 		getGugus() {
-			axios.get(`${this.url}gmedia/superadmin/gugus-nonpaginate`, {
+			axios.get(`${this.url}bemkm/superadmin/gugus-nonpaginate`, {
 				headers: {
 					Authorization : localStorage.token
 				}
@@ -355,7 +355,7 @@ export default {
 			});
 		},
 		getTipe() {
-			axios.get(`${this.url}gmedia/superadmin/tipeaktivitas`, {
+			axios.get(`${this.url}bemkm/superadmin/tipeaktivitas`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -439,7 +439,7 @@ export default {
 				}
 			}
 			if( this.dataOneKegiatan.data.topik && this.dataOneKegiatan.data.gugus_id && this.dataOneKegiatan.data.start_date && this.dataOneKegiatan.data.deskripsi && count == this.dataOneKegiatan.data.aktivitas.length) {
-				axios.put(`${this.url}gmedia/superadmin/kegiatanaktivitas/${this.$route.params.id}`, this.dataOneKegiatan.data, {
+				axios.put(`${this.url}bemkm/superadmin/kegiatanaktivitas/${this.$route.params.id}`, this.dataOneKegiatan.data, {
 					headers: {
 						Authorization : localStorage.token
 					}
@@ -522,7 +522,7 @@ export default {
         this.dataOneKegiatan.data.lampiran = null
       }
 			setTimeout(() => {
-				axios.put(`${this.url}gmedia/superadmin/kegiatanaktivitas/${this.$route.params.id}`, this.dataOneKegiatan.data, {
+				axios.put(`${this.url}bemkm/superadmin/kegiatanaktivitas/${this.$route.params.id}`, this.dataOneKegiatan.data, {
 					headers: {
 						Authorization : localStorage.token
 					}

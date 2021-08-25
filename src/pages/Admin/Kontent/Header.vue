@@ -195,7 +195,7 @@ export default {
 			}
 			setTimeout(() => {
 				if(this.datas.isi_header && this.datas.judul_header && this.datas.sub_judul) {
-					axios.post(`${this.url}gmedia/landing/header/`, {
+					axios.post(`${this.url}bemkm/landing/header/`, {
 						judul_header: this.datas.judul_header,
 						sub_judul: this.datas.sub_judul,
 						isi_header: this.datas.isi_header,
@@ -253,7 +253,7 @@ export default {
 	},
 	mounted() {
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/landing/header`, {
+		axios.get(`${this.url}bemkm/landing/header`, {
 			headers: {
 				Authorization: localStorage.token
 			}

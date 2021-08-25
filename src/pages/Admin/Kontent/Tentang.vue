@@ -169,7 +169,7 @@ export default {
 			}
 			setTimeout(() => {
 				if(this.datas.isi_tentang && this.datas.judul_tentang && this.datas.title_tentang) {
-					axios.post(`${this.url}gmedia/landing/tentang/`, {
+					axios.post(`${this.url}bemkm/landing/tentang/`, {
 						ekstensi: extension,
 						judul_tentang: this.datas.judul_tentang,
 						title_tentang: this.datas.title_tentang,
@@ -237,7 +237,7 @@ export default {
 	},
 	mounted() {
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/landing/tentang`, {
+		axios.get(`${this.url}bemkm/landing/tentang`, {
 			headers: {
 				Authorization: localStorage.token
 			}

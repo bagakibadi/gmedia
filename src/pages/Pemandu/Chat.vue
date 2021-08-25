@@ -405,7 +405,7 @@ export default {
 			}
 		},
 		async getMahasiswa() {
-			axios.get(`${this.url}gmedia/pemandu/mahasiswa?page=${current_page}`, {
+			axios.get(`${this.url}bemkm/pemandu/mahasiswa?page=${current_page}`, {
 				headers: {
 					Authorization: localStorage.token
 				}

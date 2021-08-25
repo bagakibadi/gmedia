@@ -333,7 +333,7 @@ export default {
 		editData() {
 			if(this.dataOneProdi.nama && this.dataOneProdi.fakultas_id) {
 				setTimeout(() => {
-					axios.put(`${this.url}gmedia/superadmin/prodi/${this.dataOneProdi.uuid}`, this.dataOneProdi, {
+					axios.put(`${this.url}bemkm/superadmin/prodi/${this.dataOneProdi.uuid}`, this.dataOneProdi, {
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -383,7 +383,7 @@ export default {
           },
         });
       }, 200);
-			axios.get(`${this.url}gmedia/superadmin/prodi/${uuid}`, {
+			axios.get(`${this.url}bemkm/superadmin/prodi/${uuid}`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -406,7 +406,7 @@ export default {
       }).then((result) => {
 				console.log(result)
 				if(result.isConfirmed) {
-					axios.delete(`${this.url}gmedia/superadmin/prodi/${uuid}`,{
+					axios.delete(`${this.url}bemkm/superadmin/prodi/${uuid}`,{
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -458,7 +458,7 @@ export default {
     },
 		tambahProdi() {
 			if(this.tambah.nama && this.tambah.fakultas_id && this.tambah.kode) {
-        axios.post(`${this.url}gmedia/superadmin/prodi`, this.tambah, {
+        axios.post(`${this.url}bemkm/superadmin/prodi`, this.tambah, {
           headers: {
             Authorization: localStorage.token
           }
@@ -516,7 +516,7 @@ export default {
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/superadmin/prodi`, {
+		axios.get(`${this.url}bemkm/superadmin/prodi`, {
 			headers: {
 				Authorization: localStorage.token
 			}
@@ -534,7 +534,7 @@ export default {
 		}).catch((err) => {
 			console.log(err)
 		});
-		axios.get(`${this.url}gmedia/superadmin/gugus`, {
+		axios.get(`${this.url}bemkm/superadmin/gugus`, {
 			headers: {
 				Authorization: localStorage.token
 			}
@@ -544,7 +544,7 @@ export default {
 		}).catch((err) => {
 			console.log(err)
 		});
-		axios.get(`${this.url}gmedia/superadmin/fakultas`, {
+		axios.get(`${this.url}bemkm/superadmin/fakultas`, {
       headers: {
         Authorization : localStorage.token
       }

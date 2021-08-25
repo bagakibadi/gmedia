@@ -405,7 +405,7 @@ export default {
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
         if (result.isConfirmed) {
-					axios.delete(`${this.url}gmedia/superadmin/konferensi/${uuid}`, {
+					axios.delete(`${this.url}bemkm/superadmin/konferensi/${uuid}`, {
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -435,7 +435,7 @@ export default {
 		},
 		edits() {
 			if(this.dataOneKonferensi.nama && this.dataOneKonferensi.tanggal && this.dataOneKonferensi.link_video && this.dataOneKonferensi.pemandu_id && this.dataOneKonferensi.deskripsi) {
-				axios.put(`${this.url}gmedia/superadmin/konferensi/${this.dataOneKonferensi.uuid}`, this.dataOneKonferensi, {
+				axios.put(`${this.url}bemkm/superadmin/konferensi/${this.dataOneKonferensi.uuid}`, this.dataOneKonferensi, {
 					headers: {
 						Authorization: localStorage.token
 					}
@@ -501,7 +501,7 @@ export default {
 		},
 		openModals(uuid) {
 			console.log('aa')
-			axios.get(`${this.url}gmedia/superadmin/konferensi/${uuid}`, {
+			axios.get(`${this.url}bemkm/superadmin/konferensi/${uuid}`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -515,7 +515,7 @@ export default {
 			return moment(date).locale("id").format("DD MMMM YYYY");
 		},
 		getConference() {
-			axios.get(`${this.url}gmedia/superadmin/konferensi`, {
+			axios.get(`${this.url}bemkm/superadmin/konferensi`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -537,7 +537,7 @@ export default {
 		},
 		tambahMeeting(){
 			if(this.tambah.nama && this.tambah.tanggal && this.tambah.link_video && this.tambah.pemandu_id && this.tambah.deskripsi) {
-				axios.post(`${this.url}gmedia/superadmin/konferensi`, this.tambah, {
+				axios.post(`${this.url}bemkm/superadmin/konferensi`, this.tambah, {
 					headers: {
 						Authorization: localStorage.token
 					}
@@ -609,7 +609,7 @@ export default {
 		this.getConference()
 		this.konferensiTodays()
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/superadmin/pemandu`, {
+		axios.get(`${this.url}bemkm/superadmin/pemandu`, {
 			headers: {
 				Authorization: localStorage.token
 			}

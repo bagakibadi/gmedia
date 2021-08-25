@@ -132,7 +132,7 @@ export default {
   },
   mounted() {
     this.width = $(document).width();
-    axios.get(`${this.url}gmedia/superadmin/dashboard`, {
+    axios.get(`${this.url}bemkm/superadmin/dashboard`, {
       headers: {
         Authorization: localStorage.token
       }

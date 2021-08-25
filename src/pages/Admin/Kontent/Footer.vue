@@ -223,7 +223,7 @@ export default {
 				}
 			}
 			if(this.datas.subtitle_footer && this.datas.sosmed.facebook && this.datas.sosmed.twitter && this.datas.sosmed.instagram && count == this.datas.kampus.length) {
-				axios.put(`${this.url}gmedia/landing/kampus/`, this.datas,{
+				axios.put(`${this.url}bemkm/landing/kampus/`, this.datas,{
 					headers: {
 						Authorization: localStorage.token
 					}
@@ -283,7 +283,7 @@ export default {
 	},
 	mounted() {
 		this.width = $(document).width();
-		axios.get(`${this.url}/gmedia/landing/kampus`, {
+		axios.get(`${this.url}/bemkm/landing/kampus`, {
 			headers: {
 				Authorization: localStorage.token
 			}

@@ -309,7 +309,7 @@ export default {
 			}, 1000);
 		},
 		getConference() {
-			axios.get(`${this.url}gmedia/mahasiswa/konferensi/${ this.$route.params.id }`, {
+			axios.get(`${this.url}bemkm/mahasiswa/konferensi/${ this.$route.params.id }`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -329,7 +329,7 @@ export default {
 				"id": "oldChat",
 				"params": [ channel_name, null, 100000, { "$date": 0 } ]
 			})
-			// axios.get(`${this.url}gmedia/chat/${channel_name}`).then((result) => {
+			// axios.get(`${this.url}bemkm/chat/${channel_name}`).then((result) => {
 			// 	for(let i = 0; i < result.data.fields.args.length; i++) {
 			// 		this.isiChat.push({
 			// 			value: result.data.fields.args[i].msg,

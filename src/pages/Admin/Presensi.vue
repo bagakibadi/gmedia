@@ -323,7 +323,7 @@ export default {
       (this.isFilter = true),
         axios
           .post(
-            `${this.url}gmedia/superadmin/presensi/filter`,
+            `${this.url}bemkm/superadmin/presensi/filter`,
             {
               prodi_id:
                 this.filter.prodi == "default" || this.filter.prodi == "all"
@@ -359,7 +359,7 @@ export default {
       this.filter.tanggal = null;
       (this.isFilter = false),
         axios
-          .get(`${this.url}gmedia/superadmin/presensi`, {
+          .get(`${this.url}bemkm/superadmin/presensi`, {
             headers: {
               Authorization: localStorage.token,
             },
@@ -385,7 +385,7 @@ export default {
     openPresensi(a) {
       this.loaderPopUp = true;
       axios
-        .get(`${this.url}gmedia/superadmin/presensi/${a}`, {
+        .get(`${this.url}bemkm/superadmin/presensi/${a}`, {
           headers: {
             Authorization: localStorage.token,
           },
@@ -440,7 +440,7 @@ export default {
   mounted() {
     this.width = $(document).width();
     axios
-      .get(`${this.url}gmedia/superadmin/presensi`, {
+      .get(`${this.url}bemkm/superadmin/presensi`, {
         headers: {
           Authorization: localStorage.token,
         },
@@ -464,7 +464,7 @@ export default {
       });
 
     axios
-      .get(`${this.url}gmedia/superadmin/prodi`, {
+      .get(`${this.url}bemkm/superadmin/prodi`, {
         headers: {
           Authorization: localStorage.token,
         },

@@ -330,7 +330,7 @@ export default {
 			}
 			setTimeout(() => {
 				if(this.logos.nama) {
-					axios.post(`${this.url}gmedia/landing/namelogo/`, this.logos, {
+					axios.post(`${this.url}bemkm/landing/namelogo/`, this.logos, {
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -362,7 +362,7 @@ export default {
 	},
 	mounted() {
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/landing/namelogo`, {
+		axios.get(`${this.url}bemkm/landing/namelogo`, {
 			headers: {
 				Authorization: localStorage.token
 			}

@@ -286,7 +286,7 @@ export default {
     },
     openPresensi(id) {
       axios
-        .get(this.url + "gmedia/pemandu/presensi/" + id, {
+        .get(this.url + "bemkm/pemandu/presensi/" + id, {
           headers: {
             Authorization: localStorage.token,
           },

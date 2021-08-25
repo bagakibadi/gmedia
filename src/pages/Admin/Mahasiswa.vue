@@ -1391,7 +1391,7 @@ export default {
       this.isFilter = true;
       axios
         .get(
-          `${this.url}gmedia/superadmin/mahasiswa/?fakultas_id=${this.filter.fakultas}&prodi_id=${this.filter.prodi}`,
+          `${this.url}bemkm/superadmin/mahasiswa/?fakultas_id=${this.filter.fakultas}&prodi_id=${this.filter.prodi}`,
           {
             headers: {
               Authorization: localStorage.token,
@@ -1421,7 +1421,7 @@ export default {
       this.isFilter = false;
 
       axios
-        .get(`${this.url}gmedia/superadmin/mahasiswa`, {
+        .get(`${this.url}bemkm/superadmin/mahasiswa`, {
           headers: {
             Authorization: localStorage.token,
           },
@@ -1488,7 +1488,7 @@ export default {
         setTimeout(() => {
           axios
             .put(
-              `${this.url}gmedia/superadmin/mahasiswa/${this.editMahasiswaData.uuid}`,
+              `${this.url}bemkm/superadmin/mahasiswa/${this.editMahasiswaData.uuid}`,
               {
                 nim: this.editMahasiswaData.nim,
                 nama: this.editMahasiswaData.nama,
@@ -1643,7 +1643,7 @@ export default {
       }, 200);
       axios
         .get(
-          `${this.url}gmedia/superadmin/mahasiswa/${uuidMahasiswa}`,
+          `${this.url}bemkm/superadmin/mahasiswa/${uuidMahasiswa}`,
           {
             headers: {
               Authorization: localStorage.token,
@@ -1671,7 +1671,7 @@ export default {
         if (result.isConfirmed) {
           axios
             .delete(
-              `${this.url}gmedia/superadmin/mahasiswa/${uuidMahasiswa}`,
+              `${this.url}bemkm/superadmin/mahasiswa/${uuidMahasiswa}`,
               {
                 headers: {
                   Authorization: localStorage.token,
@@ -1720,7 +1720,7 @@ export default {
       this.tambah.prodi = "";
       axios
         .get(
-          `${this.url}gmedia/superadmin/fakultas/prodi/` +
+          `${this.url}bemkm/superadmin/fakultas/prodi/` +
             this.tambah.fakultas,
           {
             headers: {
@@ -1738,7 +1738,7 @@ export default {
         });
     },
     getProdiEdit() {
-      axios.get(`${this.url}gmedia/superadmin/fakultas/prodi/${this.editMahasiswaData.prodi.fakultas.uuid}`,
+      axios.get(`${this.url}bemkm/superadmin/fakultas/prodi/${this.editMahasiswaData.prodi.fakultas.uuid}`,
           {
             headers: {
               Authorization: localStorage.token,
@@ -1775,7 +1775,7 @@ export default {
         setTimeout(() => {
           axios
             .post(
-              `${this.url}gmedia/superadmin/mahasiswa`,
+              `${this.url}bemkm/superadmin/mahasiswa`,
               {
                 jenis_kelamin: this.tambah.jenis_kelamin,
                 nim: this.tambah.nim,
@@ -1916,7 +1916,7 @@ export default {
   mounted() {
     this.width = $(document).width();
     axios
-      .get(`${this.url}gmedia/superadmin/mahasiswa`, {
+      .get(`${this.url}bemkm/superadmin/mahasiswa`, {
         headers: {
           Authorization: localStorage.token,
         },
@@ -1947,7 +1947,7 @@ export default {
       },
     });
     axios
-      .get(`${this.url}gmedia/superadmin/prodi`, {
+      .get(`${this.url}bemkm/superadmin/prodi`, {
         headers: {
           Authorization: localStorage.token,
         },
@@ -1960,7 +1960,7 @@ export default {
         console.log(err);
       });
     axios
-      .get(`${this.url}gmedia/superadmin/gugus-nonpaginate`, {
+      .get(`${this.url}bemkm/superadmin/gugus-nonpaginate`, {
         headers: {
           Authorization: localStorage.token,
         },
@@ -1973,7 +1973,7 @@ export default {
         console.log(err);
       });
     axios
-      .get(`${this.url}gmedia/superadmin/fakultas`, {
+      .get(`${this.url}bemkm/superadmin/fakultas`, {
         headers: {
           Authorization: localStorage.token,
         },

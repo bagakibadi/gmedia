@@ -293,7 +293,7 @@ export default {
 	},
 	methods: {
 		getGugus() {
-			axios.get(`${this.url}gmedia/superadmin/gugus-nonpaginate`, {
+			axios.get(`${this.url}bemkm/superadmin/gugus-nonpaginate`, {
 				headers: {
 					Authorization : localStorage.token
 				}
@@ -305,7 +305,7 @@ export default {
 			});
 		},
 		getTipe() {
-			axios.get(`${this.url}gmedia/superadmin/tipeaktivitas`, {
+			axios.get(`${this.url}bemkm/superadmin/tipeaktivitas`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -393,7 +393,7 @@ export default {
 			}
 			setTimeout(() => {
 				if( this.jadwal.topik && this.jadwal.gugus_id && this.jadwal.start_date && this.jadwal.deskripsi && count == this.jadwal.aktivitas.length && this.jadwal.lampiran) {
-					axios.post(`${this.url}gmedia/superadmin/kegiatanaktivitas`, this.jadwal, {
+					axios.post(`${this.url}bemkm/superadmin/kegiatanaktivitas`, this.jadwal, {
 						headers: {
 							Authorization : localStorage.token
 						}
@@ -470,7 +470,7 @@ export default {
       }
 		},
 		getListStream() {
-			axios.get(`${this.url}gmedia/superadmin/konferensi`, {
+			axios.get(`${this.url}bemkm/superadmin/konferensi`, {
 				headers: {
 					Authorization: localStorage.token
 				}

@@ -151,7 +151,7 @@ export default {
 			}
 			setTimeout(() => {
 				if(this.datas.misi && this.datas.visi && this.datas.judul_visi) {
-					axios.post(`${this.url}gmedia/landing/visi/`, {
+					axios.post(`${this.url}bemkm/landing/visi/`, {
 						judul_visi: this.datas.judul_visi,
 						visi: this.datas.visi,
 						misi: this.datas.misi,
@@ -210,7 +210,7 @@ export default {
 	},
 	mounted() {
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/landing/visi`, {
+		axios.get(`${this.url}bemkm/landing/visi`, {
 			headers: {
 				Authorization: localStorage.token
 			}

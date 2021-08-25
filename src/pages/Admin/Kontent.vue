@@ -521,7 +521,7 @@ export default {
           if (result.isConfirmed) {
             axios
               .delete(
-                `${this.url}gmedia/superadmin/informasi/${id}`,
+                `${this.url}bemkm/superadmin/informasi/${id}`,
                 {
                   headers: {
                     Authorization: localStorage.token,
@@ -583,7 +583,7 @@ export default {
       if (!this.validationTambah.nama && !this.validationTambah.isi) {
         axios
           .post(
-            `${this.url}gmedia/superadmin/informasi/`,
+            `${this.url}bemkm/superadmin/informasi/`,
             this.tambah,
             {
               headers: {
@@ -644,7 +644,7 @@ export default {
         console.log(this.ubah_gambar);
         axios
           .put(
-            `${this.url}gmedia/superadmin/informasi/` + id,
+            `${this.url}bemkm/superadmin/informasi/` + id,
             {
               judul: this.dataDetailKonten.judul,
               isi: this.dataDetailKonten.isi,
@@ -700,7 +700,7 @@ export default {
     var countEditor = 0;
 
     axios
-      .get(`${this.url}gmedia/superadmin/informasi/`, {
+      .get(`${this.url}bemkm/superadmin/informasi/`, {
         headers: {
           Authorization: localStorage.token,
         },

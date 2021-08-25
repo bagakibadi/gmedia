@@ -806,7 +806,7 @@ export default {
 
           axios
             .post(
-              `${this.url}gmedia/mahasiswa/learn`,
+              `${this.url}bemkm/mahasiswa/learn`,
               {
                 media: "web",
                 foto: arr,

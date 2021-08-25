@@ -293,7 +293,7 @@ export default {
     this.width = $(document).width();
 
     axios
-      .get(this.url + "gmedia/superadmin/gugus", {
+      .get(this.url + "bemkm/superadmin/gugus", {
         headers: {
           Authorization: localStorage.token,
         },

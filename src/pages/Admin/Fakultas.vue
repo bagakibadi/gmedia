@@ -297,7 +297,7 @@ export default {
 			console.log('edit')
 			if(this.dataFakultasOne.nama && this.dataFakultasOne.kode) {
 				setTimeout(() => {
-					axios.put(`${this.url}gmedia/superadmin/fakultas/${this.dataFakultasOne.uuid}`, this.dataFakultasOne, {
+					axios.put(`${this.url}bemkm/superadmin/fakultas/${this.dataFakultasOne.uuid}`, this.dataFakultasOne, {
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -343,7 +343,7 @@ export default {
 			}
 		},
 		openEdit(uuid) {
-			axios.get(`${this.url}gmedia/superadmin/fakultas/${uuid}`, {
+			axios.get(`${this.url}bemkm/superadmin/fakultas/${uuid}`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -366,7 +366,7 @@ export default {
       }).then((result) => {
 				console.log(result)
 				if(result.isConfirmed) {
-					axios.delete(`${this.url}gmedia/superadmin/fakultas/${uuidGugus}`,{
+					axios.delete(`${this.url}bemkm/superadmin/fakultas/${uuidGugus}`,{
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -413,7 +413,7 @@ export default {
     },
 		tambahFakultas() {
 			if(this.tambah.nama && this.tambah.kode) {
-        axios.post(`${this.url}gmedia/superadmin/fakultas`, this.tambah, {
+        axios.post(`${this.url}bemkm/superadmin/fakultas`, this.tambah, {
           headers: {
             Authorization: localStorage.token
           }
@@ -460,7 +460,7 @@ export default {
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/superadmin/fakultas`, {
+		axios.get(`${this.url}bemkm/superadmin/fakultas`, {
 			headers: {
 				Authorization: localStorage.token
 			}
@@ -478,7 +478,7 @@ export default {
 		}).catch((err) => {
 			console.log(err)
 		});
-		axios.get(`${this.url}gmedia/superadmin/gugus`, {
+		axios.get(`${this.url}bemkm/superadmin/gugus`, {
       headers: {
         Authorization : localStorage.token
       }

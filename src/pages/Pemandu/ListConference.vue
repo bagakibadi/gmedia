@@ -112,7 +112,7 @@ export default {
       }
     },
 		getConference() {
-			axios.get(`${this.url}gmedia/pemandu/konferensi`, {
+			axios.get(`${this.url}bemkm/pemandu/konferensi`, {
 				headers: {
 					Authorization: localStorage.token
 				}

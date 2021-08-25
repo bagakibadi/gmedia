@@ -421,7 +421,7 @@ export default {
         setTimeout(() => {
           axios
             .put(
-              `${this.url}gmedia/superadmin/gugus/${this.dataGugusOne.uuid}`,
+              `${this.url}bemkm/superadmin/gugus/${this.dataGugusOne.uuid}`,
               this.dataGugusOne,
               {
                 headers: {
@@ -502,7 +502,7 @@ export default {
     openEdit(uuidGugus) {
       axios
         .get(
-          `${this.url}gmedia/superadmin/gugus/${uuidGugus}`,
+          `${this.url}bemkm/superadmin/gugus/${uuidGugus}`,
           {
             headers: {
               Authorization: localStorage.token,
@@ -532,7 +532,7 @@ export default {
           if (result.isConfirmed) {
             axios
               .delete(
-                `${this.url}gmedia/superadmin/gugus/${uuidGugus}`,
+                `${this.url}bemkm/superadmin/gugus/${uuidGugus}`,
                 {
                   headers: {
                     Authorization: localStorage.token,
@@ -588,7 +588,7 @@ export default {
     },
 		tambahGugus() {
 			if(this.tambah.name) {
-        axios.post(`${this.url}gmedia/superadmin/gugus`, this.tambah, {
+        axios.post(`${this.url}bemkm/superadmin/gugus`, this.tambah, {
           headers: {
             Authorization: localStorage.token
           }
@@ -635,7 +635,7 @@ export default {
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/superadmin/pemandu`, {
+		axios.get(`${this.url}bemkm/superadmin/pemandu`, {
 			headers: {
 				Authorization: localStorage.token
 			}
@@ -645,7 +645,7 @@ export default {
 		}).catch((err) => {
 			console.log(err)
 		});
-		axios.get(`${this.url}gmedia/superadmin/gugus`, {
+		axios.get(`${this.url}bemkm/superadmin/gugus`, {
 			headers: {
 				Authorization: localStorage.token
 			}

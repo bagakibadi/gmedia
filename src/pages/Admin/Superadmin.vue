@@ -490,7 +490,7 @@ export default {
 					this.dataOneAdmin.foto = null
 				}
 				setTimeout(() => {
-					axios.put(`${this.url}gmedia/superadmin/list-admin/${this.dataOneAdmin.uuid}`, this.dataOneAdmin, {
+					axios.put(`${this.url}bemkm/superadmin/list-admin/${this.dataOneAdmin.uuid}`, this.dataOneAdmin, {
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -570,7 +570,7 @@ export default {
           },
         });
       }, 200);
-			axios.get(`${this.url}gmedia/superadmin/list-admin/${uuid}`, {
+			axios.get(`${this.url}bemkm/superadmin/list-admin/${uuid}`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -593,7 +593,7 @@ export default {
       }).then((result) => {
 				console.log(result)
 				if(result.isConfirmed) {
-					axios.delete(`${this.url}gmedia/superadmin/list-admin/${uuid}`,{
+					axios.delete(`${this.url}bemkm/superadmin/list-admin/${uuid}`,{
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -654,7 +654,7 @@ export default {
 			}
 			setTimeout(() => {
 				if(this.tambah.nama && this.tambah.email && this.tambah.jenis_kelamin && this.tambah.no_hp && this.tambah.alamat && this.tambah.foto) {
-					axios.post(`${this.url}gmedia/superadmin/list-admin`, this.tambah, {
+					axios.post(`${this.url}bemkm/superadmin/list-admin`, this.tambah, {
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -734,7 +734,7 @@ export default {
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/superadmin/list-admin`, {
+		axios.get(`${this.url}bemkm/superadmin/list-admin`, {
 			headers: {
 				Authorization: localStorage.token
 			}
@@ -752,7 +752,7 @@ export default {
 		}).catch((err) => {
 			console.log(err)
 		});
-		axios.get(`${this.url}gmedia/superadmin/gugus`, {
+		axios.get(`${this.url}bemkm/superadmin/gugus`, {
 			headers: {
 				Authorization: localStorage.token
 			}
@@ -762,7 +762,7 @@ export default {
 		}).catch((err) => {
 			console.log(err)
 		});
-		axios.get(`${this.url}gmedia/superadmin/fakultas`, {
+		axios.get(`${this.url}bemkm/superadmin/fakultas`, {
       headers: {
         Authorization : localStorage.token
       }

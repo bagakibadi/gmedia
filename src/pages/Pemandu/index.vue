@@ -126,7 +126,7 @@ export default {
     };
   },
   mounted() {
-    axios.get(`${this.url}gmedia/pemandu/dashboard`, {
+    axios.get(`${this.url}bemkm/pemandu/dashboard`, {
       headers: {
         Authorization: localStorage.token
       }

@@ -164,7 +164,7 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete(`${this.url}gmedia/superadmin/kegiatanaktivitas/${uuid}`, {
+          axios.delete(`${this.url}bemkm/superadmin/kegiatanaktivitas/${uuid}`, {
             headers: {
               Authorization: localStorage.token
             }
@@ -202,7 +202,7 @@ export default {
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/superadmin/kegiatanaktivitas`,{
+		axios.get(`${this.url}bemkm/superadmin/kegiatanaktivitas`,{
 			headers:{
 				Authorization: localStorage.token
 			}

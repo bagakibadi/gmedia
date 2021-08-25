@@ -407,7 +407,7 @@ export default {
       window.location.replace("/");
     },
     getPemandu() {
-      axios.get('https://gmedia.primakom.co.id/gmedia/mahasiswa/gugus', {
+      axios.get('https://gmedia.primakom.co.id/bemkm/mahasiswa/gugus', {
         headers: {
           Authorization: localStorage.token
         }

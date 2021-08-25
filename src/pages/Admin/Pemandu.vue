@@ -471,7 +471,7 @@ export default {
 						this.dataOnePemandu.foto = null
 					}
 					setTimeout(() => {
-						axios.put(`${this.url}gmedia/superadmin/pemandu/${this.dataOnePemandu.uuid}`, this.dataOnePemandu, {
+						axios.put(`${this.url}bemkm/superadmin/pemandu/${this.dataOnePemandu.uuid}`, this.dataOnePemandu, {
 							headers: {
 								Authorization: localStorage.token
 							}
@@ -554,7 +554,7 @@ export default {
           },
         });
       }, 200);
-			axios.get(`${this.url}gmedia/superadmin/pemandu/${uuidPemandu}`, {
+			axios.get(`${this.url}bemkm/superadmin/pemandu/${uuidPemandu}`, {
 				headers: {
 					Authorization: localStorage.token
 				}
@@ -577,7 +577,7 @@ export default {
       }).then((result) => {
 				console.log(result)
 				if(result.isConfirmed) {
-					axios.delete(`${this.url}gmedia/superadmin/pemandu/${uuidPemandu}`,{
+					axios.delete(`${this.url}bemkm/superadmin/pemandu/${uuidPemandu}`,{
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -636,7 +636,7 @@ export default {
 					this.tambah.foto = null
 				}
 				setTimeout(() => {
-					axios.post(`${this.url}gmedia/superadmin/pemandu`, this.tambah, {
+					axios.post(`${this.url}bemkm/superadmin/pemandu`, this.tambah, {
 						headers: {
 							Authorization: localStorage.token
 						}
@@ -720,7 +720,7 @@ export default {
 	mounted() {
 		$('.dropify').dropify()
 		this.width = $(document).width();
-		axios.get(`${this.url}gmedia/superadmin/pemandu`, {
+		axios.get(`${this.url}bemkm/superadmin/pemandu`, {
 			headers: {
 				Authorization: localStorage.token
 			}
@@ -740,7 +740,7 @@ export default {
 		}).catch((err) => {
 			console.log(err)
 		});
-		axios.get(`${this.url}gmedia/superadmin/gugus`, {
+		axios.get(`${this.url}bemkm/superadmin/gugus`, {
       headers: {
         Authorization : localStorage.token
       }
