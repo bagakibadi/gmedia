@@ -80,7 +80,7 @@ export default new Vuex.Store({
     getAdmin({ commit }) {
       if (localStorage.token && localStorage.token !== undefined) {
         axios
-          .get(`${this.state.url}gmedia/superadmin/profil/`, {
+          .get(`${this.state.url}bemkm/superadmin/profil/`, {
             headers: {
               Authorization: localStorage.token,
             },

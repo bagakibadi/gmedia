@@ -306,7 +306,7 @@ let api
 
 export default {
   computed: {
-    ...mapState(["userData"]),
+    ...mapState(["userData", 'url']),
   },
   data: function() {
     return {
@@ -407,7 +407,7 @@ export default {
       window.location.replace("/");
     },
     getPemandu() {
-      axios.get('https://gmedia.primakom.co.id/bemkm/mahasiswa/gugus', {
+      axios.get(`${this.url}bemkm/mahasiswa/gugus`, {
         headers: {
           Authorization: localStorage.token
         }
