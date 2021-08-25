@@ -94,6 +94,9 @@
 										</div>
 									</div>
 								</div>
+								<div v-if="dataKegiatan.success === false" class="d-flex align-items-center justify-content-center">
+									<h4 style="color: #999" class="text-center">Belum ada Kegiatan/Aktivitas</h4>
+								</div>
 							</div>
 						</div>
 					</div>

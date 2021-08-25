@@ -53,9 +53,9 @@
           <div class="card-shadow">
             <div class="p-3">
               <form action="" @submit.prevent="pilihPemandu">
-                <div class="form-group mb-4">
+                <div class="form-group mb-4" v-if="dataPemandu">
                   <label for="pemandu">Pilih Pemandu</label>
-                  <select v-if="dataPemandu" name="pemandu" required v-model="pemanduuid" id="pemandu" class="form-select">
+                  <select  name="pemandu" required v-model="pemanduuid" id="pemandu" class="form-select">
                     <option value="" selected disabled>Pilih</option>
                     <option :value="items.user.rusername" v-for="(items, index) in dataPemandu.data[0].pemandu" :key="index">{{items.nama}}</option>
                   </select>
@@ -213,7 +213,7 @@
           <div
             :class="
                 `item ${
-                  link[2] == 'confrence' ? 'active' : ''
+                  link[2] == 'conference' ? 'active' : ''
                 } d-flex align-items-center`
               "
           >
@@ -380,14 +380,18 @@ export default {
       }
     },
     pilihPemandu(){
-      api.sendMessage({
-        "msg": "method",
-        "method": "createDirectMessage",
-        "id": "roomid",
-        "params": [this.pemanduuid]
-      })
-      document.getElementById('box-pemandu').classList.remove('d-block')
-      document.getElementById('box-chat').classList.add('d-block')
+      if(this.pemanduuid) {
+        api.sendMessage({
+          "msg": "method",
+          "method": "createDirectMessage",
+          "id": "roomid",
+          "params": [this.pemanduuid]
+        })
+        document.getElementById('box-pemandu').classList.remove('d-block')
+        document.getElementById('box-chat').classList.add('d-block')
+      } else {
+        Swal.fire("Gagal!", 'Mohon maaf Belum ada pemandu', "warning");
+      }
     },
     submit() {
       this.section = 0;
